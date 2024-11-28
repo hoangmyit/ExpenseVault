@@ -22,5 +22,8 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
-
+  
+  <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Outputs="@(SpaRoot);node_modules">
+    <Exec Command="pnpm install" WorkingDirectory="$(SpaRoot)" />
+  </Target>
 </Project>
