@@ -1,0 +1,6 @@
+@ExpenseVault.Server_HostAddress = http://localhost:5008
+
+GET {{ExpenseVault.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
