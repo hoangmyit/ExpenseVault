@@ -1,31 +1,48 @@
 import '@testing-library/jest-dom';
 
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import App from './App';
 import * as weatherService from './services/weather-forecast.service';
 
-const populateWeatherDataSpy = vi.spyOn(weatherService, 'populateWeatherData');
-
 vi.mock('./services/weather-forecast.service');
 
 describe('App', () => {
+  let populateWeatherDataSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    populateWeatherDataSpy = vi.spyOn(weatherService, 'populateWeatherData');
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders weather forecast heading', () => {
+    // Arrange
     populateWeatherDataSpy.mockResolvedValueOnce(null);
 
+    // Act
     render(<App />);
+
+    // Assert
     expect(screen.getByText('Weather forecast')).toBeInTheDocument();
   });
 
   it('displays loading message initially', () => {
+    // Arrange
     populateWeatherDataSpy.mockResolvedValueOnce(undefined);
 
+    // Act
     render(<App />);
+
+    // Assert
     expect(screen.getByText(/Loading... Please refresh/)).toBeInTheDocument();
   });
 
   it('renders weather data after loading', async () => {
+    // Arrange
     const mockData = [
       {
         date: '2023-10-01',
@@ -36,8 +53,10 @@ describe('App', () => {
     ];
     populateWeatherDataSpy.mockResolvedValueOnce(mockData);
 
+    // Act
     render(<App />);
 
+    // Assert
     await waitFor(() =>
       expect(screen.getByText('2023-10-01')).toBeInTheDocument(),
     );
