@@ -2,18 +2,14 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
-interface Forecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { Forecast } from './app.const';
+import { populateWeatherData } from './services/weather-forecast.service';
 
 function App() {
   const [forecasts, setForecasts] = useState<Forecast[]>();
 
   useEffect(() => {
-    populateWeatherData();
+    populateWeatherData().then((data) => setForecasts(data));
   }, []);
 
   const contents =
@@ -57,12 +53,6 @@ function App() {
       {contents}
     </div>
   );
-
-  async function populateWeatherData() {
-    const response = await fetch('weatherforecast');
-    const data = await response.json();
-    setForecasts(data);
-  }
 }
 
 export default App;
