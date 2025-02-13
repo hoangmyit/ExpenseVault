@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\expensevault.client</SpaRoot>
-    <SpaProxyLaunchCommand>pnpm run dev</SpaProxyLaunchCommand>
+    <SpaProxyLaunchCommand>pnpx pnpm dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
     <UsePnpm>true</UsePnpm>
   </PropertyGroup>
