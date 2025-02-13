@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -14,8 +16,8 @@ describe('AlertComponent', () => {
       />,
     );
 
-    expect(getByText('Test Title')).toBeInTheDocument();
-    expect(getByText('This is a test message')).toBeInTheDocument();
+    expect(getByText('Test Title')).toBeTruthy();
+    expect(getByText('This is a test message')).toBeTruthy();
     expect(getByText('Test Title').closest('div')).toHaveClass(
       'alert alert-success custom-class',
     );
@@ -38,8 +40,8 @@ describe('AlertComponent', () => {
     const alertDiv = titleElement.closest('div');
 
     // Assert
-    expect(titleElement).toBeInTheDocument();
-    expect(messageElement).toBeInTheDocument();
+    expect(titleElement).toBeTruthy();
+    expect(messageElement).toBeTruthy();
     expect(alertDiv).toHaveClass('alert alert-error');
   });
 });
