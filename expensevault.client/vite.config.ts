@@ -51,6 +51,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    modules: {
+      generateScopedName:
+        process.env.NODE_ENV === 'production'
+          ? '[hash:base64]'
+          : '[name]__[local]__[hash:base64]',
+    },
+  },
   server: {
     proxy: {
       '^/weatherforecast': {

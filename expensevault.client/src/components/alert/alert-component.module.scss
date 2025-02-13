@@ -1,0 +1,9 @@
+@use '../../scss/_variable' as variable;
+
+.alert_container{
+  color: variable.$color-red;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  align-items: center;
+}
