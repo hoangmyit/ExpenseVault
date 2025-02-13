@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "dotenv -e .env.dev vite -mode dev",
-    "dev:local": "dotenv -e .env.dev vite --mode local",
+    "dev": "vite -mode dev",
+    "dev:local": "vite --mode local",
+    "build": "vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
@@ -13,7 +14,6 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "dotenv": "^16.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -23,12 +23,10 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
-    "@types/dotenv": "^8.2.3",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",

@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url';
 
 import react from '@vitejs/plugin-react';
 import child_process from 'child_process';
-import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import { env } from 'process';
