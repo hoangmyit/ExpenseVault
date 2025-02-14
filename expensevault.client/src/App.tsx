@@ -25,7 +25,7 @@ function App() {
         </em>
       </p>
     ) : (
-      <table className="table table-striped" aria-labelledby="tableLabel">
+      <table className="table-striped table" aria-labelledby="tableLabel">
         <thead>
           <tr>
             <th>Date</th>
@@ -55,11 +55,14 @@ function App() {
       <div>
         <AlertComponent
           type="success"
-          title="Success"
           message="This is a success alert"
-          classNames="alert-success"
           key="alert-success"
-        />
+        >
+          <div>
+            <button className="btn btn-sm">Deny</button>
+            <button className="btn btn-sm btn-primary">Accept</button>
+          </div>
+        </AlertComponent>
       </div>
       <h1 className="text-3xl font-bold underline">Hello world! - Tailwind</h1>
       <div>

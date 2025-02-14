@@ -1,6 +1,10 @@
+import { ReactNode } from 'react';
+
 export type AlertComponentProps = {
-  title: string;
-  message: string;
-  classNames: string;
-  type: 'success' | 'danger' | 'warning' | 'info' | 'error';
+  message: string | ReactNode;
+  classNames?: string;
+  type: AlertType;
+  children?: ReactNode;
 };
+
+export type AlertType = 'success' | 'alert' | 'warning' | 'info' | 'error';
