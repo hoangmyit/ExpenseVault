@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import { FC } from 'react';
 
 import { AlertComponentProps } from './alert-component.const';
-import { alert_container } from './alert-component.module.scss';
 
 const AlertComponent: FC<AlertComponentProps> = ({
   classNames,
@@ -11,9 +10,7 @@ const AlertComponent: FC<AlertComponentProps> = ({
   type,
 }) => {
   return (
-    <div
-      className={classnames(`alert alert-${type}`, alert_container, classNames)}
-    >
+    <div className={classnames(`alert alert-${type}`, classNames)}>
       <strong>{title}</strong>
       {message}
     </div>

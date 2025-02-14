@@ -1,4 +1,4 @@
-import './App.scss';
+import './App.css';
 
 import { useEffect, useState } from 'react';
 
@@ -61,6 +61,7 @@ function App() {
           key="alert-success"
         />
       </div>
+      <h1 className="text-3xl font-bold underline">Hello world! - Tailwind</h1>
     </div>
   );
 }

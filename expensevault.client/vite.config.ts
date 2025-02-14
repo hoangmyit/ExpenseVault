@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
 
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react-swc';
 import child_process from 'child_process';
 import fs from 'fs';
@@ -45,18 +46,10 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  css: {
-    modules: {
-      generateScopedName:
-        process.env.NODE_ENV === 'production'
-          ? '[hash:base64]'
-          : '[name]__[local]__[hash:base64]',
     },
   },
   server: {
