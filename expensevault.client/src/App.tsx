@@ -62,6 +62,9 @@ function App() {
         />
       </div>
       <h1 className="text-3xl font-bold underline">Hello world! - Tailwind</h1>
+      <div>
+        <button className="btn btn-primary">Button</button>
+      </div>
     </div>
   );
 }
