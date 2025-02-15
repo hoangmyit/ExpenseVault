@@ -32,7 +32,7 @@ export default tseslint.config(
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'prettier/prettier': ['error', {
-        endOfLine: 'lf',
+        endOfLine: 'auto',
       }],
       'quotes': ['error', 'single'],
       'semi': ['error', 'always'],
