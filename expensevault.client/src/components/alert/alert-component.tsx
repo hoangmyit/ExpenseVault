@@ -1,21 +1,38 @@
 import classnames from 'classnames';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
-import { AlertComponentProps } from './alert-component.const';
-import { alert_container } from './alert-component.module.scss';
+import ErrorIcon from '../../icons/error-icon';
+import InfoIcon from '../../icons/info-icon';
+import SuccessIcon from '../../icons/success-icon';
+import WarningIcon from '../../icons/warning-icon';
+import { AlertComponentProps, AlertType } from './alert-component.const';
+
+const alertIconMap: Record<AlertType, ReactNode> = {
+  success: <SuccessIcon />,
+  alert: <InfoIcon />,
+  warning: <WarningIcon />,
+  info: <InfoIcon />,
+  error: <ErrorIcon />,
+};
 
 const AlertComponent: FC<AlertComponentProps> = ({
   classNames,
   message,
-  title,
   type,
+  children,
 }) => {
   return (
     <div
-      className={classnames(`alert alert-${type}`, alert_container, classNames)}
+      role="alert"
+      className={classnames(
+        'alert alert-vertical sm:alert-horizontal',
+        classNames,
+        `alert-${type}`,
+      )}
     >
-      <strong>{title}</strong>
-      {message}
+      {alertIconMap[type]}
+      {typeof message === 'string' ? <span>{message}</span> : message}
+      {children}
     </div>
   );
 };
