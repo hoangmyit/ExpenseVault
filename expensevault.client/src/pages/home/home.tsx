@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
-import AlertComponent from "../../components/alert/alert-component";
-import { populateWeatherData } from "../../services/weather-forecast.service";
-import { Forecast } from "../../app.const";
+import { FC, useEffect, useState } from 'react';
+
+import { Forecast } from '../../app.const';
+import AlertComponent from '../../components/alert/alert-component';
+import FacebookIcon from '../../icons/brand/facebook-icon';
+import { populateWeatherData } from '../../services/weather-forecast.service';
 
 const HomePage: FC = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>();
@@ -63,7 +65,10 @@ const HomePage: FC = () => {
       </div>
       <h1 className="text-3xl font-bold underline">Hello world! - Tailwind</h1>
       <div>
-        <button className="btn btn-primary">Button</button>
+        <button className="btn btn-primary">
+          <FacebookIcon />
+          Button
+        </button>
       </div>
     </div>
   );

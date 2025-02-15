@@ -1,8 +1,9 @@
 import './index.css';
 
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { Outlet } from 'react-router';
 
-const FunctionLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
+const FunctionLayout: React.FC = () => {
   return (
     <>
       <div className="square-box">
@@ -23,7 +24,7 @@ const FunctionLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
         <div></div>
       </div>
       <div className="v-full bg-primary flex h-screen flex-col justify-center">
-        {children}
+        <Outlet />
       </div>
     </>
   );
