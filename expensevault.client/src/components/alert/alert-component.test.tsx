@@ -11,7 +11,6 @@ describe('AlertComponent', () => {
       <AlertComponent
         classNames="custom-class"
         message="This is a test message"
-        title="Test Title"
         type="success"
       />,
     );
@@ -29,7 +28,6 @@ describe('AlertComponent', () => {
       <AlertComponent
         classNames=""
         message="Another test message"
-        title="Another Test Title"
         type="error"
       />,
     );

@@ -3,8 +3,8 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import App from './App';
-import * as weatherService from './services/weather-forecast.service';
+import * as weatherService from '../../services/weather-forecast.service';
+import HomePage from './home';
 
 vi.mock('./services/weather-forecast.service');
 
@@ -24,7 +24,7 @@ describe('App', () => {
     populateWeatherDataSpy.mockResolvedValueOnce(null);
 
     // Act
-    render(<App />);
+    render(<HomePage />);
 
     // Assert
     expect(screen.getByText('Weather forecast')).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('App', () => {
     populateWeatherDataSpy.mockResolvedValueOnce(undefined);
 
     // Act
-    render(<App />);
+    render(<HomePage />);
 
     // Assert
     expect(screen.getByText(/Loading... Please refresh/)).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('App', () => {
     populateWeatherDataSpy.mockResolvedValueOnce(mockData);
 
     // Act
-    render(<App />);
+    render(<HomePage />);
 
     // Assert
     await waitFor(() =>
