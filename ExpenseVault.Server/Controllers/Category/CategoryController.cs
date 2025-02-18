@@ -10,7 +10,7 @@ public class CategoryController : BaseController
     app.MapGroup(this)
       .MapGet(GetCategories);
   }
-  public async Task<IResult> GetCategories(ISender sender, CreateCategoryCommand createCategoryCommand ,CancellationToken cancellationToken)
+  public async Task<IResult> GetCategories(ISender sender, CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken)
   {
     var result = await sender.Send(createCategoryCommand);
     return Results.Ok(result);
