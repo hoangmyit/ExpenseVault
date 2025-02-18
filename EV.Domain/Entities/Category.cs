@@ -1,6 +1,4 @@
-﻿using EV.Domain.Common;
-
-namespace EV.Domain.Entities
+﻿namespace EV.Domain.Entities
 {
     public class Category : BaseAuditableEntity, ISoftDeleteEntity
     { 

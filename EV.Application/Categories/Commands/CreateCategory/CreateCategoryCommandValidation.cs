@@ -1,6 +1,3 @@
-using EV.Application.Common.Interface;
-using FluentValidation;
-
 namespace EV.Application.Categories.Commands.CreateCategory
 {
     public class CreateCategoryCommandValidation : AbstractValidator<CreateCategoryCommand>

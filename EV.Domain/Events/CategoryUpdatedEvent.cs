@@ -1,7 +1,4 @@
-using EV.Domain.Common;
-using EV.Domain.Entities;
-
-namespace EV.Domain.Events.Categories;
+namespace EV.Domain.Events;
 
 public class CategoryUpdatedEvent : BaseEvent
 {
