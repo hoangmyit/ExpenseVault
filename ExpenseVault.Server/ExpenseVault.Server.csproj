@@ -21,6 +21,7 @@
     <ProjectReference Include="..\expensevault.client\expensevault.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\EV.Application\EV.Application.csproj" />
   </ItemGroup>
   
   <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Outputs="@(SpaRoot);node_modules">

@@ -3,9 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseVault.Server", "ExpenseVault.Server\ExpenseVault.Server.csproj", "{E04B9EF4-4D1A-4119-9765-9B0E4115B7CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseVault.Server", "ExpenseVault.Server\ExpenseVault.Server.csproj", "{E04B9EF4-4D1A-4119-9765-9B0E4115B7CD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{479416DF-479D-48E6-B2B3-9913B73FB5F0} = {479416DF-479D-48E6-B2B3-9913B73FB5F0}
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E} = {B9621244-73BC-4615-A89E-C1E2BC4D9E4E}
+	EndProjectSection
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "expensevault.client", "expensevault.client\expensevault.client.esproj", "{7798D505-C252-4A34-8EC3-E932890CB5FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Application", "EV.Application\EV.Application.csproj", "{B9621244-73BC-4615-A89E-C1E2BC4D9E4E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7} = {A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Domain", "EV.Domain\EV.Domain.csproj", "{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Infrastructure", "EV.Infrastructure\EV.Infrastructure.csproj", "{479416DF-479D-48E6-B2B3-9913B73FB5F0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E} = {B9621244-73BC-4615-A89E-C1E2BC4D9E4E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +39,18 @@ Global
 		{7798D505-C252-4A34-8EC3-E932890CB5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7798D505-C252-4A34-8EC3-E932890CB5FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7798D505-C252-4A34-8EC3-E932890CB5FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9621244-73BC-4615-A89E-C1E2BC4D9E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4ADA161-669F-4EF4-94BF-C9FCA628EBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479416DF-479D-48E6-B2B3-9913B73FB5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479416DF-479D-48E6-B2B3-9913B73FB5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479416DF-479D-48E6-B2B3-9913B73FB5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479416DF-479D-48E6-B2B3-9913B73FB5F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
