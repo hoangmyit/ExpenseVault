@@ -1,3 +1,5 @@
+using ExpenseVault.Server.Infrastructures;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,5 +28,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
+
+app.MapEndPoint();
 
 app.Run();

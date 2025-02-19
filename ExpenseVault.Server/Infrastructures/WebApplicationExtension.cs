@@ -9,7 +9,8 @@ namespace ExpenseVault.Server.Infrastructures
       string name = controller.GetType().Name.Replace("Controller", "");
       return app.MapGroup($"/api/{name}")
         .WithGroupName(name)
-        .WithTags(name);
+        .WithTags(name)
+        .WithOpenApi();
     }
 
     public static WebApplication MapEndPoint(this WebApplication app)
