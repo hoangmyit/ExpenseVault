@@ -11,11 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>9.*-*</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.2" />
+    <PackageReference Include="microsoft.extensions.diagnostics.healthchecks.entityframeworkcore" Version="9.0.2" />
     <PackageReference Include="NSwag.Annotations" Version="14.2.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="14.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -24,6 +28,7 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\EV.Application\EV.Application.csproj" />
+    <ProjectReference Include="..\EV.Infrastructure\EV.Infrastructure.csproj" />
   </ItemGroup>
   
   <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Outputs="@(SpaRoot);node_modules">

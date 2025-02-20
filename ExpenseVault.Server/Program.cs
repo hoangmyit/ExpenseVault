@@ -1,8 +1,14 @@
+using EV.Application;
+using EV.Infrastructure;
+using ExpenseVault.Server;
 using ExpenseVault.Server.Infrastructures;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.AddApplicationService();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddWebServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
