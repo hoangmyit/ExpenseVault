@@ -17,6 +17,8 @@ public static class DependencyInjection
         services.AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>();
 
+        services.AddEndpointsApiExplorer();
+
         services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "Expense Vault API";

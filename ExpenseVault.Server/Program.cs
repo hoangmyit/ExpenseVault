@@ -13,11 +13,6 @@ builder.Services.AddWebServices();
 
 builder.Services.AddControllers();
 
-builder.Services.AddOpenApiDocument(config =>
-{
-    config.DocumentName = "v2";
-});
-
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -27,7 +22,12 @@ app.UseStaticFiles();
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
-    app.UseSwaggerUi();
+    app.UseSwaggerUi(settings =>
+    {
+        settings.DocumentTitle = "Expense Vault API";
+        settings.Path = "/api";
+        settings.DocumentPath = "/api/specification.json";
+    });
     await app.InitializeDatabaseAsync();
 }
 else
