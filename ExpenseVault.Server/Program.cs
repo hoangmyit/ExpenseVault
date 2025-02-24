@@ -1,7 +1,9 @@
 using EV.Application;
 using EV.Infrastructure;
+using EV.Infrastructure.Data;
 using ExpenseVault.Server;
 using ExpenseVault.Server.Infrastructures;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
     app.UseSwaggerUi();
+    await app.InitializeDatabaseAsync();
+}
+else
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();

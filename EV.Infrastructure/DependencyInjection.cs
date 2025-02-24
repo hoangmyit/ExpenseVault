@@ -1,6 +1,8 @@
 ﻿using EV.Application.Common.Interface;
 using EV.Infrastructure.Data;
 using EV.Infrastructure.Data.Interceptors;
+using EV.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,12 @@ namespace EV.Infrastructure
             });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<ApplicationDbContextInitialiser>();
 
             services.AddSingleton(TimeProvider.System);
 
