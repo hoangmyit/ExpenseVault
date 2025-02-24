@@ -3,7 +3,6 @@ using EV.Infrastructure;
 using EV.Infrastructure.Data;
 using ExpenseVault.Server;
 using ExpenseVault.Server.Infrastructures;
-using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -73,12 +73,13 @@ namespace EV.Infrastructure.Data
                     Id = Common.ADMIN_ID,
                     UserName = "admin",
                     Email = "admin@localhost.com",
-                    SecurityStamp = Guid.NewGuid().ToString()
+                    SecurityStamp = Guid.NewGuid().ToString(),
                 };
                 var userInDB = await _userManager.FindByEmailAsync(adminUser.Email);
                 if (userInDB == null)
                 {
-                    var result = await _userManager.CreateAsync(adminUser, "Mydev123");
+                    var result = await _userManager.CreateAsync(adminUser, "-Mydev123");
+                    await _context.SaveChangesAsync();
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(adminUser, adminRole.Name);
