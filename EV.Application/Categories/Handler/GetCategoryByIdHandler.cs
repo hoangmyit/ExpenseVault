@@ -9,9 +9,9 @@ namespace EV.Application.Categories.Handler
   public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
   {
     private readonly IApplicationDbContext _context;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public GetCategoryByIdHandler(IApplicationDbContext context, Mapper mapper)
+    public GetCategoryByIdHandler(IApplicationDbContext context, IMapper mapper)
     {
       _context = context;
       _mapper = mapper;

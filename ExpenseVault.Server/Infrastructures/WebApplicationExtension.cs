@@ -4,12 +4,13 @@ namespace ExpenseVault.Server.Infrastructures
 {
   public static class WebApplicationExtension
   {
-    public static RouteGroupBuilder MapGroup(this WebApplication app, BaseController controller)
+    public static RouteGroupBuilder MapRouteGroup(this WebApplication app, BaseController controller)
     {
       string name = controller.GetType().Name.Replace("Controller", "");
       return app.MapGroup($"/api/{name}")
         .WithGroupName(name)
-        .WithTags(name);
+        .WithTags(name)
+        .WithOpenApi();
     }
 
     public static WebApplication MapEndPoint(this WebApplication app)
