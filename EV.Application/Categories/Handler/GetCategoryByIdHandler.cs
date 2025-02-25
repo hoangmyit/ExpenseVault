@@ -6,24 +6,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EV.Application.Categories.Handler
 {
-  public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
-  {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetCategoryByIdHandler(IApplicationDbContext context, IMapper mapper)
+    public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
     {
-      _context = context;
-      _mapper = mapper;
+        private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        
+
+        public GetCategoryByIdHandler(
+            IApplicationDbContext context, 
+            IMapper mapper, 
+            IValidator<GetCategoryByIdQuery> validator)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+        {
+            var category = await _context.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Id == request.Id && !x.IsDelete, cancellationToken);
+
+            Guard.Against.NotFound<Category>($"The category {request.Id} is not found!", category);
+
+            return _mapper.Map<CategoryDto>(category);
+        }
     }
-
-    public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
-    {
-      var category = await _context.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Id == request.Id && !x.IsDelete, cancellationToken);
-
-      Guard.Against.NotFound<Category>($"The category {request.Id} is not found!", category);
-
-      return _mapper.Map<CategoryDto>(category);
-    }
-  }
 }
