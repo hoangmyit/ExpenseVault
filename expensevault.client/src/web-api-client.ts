@@ -7,8 +7,9 @@
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
+// ignore unused variables, type errors, ES6 features, & module support
 
-import followIfLoginRedirect from './components/api-authorization/followIfLoginRedirect';
+// import followIfLoginRedirect from './components/api-authorization/followIfLoginRedirect';
 import axios, { AxiosError } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 

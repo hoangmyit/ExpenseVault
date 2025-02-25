@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 
 import FunctionLayout from '../layouts/function-layout';
+import CategoryPage from '../pages/category/category-page';
 import ErrorPage from '../pages/common/error-page/error-page';
 import {
   ErrorCode,
@@ -16,6 +17,7 @@ const MainRoutes: FC = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/sign-up" replace />} />
       <Route path="/dashboard" element={<HomePage />} />
+      <Route path="/category" element={<CategoryPage />} />
       <Route element={<FunctionLayout />}>
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
