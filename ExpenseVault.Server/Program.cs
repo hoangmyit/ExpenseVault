@@ -3,6 +3,7 @@ using EV.Infrastructure;
 using EV.Infrastructure.Data;
 using ExpenseVault.Server;
 using ExpenseVault.Server.Infrastructures;
+using FluentValidation.AspNetCore; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +23,7 @@ app.UseStaticFiles();
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
-    app.UseSwaggerUi(settings =>
-    {
-        settings.DocumentTitle = "Expense Vault API";
-        settings.Path = "/api";
-        settings.DocumentPath = "/api/specification.json";
-    });
+    app.UseSwaggerUi();
     await app.InitializeDatabaseAsync();
 }
 else

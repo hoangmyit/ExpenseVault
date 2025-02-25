@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EV.Application.Categories.Queries;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

@@ -14,7 +14,6 @@ namespace EV.Application.Categories.Commands.CreateCategory
 
             RuleFor(x => x.Avatar)
                 .MaximumLength(500).WithMessage("Avatar must not exceed 255 characters.");
-
         }
     }
 }

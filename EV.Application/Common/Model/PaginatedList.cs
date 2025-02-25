@@ -9,7 +9,7 @@ namespace EV.Application.Common.Model
         public int TotalPages { get; init; } = 10;
         public int TotalCount { get; init; } = 0;
 
-        public bool HasPreviousPage => PageIndex > 0;
+        public bool HasPreviousPage => PageIndex > 1;
 
         public bool HasNextPage => PageIndex < TotalPages - 1;
 
