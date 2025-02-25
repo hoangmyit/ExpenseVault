@@ -22,12 +22,7 @@ app.UseStaticFiles();
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
-    app.UseSwaggerUi(settings =>
-    {
-        settings.DocumentTitle = "Expense Vault API";
-        settings.Path = "/api";
-        settings.DocumentPath = "/api/specification.json";
-    });
+    app.UseSwaggerUi();
     await app.InitializeDatabaseAsync();
 }
 else

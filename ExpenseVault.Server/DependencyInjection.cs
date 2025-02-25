@@ -19,10 +19,7 @@ public static class DependencyInjection
 
         services.AddEndpointsApiExplorer();
 
-        services.AddOpenApiDocument((configure, sp) =>
-        {
-            configure.Title = "Expense Vault API";
-        });
+        services.AddOpenApiDocument();
 
         return services;
     }
