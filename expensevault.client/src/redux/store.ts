@@ -17,7 +17,10 @@ const configureAppStore = (initialState = {}) => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(middlewares),
+      getDefaultMiddleware({
+        immutableCheck: false,
+        serializableCheck: false,
+      }).concat(middlewares),
     preloadedState: initialState,
     devTools: process.env.NODE_ENV !== 'production',
   });

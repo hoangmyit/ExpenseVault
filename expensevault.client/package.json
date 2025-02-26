@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "dotenv vite -mode dev",
+    "dev": "dotenv vite --mode development",
     "dev:local": "dotenv vite --mode local",
     "build": "vite build --mode production",
     "lint": "eslint .",
@@ -54,5 +54,14 @@
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0",
     "vitest": "^3.0.5"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "@swc/core"
+    ]
   }
 }
