@@ -59,23 +59,23 @@ public class CategoryController : BaseController
         return TypedResults.Created<Guid>($"/category/{id}", id);
     }
 
-    public async Task<Results<Ok<CategoryDto>, NotFound>> GetCategoryByIdAsync(ISender sender, Guid id, CancellationToken cancellationToken)
+    public async Task<Results<Ok<CategoryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, Guid id, CancellationToken cancellationToken)
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
         if (category == null)
         {
-            return TypedResults.NotFound();
+            return TypedResults.NotFound($"Category with ID {id} not found");
         }
 
         return TypedResults.Ok(category);
     }
 
-    public async Task<Results<NoContent, BadRequest>> UpdateCategoryAsync(ISender sender, Guid id, [FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<Results<NoContent, BadRequest<string>>> UpdateCategoryAsync(ISender sender, Guid id, [FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
         {
-            return TypedResults.BadRequest();
+            return TypedResults.BadRequest("Invalid category data provided");
         }
         await sender.Send(command, cancellationToken);
         return TypedResults.NoContent();
