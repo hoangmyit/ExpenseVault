@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "dotenv vite -mode dev",
+    "dev": "dotenv vite --mode development",
     "dev:local": "dotenv vite --mode local",
     "build": "vite build --mode production",
     "lint": "eslint .",
@@ -14,11 +14,14 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.7.9",
     "ramda": "^0.30.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router": "^7.1.5"
+    "react-redux": "^9.2.0",
+    "react-router": "^7.1.5",
+    "redux-saga": "^1.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -33,7 +36,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "classnames": "^2.5.1",
-    "daisyui": "5.0.0-beta.8",
+    "daisyui": "5.0.0",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
@@ -51,5 +54,14 @@
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0",
     "vitest": "^3.0.5"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ],
+    "onlyBuiltDependencies": [
+      "@swc/core"
+    ]
   }
 }

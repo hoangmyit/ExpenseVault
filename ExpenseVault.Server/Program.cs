@@ -6,6 +6,16 @@ using ExpenseVault.Server.Infrastructures;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+            builder.WithOrigins("https://localhost:5173")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+    );
+});
+
 // Add services to the container.
 builder.AddApplicationService();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -31,6 +41,9 @@ else
 }
 
 app.UseHttpsRedirection();
+
+// Use the CORS policy
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 
