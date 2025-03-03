@@ -16,36 +16,20 @@ public class CategoryController : BaseController
     {
         var categoryGroup = app.MapRouteGroup(this);
 
-        //categoryGroup.MapRouteGet(GetCategories);
-        //categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(GetCategories), "Get a paginated list of categories", "Retrieves a paginated list of categories"));
+        categoryGroup.MapRouteGet(GetCategories);
+        categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(GetCategories), "Get a paginated list of categories", "Retrieves a paginated list of categories"));
 
-        //categoryGroup.MapRoutePost(CreatedAsync);
-        //categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(CreatedAsync), "Create a new category", "Creates a new category"));
+        categoryGroup.MapRoutePost(CreatedAsync);
+        categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(CreatedAsync), "Create a new category", "Creates a new category"));
 
-        //categoryGroup.MapRouteGet(GetCategoryByIdAsync, "/{id:guid}");
-        //categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(GetCategoryByIdAsync), "Get a category by ID", "Retrieves a category by its ID"));
+        categoryGroup.MapRouteGet(GetCategoryByIdAsync, "/{id:guid}");
+        categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(GetCategoryByIdAsync), "Get a category by ID", "Retrieves a category by its ID"));
 
-        //categoryGroup.MapRoutePut(UpdateCategoryAsync, "/{id:guid}");
-        //categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(UpdateCategoryAsync), "Update a category by ID", "Updates a category by its ID"));
+        categoryGroup.MapRoutePut(UpdateCategoryAsync, "/{id:guid}");
+        categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(UpdateCategoryAsync), "Update a category by ID", "Updates a category by its ID"));
 
-        //categoryGroup.MapRouteDelete(DeleteCategoryAsync, "/{id:guid}");
-        //categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(DeleteCategoryAsync), "Delete a category by ID", "Deletes a category by its ID"));
-
-
-        categoryGroup.MapGet("/", GetCategories)
-               .WithMetadata(new OpenApiOperationAttribute(nameof(GetCategories), "Get a paginated list of categories", "Retrieves a paginated list of categories"));
-
-        categoryGroup.MapPost("/", CreatedAsync)
-            .WithMetadata(new OpenApiOperationAttribute(nameof(CreatedAsync), "Create a new category", "Creates a new category"));
-
-        categoryGroup.MapGet("/{id:guid}", GetCategoryByIdAsync)
-            .WithMetadata(new OpenApiOperationAttribute(nameof(GetCategoryByIdAsync), "Get a category by ID", "Retrieves a category by its ID"));
-
-        categoryGroup.MapPut("/{id:guid}", UpdateCategoryAsync)
-            .WithMetadata(new OpenApiOperationAttribute(nameof(UpdateCategoryAsync), "Update a category by ID", "Updates a category by its ID"));
-
-        categoryGroup.MapDelete("/{id:guid}", DeleteCategoryAsync)
-            .WithMetadata(new OpenApiOperationAttribute(nameof(DeleteCategoryAsync), "Delete a category by ID", "Deletes a category by its ID"));
+        categoryGroup.MapRouteDelete(DeleteCategoryAsync, "/{id:guid}");
+        categoryGroup.WithMetadata(new OpenApiOperationAttribute(nameof(DeleteCategoryAsync), "Delete a category by ID", "Deletes a category by its ID"));
     }
     public async Task<Ok<PaginatedList<CategoryDto>>> GetCategories(ISender sender, [AsParameters] GetCategoryPaginationQuery query, CancellationToken cancellationToken)
     {
