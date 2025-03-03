@@ -31,8 +31,15 @@ const CategoriesPage: FC = () => {
 
   return (
     <div>
-      <div>
-        <h1>Categories</h1>
+      <div className="flex flex-col items-center p-4">
+        <h1 className="text-xl font-bold mb-4">Categories</h1>
+        <p>No categories found.</p>
+        <button
+          className="btn btn-primary mt-4"
+          onClick={() => navigate('/category/new')}
+        >
+          Create Category
+        </button>
       </div>
       <div>
         <div className="overflow-x-auto">
