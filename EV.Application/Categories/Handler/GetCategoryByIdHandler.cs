@@ -14,8 +14,7 @@ namespace EV.Application.Categories.Handler
 
         public GetCategoryByIdHandler(
             IApplicationDbContext context, 
-            IMapper mapper, 
-            IValidator<GetCategoryByIdQuery> validator)
+            IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

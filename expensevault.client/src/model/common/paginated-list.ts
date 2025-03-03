@@ -1,5 +1,5 @@
 export interface PaginatedList<T> {
-  data: T[];
+  items: T[];
   pageIndex: number;
   totalPages: number;
   totalCount: number;

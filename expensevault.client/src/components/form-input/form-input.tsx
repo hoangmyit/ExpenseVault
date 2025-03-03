@@ -20,8 +20,8 @@ const FormInput: FC<FormInputProps> = ({
         type={type}
         placeholder={placeholder}
         className={classNames('input input-bordered', className)}
-        {...otherProps}
         onChange={onChange}
+        {...otherProps}
       />
     </div>
   );
