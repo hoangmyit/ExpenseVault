@@ -36,7 +36,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "classnames": "^2.5.1",
-    "daisyui": "5.0.0-beta.8",
+    "daisyui": "5.0.0",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
