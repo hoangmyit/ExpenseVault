@@ -39,14 +39,18 @@ function* getCategoriesSaga(
       ReturnType<typeof getCategoriesSuccess | typeof getCategoriesFailure>
     >,
   void,
-  PaginatedList<ICategoryDto>
+  ApiResult<PaginatedList<ICategoryDto>>
 > {
   try {
     const { page, pageSize } = action.payload;
     const response = yield call(getCategories, page, pageSize);
-    yield put(getCategoriesSuccess(response));
+    if (response.success) {
+      yield put(getCategoriesSuccess(response.data));
+    } else {
+      yield put(getCategoriesFailure(response.message ?? 'Failed to fetch categories'));
+    }
   } catch (error) {
-    put(
+    yield put(
       getCategoriesFailure(
         getErrorMessage(error, 'Failed to fetch category details'),
       ),
@@ -62,11 +66,11 @@ function* getCategorySaga(
       ReturnType<typeof getCategorySuccess | typeof getCategoryFailure>
     >,
   void,
-  ICategoryDto
+  ApiResult<ICategoryDto>
 > {
   try {
     const response = yield call(getCategory, action.payload);
-    yield put(getCategorySuccess(response));
+    yield put(getCategorySuccess(response.data));
   } catch (error) {
     yield put(
       getCategoryFailure(
@@ -84,12 +88,12 @@ function* createCategorySaga(
       ReturnType<typeof createCategorySuccess | typeof createCategoryFailure>
     >,
   void,
-  string
+  ApiResult<string>
 > {
   try {
     const category = action.payload;
     const response = yield call(createCategory, category);
-    yield put(createCategorySuccess(response));
+    yield put(createCategorySuccess(response.data));
   } catch (error) {
     yield put(
       createCategoryFailure(
@@ -107,7 +111,7 @@ function* updateCategorySaga(
       ReturnType<typeof updateCategorySuccess | typeof updateCategoryFailure>
     >,
   void,
-  string
+  ApiResult<string>
 > {
   try {
     const category = action.payload;

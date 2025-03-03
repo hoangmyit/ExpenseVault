@@ -11,13 +11,15 @@ import {
 import HomePage from '../pages/home/home';
 import SignInPage from '../pages/sign-in/sign-in';
 import SignUpPage from '../pages/sign-up/sign-up';
+import CategoriesPage from '../pages/category/categories-page';
 
 const MainRoutes: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/sign-up" replace />} />
+      <Route path="/" element={<Navigate to="/category" replace />} />
       <Route path="/dashboard" element={<HomePage />} />
-      <Route path="/category" element={<CategoryPage />} />
+      <Route path="/category" element={<CategoriesPage />} />
+      <Route path="/category/:id" element={<CategoryPage />} />
       <Route element={<FunctionLayout />}>
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />

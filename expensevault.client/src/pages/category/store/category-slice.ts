@@ -3,11 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICategoryDto } from '../../../model/category/category';
 import { PaginatedList } from '../../../model/common/paginated-list';
 import { ICategoryState } from '../category.const';
+import { RootState } from '../../../stores/store';
 
 const initialState: ICategoryState = {
   categories: {
     data: {
-      data: [],
+      items: [],
       pageIndex: 1,
       totalCount: 0,
       totalPages: 1,
@@ -47,9 +48,8 @@ const categorySlice = createSlice({
       state.categories.status = 'failed';
       state.categories.error = action.payload;
     },
-
     // Get single category actions
-    getCategoryRequest: (state, _action: PayloadAction<number | string>) => {
+    getCategoryRequest: (state, _action: PayloadAction<string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -109,6 +109,10 @@ const categorySlice = createSlice({
     resetCategory: (state) => {
       state.category = initialState.category;
     },
+
+    setCategory: (state, action: PayloadAction<ICategoryDto>) => {
+      state.category.data = action.payload;
+    },
   },
 });
 
@@ -129,6 +133,10 @@ export const {
   deleteCategorySuccess,
   deleteCategoryFailure,
   resetCategory,
+  setCategory,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
+
+export const CategoriesState = (state: RootState) => state.category.categories;
+export const CategoryState = (state: RootState) => state.category.category;
