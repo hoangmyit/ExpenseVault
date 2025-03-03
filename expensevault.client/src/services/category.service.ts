@@ -35,9 +35,13 @@ export const getCategory = async (
 
 export const createCategory = async (
   category: ICategoryDto,
-): Promise<string> => {
+): Promise<ApiResult<string>> => {
   const response = await httpServicePost('/api/categories', category);
-  return response.data;
+  return {
+    success: true,
+    data: response.data,
+    status: response.status,
+  };
 };
 
 export const updateCategory = async (

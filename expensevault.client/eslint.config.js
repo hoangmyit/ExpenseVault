@@ -43,6 +43,13 @@ export default tseslint.config(
         exports: 'always-multiline',
         functions: 'always-multiline'
       }],
+      'no-unused-vars': {
+        'vars': 'all',
+        'args': 'after-used',
+        'ignoreRestSiblings': false,
+        'varsIgnorePattern': '^_',
+        'argsIgnorePattern': '^_',
+      }
     },
   },
 )

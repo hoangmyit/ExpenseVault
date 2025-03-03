@@ -31,7 +31,7 @@ const categorySlice = createSlice({
     // Get categories actions
     getCategoriesRequest: (
       state,
-      action: PayloadAction<{ page?: number; pageSize?: number }>,
+      _action: PayloadAction<{ page?: number; pageSize?: number }>,
     ) => {
       state.categories.status = 'loading';
       state.categories.error = null;
@@ -49,7 +49,7 @@ const categorySlice = createSlice({
     },
 
     // Get single category actions
-    getCategoryRequest: (state, action: PayloadAction<number | string>) => {
+    getCategoryRequest: (state, _action: PayloadAction<number | string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -63,13 +63,14 @@ const categorySlice = createSlice({
     },
 
     // Create category actions
-    createCategoryRequest: (state, action: PayloadAction<ICategoryDto>) => {
+    createCategoryRequest: (state, _action: PayloadAction<ICategoryDto>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
-    createCategorySuccess: (state, action: PayloadAction<ICategoryDto>) => {
+    createCategorySuccess: (state, action: PayloadAction<string>) => {
       state.category.status = 'succeeded';
-      state.category.data = action.payload;
+      console.log(action.payload);
+      // state.category.data = action.payload;
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
@@ -77,7 +78,7 @@ const categorySlice = createSlice({
     },
 
     // Update category actions
-    updateCategoryRequest: (state, action: PayloadAction<ICategoryDto>) => {
+    updateCategoryRequest: (state, _action: PayloadAction<string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -91,7 +92,7 @@ const categorySlice = createSlice({
     },
 
     // Delete category actions
-    deleteCategoryRequest: (state, action: PayloadAction<number | string>) => {
+    deleteCategoryRequest: (state, _action: PayloadAction<number | string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },

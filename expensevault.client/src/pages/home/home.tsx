@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { Forecast } from '../../app.const';
-import AlertComponent from '../../components/alert/alert-component';
+import Toast from '../../components/toast/toast';
 import FacebookIcon from '../../icons/brand/facebook-icon';
 import { populateWeatherData } from '../../services/weather-forecast.service';
 
@@ -52,7 +52,7 @@ const HomePage: FC = () => {
       <p>This component demonstrates fetching data from the server.</p>
       {contents}
       <div>
-        <AlertComponent
+        <Toast
           type="success"
           message="This is a success alert"
           key="alert-success"
@@ -61,7 +61,7 @@ const HomePage: FC = () => {
             <button className="btn btn-sm">Deny</button>
             <button className="btn btn-sm btn-primary">Accept</button>
           </div>
-        </AlertComponent>
+        </Toast>
       </div>
       <h1 className="text-3xl font-bold underline">Hello world! - Tailwind</h1>
       <div>

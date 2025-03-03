@@ -12,6 +12,7 @@ import {
   getCategory,
   updateCategory,
 } from '../../../services/category.service';
+import { getErrorMessage } from '../../../utils/common-util';
 import {
   createCategoryFailure,
   createCategoryRequest,
@@ -45,70 +46,102 @@ function* getCategoriesSaga(
     const response = yield call(getCategories, page, pageSize);
     yield put(getCategoriesSuccess(response));
   } catch (error) {
-    if (error instanceof Error) {
-      yield put(
-        getCategoriesFailure(error.message || 'Failed to fetch categories'),
-      );
-    } else {
-      yield put(getCategoriesFailure('Failed to fetch categories'));
-    }
+    put(
+      getCategoriesFailure(
+        getErrorMessage(error, 'Failed to fetch category details'),
+      ),
+    );
   }
 }
 
 function* getCategorySaga(
-  action: PayloadAction<number | string>,
+  action: PayloadAction<string>,
 ): Generator<
-  CallEffect<ApiResult<ICategoryDto>> | PutEffect<any>,
+  | CallEffect<ApiResult<ICategoryDto>>
+  | PutEffect<
+      ReturnType<typeof getCategorySuccess | typeof getCategoryFailure>
+    >,
   void,
   ICategoryDto
 > {
   try {
-    const id = action.payload;
-    const response = yield call(getCategory, id);
+    const response = yield call(getCategory, action.payload);
     yield put(getCategorySuccess(response));
   } catch (error) {
-    yield put(getCategoryFailure(error.message || 'Failed to fetch category'));
+    yield put(
+      getCategoryFailure(
+        getErrorMessage(error, 'Failed to fetch category details'),
+      ),
+    );
   }
 }
 
 function* createCategorySaga(
   action: PayloadAction<ICategoryDto>,
-): Generator<CallEffect<any> | PutEffect<any>, void, any> {
+): Generator<
+  | CallEffect<ApiResult<string>>
+  | PutEffect<
+      ReturnType<typeof createCategorySuccess | typeof createCategoryFailure>
+    >,
+  void,
+  string
+> {
   try {
     const category = action.payload;
     const response = yield call(createCategory, category);
     yield put(createCategorySuccess(response));
   } catch (error) {
     yield put(
-      createCategoryFailure(error.message || 'Failed to create category'),
+      createCategoryFailure(
+        getErrorMessage(error, 'Failed to create category'),
+      ),
     );
   }
 }
 
 function* updateCategorySaga(
   action: PayloadAction<ICategoryDto>,
-): Generator<CallEffect<any> | PutEffect<any>, void, any> {
+): Generator<
+  | CallEffect<ApiResult<string>>
+  | PutEffect<
+      ReturnType<typeof updateCategorySuccess | typeof updateCategoryFailure>
+    >,
+  void,
+  string
+> {
   try {
     const category = action.payload;
     const response = yield call(updateCategory, category);
-    yield put(updateCategorySuccess(response));
+    console.log(response);
+    yield put(updateCategorySuccess(category));
   } catch (error) {
     yield put(
-      updateCategoryFailure(error.message || 'Failed to update category'),
+      updateCategoryFailure(
+        getErrorMessage(error, 'Failed to update category'),
+      ),
     );
   }
 }
 
 function* deleteCategorySaga(
   action: PayloadAction<string>,
-): Generator<CallEffect<any> | PutEffect<any>, void, any> {
+): Generator<
+  | CallEffect<ApiResult<string>>
+  | PutEffect<
+      ReturnType<typeof deleteCategorySuccess | typeof deleteCategoryFailure>
+    >,
+  void,
+  string
+> {
   try {
     const id = action.payload;
     yield call(deleteCategory, id);
     yield put(deleteCategorySuccess());
   } catch (error) {
     yield put(
-      deleteCategoryFailure(error.message || 'Failed to delete category'),
+      deleteCategoryFailure(
+        getErrorMessage(error, 'Failed to delete category'),
+      ),
     );
   }
 }
