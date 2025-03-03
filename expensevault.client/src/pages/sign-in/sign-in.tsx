@@ -12,7 +12,7 @@ import TwitterXIcon from '../../icons/brand/twitter-x-icon';
 const SignInPage: FC = () => {
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="card bg-base-100 w-96 shadow-sm">
+      <div className="card bg-base-100 shadow-sm">
         <div className="card-body">
           <div className="mb-6 flex">
             <AvatarIcon fill="black" width="w-10" height="h-10" />

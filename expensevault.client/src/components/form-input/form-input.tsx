@@ -12,14 +12,14 @@ const FormInput: FC<FormInputProps> = ({
   ...otherProps
 }) => {
   return (
-    <div className="form-control mb-4">
+    <div className="form-control mb-4 flex flex-col">
       <label className="label mb-1 font-semibold">
         <span className="label-text">{label}</span>
       </label>
       <input
         type={type}
         placeholder={placeholder}
-        className={classNames('input input-bordered', className)}
+        className={classNames('input input-bordered w-full', className)}
         onChange={onChange}
         {...otherProps}
       />

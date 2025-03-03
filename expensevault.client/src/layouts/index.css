@@ -107,3 +107,32 @@
     opacity: 0;
   }
 }
+
+@media screen and (min-width: 576px) {
+  .function-page-container  .card-body {
+    width: 336px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .function-page-container  .card-body {
+    width: 456px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .function-page-container  .card-body {
+    width: 456px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .function-page-container  .card-body {
+    width: 451px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .function-page-container  .card-body {
+    width: 562px;
+  }
+}

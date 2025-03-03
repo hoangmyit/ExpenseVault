@@ -10,7 +10,7 @@ import TwitterXIcon from '../../icons/brand/twitter-x-icon';
 const SignUpPage: FC = () => {
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="card bg-base-100 w-96 shadow-sm">
+      <div className="card bg-base-100 shadow-sm">
         <div className="card-body">
           <div className="mb-6 flex">
             <AvatarIcon fill="black" width="w-10" height="h-10" />
@@ -25,7 +25,7 @@ const SignUpPage: FC = () => {
           </div>
           <div className="my-4">
             <form>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 md:gap-4">
                 <FormInput
                   label="First name"
                   placeholder="Enter your first name"

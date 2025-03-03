@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import './App.css';
 
 import MainRoutes from './routes/routes';
 

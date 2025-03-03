@@ -23,7 +23,7 @@ const FunctionLayout: React.FC = () => {
         <div></div>
         <div></div>
       </div>
-      <div className="v-full bg-primary flex h-screen flex-col justify-center">
+      <div className="function-page-container v-full bg-primary flex h-screen justify-center">
         <Outlet />
       </div>
     </>
