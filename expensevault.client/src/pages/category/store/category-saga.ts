@@ -2,9 +2,8 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { CallEffect, PutEffect } from 'redux-saga/effects';
 
-import { ICategoryDto } from '../../../model/category/category';
-import { ApiResult } from '../../../model/common/common';
-import { PaginatedList } from '../../../model/common/paginated-list';
+import { ApiResult, PaginatedList } from '../../../model/common';
+import { CategoryDto } from '../../../model/common/backend-model';
 import {
   createCategory,
   deleteCategory,
@@ -34,12 +33,12 @@ import {
 function* getCategoriesSaga(
   action: PayloadAction<{ page?: number; pageSize?: number }>,
 ): Generator<
-  | CallEffect<ApiResult<PaginatedList<ICategoryDto>>>
+  | CallEffect<ApiResult<PaginatedList<CategoryDto>>>
   | PutEffect<
       ReturnType<typeof getCategoriesSuccess | typeof getCategoriesFailure>
     >,
   void,
-  ApiResult<PaginatedList<ICategoryDto>>
+  ApiResult<PaginatedList<CategoryDto>>
 > {
   try {
     const { page, pageSize } = action.payload;
@@ -47,7 +46,9 @@ function* getCategoriesSaga(
     if (response.success) {
       yield put(getCategoriesSuccess(response.data));
     } else {
-      yield put(getCategoriesFailure(response.message ?? 'Failed to fetch categories'));
+      yield put(
+        getCategoriesFailure(response.message ?? 'Failed to fetch categories'),
+      );
     }
   } catch (error) {
     yield put(
@@ -61,12 +62,12 @@ function* getCategoriesSaga(
 function* getCategorySaga(
   action: PayloadAction<string>,
 ): Generator<
-  | CallEffect<ApiResult<ICategoryDto>>
+  | CallEffect<ApiResult<CategoryDto>>
   | PutEffect<
       ReturnType<typeof getCategorySuccess | typeof getCategoryFailure>
     >,
   void,
-  ApiResult<ICategoryDto>
+  ApiResult<CategoryDto>
 > {
   try {
     const response = yield call(getCategory, action.payload);
@@ -81,7 +82,7 @@ function* getCategorySaga(
 }
 
 function* createCategorySaga(
-  action: PayloadAction<ICategoryDto>,
+  action: PayloadAction<CategoryDto>,
 ): Generator<
   | CallEffect<ApiResult<string>>
   | PutEffect<
@@ -104,7 +105,7 @@ function* createCategorySaga(
 }
 
 function* updateCategorySaga(
-  action: PayloadAction<ICategoryDto>,
+  action: PayloadAction<CategoryDto>,
 ): Generator<
   | CallEffect<ApiResult<string>>
   | PutEffect<

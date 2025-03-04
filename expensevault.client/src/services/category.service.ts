@@ -1,6 +1,5 @@
-import { ICategoryDto } from '../model/category/category';
-import { ApiResult } from '../model/common/common';
-import { PaginatedList } from '../model/common/paginated-list';
+import { ApiResult, PaginatedList } from '../model/common';
+import { CategoryDto } from '../model/common/backend-model';
 import {
   httpServiceDelete,
   httpServiceGet,
@@ -11,7 +10,7 @@ import {
 export const getCategories = async (
   page = 1,
   pageSize = 10,
-): Promise<ApiResult<PaginatedList<ICategoryDto>>> => {
+): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
   const response = await httpServiceGet('/api/category', {
     pageIndex: page,
     pageSize: pageSize,
@@ -25,7 +24,7 @@ export const getCategories = async (
 
 export const getCategory = async (
   id: string,
-): Promise<ApiResult<ICategoryDto>> => {
+): Promise<ApiResult<CategoryDto>> => {
   const response = await httpServiceGet(`/api/category/${id}`);
   return {
     success: true,
@@ -35,7 +34,7 @@ export const getCategory = async (
 };
 
 export const createCategory = async (
-  category: ICategoryDto,
+  category: CategoryDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost('/api/category', category);
   return {
@@ -46,7 +45,7 @@ export const createCategory = async (
 };
 
 export const updateCategory = async (
-  category: ICategoryDto,
+  category: CategoryDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePut(
     `/api/category/${category.id}`,

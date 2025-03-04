@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ICategoryDto } from '../../../model/category/category';
+import { CategoryDto } from '../../../model/common/backend-model';
 import { PaginatedList } from '../../../model/common/paginated-list';
-import { ICategoryState } from '../category.const';
 import { RootState } from '../../../stores/store';
+import { ICategoryState } from '../category.const';
 
 const initialState: ICategoryState = {
   categories: {
@@ -39,7 +39,7 @@ const categorySlice = createSlice({
     },
     getCategoriesSuccess: (
       state,
-      action: PayloadAction<PaginatedList<ICategoryDto>>,
+      action: PayloadAction<PaginatedList<CategoryDto>>,
     ) => {
       state.categories.status = 'succeeded';
       state.categories.data = action.payload;
@@ -53,7 +53,7 @@ const categorySlice = createSlice({
       state.category.status = 'loading';
       state.category.error = null;
     },
-    getCategorySuccess: (state, action: PayloadAction<ICategoryDto>) => {
+    getCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
@@ -63,7 +63,7 @@ const categorySlice = createSlice({
     },
 
     // Create category actions
-    createCategoryRequest: (state, _action: PayloadAction<ICategoryDto>) => {
+    createCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -82,7 +82,7 @@ const categorySlice = createSlice({
       state.category.status = 'loading';
       state.category.error = null;
     },
-    updateCategorySuccess: (state, action: PayloadAction<ICategoryDto>) => {
+    updateCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
@@ -110,7 +110,7 @@ const categorySlice = createSlice({
       state.category = initialState.category;
     },
 
-    setCategory: (state, action: PayloadAction<ICategoryDto>) => {
+    setCategory: (state, action: PayloadAction<CategoryDto>) => {
       state.category.data = action.payload;
     },
   },

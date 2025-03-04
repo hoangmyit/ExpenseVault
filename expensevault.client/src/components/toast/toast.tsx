@@ -38,9 +38,10 @@ const ToastContainer: FC<{ toasts: ToastProps[]; onClose: onToastClose }> = ({
 }) => {
   return createPortal(
     <div className="toast-container fixed top-4 right-4 z-50 flex max-w-xs flex-col gap-2">
-      {toasts.map((toast) => (
-        <Toast key={toast.id} {...toast} onClose={onClose} />
-      ))}
+      {toasts &&
+        toasts.map((toast) => (
+          <Toast key={toast.id} {...toast} onClose={onClose} />
+        ))}
     </div>,
     document.body,
   );
