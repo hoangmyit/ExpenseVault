@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 
 import FormCheckbox from '../../components/form-checkbox/form-checkbox';
 import FormInput from '../../components/form-input/form-input';
-import { ICategoryDto } from '../../model/category/category';
+import { CategoryDto } from '../../model/common/backend-model';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import {
   CategoryState,
@@ -29,7 +29,7 @@ const CategoryPage: FC = () => {
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldChange: keyof ICategoryDto,
+    fieldChange: keyof CategoryDto,
   ) => {
     dispatch(
       setCategory({
