@@ -57,7 +57,19 @@
       "assemblyPaths": [],
       "assemblyConfig": null,
       "referencePaths": [],
-      "useNuGetCache": false
+      "useNuGetCache": false,
+      "securityDefinitions": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "security": [
+        {
+          "Bearer": []
+        }
+      ]
     }
   },
   "codeGenerators": {

@@ -7,26 +7,20 @@
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
-// ignore unused variables, type errors, ES6 features, & module support
 
-// import followIfLoginRedirect from './components/api-authorization/followIfLoginRedirect';
-import axios, { AxiosError } from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+import followIfLoginRedirect from './components/api-authorization/followIfLoginRedirect';
 
 export class CategoryClient {
-    protected instance: AxiosInstance;
-    protected baseUrl: string;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, instance?: AxiosInstance) {
-
-        this.instance = instance || axios.create();
-
-        this.baseUrl = baseUrl ?? "";
-
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getApiCategory(pageIndex: number, pageSize: number, cancelToken?: CancelToken): Promise<PaginatedListOfCategoryDto> {
+    getCategories(pageIndex: number, pageSize: number): Promise<PaginatedListOfCategoryDto> {
         let url_ = this.baseUrl + "/api/Category?";
         if (pageIndex === undefined || pageIndex === null)
             throw new Error("The parameter 'pageIndex' must be defined and cannot be null.");
@@ -38,46 +32,33 @@ export class CategoryClient {
             url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_: AxiosRequestConfig = {
+        let options_: RequestInit = {
             method: "GET",
-            url: url_,
             headers: {
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetApiCategory(_response);
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetCategories(_response);
         });
     }
 
-    protected processGetApiCategory(response: AxiosResponse): Promise<PaginatedListOfCategoryDto> {
+    protected processGetCategories(response: Response): Promise<PaginatedListOfCategoryDto> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             let result200: any = null;
-            let resultData200  = _responseText;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = PaginatedListOfCategoryDto.fromJS(resultData200);
-            return Promise.resolve<PaginatedListOfCategoryDto>(result200);
-
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<PaginatedListOfCategoryDto>(null as any);
     }
@@ -85,114 +66,92 @@ export class CategoryClient {
     /**
      * @return OK
      */
-    postApiCategory(command: CreateCategoryCommand, cancelToken?: CancelToken): Promise<void> {
+    created(command: CreateCategoryCommand): Promise<void> {
         let url_ = this.baseUrl + "/api/Category";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
 
-        let options_: AxiosRequestConfig = {
-            data: content_,
+        let options_: RequestInit = {
+            body: content_,
             method: "POST",
-            url: url_,
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processPostApiCategory(_response);
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processCreated(_response);
         });
     }
 
-    protected processPostApiCategory(response: AxiosResponse): Promise<void> {
+    protected processCreated(response: Response): Promise<void> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
+            return response.text().then((_responseText) => {
+            return null;
+            });
         } else if (status === 201) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             let result201: any = null;
-            let resultData201  = _responseText;
+            let resultData201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result201 = resultData201 !== undefined ? resultData201 : <any>null;
     
             return throwException("A server side error occurred.", status, _responseText, _headers, result201);
-
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<void>(null as any);
     }
 
-    getApiCategory2(id: string, cancelToken?: CancelToken): Promise<CategoryDto> {
+    getCategoryById(id: string): Promise<CategoryDto> {
         let url_ = this.baseUrl + "/api/Category/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_: AxiosRequestConfig = {
+        let options_: RequestInit = {
             method: "GET",
-            url: url_,
             headers: {
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetApiCategory2(_response);
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetCategoryById(_response);
         });
     }
 
-    protected processGetApiCategory2(response: AxiosResponse): Promise<CategoryDto> {
+    protected processGetCategoryById(response: Response): Promise<CategoryDto> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             let result200: any = null;
-            let resultData200  = _responseText;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = CategoryDto.fromJS(resultData200);
-            return Promise.resolve<CategoryDto>(result200);
-
+            return result200;
+            });
         } else if (status === 404) {
-            const _responseText = response.data;
-            return throwException("A server side error occurred.", status, _responseText, _headers);
-
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result404 = resultData404 !== undefined ? resultData404 : <any>null;
+    
+            return throwException("A server side error occurred.", status, _responseText, _headers, result404);
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<CategoryDto>(null as any);
     }
@@ -200,7 +159,7 @@ export class CategoryClient {
     /**
      * @return OK
      */
-    putApiCategory(id: string, command: UpdateCategoryCommand, cancelToken?: CancelToken): Promise<void> {
+    updateCategory(id: string, command: UpdateCategoryCommand): Promise<void> {
         let url_ = this.baseUrl + "/api/Category/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -209,53 +168,44 @@ export class CategoryClient {
 
         const content_ = JSON.stringify(command);
 
-        let options_: AxiosRequestConfig = {
-            data: content_,
+        let options_: RequestInit = {
+            body: content_,
             method: "PUT",
-            url: url_,
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processPutApiCategory(_response);
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processUpdateCategory(_response);
         });
     }
 
-    protected processPutApiCategory(response: AxiosResponse): Promise<void> {
+    protected processUpdateCategory(response: Response): Promise<void> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
+            return response.text().then((_responseText) => {
+            return null;
+            });
         } else if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
+            return response.text().then((_responseText) => {
+            return null;
+            });
         } else if (status === 400) {
-            const _responseText = response.data;
-            return throwException("A server side error occurred.", status, _responseText, _headers);
-
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result400 = resultData400 !== undefined ? resultData400 : <any>null;
+    
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<void>(null as any);
     }
@@ -263,118 +213,138 @@ export class CategoryClient {
     /**
      * @return OK
      */
-    deleteApiCategory(id: string, cancelToken?: CancelToken): Promise<void> {
+    deleteCategory(id: string): Promise<void> {
         let url_ = this.baseUrl + "/api/Category/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_: AxiosRequestConfig = {
+        let options_: RequestInit = {
             method: "DELETE",
-            url: url_,
             headers: {
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processDeleteApiCategory(_response);
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteCategory(_response);
         });
     }
 
-    protected processDeleteApiCategory(response: AxiosResponse): Promise<void> {
+    protected processDeleteCategory(response: Response): Promise<void> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
+            return response.text().then((_responseText) => {
+            return null;
+            });
         } else if (status === 204) {
-            const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
-
+            return response.text().then((_responseText) => {
+            return null;
+            });
         } else if (status === 400) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
-
+            });
         } else if (status === 404) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("A server side error occurred.", status, _responseText, _headers);
-
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<void>(null as any);
     }
 }
 
-export class WeatherForecastClient {
-    protected instance: AxiosInstance;
-    protected baseUrl: string;
+export class AuthClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, instance?: AxiosInstance) {
-
-        this.instance = instance || axios.create();
-
-        this.baseUrl = baseUrl ?? "";
-
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    weatherForecast_Get( cancelToken?: CancelToken): Promise<WeatherForecast[]> {
+    login(command: LoginCommand): Promise<LoginResponse> {
+        let url_ = this.baseUrl + "/api/Auth/login";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLogin(_response);
+        });
+    }
+
+    protected processLogin(response: Response): Promise<LoginResponse> {
+        followIfLoginRedirect(response);
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginResponse.fromJS(resultData200);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<LoginResponse>(null as any);
+    }
+}
+
+export class WeatherForecastClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    weatherForecast_Get(): Promise<WeatherForecast[]> {
         let url_ = this.baseUrl + "/WeatherForecast";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_: AxiosRequestConfig = {
+        let options_: RequestInit = {
             method: "GET",
-            url: url_,
             headers: {
                 "Accept": "application/json"
-            },
-            cancelToken
+            }
         };
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
+        return this.http.fetch(url_, options_).then((_response: Response) => {
             return this.processWeatherForecast_Get(_response);
         });
     }
 
-    protected processWeatherForecast_Get(response: AxiosResponse): Promise<WeatherForecast[]> {
+    protected processWeatherForecast_Get(response: Response): Promise<WeatherForecast[]> {
+        followIfLoginRedirect(response);
         const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             let result200: any = null;
-            let resultData200  = _responseText;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
@@ -383,11 +353,12 @@ export class WeatherForecastClient {
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<WeatherForecast[]>(result200);
-
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
+            return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
         }
         return Promise.resolve<WeatherForecast[]>(null as any);
     }
@@ -609,6 +580,86 @@ export interface IUpdateCategoryCommand {
     isDefault?: boolean;
 }
 
+export class LoginResponse implements ILoginResponse {
+    token?: string;
+    refreshToken?: string;
+
+    constructor(data?: ILoginResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.token = _data["token"];
+            this.refreshToken = _data["refreshToken"];
+        }
+    }
+
+    static fromJS(data: any): LoginResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new LoginResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        data["refreshToken"] = this.refreshToken;
+        return data;
+    }
+}
+
+export interface ILoginResponse {
+    token?: string;
+    refreshToken?: string;
+}
+
+export class LoginCommand implements ILoginCommand {
+    username?: string;
+    password?: string;
+
+    constructor(data?: ILoginCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.username = _data["username"];
+            this.password = _data["password"];
+        }
+    }
+
+    static fromJS(data: any): LoginCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new LoginCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["username"] = this.username;
+        data["password"] = this.password;
+        return data;
+    }
+}
+
+export interface ILoginCommand {
+    username?: string;
+    password?: string;
+}
+
 export class WeatherForecast implements IWeatherForecast {
     date?: Date;
     temperatureC?: number;
@@ -692,8 +743,4 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new SwaggerException(message, status, response, headers, null);
-}
-
-function isAxiosError(obj: any): obj is AxiosError {
-    return obj && obj.isAxiosError === true;
 }
