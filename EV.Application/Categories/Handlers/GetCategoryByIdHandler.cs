@@ -4,7 +4,7 @@ using EV.Application.Common.Interface;
 using EV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EV.Application.Categories.Handler
+namespace EV.Application.Categories.Handlers
 {
     public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
     {

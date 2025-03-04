@@ -4,7 +4,7 @@ using EV.Domain.Entities;
 using EV.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 
-namespace EV.Application.Categories.Handler
+namespace EV.Application.Categories.Handlers
 {
   public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
   {

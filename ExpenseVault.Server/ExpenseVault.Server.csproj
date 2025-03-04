@@ -36,6 +36,11 @@
     <ProjectReference Include="..\EV.Application\EV.Application.csproj" />
     <ProjectReference Include="..\EV.Infrastructure\EV.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+    <Folder Include="wwwroot\certificates\" />
+  </ItemGroup>
   
   <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Outputs="@(SpaRoot);node_modules">
     <Exec Command="pnpm install" WorkingDirectory="$(SpaRoot)" />

@@ -5,7 +5,7 @@ using EV.Application.Common.Interface;
 using EV.Application.Common.Model;
 using EV.Application.Mapping;
 
-namespace EV.Application.Categories.Handler
+namespace EV.Application.Categories.Handlers
 {
     public class GetCategoryPaginationHandler : IRequestHandler<GetCategoryPaginationQuery, PaginatedList<CategoryDto>>
     {
