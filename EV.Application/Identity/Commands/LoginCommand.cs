@@ -2,13 +2,13 @@
 {
     public class LoginCommand : IRequest<LoginResponse>
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public required string Username { get; set; }
+        public required string Password { get; set; }
     }
 
     public class LoginResponse
     {
-        public string Token { get; set; }
-        public string RefreshToken { get; set; }
+        public required string Token { get; set; }
+        public required string RefreshToken { get; set; }
     }
 }

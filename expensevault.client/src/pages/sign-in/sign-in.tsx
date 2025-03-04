@@ -1,6 +1,6 @@
 import './sign-in.css';
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router';
 
 import FormInput from '../../components/form-input/form-input';
@@ -8,8 +8,20 @@ import AvatarIcon from '../../icons/avatar-icon';
 import FacebookIcon from '../../icons/brand/facebook-icon';
 import LinkedinIcon from '../../icons/brand/linkedin-icon';
 import TwitterXIcon from '../../icons/brand/twitter-x-icon';
+import { useAppDispatch } from '../../stores/hooks';
+import { loginRequest } from './store/auth-slice';
 
 const SignInPage: FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+
+  const handleSignIn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(loginRequest({ username, password }));
+  };
+
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="card bg-base-100 shadow-sm">
@@ -43,17 +55,22 @@ const SignInPage: FC = () => {
           <div className="m-4">
             <form>
               <FormInput
-                label="Email"
-                placeholder="Enter your email"
-                type="email"
+                label="Username"
+                placeholder="Enter your username"
+                type="text"
+                onChange={(e) => setUsername(e.target.value)}
               />
               <FormInput
                 label="Password"
                 placeholder="Enter your password"
                 type="password"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <div className="form-control mt-6 w-full">
-                <button className="btn btn-primary btn-wide max-w-full">
+                <button
+                  className="btn btn-primary btn-wide max-w-full"
+                  onClick={handleSignIn}
+                >
                   Sign In
                 </button>
               </div>

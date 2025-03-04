@@ -50,7 +50,7 @@ namespace EV.Infrastructure.Services
 
             var refreshToken = await _userManager.GenerateUserTokenAsync(user!, "Default", "RefreshToken");
             user!.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = _timeProvider.GetUtcNow().AddHours(_configuration.RefreshTokenExpiryInMinutes);
+            user.RefreshTokenExpiryTime = _timeProvider.GetUtcNow().AddMinutes(_configuration.RefreshTokenExpiryInMinutes);
 
             var result = await _userManager.UpdateAsync(user);
             Guard.Against.AgainstUnauthenticated(!result.Succeeded, "Failed to generate refresh token.");
@@ -65,16 +65,18 @@ namespace EV.Infrastructure.Services
 
             var user = await _userManager.FindByIdAsync(userId);
             Guard.Against.AgainstUnauthenticated(
-                user == null 
-                || user.RefreshToken != refreshToken 
+                user == null
+                || user.RefreshToken != refreshToken
                 || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow()
                 , "Invalid refresh token.");
 
             return await GenerateTokenAsync(user!);
         }
-
-        #region private methods
-
+        #region Private Methods
+        private string GetUnixTimeSeconds(int minutes)
+        {
+            return _timeProvider.GetUtcNow().AddMinutes(minutes).ToUnixTimeSeconds().ToString();
+        }
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -85,15 +87,25 @@ namespace EV.Infrastructure.Services
             foreach (var item in userRoles)
             {
                 userClaim.AddClaim(new Claim(ClaimTypes.Role, item));
+                userClaim.AddClaim(new Claim(ClaimTypes.Role, "User"));
             }
+
+            var claims = new Dictionary<string, object>
+            {
+                { JwtRegisteredClaimNames.Sub, user.UserName! },
+                { JwtRegisteredClaimNames.Iat, GetUnixTimeSeconds(0) },
+                { JwtRegisteredClaimNames.Email, user.Email! },
+                { JwtRegisteredClaimNames.Exp, GetUnixTimeSeconds(_configuration.ExpiryInMinutes) },
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = userClaim,
-                Expires = _timeProvider.GetUtcNow().AddMinutes(_configuration.ExpiryInMinutes).DateTime,
+                Claims = claims,
+                Expires = _timeProvider.GetUtcNow().AddMinutes(_configuration.ExpiryInMinutes).UtcDateTime,
                 Issuer = _configuration.Issuer,
                 Audience = _configuration.Audience,
-                SigningCredentials = GetCredentialFormRsaPrivateKey()
+                SigningCredentials = GetCredentialFormRsaPrivateKey(),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenResult = tokenHandler.WriteToken(token);
