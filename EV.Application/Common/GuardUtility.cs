@@ -15,7 +15,10 @@ namespace EV.Application.Common.Utilities
 
         public static void AgainstUnauthenticated(this IGuardClause guard, bool condition, string message = "Authentication failed.")
         {
-            throw new AuthenticationException(message);
+            if (condition)
+            {
+                throw new AuthenticationException(message);
+            }
         }
     }
 }

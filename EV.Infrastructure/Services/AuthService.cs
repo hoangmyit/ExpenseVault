@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace EV.Infrastructure.Services
@@ -33,7 +34,7 @@ namespace EV.Infrastructure.Services
 
         public async Task<string> AuthenticateAsync(string username, string password)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByEmailAsync(username);
             Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password.");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
@@ -44,7 +45,7 @@ namespace EV.Infrastructure.Services
 
         public async Task<string> GenerateRefreshTokenAsync(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByEmailAsync(username);
             Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password");
 
             var refreshToken = await _userManager.GenerateUserTokenAsync(user!, "Default", "RefreshToken");
@@ -77,7 +78,6 @@ namespace EV.Infrastructure.Services
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var privateKey = X509CertificateLoader.LoadCertificateFromFile(_configuration.PrivateFilePath);
             var userRoles = await _userManager.GetRolesAsync(user);
 
             var userClaim = new ClaimsIdentity();
@@ -93,10 +93,11 @@ namespace EV.Infrastructure.Services
                 Expires = _timeProvider.GetUtcNow().AddMinutes(_configuration.ExpiryInMinutes).DateTime,
                 Issuer = _configuration.Issuer,
                 Audience = _configuration.Audience,
-                SigningCredentials = new X509SigningCredentials(privateKey)
+                SigningCredentials = GetCredentialFormRsaPrivateKey()
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenResult = tokenHandler.WriteToken(token);
+            return tokenResult;
         }
 
         private ClaimsPrincipal GetPrincipalFromExpiringToken(string expiringToken)
@@ -123,6 +124,15 @@ namespace EV.Infrastructure.Services
             }
 
             return principal;
+        }
+        private SigningCredentials GetCredentialFormRsaPrivateKey()
+        {
+            var privateKeyPem = File.ReadAllText(_configuration.PrivateFilePath);
+            RSA rsa = RSA.Create();
+            rsa.ImportFromPem(privateKeyPem);
+            var sercureKey = new RsaSecurityKey(rsa);
+            var credentials = new SigningCredentials(sercureKey, SecurityAlgorithms.RsaSha256);
+            return credentials;
         }
         #endregion
     }
