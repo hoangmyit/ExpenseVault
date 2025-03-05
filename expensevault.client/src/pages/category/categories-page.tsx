@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { ConsoleLog } from '../../utils/common-util';
-import { CategoriesState, getCategoriesRequest } from './store/category-slice';
+import { CategoriesState, getCategoriesRequest, deleteCategoryRequest } from './store/category-slice';
 
 const CategoriesPage: FC = () => {
   const { data: categories } = useAppSelector(CategoriesState);
@@ -26,6 +26,7 @@ const CategoriesPage: FC = () => {
   const handleDelete = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
       ConsoleLog('Delete category', id);
+      dispatch(deleteCategoryRequest(id));
       event.preventDefault();
     },
     [],

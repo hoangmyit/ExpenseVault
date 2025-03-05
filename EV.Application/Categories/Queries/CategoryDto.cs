@@ -10,7 +10,7 @@ namespace EV.Application.Categories.Queries
         public string Description { get; set; }
         public string Avatar { get; set; }
         public required bool IsDefault { get; set; }
-
+        public bool IsDelete { get; set; } // P7c89
     }
     public class CategoryProfile : Profile
     {
