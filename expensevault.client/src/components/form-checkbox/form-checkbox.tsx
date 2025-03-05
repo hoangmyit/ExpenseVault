@@ -1,18 +1,24 @@
-import { FC } from "react";
-import { FormInputProps } from "./form-checkbox.const";
-import classNames from "classnames";
+import { FC } from 'react';
 
-const FormCheckbox: FC<FormInputProps> = ({ label, checked, onChange, className, ...otherProps }) => {
+import { FormCheckboxProps } from './form-checkbox.const';
+
+const FormCheckbox: FC<FormCheckboxProps> = ({
+  onChange,
+  label,
+  className,
+  checked,
+  ...otherProps
+}) => {
   return (
-    <div className="form-control mb-4">
+    <div className="form-control mb-4 flex flex-col">
       <label className="label mb-1 font-semibold">
         <span className="label-text">{label}</span>
       </label>
       <input
-        checked={checked}
-        className={classNames('checkbox', className)}
-        onChange={onChange}
         type="checkbox"
+        onChange={(e) => onChange?.(e)}
+        className={className}
+        checked={checked}
         {...otherProps}
       />
     </div>

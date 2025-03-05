@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import {
+  toastError,
+  toastSuccess,
+} from '../../../components/toast/toast-event';
 import { CategoryDto } from '../../../model/common/backend-model';
 import { PaginatedList } from '../../../model/common/paginated-list';
 import { RootState } from '../../../stores/store';
@@ -47,6 +51,7 @@ const categorySlice = createSlice({
     getCategoriesFailure: (state, action: PayloadAction<string>) => {
       state.categories.status = 'failed';
       state.categories.error = action.payload;
+      toastError(action.payload);
     },
     // Get single category actions
     getCategoryRequest: (state, _action: PayloadAction<string>) => {
@@ -60,6 +65,7 @@ const categorySlice = createSlice({
     getCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Create category actions
@@ -69,12 +75,12 @@ const categorySlice = createSlice({
     },
     createCategorySuccess: (state, action: PayloadAction<string>) => {
       state.category.status = 'succeeded';
-      console.log(action.payload);
-      // state.category.data = action.payload;
+      toastSuccess(action.payload);
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Update category actions
@@ -85,24 +91,28 @@ const categorySlice = createSlice({
     updateCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
+      toastSuccess(`Update category ${action.payload.name} successfully`);
     },
     updateCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Delete category actions
-    deleteCategoryRequest: (state, _action: PayloadAction<number | string>) => {
+    deleteCategoryRequest: (state, _action: PayloadAction<string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
-    deleteCategorySuccess: (state) => {
+    deleteCategorySuccess: (state, action: PayloadAction<string>) => {
       state.category.status = 'succeeded';
       state.category.data = null;
+      toastSuccess(action.payload);
     },
     deleteCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Reset category state

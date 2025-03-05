@@ -136,12 +136,12 @@ function* deleteCategorySaga(
       ReturnType<typeof deleteCategorySuccess | typeof deleteCategoryFailure>
     >,
   void,
-  string
+  ApiResult<string>
 > {
   try {
     const id = action.payload;
-    yield call(deleteCategory, id);
-    yield put(deleteCategorySuccess());
+    const response = yield call(deleteCategory, id);
+    yield put(deleteCategorySuccess(response.data));
   } catch (error) {
     yield put(
       deleteCategoryFailure(

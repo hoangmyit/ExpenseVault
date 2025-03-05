@@ -4,10 +4,10 @@ import { FC, useState } from 'react';
 import { Link } from 'react-router';
 
 import FormInput from '../../components/form-input/form-input';
-import AvatarIcon from '../../icons/avatar-icon';
 import FacebookIcon from '../../icons/brand/facebook-icon';
 import LinkedinIcon from '../../icons/brand/linkedin-icon';
 import TwitterXIcon from '../../icons/brand/twitter-x-icon';
+import LogoIcon from '../../icons/logon-icon';
 import { useAppDispatch } from '../../stores/hooks';
 import { loginRequest } from './store/auth-slice';
 
@@ -27,7 +27,7 @@ const SignInPage: FC = () => {
       <div className="card bg-base-100 shadow-sm">
         <div className="card-body">
           <div className="mb-6 flex">
-            <AvatarIcon fill="black" width="w-10" height="h-10" />
+            <LogoIcon width="w-10" height="h-10" />
           </div>
           <div className="flex flex-col">
             <h2 className="text-primary mb-2 text-2xl font-semibold">

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import FormCheckbox from '../../components/form-checkbox/form-checkbox';
@@ -63,7 +63,9 @@ const CategoryPage: FC = () => {
       <FormCheckbox
         label="default"
         checked={category.isDefault}
-        onChange={(e) => handleInputChange(e, 'isDefault')}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          handleInputChange(e, 'isDefault')
+        }
       />
     </div>
   );

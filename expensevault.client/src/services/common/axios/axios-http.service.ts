@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig } from 'axios';
 
+import { ConsoleLog } from '../../../utils/common-util';
+
 // Create an instance of axios
 const axiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -18,6 +20,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    ConsoleLog(error);
     return Promise.reject(error);
   },
 );
@@ -27,6 +30,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
+    ConsoleLog(error);
     return Promise.reject(error);
   },
 );

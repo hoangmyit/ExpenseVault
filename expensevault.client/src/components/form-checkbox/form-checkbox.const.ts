@@ -1,3 +1,3 @@
-export type FormInputProps = {
+export type FormCheckboxProps = {
   label: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
