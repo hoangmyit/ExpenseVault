@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { ConsoleLog } from '../../utils/common-util';
-import { CategoriesState, getCategoriesRequest, deleteCategoryRequest } from './store/category-slice';
+import {
+  CategoriesState,
+  deleteCategoryRequest,
+  getCategoriesRequest,
+} from './store/category-slice';
 
 const CategoriesPage: FC = () => {
   const { data: categories } = useAppSelector(CategoriesState);
