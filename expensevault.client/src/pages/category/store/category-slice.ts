@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ICategoryDto } from '../../../model/category/category';
+import {
+  toastError,
+  toastSuccess,
+} from '../../../components/toast/toast-event';
+import { CategoryDto } from '../../../model/common/backend-model';
 import { PaginatedList } from '../../../model/common/paginated-list';
-import { ICategoryState } from '../category.const';
 import { RootState } from '../../../stores/store';
+import { ICategoryState } from '../category.const';
 
 const initialState: ICategoryState = {
   categories: {
@@ -39,7 +43,7 @@ const categorySlice = createSlice({
     },
     getCategoriesSuccess: (
       state,
-      action: PayloadAction<PaginatedList<ICategoryDto>>,
+      action: PayloadAction<PaginatedList<CategoryDto>>,
     ) => {
       state.categories.status = 'succeeded';
       state.categories.data = action.payload;
@@ -47,34 +51,36 @@ const categorySlice = createSlice({
     getCategoriesFailure: (state, action: PayloadAction<string>) => {
       state.categories.status = 'failed';
       state.categories.error = action.payload;
+      toastError(action.payload);
     },
     // Get single category actions
     getCategoryRequest: (state, _action: PayloadAction<string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
-    getCategorySuccess: (state, action: PayloadAction<ICategoryDto>) => {
+    getCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
     getCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Create category actions
-    createCategoryRequest: (state, _action: PayloadAction<ICategoryDto>) => {
+    createCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
     createCategorySuccess: (state, action: PayloadAction<string>) => {
       state.category.status = 'succeeded';
-      console.log(action.payload);
-      // state.category.data = action.payload;
+      toastSuccess(action.payload);
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Update category actions
@@ -82,27 +88,31 @@ const categorySlice = createSlice({
       state.category.status = 'loading';
       state.category.error = null;
     },
-    updateCategorySuccess: (state, action: PayloadAction<ICategoryDto>) => {
+    updateCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
+      toastSuccess(`Update category ${action.payload.name} successfully`);
     },
     updateCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Delete category actions
-    deleteCategoryRequest: (state, _action: PayloadAction<number | string>) => {
+    deleteCategoryRequest: (state, _action: PayloadAction<string>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
-    deleteCategorySuccess: (state) => {
+    deleteCategorySuccess: (state, action: PayloadAction<string>) => {
       state.category.status = 'succeeded';
       state.category.data = null;
+      toastSuccess(action.payload);
     },
     deleteCategoryFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
+      toastError(action.payload);
     },
 
     // Reset category state
@@ -110,7 +120,7 @@ const categorySlice = createSlice({
       state.category = initialState.category;
     },
 
-    setCategory: (state, action: PayloadAction<ICategoryDto>) => {
+    setCategory: (state, action: PayloadAction<CategoryDto>) => {
       state.category.data = action.payload;
     },
   },

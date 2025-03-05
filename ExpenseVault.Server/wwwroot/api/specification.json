@@ -3,7 +3,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Expense Vault API",
-    "version": "1.0.0"
+    "version": "v1"
   },
   "paths": {
     "/api/Category": {
@@ -11,7 +11,7 @@
         "tags": [
           "Category"
         ],
-        "operationId": "GetApiCategory",
+        "operationId": "GetCategories",
         "parameters": [
           {
             "name": "PageIndex",
@@ -45,13 +45,18 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "post": {
         "tags": [
           "Category"
         ],
-        "operationId": "PostApiCategory",
+        "operationId": "CreatedAsync",
         "requestBody": {
           "x-name": "command",
           "content": {
@@ -82,7 +87,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/Category/{id}": {
@@ -90,7 +100,7 @@
         "tags": [
           "Category"
         ],
-        "operationId": "GetApiCategory2",
+        "operationId": "GetCategoryByIdAsync",
         "parameters": [
           {
             "name": "id",
@@ -115,15 +125,27 @@
             }
           },
           "404": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "put": {
         "tags": [
           "Category"
         ],
-        "operationId": "PutApiCategory",
+        "operationId": "UpdateCategoryAsync",
         "parameters": [
           {
             "name": "id",
@@ -159,15 +181,27 @@
             "description": ""
           },
           "400": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       },
       "delete": {
         "tags": [
           "Category"
         ],
-        "operationId": "DeleteApiCategory",
+        "operationId": "DeleteCategoryAsync",
         "parameters": [
           {
             "name": "id",
@@ -195,6 +229,43 @@
           },
           "404": {
             "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "operationId": "LoginAsync",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -317,6 +388,30 @@
           }
         }
       },
+      "LoginResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
       "WeatherForecast": {
         "type": "object",
         "additionalProperties": false,
@@ -339,6 +434,19 @@
           }
         }
       }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "Type into the textbox: 'Bearer {your JWT token}'.",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
 }

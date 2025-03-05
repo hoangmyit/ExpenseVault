@@ -1,11 +1,15 @@
-import { FC, useCallback, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { CategoriesState, getCategoriesRequest } from "./store/category-slice";
-import { ConsoleLog } from "../../utils/common-util";
-import { useNavigate } from "react-router";
+import { FC, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
+import { ConsoleLog } from '../../utils/common-util';
+import {
+  CategoriesState,
+  deleteCategoryRequest,
+  getCategoriesRequest,
+} from './store/category-slice';
 
 const CategoriesPage: FC = () => {
-
   const { data: categories } = useAppSelector(CategoriesState);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -14,25 +18,32 @@ const CategoriesPage: FC = () => {
     dispatch(getCategoriesRequest({ page: 1, pageSize: 10 }));
   }, []);
 
+  const handleEdit = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+      ConsoleLog('Edit category', id);
+      navigate('/category/' + id);
+      event.preventDefault();
+    },
+    [],
+  );
+
+  const handleDelete = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+      ConsoleLog('Delete category', id);
+      dispatch(deleteCategoryRequest(id));
+      event.preventDefault();
+    },
+    [],
+  );
+
   if (categories === null) {
     return null;
   }
 
-  const handleEdit = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
-    ConsoleLog('Edit category', id);
-    navigate('/category/' + id);
-    event.preventDefault();
-  }, []);
-
-  const handleDelete = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
-    ConsoleLog('Delete category', id);
-    event.preventDefault();
-  }, []);
-
   return (
     <div>
       <div className="flex flex-col items-center p-4">
-        <h1 className="text-xl font-bold mb-4">Categories</h1>
+        <h1 className="mb-4 text-xl font-bold">Categories</h1>
         <p>No categories found.</p>
         <button
           className="btn btn-primary mt-4"
@@ -98,6 +109,6 @@ const CategoriesPage: FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default CategoriesPage;

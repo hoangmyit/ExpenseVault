@@ -1,19 +1,8 @@
 import classnames from 'classnames';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 
-import ErrorIcon from '../../icons/error-icon';
-import InfoIcon from '../../icons/info-icon';
-import SuccessIcon from '../../icons/success-icon';
-import WarningIcon from '../../icons/warning-icon';
-import { AlertComponentProps, AlertType } from './alert-component.const';
-
-const alertIconMap: Record<AlertType, ReactNode> = {
-  success: <SuccessIcon />,
-  alert: <InfoIcon />,
-  warning: <WarningIcon />,
-  info: <InfoIcon />,
-  error: <ErrorIcon />,
-};
+import { alertClassMap, AlertComponentProps } from './alert-component.const';
+import { alertIconMap } from './alert-component.util';
 
 const AlertComponent: FC<AlertComponentProps> = ({
   classNames,
@@ -27,7 +16,7 @@ const AlertComponent: FC<AlertComponentProps> = ({
       className={classnames(
         'alert alert-vertical sm:alert-horizontal',
         classNames,
-        `alert-${type}`,
+        alertClassMap[type],
       )}
     >
       {alertIconMap[type]}

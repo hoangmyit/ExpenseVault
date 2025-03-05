@@ -4,7 +4,7 @@ using EV.Application.Common.Interface;
 using EV.Domain.Entities;
 using EV.Domain.Events;
 
-namespace EV.Application.Categories.Handler
+namespace EV.Application.Categories.Handlers
 {
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Guid>
     {

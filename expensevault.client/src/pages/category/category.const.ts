@@ -1,8 +1,7 @@
-import { ICategoryDto } from '../../model/category/category';
-import { CommonState } from '../../model/common/common';
-import { PaginatedList } from '../../model/common/paginated-list';
+import { CommonState, PaginatedList } from '../../model/common';
+import { CategoryDto } from '../../model/common/backend-model';
 
 export interface ICategoryState {
-  categories: CommonState<PaginatedList<ICategoryDto>>;
-  category: CommonState<ICategoryDto>;
+  categories: CommonState<PaginatedList<CategoryDto>>;
+  category: CommonState<CategoryDto>;
 }

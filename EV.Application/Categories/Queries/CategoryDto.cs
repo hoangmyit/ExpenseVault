@@ -5,12 +5,12 @@ namespace EV.Application.Categories.Queries
 {
     public class CategoryDto
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public required Guid Id { get; set; }
+        public required string Name { get; set; }
         public string Description { get; set; }
         public string Avatar { get; set; }
-        public bool IsDefault { get; set; }
-
+        public required bool IsDefault { get; set; }
+        public bool IsDelete { get; set; } // P7c89
     }
     public class CategoryProfile : Profile
     {

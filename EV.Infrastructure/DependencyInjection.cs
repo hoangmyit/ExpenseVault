@@ -1,7 +1,9 @@
 ﻿using EV.Application.Common.Interface;
+using EV.Application.Common.Model;
 using EV.Infrastructure.Data;
 using EV.Infrastructure.Data.Interceptors;
 using EV.Infrastructure.Identity;
+using EV.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -18,7 +20,7 @@ namespace EV.Infrastructure
 
             Guard.Against.NullOrEmpty(connectionString, $"Connection string {nameof(connectionString)} is null or empty");
 
-            services.AddDependencyInjection();
+            services.AddDependencyInjection(configuration);
 
             services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
@@ -39,11 +41,14 @@ namespace EV.Infrastructure
             return services;
         }
 
-        private static void AddDependencyInjection(this IServiceCollection services)
+        private static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>()
                 .AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>()
                 .AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+            services.Configure<AppSettings>(configuration);
+            services.AddSingleton<IAppSettingsService, AppSettingsService>();
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }
