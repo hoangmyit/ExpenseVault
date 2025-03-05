@@ -37,20 +37,4 @@ dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server 
 
 ## Status
 
-[![Board Status](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/0b31a195-dd7a-4a82-8134-bcc2a7182059/_apis/work/boardbadge/376f7740-e3ce-47d3-84da-7ff1bd6afbf5?columnOptions=1)](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/_boards/board/t/0b31a195-dd7a-4a82-8134-bcc2a7182059/Stories/)
-
-## PR Description
-
-This PR includes the following changes:
-
-- Updated the namespace for category handlers to `EV.Application.Categories.Handlers`
-- Added a new property `IsDelete` to the `CategoryDto` class
-- Updated the `GetCategories` method in `CategoryController` to filter out deleted categories
-- Updated the `GetCategoryByIdAsync` method in `CategoryController` to return `NotFound` if the category is deleted
-- Updated the `handleDelete` method in `categories-page.tsx` to dispatch the `deleteCategoryRequest` action
-- Updated the `handleInputChange` method in `category-page.tsx` to handle the `isDelete` field
-- Updated the `deleteCategory` method in `category.service.ts` to send a DELETE request to the API
-- Added a new action `deleteCategoryRequest` to handle category deletion in `category-slice.ts`
-- Added a new saga `deleteCategorySaga` to handle category deletion in `category-saga.ts`
-- Added the `deleteCategoryRequest` action to the root reducer in `rootReducer.ts`
-- Added the `deleteCategorySaga` to the root saga in `rootSaga.ts`
+[![Board Status](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/0b31a195-dd7a-4a82-8134-bcc2a7182059/_apis/work/boardbadge/376f7740-e3ce-47d3-84da-7ff1bd6afbf5)](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/_boards/board/t/0b31a195-dd7a-4a82-8134-bcc2a7182059/Stories/)
