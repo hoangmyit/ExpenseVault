@@ -64,7 +64,7 @@ export const deleteCategory = async (
   const response = await httpServiceDelete(`/api/category/${id}`);
   return {
     success: true,
-    data: 'Category deleted successfully',
+    data: response.data,
     status: response.status,
   };
 };

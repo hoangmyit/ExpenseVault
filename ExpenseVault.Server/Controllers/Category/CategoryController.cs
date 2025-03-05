@@ -33,7 +33,9 @@ public class CategoryController : BaseController
     public async Task<Ok<PaginatedList<CategoryDto>>> GetCategories(ISender sender, [AsParameters] GetCategoryPaginationQuery query, CancellationToken cancellationToken)
     {
         var categories = await sender.Send(query, cancellationToken);
-        return TypedResults.Ok(categories);
+        var filteredCategories = categories.Items.Where(c => !c.IsDelete).ToList();
+        var paginatedList = new PaginatedList<CategoryDto>(filteredCategories, categories.TotalCount, categories.PageNumber, categories.PageSize);
+        return TypedResults.Ok(paginatedList);
     }
 
     public async Task<Created<Guid>> CreatedAsync(ISender sender, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
@@ -46,7 +48,7 @@ public class CategoryController : BaseController
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
-        if (category == null)
+        if (category == null || category.IsDelete)
         {
             return TypedResults.NotFound($"Category with ID {id} not found");
         }

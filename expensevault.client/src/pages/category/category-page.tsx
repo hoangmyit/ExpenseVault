@@ -34,7 +34,7 @@ const CategoryPage: FC = () => {
     dispatch(
       setCategory({
         ...category,
-        [fieldChange]: e.target.value,
+        [fieldChange]: fieldChange === 'isDelete' ? e.target.checked : e.target.value,
       }),
     );
   };
@@ -66,6 +66,11 @@ const CategoryPage: FC = () => {
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleInputChange(e, 'isDefault')
         }
+      />
+      <FormCheckbox
+        label="delete"
+        checked={category.isDelete}
+        onChange={(e) => handleInputChange(e, 'isDelete')}
       />
     </div>
   );
