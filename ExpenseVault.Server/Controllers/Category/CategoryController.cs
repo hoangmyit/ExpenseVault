@@ -34,7 +34,7 @@ public class CategoryController : BaseController
     {
         var categories = await sender.Send(query, cancellationToken);
         var filteredCategories = categories.Items.Where(c => !c.IsDelete).ToList();
-        var paginatedList = new PaginatedList<CategoryDto>(filteredCategories, categories.TotalCount, categories.PageNumber, categories.PageSize);
+        var paginatedList = new PaginatedList<CategoryDto>(filteredCategories, categories.TotalCount, categories.PageIndex, categories.TotalCount);
         return TypedResults.Ok(paginatedList);
     }
 
