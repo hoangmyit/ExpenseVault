@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "jwt-decode": "^4.0.0",
     "luxon": "^3.5.0",
     "ramda": "^0.30.1",
