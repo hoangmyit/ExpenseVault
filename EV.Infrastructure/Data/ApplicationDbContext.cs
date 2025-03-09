@@ -1,4 +1,4 @@
-﻿using EV.Application.Common.Interface;
+﻿using EV.Application.Common.Interfaces;
 using EV.Domain.Entities;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;

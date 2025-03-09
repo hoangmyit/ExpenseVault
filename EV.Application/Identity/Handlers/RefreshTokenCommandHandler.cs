@@ -1,4 +1,4 @@
-﻿using EV.Application.Common.Interface;
+﻿using EV.Application.Common.Interfaces;
 using EV.Application.Identity.Commands;
 
 namespace EV.Application.Identity.Handlers

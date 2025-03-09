@@ -19,4 +19,8 @@
     <ProjectReference Include="..\EV.Domain\EV.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Behaviors\" />
+  </ItemGroup>
+
 </Project>

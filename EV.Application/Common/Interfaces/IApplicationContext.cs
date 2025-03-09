@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EV.Domain.Entities;
 
-namespace EV.Application.Common.Interface
+namespace EV.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {

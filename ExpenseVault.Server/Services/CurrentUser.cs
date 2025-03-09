@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using EV.Application.Common.Interface;
+using EV.Application.Common.Interfaces;
 using EV.Domain.Constants;
 
 namespace ExpenseVault.Server.Services;

@@ -1,6 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using EV.Application;
-using EV.Application.Common.Interface;
+using EV.Application.Common.Interfaces;
 using EV.Infrastructure;
 using EV.Infrastructure.Data;
 using ExpenseVault.Server;

@@ -1,4 +1,4 @@
-﻿using EV.Application.Common.Interface;
+﻿using EV.Application.Common.Interfaces;
 using EV.Infrastructure.Data;
 using ExpenseVault.Server.Services;
 using NSwag.Generation.Processors.Security;

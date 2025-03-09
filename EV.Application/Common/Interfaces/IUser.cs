@@ -1,4 +1,4 @@
-﻿namespace EV.Application.Common.Interface
+﻿namespace EV.Application.Common.Interfaces
 {
     public interface IUser
     {

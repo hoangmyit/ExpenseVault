@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EV.Application.Categories.Queries;
-using EV.Application.Common.Interface;
+using EV.Application.Common.Interfaces;
 using EV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿using EV.Application.Common.Interface;
+﻿using EV.Application.Common.Interfaces;
 using EV.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

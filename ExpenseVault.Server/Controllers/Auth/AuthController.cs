@@ -1,5 +1,4 @@
-﻿using EV.Application.Common.Model;
-using EV.Application.Identity.Commands;
+﻿using EV.Application.Identity.Commands;
 using ExpenseVault.Server.Infrastructures;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;

@@ -1,5 +1,5 @@
-﻿using EV.Application.Common.Interface;
-using EV.Application.Common.Model;
+﻿using EV.Application.Common.Interfaces;
+using EV.Application.Common.Models;
 using EV.Application.Common.Utilities;
 using EV.Application.Identity.Commands;
 using EV.Infrastructure.Identity;

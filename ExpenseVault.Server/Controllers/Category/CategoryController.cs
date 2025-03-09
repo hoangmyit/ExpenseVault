@@ -1,7 +1,7 @@
 using ExpenseVault.Server.Infrastructures;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
-using EV.Application.Common.Model;
+using EV.Application.Common.Models;
 using EV.Application.Categories.Queries;
 using Microsoft.AspNetCore.Mvc;
 using EV.Application.Categories.Commands;

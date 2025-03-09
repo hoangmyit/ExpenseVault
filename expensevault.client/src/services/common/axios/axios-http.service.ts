@@ -103,13 +103,13 @@ httpClient.interceptors.response.use(
             ConsoleLog(error);
             return Promise.reject(error);
           }
-
+          const token = getAuthUser();
           // Prevent refresh token request from triggering another refresh
           const response = await unauthenticatedHttpClient.post<LoginResponse>(
-            '/auth/refresh-token',
+            'api/auth/refresh-token',
             {
               refreshToken: refreshToken,
-              token: getAuthUser(),
+              token: token,
             },
           );
 
@@ -135,7 +135,10 @@ httpClient.interceptors.response.use(
 
           // Only redirect to login if this wasn't a background request
           if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+            const navigationEvent = new CustomEvent('auth:unauthorized', {
+              detail: { redirectTo: '/sign-in' },
+            });
+            window.dispatchEvent(navigationEvent);
           }
 
           ConsoleLog(err);
