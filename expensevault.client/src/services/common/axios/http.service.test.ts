@@ -1,8 +1,8 @@
 import MockAdapter from 'axios-mock-adapter';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { httpClient, unauthenticatedHttpClient } from './axios-http.service';
-import { httpServiceGet } from './axios-http.service';
+import { httpClient, unauthenticatedHttpClient } from './http.service';
+import { httpServiceGet } from './http.service';
 
 // Mock the auth utilities
 vi.mock('../../../utils/auth-util', () => ({
