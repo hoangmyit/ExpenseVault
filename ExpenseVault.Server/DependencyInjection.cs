@@ -3,6 +3,7 @@ using EV.Infrastructure.Data;
 using ExpenseVault.Server.Services;
 using NSwag.Generation.Processors.Security;
 using NSwag;
+using Clean.Web.Infrastructure;
 
 namespace ExpenseVault.Server;
 
@@ -18,6 +19,8 @@ public static class DependencyInjection
 
         services.AddHealthChecks()
             .AddDbContextCheck<ApplicationDbContext>();
+
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddEndpointsApiExplorer();
 

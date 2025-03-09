@@ -21,7 +21,7 @@ export const httpClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  // timeout: 10000,
 });
 
 // Unauthenticated client with timeout
@@ -30,7 +30,7 @@ export const unauthenticatedHttpClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000,
+  // timeout: 10000,
 });
 
 let isRefreshing = false;

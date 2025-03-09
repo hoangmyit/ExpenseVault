@@ -91,6 +91,8 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
+app.UseExceptionHandler(options => { });
+
 app.MapEndPoint();
 
 app.Run();
