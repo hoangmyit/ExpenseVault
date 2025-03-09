@@ -3,7 +3,7 @@ import {
   LoginCommand,
   LoginResponse,
 } from '../../../model/common/backend-model';
-import { httpServicePost } from '../axios/axios-http.service';
+import { httpServicePost } from '../axios/http.service';
 
 export const Login = async ({
   username,

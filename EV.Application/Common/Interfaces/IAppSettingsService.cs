@@ -1,6 +1,6 @@
-using EV.Application.Common.Model;
+using EV.Application.Common.Models;
 
-namespace EV.Application.Common.Interface
+namespace EV.Application.Common.Interfaces
 {
     public interface IAppSettingsService
     {

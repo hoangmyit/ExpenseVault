@@ -1,4 +1,4 @@
-﻿using EV.Application.Common.Model;
+﻿using EV.Application.Common.Models;
 
 namespace EV.Application.Categories.Queries
 {

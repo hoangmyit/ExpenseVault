@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using EV.Application.Categories.Queries;
-using EV.Application.Common.Interface;
-using EV.Application.Common.Model;
+using EV.Application.Common.Interfaces;
+using EV.Application.Common.Models;
 using EV.Application.Mapping;
 
 namespace EV.Application.Categories.Handlers

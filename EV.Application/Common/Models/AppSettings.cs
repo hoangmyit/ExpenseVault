@@ -1,4 +1,4 @@
-namespace EV.Application.Common.Model;
+namespace EV.Application.Common.Models;
 public class AppSettings
 {
     public ConnectionStrings ConnectionStrings { get; set; }

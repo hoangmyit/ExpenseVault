@@ -1,5 +1,5 @@
 ﻿using EV.Application.Categories.Commands.DeleteCategory;
-using EV.Application.Common.Interface;
+using EV.Application.Common.Interfaces;
 using EV.Domain.Entities;
 using EV.Domain.Events;
 using Microsoft.EntityFrameworkCore;

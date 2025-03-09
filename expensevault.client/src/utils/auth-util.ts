@@ -7,6 +7,12 @@ export const setAuthUser = (token: string) =>
 
 export const getAuthUser = () => localStorage.getItem('auth_token');
 export const removeAuthUser = () => localStorage.removeItem('auth_token');
+export const setRefreshToken = (token: string) =>
+  localStorage.setItem('refresh_token', token);
+export const getRefreshToken = () => localStorage.getItem('refresh_token');
+export const removeRefreshToken = () =>
+  localStorage.removeItem('refresh_token');
+
 export const isAuthenticated = () => !!getAuthUser();
 export const getAuthInfo = (): AuthUser | null => {
   const token = getAuthUser();

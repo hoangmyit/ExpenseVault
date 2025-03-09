@@ -5,7 +5,7 @@ import {
   httpServiceGet,
   httpServicePost,
   httpServicePut,
-} from './common/axios/axios-http.service';
+} from './common/axios/http.service';
 
 export const getCategories = async (
   page = 1,
