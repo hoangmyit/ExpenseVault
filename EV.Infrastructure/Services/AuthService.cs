@@ -1,6 +1,7 @@
 ﻿using EV.Application.Common.Interface;
 using EV.Application.Common.Model;
 using EV.Application.Common.Utilities;
+using EV.Application.Identity.Commands;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +49,35 @@ namespace EV.Infrastructure.Services
             var user = await _userManager.FindByEmailAsync(username);
             Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password");
 
+            return await GenerateRefreshTokenAsync(user!);
+        }
+
+        public async Task<RefreshTokenResponse> RefreshTokenAsync(string token, string refreshToken)
+        {
+            var principal = GetPrincipalFromExpiringToken(token);
+            var userId = principal.FindFirst(ClaimTypes.Name)!.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            Guard.Against.AgainstUnauthenticated(
+                user == null
+                || user.RefreshToken != refreshToken
+                || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow()
+                , "Invalid refresh token.");
+
+            var newTokenTask = GenerateTokenAsync(user!);
+            var newRefreshTokenTask = GenerateRefreshTokenAsync(user!);
+
+            await Task.WhenAll(newTokenTask, newRefreshTokenTask);
+
+            return new RefreshTokenResponse()
+            {
+                RefreshToken = newRefreshTokenTask.Result,
+                Token = newTokenTask.Result
+            };
+        }
+        #region Private Methods
+        private async Task<string> GenerateRefreshTokenAsync(ApplicationUser user)
+        {
             var refreshToken = await _userManager.GenerateUserTokenAsync(user!, "Default", "RefreshToken");
             user!.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = _timeProvider.GetUtcNow().AddMinutes(_configuration.RefreshTokenExpiryInMinutes);
@@ -57,22 +87,6 @@ namespace EV.Infrastructure.Services
 
             return refreshToken;
         }
-
-        public async Task<string> RefreshTokenAsync(string token, string refreshToken)
-        {
-            var principal = GetPrincipalFromExpiringToken(token);
-            var userId = principal.FindFirst(ClaimTypes.Name)?.Value;
-
-            var user = await _userManager.FindByIdAsync(userId);
-            Guard.Against.AgainstUnauthenticated(
-                user == null
-                || user.RefreshToken != refreshToken
-                || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow()
-                , "Invalid refresh token.");
-
-            return await GenerateTokenAsync(user!);
-        }
-        #region Private Methods
         private string GetUnixTimeSeconds(int minutes)
         {
             return _timeProvider.GetUtcNow().AddMinutes(minutes).ToUnixTimeSeconds().ToString();
