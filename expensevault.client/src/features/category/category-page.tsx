@@ -4,24 +4,19 @@ import { useParams } from 'react-router';
 import FormCheckbox from '../../shared/components/form-checkbox/form-checkbox';
 import FormInput from '../../shared/components/form-input/form-input';
 import { CategoryDto } from '../../shared/types/common/backend-model';
-import { useAppDispatch, useAppSelector } from '../../stores/hooks';
-import {
-  CategoryState,
-  getCategoryRequest,
-  setCategory,
-} from './store/category-slice';
+import { useCategory } from './hooks/use-category';
 
 const CategoryPage: FC = () => {
   // Extract the id parameter from the URL
   const { id } = useParams<{ id: string }>();
-  const { data: category } = useAppSelector(CategoryState);
-  const dispatch = useAppDispatch();
+
+  const { category, getCategory, updateCategory } = useCategory();
 
   useEffect(() => {
     if (id) {
-      dispatch(getCategoryRequest(id));
+      getCategory(id);
     }
-  }, [id]);
+  }, [getCategory, id]);
 
   if (category === null) {
     return null;
@@ -31,14 +26,13 @@ const CategoryPage: FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     fieldChange: keyof CategoryDto,
   ) => {
-    dispatch(
-      setCategory({
-        ...category,
-        [fieldChange]:
-          fieldChange === 'isDefault' ? e.target.checked : e.target.value,
-      }),
-    );
+    updateCategory({
+      ...category,
+      [fieldChange]:
+        fieldChange === 'isDefault' ? e.target.checked : e.target.value,
+    });
   };
+
   return (
     <div>
       <h1>Category Details</h1>

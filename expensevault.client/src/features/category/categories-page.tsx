@@ -11,7 +11,7 @@ const CategoriesPage: FC = () => {
 
   useEffect(() => {
     fetchCategories({ page: 1, pageSize: 10 });
-  }, []);
+  }, [fetchCategories]);
 
   const handleEdit = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
@@ -19,7 +19,7 @@ const CategoriesPage: FC = () => {
       navigate('/category/' + id);
       event.preventDefault();
     },
-    [],
+    [navigate],
   );
 
   const handleDelete = useCallback(
@@ -28,7 +28,7 @@ const CategoriesPage: FC = () => {
       deleteCategory(id);
       event.preventDefault();
     },
-    [],
+    [deleteCategory],
   );
 
   if (categories === null) {

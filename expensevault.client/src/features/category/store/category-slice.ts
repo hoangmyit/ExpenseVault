@@ -83,7 +83,7 @@ const categorySlice = createSlice({
     },
 
     // Update category actions
-    updateCategoryRequest: (state, _action: PayloadAction<string>) => {
+    updateCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -118,10 +118,6 @@ const categorySlice = createSlice({
     resetCategory: (state) => {
       state.category = initialState.category;
     },
-
-    setCategory: (state, action: PayloadAction<CategoryDto>) => {
-      state.category.data = action.payload;
-    },
   },
 });
 
@@ -142,7 +138,6 @@ export const {
   deleteCategorySuccess,
   deleteCategoryFailure,
   resetCategory,
-  setCategory,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
