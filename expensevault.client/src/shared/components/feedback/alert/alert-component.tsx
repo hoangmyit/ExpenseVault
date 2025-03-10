@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-
+import clsx from 'clsx';
 
 import { alertClassMap, AlertComponentProps } from './alert-component.const';
 import { alertIconMap } from './alert-component.util';

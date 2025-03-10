@@ -23,7 +23,7 @@ export default function SignInPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, dirtyFields, isDirty },
+    formState: { errors },
   } = useZodForm(loginSchema);
 
   // Handle form submission
