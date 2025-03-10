@@ -7,6 +7,7 @@ import fs from 'fs';
 import { fileURLToPath, URL } from 'node:url';
 import path from 'path';
 import { env } from 'process';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -44,29 +45,77 @@ const target = env.ASPNETCORE_HTTPS_PORT
   ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
   : process.env.VITE_API_URL;
 
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    tsconfigPaths(),
-    tailwindcss(),
-    mode !== 'production' && reactRouterDevTools(),
-  ].filter(Boolean),
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  server: {
-    proxy: {
-      '^/api': {
-        target,
-        secure: mode === 'production',
+export default defineConfig(({ mode }) => {
+  const isAnalyze = process.env.VITE_ANALYZE === 'true';
+  return {
+    plugins: [
+      react(),
+      tsconfigPaths(),
+      tailwindcss(),
+      isAnalyze &&
+        visualizer({
+          open: true, // Automatically open the visualization in browser
+          filename: 'dist/stats.html', // Output file
+          gzipSize: true,
+          brotliSize: true,
+        }),
+      mode !== 'production' && reactRouterDevTools(),
+    ].filter(Boolean),
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-    port: 5173,
-    https: {
-      key: fs.readFileSync(keyFilePath),
-      cert: fs.readFileSync(certFilePath),
+    server: {
+      proxy: {
+        '^/api': {
+          target,
+          secure: mode === 'production',
+        },
+      },
+      port: 5173,
+      https: {
+        key: fs.readFileSync(keyFilePath),
+        cert: fs.readFileSync(certFilePath),
+      },
     },
-  },
-}));
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            // React and React DOM
+            if (
+              id.includes('node_modules/react') ||
+              id.includes('node_modules/react-dom') ||
+              id.includes('node_modules/scheduler') ||
+              id.includes('node_modules/use-sync-external-store') ||
+              id.includes('node_modules/prop-types')
+            ) {
+              return 'react-vendor';
+            }
+
+            // UI libraries
+            if (id.includes('node_modules/@tailwindcss/')) {
+              return 'ui-vendor';
+            }
+
+            // State management
+            if (
+              id.includes('node_modules/zustand/') ||
+              id.includes('node_modules/jotai/') ||
+              id.includes('node_modules/recoil/')
+            ) {
+              return 'state-vendor';
+            }
+
+            // Other major third-party libraries
+            if (id.includes('node_modules/')) {
+              return 'vendors';
+            }
+          },
+        },
+      },
+      minify: mode === 'production',
+    },
+  };
+});
