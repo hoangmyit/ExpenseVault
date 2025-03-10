@@ -5,6 +5,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+import { SETTING_ENV } from '../../../configs/environment';
 import { LoginResponse } from '../../../shared/types/common/backend-model';
 import {
   getAuthUser,
@@ -17,7 +18,7 @@ import { ConsoleLog } from '../../../shared/utils/common-util';
 
 // Create an instance of axios with timeout
 export const httpClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: SETTING_ENV.apiUrl,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -26,7 +27,7 @@ export const httpClient = axios.create({
 
 // Unauthenticated client with timeout
 export const unauthenticatedHttpClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: SETTING_ENV.apiUrl,
   headers: {
     'Content-Type': 'application/json',
   },

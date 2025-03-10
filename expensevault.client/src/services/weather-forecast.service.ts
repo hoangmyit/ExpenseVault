@@ -1,4 +1,5 @@
 import { Forecast } from '../app.const';
+import { SETTING_ENV } from '../configs/environment';
 
 const mockData: Forecast[] = [
   { date: '2025-02-13', temperatureC: 20, temperatureF: 68, summary: 'Sunny' },
@@ -7,7 +8,7 @@ const mockData: Forecast[] = [
 ];
 
 export async function populateWeatherData(): Promise<Forecast[]> {
-  if (import.meta.env.VITE_REACT_APP_USE_MOCK_DATA === 'true') {
+  if (SETTING_ENV.mockData) {
     return Promise.resolve(mockData);
   }
 

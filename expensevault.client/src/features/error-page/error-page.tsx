@@ -24,10 +24,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
               <h6 className="mb-[40px] text-white opacity-[0.6]">
                 {description}
               </h6>
-              <Link
-                className="btn"
-                to={`${import.meta.env.BASE_URL}dashboard/`}
-              >
+              <Link className="btn" to={'dashboard/'}>
                 Back to Home
               </Link>
             </div>

@@ -2,20 +2,15 @@ import { FC, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { ConsoleLog } from '../../shared/utils/common-util';
-import { useAppDispatch, useAppSelector } from '../../stores/hooks';
-import {
-  CategoriesState,
-  deleteCategoryRequest,
-  getCategoriesRequest,
-} from './store/category-slice';
+import { useCategory } from './hooks/use-category';
 
 const CategoriesPage: FC = () => {
-  const { data: categories } = useAppSelector(CategoriesState);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+
+  const { categories, fetchCategories, deleteCategory } = useCategory();
 
   useEffect(() => {
-    dispatch(getCategoriesRequest({ page: 1, pageSize: 10 }));
+    fetchCategories({ page: 1, pageSize: 10 });
   }, []);
 
   const handleEdit = useCallback(
@@ -30,7 +25,7 @@ const CategoriesPage: FC = () => {
   const handleDelete = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
       ConsoleLog('Delete category', id);
-      dispatch(deleteCategoryRequest(id));
+      deleteCategory(id);
       event.preventDefault();
     },
     [],

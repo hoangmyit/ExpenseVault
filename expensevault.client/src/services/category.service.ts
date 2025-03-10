@@ -11,10 +11,13 @@ export const getCategories = async (
   page = 1,
   pageSize = 10,
 ): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
-  const response = await httpServiceGet('/api/category', {
-    pageIndex: page,
-    pageSize: pageSize,
-  });
+  const response = await httpServiceGet<PaginatedList<CategoryDto>>(
+    '/api/category',
+    {
+      pageIndex: page,
+      pageSize: pageSize,
+    },
+  );
   return {
     success: true,
     data: response.data,
@@ -25,7 +28,7 @@ export const getCategories = async (
 export const getCategory = async (
   id: string,
 ): Promise<ApiResult<CategoryDto>> => {
-  const response = await httpServiceGet(`/api/category/${id}`);
+  const response = await httpServiceGet<CategoryDto>(`/api/category/${id}`);
   return {
     success: true,
     data: response.data,
@@ -36,7 +39,7 @@ export const getCategory = async (
 export const createCategory = async (
   category: CategoryDto,
 ): Promise<ApiResult<string>> => {
-  const response = await httpServicePost('/api/category', category);
+  const response = await httpServicePost<string>('/api/category', category);
   return {
     success: true,
     data: response.data,
@@ -47,7 +50,7 @@ export const createCategory = async (
 export const updateCategory = async (
   category: CategoryDto,
 ): Promise<ApiResult<string>> => {
-  const response = await httpServicePut(
+  const response = await httpServicePut<string>(
     `/api/category/${category.id}`,
     category,
   );
@@ -61,7 +64,7 @@ export const updateCategory = async (
 export const deleteCategory = async (
   id: string,
 ): Promise<ApiResult<string>> => {
-  const response = await httpServiceDelete(`/api/category/${id}`);
+  const response = await httpServiceDelete<string>(`/api/category/${id}`);
   return {
     success: true,
     data: response.data,

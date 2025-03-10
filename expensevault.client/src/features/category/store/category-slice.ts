@@ -9,6 +9,7 @@ import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
 import { ICategoryState } from '../category.const';
+import { CategoryParams } from '../types/category';
 
 const initialState: ICategoryState = {
   categories: {
@@ -35,10 +36,7 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     // Get categories actions
-    getCategoriesRequest: (
-      state,
-      _action: PayloadAction<{ page?: number; pageSize?: number }>,
-    ) => {
+    getCategoriesRequest: (state, _action: PayloadAction<CategoryParams>) => {
       state.categories.status = 'loading';
       state.categories.error = null;
     },
