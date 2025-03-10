@@ -1,8 +1,8 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
+import { ConsoleLog } from '../../shared/utils/common-util';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
-import { ConsoleLog } from '../../utils/common-util';
 import {
   CategoriesState,
   deleteCategoryRequest,

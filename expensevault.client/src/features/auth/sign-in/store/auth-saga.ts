@@ -7,13 +7,13 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { ApiResult } from '../../../model/common';
+import { Login } from '../../../../services/common/auth/auth.service';
+import { ApiResult } from '../../../../shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
-} from '../../../model/common/backend-model';
-import { Login } from '../../../services/common/auth/auth.service';
-import { getErrorMessage } from '../../../utils/common-util';
+} from '../../../../shared/types/common/backend-model';
+import { getErrorMessage } from '../../../../shared/utils/common-util';
 import { loginFailure, loginRequest, loginSuccess } from './auth-slice';
 
 function* signInSaga(

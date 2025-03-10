@@ -1,4 +1,3 @@
-import { LoginResponse } from '@app/model/common/backend-model';
 import axios, {
   AxiosError,
   AxiosRequestConfig,
@@ -6,14 +5,15 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
+import { LoginResponse } from '../../../shared/types/common/backend-model';
 import {
   getAuthUser,
   removeAuthUser,
   removeRefreshToken,
   setAuthUser,
   setRefreshToken,
-} from '../../../utils/auth-util';
-import { ConsoleLog } from '../../../utils/common-util';
+} from '../../../shared/utils/auth-util';
+import { ConsoleLog } from '../../../shared/utils/common-util';
 
 // Create an instance of axios with timeout
 export const httpClient = axios.create({

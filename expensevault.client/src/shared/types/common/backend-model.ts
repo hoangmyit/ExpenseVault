@@ -7,7 +7,7 @@
 import { DateTime } from 'luxon/src/datetime';
 
 /* tslint:disable */
-/* eslint-disable */
+
 // ReSharper disable InconsistentNaming
 
 export interface PaginatedListOfCategoryDto {

@@ -2,8 +2,6 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { CallEffect, PutEffect } from 'redux-saga/effects';
 
-import { ApiResult, PaginatedList } from '../../../model/common';
-import { CategoryDto } from '../../../model/common/backend-model';
 import {
   createCategory,
   deleteCategory,
@@ -11,7 +9,9 @@ import {
   getCategory,
   updateCategory,
 } from '../../../services/category.service';
-import { getErrorMessage } from '../../../utils/common-util';
+import { ApiResult, PaginatedList } from '../../../shared/types/common';
+import { CategoryDto } from '../../../shared/types/common/backend-model';
+import { getErrorMessage } from '../../../shared/utils/common-util';
 import {
   createCategoryFailure,
   createCategoryRequest,

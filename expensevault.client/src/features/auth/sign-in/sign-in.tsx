@@ -3,12 +3,12 @@ import './sign-in.css';
 import { FC, useState } from 'react';
 import { Link } from 'react-router';
 
-import FormInput from '../../components/form-input/form-input';
-import FacebookIcon from '../../icons/brand/facebook-icon';
-import LinkedinIcon from '../../icons/brand/linkedin-icon';
-import TwitterXIcon from '../../icons/brand/twitter-x-icon';
-import LogoIcon from '../../icons/logon-icon';
-import { useAppDispatch } from '../../stores/hooks';
+import FacebookIcon from '../../../icons/brand/facebook-icon';
+import LinkedinIcon from '../../../icons/brand/linkedin-icon';
+import TwitterXIcon from '../../../icons/brand/twitter-x-icon';
+import LogoIcon from '../../../icons/logon-icon';
+import FormInput from '../../../shared/components/form-input/form-input';
+import { useAppDispatch } from '../../../stores/hooks';
 import { loginRequest } from './store/auth-slice';
 
 const SignInPage: FC = () => {

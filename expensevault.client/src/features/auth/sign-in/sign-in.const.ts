@@ -1,4 +1,4 @@
-import { AuthUser, CommonState } from '../../model/common';
+import { AuthUser, CommonState } from '../../../shared/types/common';
 
 export type IAuthState = {
   isAuthenticated: boolean;

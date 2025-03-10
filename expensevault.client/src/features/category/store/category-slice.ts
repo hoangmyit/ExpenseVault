@@ -3,9 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   toastError,
   toastSuccess,
-} from '../../../components/toast/toast-event';
-import { CategoryDto } from '../../../model/common/backend-model';
-import { PaginatedList } from '../../../model/common/paginated-list';
+} from '../../../shared/components/toast/toast-event';
+import { CommonState } from '../../../shared/types/common';
+import { CategoryDto } from '../../../shared/types/common/backend-model';
+import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
 import { ICategoryState } from '../category.const';
 
@@ -148,5 +149,7 @@ export const {
 
 export default categorySlice.reducer;
 
-export const CategoriesState = (state: RootState) => state.category.categories;
-export const CategoryState = (state: RootState) => state.category.category;
+export const CategoriesState = (state: RootState) =>
+  state.category.categories as CommonState<PaginatedList<CategoryDto>>;
+export const CategoryState = (state: RootState) =>
+  state.category.category as CommonState<CategoryDto>;

@@ -2,9 +2,9 @@ import './App.css';
 
 import { FC } from 'react';
 
-import { useToastEvents } from './components/toast/toast-hook';
-import { ToastProvider } from './components/toast/toast-provider';
 import MainRoutes from './routes/routes';
+import { useToastEvents } from './shared/components/toast/toast-hook';
+import { ToastProvider } from './shared/components/toast/toast-provider';
 
 const ToastListener: FC = () => {
   useToastEvents();

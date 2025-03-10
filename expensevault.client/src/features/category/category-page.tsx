@@ -1,9 +1,9 @@
 import { ChangeEvent, FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import FormCheckbox from '../../components/form-checkbox/form-checkbox';
-import FormInput from '../../components/form-input/form-input';
-import { CategoryDto } from '../../model/common/backend-model';
+import FormCheckbox from '../../shared/components/form-checkbox/form-checkbox';
+import FormInput from '../../shared/components/form-input/form-input';
+import { CategoryDto } from '../../shared/types/common/backend-model';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import {
   CategoryState,
@@ -34,7 +34,8 @@ const CategoryPage: FC = () => {
     dispatch(
       setCategory({
         ...category,
-        [fieldChange]: fieldChange === 'isDelete' ? e.target.checked : e.target.value,
+        [fieldChange]:
+          fieldChange === 'isDefault' ? e.target.checked : e.target.value,
       }),
     );
   };
@@ -66,11 +67,6 @@ const CategoryPage: FC = () => {
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleInputChange(e, 'isDefault')
         }
-      />
-      <FormCheckbox
-        label="delete"
-        checked={category.isDelete}
-        onChange={(e) => handleInputChange(e, 'isDelete')}
       />
     </div>
   );

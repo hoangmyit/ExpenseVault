@@ -1,5 +1,5 @@
-import { ApiResult, PaginatedList } from '../model/common';
-import { CategoryDto } from '../model/common/backend-model';
+import { ApiResult, PaginatedList } from '../shared/types/common';
+import { CategoryDto } from '../shared/types/common/backend-model';
 import {
   httpServiceDelete,
   httpServiceGet,

@@ -1,8 +1,8 @@
-import { ApiResult } from '../../../model/common';
+import { ApiResult } from '../../../shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
-} from '../../../model/common/backend-model';
+} from '../../../shared/types/common/backend-model';
 import { httpServicePost } from '../axios/http.service';
 
 export const Login = async ({

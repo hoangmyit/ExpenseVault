@@ -1,4 +1,4 @@
-import { SettingEnv } from '../model/common/setting';
+import { SettingEnv } from '../types/common/setting';
 
 export const SETTING_ENV: SettingEnv = {
   mockData: import.meta.env.VITE_MOCK_DATA === 'true',
