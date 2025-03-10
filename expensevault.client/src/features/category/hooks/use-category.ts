@@ -18,7 +18,7 @@ export const useCategory = () => {
   const categoriesData = useSelector(CategoriesState);
   const categoryData = useSelector(CategoryState);
 
-  const fetchCategories = (params: CategoryParams) =>
+  const getCategories = (params: CategoryParams) =>
     dispatch(getCategoriesRequest(params));
   const createCategory = (category: CategoryDto) =>
     dispatch(createCategoryRequest(category));
@@ -29,7 +29,7 @@ export const useCategory = () => {
 
   return {
     categories: categoriesData.data,
-    fetchCategories,
+    getCategories,
     createCategory,
     deleteCategory,
     getCategory,

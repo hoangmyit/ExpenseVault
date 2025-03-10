@@ -8,11 +8,11 @@ import { useCategory } from './hooks/use-category';
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
 
-  const { categories, fetchCategories, deleteCategory } = useCategory();
+  const { categories, getCategories, deleteCategory } = useCategory();
 
   useEffect(() => {
-    fetchCategories({ page: 1, pageSize: 10 });
-  }, [fetchCategories]);
+    getCategories({ page: 1, pageSize: 10 });
+  }, [getCategories]);
 
   const handleEdit = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {

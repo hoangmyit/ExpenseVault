@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
@@ -16,7 +16,7 @@ const InfoIcon: FC<IconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       fill={fill}
       viewBox="0 0 24 24"
-      className={classNames(color, height, width, className)}
+      className={clsx(color, height, width, className)}
     >
       <path
         strokeLinecap="round"

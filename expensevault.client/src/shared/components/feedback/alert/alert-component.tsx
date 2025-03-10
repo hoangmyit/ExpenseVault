@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import classnames from 'classnames';
+
 
 import { alertClassMap, AlertComponentProps } from './alert-component.const';
 import { alertIconMap } from './alert-component.util';
@@ -14,7 +14,7 @@ const AlertComponent: FC<AlertComponentProps> = ({
   return (
     <div
       role="alert"
-      className={classnames(
+      className={clsx(
         'alert alert-vertical sm:alert-horizontal',
         classNames,
         alertClassMap[type],

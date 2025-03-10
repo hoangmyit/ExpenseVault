@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 
-import classNames from 'classnames';
+
 
 import { alertClassMap } from '../alert/alert-component.const';
 import { alertIconMap } from '../alert/alert-component.util';
@@ -27,7 +27,7 @@ const Toast: FC<ToastProps & { onClose: onToastClose }> = ({
   }, [duration, id, onClose]);
   return (
     <div
-      className={classNames(
+      className={clsx(
         'alert alert-vertical sm:alert-horizontal',
         alertClassMap[type],
       )}
@@ -47,7 +47,7 @@ const ToastContainer: FC<ToastContainerProps> = ({
 }) => {
   return (
     <div
-      className={classNames(
+      className={clsx(
         'toast',
         toastPositionMap[vertical],
         toastPositionMap[horizontal],

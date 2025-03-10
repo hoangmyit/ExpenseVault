@@ -1,31 +1,41 @@
-import { FC } from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
+import { FieldError } from 'react-hook-form';
 
-import classNames from 'classnames';
+import clsx from 'clsx';
 
-import { FormInputProps } from './form-input.const';
+interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  error?: FieldError;
+}
 
-const FormInput: FC<FormInputProps> = ({
-  onChange,
-  label,
-  type,
-  placeholder,
-  className,
-  ...otherProps
-}) => {
-  return (
-    <div className="form-control mb-4 flex flex-col">
-      <label className="label mb-1 font-semibold">
-        <span className="label-text">{label}</span>
-      </label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className={classNames('input input-bordered w-full', className)}
-        onChange={onChange}
-        {...otherProps}
-      />
-    </div>
-  );
-};
+const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  ({ label, error, className, ...props }, ref) => {
+    return (
+      <div className="form-control w-full max-w-md">
+        {label && (
+          <label className="label">
+            <span className="label-text font-semibold">{label}</span>
+          </label>
+        )}
+        <input
+          ref={ref}
+          className={clsx(
+            'input input-bordered w-full',
+            error && 'input-error',
+            className,
+          )}
+          {...props}
+        />
+        {error && (
+          <label className="label">
+            <span className="label-text-alt text-error">{error.message}</span>
+          </label>
+        )}
+      </div>
+    );
+  },
+);
+
+FormInput.displayName = 'FormInput';
 
 export default FormInput;
