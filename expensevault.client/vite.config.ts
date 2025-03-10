@@ -8,6 +8,7 @@ import path from 'path';
 import { env } from 'process';
 import { reactRouterDevTools } from 'react-router-devtools';
 import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 const baseFolder =
   env.APPDATA !== undefined && env.APPDATA !== ''
@@ -46,6 +47,7 @@ const target = env.ASPNETCORE_HTTPS_PORT
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
+    tsconfigPaths(),
     tailwindcss(),
     mode !== 'production' && reactRouterDevTools(),
   ].filter(Boolean),
