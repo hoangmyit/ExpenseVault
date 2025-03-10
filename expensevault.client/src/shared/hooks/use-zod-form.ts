@@ -10,6 +10,8 @@ export function useZodForm<T extends z.ZodType>(
 ) {
   return useForm<z.infer<T>>({
     resolver: zodResolver(schema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
     ...options,
   });
 }

@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 
-
+import clsx from 'clsx';
 
 import { alertClassMap } from '../alert/alert-component.const';
 import { alertIconMap } from '../alert/alert-component.util';

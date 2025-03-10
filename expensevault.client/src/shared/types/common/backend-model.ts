@@ -50,6 +50,7 @@ export interface LoginResponse {
 export interface LoginCommand {
   username: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export interface WeatherForecast {

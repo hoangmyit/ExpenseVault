@@ -1,40 +1,42 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { FC, forwardRef, InputHTMLAttributes } from 'react';
 import { FieldError } from 'react-hook-form';
 
 import clsx from 'clsx';
 
+import FormField from '../form-field';
+
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: FieldError;
+  helper?: string;
 }
 
-const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ label, error, className, ...props }, ref) => {
-    return (
-      <div className="form-control w-full max-w-md">
-        {label && (
-          <label className="label">
-            <span className="label-text font-semibold">{label}</span>
-          </label>
+const FormInput: FC<FormInputProps> = forwardRef<
+  HTMLInputElement,
+  FormInputProps
+>(({ label, error, helper, className, ...props }, ref) => {
+  return (
+    <FormField
+      label={label}
+      error={error}
+      helper={helper}
+      id={props.id || props.name}
+    >
+      <input
+        ref={ref}
+        className={clsx(
+          'input input-bordered w-full',
+          error ? 'input-error' : '',
+          className,
         )}
-        <input
-          ref={ref}
-          className={clsx(
-            'input input-bordered w-full',
-            error && 'input-error',
-            className,
-          )}
-          {...props}
-        />
-        {error && (
-          <label className="label">
-            <span className="label-text-alt text-error">{error.message}</span>
-          </label>
-        )}
-      </div>
-    );
-  },
-);
+        aria-invalid={!!error}
+        aria-describedby={error ? `${props.name}-error` : undefined}
+        id={props.id || props.name}
+        {...props}
+      />
+    </FormField>
+  );
+});
 
 FormInput.displayName = 'FormInput';
 

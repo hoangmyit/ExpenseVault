@@ -1,25 +1,49 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router';
 
-import FacebookIcon from '../../../icons/brand/facebook-icon';
-import LinkedinIcon from '../../../icons/brand/linkedin-icon';
-import TwitterXIcon from '../../../icons/brand/twitter-x-icon';
-import LogoIcon from '../../../icons/logon-icon';
-import FormInput from '../../../shared/components/form/form-input/form-input';
-import { useAppDispatch } from '../../../stores/hooks';
+import { LoginFormData, loginSchema } from '../schemas/auth-schemas';
 import { loginRequest } from '../store/auth-slice';
 
 import './index.css';
 
-const SignInPage: FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useAppDispatch();
+import FacebookIcon from '@/icons/brand/facebook-icon';
+import LinkedinIcon from '@/icons/brand/linkedin-icon';
+import TwitterXIcon from '@/icons/brand/twitter-x-icon';
+import LogoIcon from '@/icons/logon-icon';
+import FormInput from '@/shared/components/form/form-input/form-input';
+import { useZodForm } from '@/shared/hooks/use-zod-form';
+import { useAppDispatch } from '@/stores/hooks';
 
-  const handleSignIn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(loginRequest({ username, password }));
+// Using a function declaration rather than FC type (React 19 approach)
+export default function SignInPage() {
+  const dispatch = useAppDispatch();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Use the Zod form hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, dirtyFields, isDirty },
+  } = useZodForm(loginSchema);
+
+  // Handle form submission
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      setIsSubmitting(true);
+      await dispatch(
+        loginRequest({
+          username: data.username,
+          password: data.password,
+          rememberMe: data.rememberMe,
+        }),
+      );
+      // You could add navigation here when login succeeds
+    } catch (error) {
+      // Handle error if needed
+      console.error('Login failed:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,25 +77,46 @@ const SignInPage: FC = () => {
             />
           </div>
           <div className="m-4">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormInput
                 label="Username"
                 placeholder="Enter your username"
                 type="text"
-                onChange={(e) => setUsername(e.target.value)}
+                error={errors.username}
+                {...register('username')}
+                autoComplete="username"
               />
               <FormInput
                 label="Password"
                 placeholder="Enter your password"
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                error={errors.password}
+                {...register('password')}
+                autoComplete="current-password"
               />
+
+              <div className="form-control mt-2">
+                <label className="label cursor-pointer justify-start gap-2">
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-primary"
+                    {...register('rememberMe')}
+                  />
+                  <span className="label-text">Remember me</span>
+                </label>
+              </div>
+
               <div className="form-control mt-6 w-full">
                 <button
+                  type="submit"
                   className="btn btn-primary btn-wide max-w-full"
-                  onClick={handleSignIn}
+                  disabled={isSubmitting}
                 >
-                  Sign In
+                  {isSubmitting ? (
+                    <span className="loading loading-spinner loading-xs"></span>
+                  ) : (
+                    'Sign In'
+                  )}
                 </button>
               </div>
               <div className="mt-6 mb-2 flex flex-row justify-around">
@@ -105,6 +150,4 @@ const SignInPage: FC = () => {
       </div>
     </div>
   );
-};
-
-export default SignInPage;
+}
