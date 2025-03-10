@@ -26,7 +26,22 @@ export default tseslint.config({ ignores: ['dist'] }, prettier, {
       'warn',
       { allowConstantExport: true },
     ],
-    'simple-import-sort/imports': 'error',
+    'simple-import-sort/imports': ['error', {
+      groups: [
+        // React imports
+        ['^react', '^react-dom'],
+        // External packages
+        ['^@?\\w'],
+        // Internal aliases
+        ['^@core', '^@shared', '^@features', '^@icons', '^@assets'],
+        // Parent imports (../)
+        ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+        // Same directory imports (./)
+        ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+        // Style imports
+        ['^.+\\.css$'],
+      ],
+    }],
     'simple-import-sort/exports': 'error',
     'prettier/prettier': [
       'error',

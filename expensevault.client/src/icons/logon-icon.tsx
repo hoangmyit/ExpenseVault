@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import { FC } from 'react';
+
+import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
@@ -16,7 +17,7 @@ const LogoIcon: FC<Omit<IconProps, 'fill'>> = ({
       viewBox="0 0 375 374.999991"
       preserveAspectRatio="xMidYMid meet"
       version="1.0"
-      className={classNames(className, height, width)}
+      className={clsx(className, height, width)}
     >
       <defs>
         <clipPath id="3682abdbc1">

@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import { FC } from 'react';
+
+import clsx from 'clsx';
 
 import { IconProps } from '../icon-props';
 
@@ -13,7 +14,7 @@ const LinkedinIcon: FC<IconProps> = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={classNames(height, width, className)}
+      className={clsx(height, width, className)}
       stroke={color}
       fill={fill}
       viewBox="0 0 24 24"

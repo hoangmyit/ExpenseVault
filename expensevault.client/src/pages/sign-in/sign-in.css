@@ -1,8 +1,0 @@
-#sign-in-tabs [name="sign-in-tabs"]:checked {
-  background-color: var(--color-primary-content);
-  color: var(--color-primary);
-}
-
-#sign-in-tabs [name="sign-in-tabs"]:hover {
-  color: var(--color-primary);
-}

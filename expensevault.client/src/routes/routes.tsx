@@ -1,18 +1,18 @@
 import { FC } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
-import FunctionLayout from '../layouts/function-layout';
-import CategoriesPage from '../pages/category/categories-page';
-import CategoryPage from '../pages/category/category-page';
-import ErrorPage from '../pages/common/error-page/error-page';
+import SignInPage from '../features/auth/components/sign-in';
+import SignUpPage from '../features/auth/components/sign-up';
+import { AuthState } from '../features/auth/store/auth-slice';
+import CategoriesPage from '../features/category/categories-page';
+import CategoryPage from '../features/category/category-page';
+import ErrorPage from '../features/error-page/error-page';
 import {
   ErrorCode,
   ErrorPageData,
-} from '../pages/common/error-page/error-page.const';
-import HomePage from '../pages/home/home';
-import SignInPage from '../pages/sign-in/sign-in';
-import { AuthState } from '../pages/sign-in/store/auth-slice';
-import SignUpPage from '../pages/sign-up/sign-up';
+} from '../features/error-page/error-page.const';
+import HomePage from '../features/home/home';
+import FunctionLayout from '../shared/layouts/function-layout';
 import { useAppSelector } from '../stores/hooks';
 
 const ProtectedRoutes: FC<{
