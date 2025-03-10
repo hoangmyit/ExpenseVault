@@ -1,7 +1,9 @@
 import { ReactNode, useCallback, useState } from 'react';
+
 import { v4 } from 'uuid';
 
 import { AlertType } from '../alert/alert-component.const';
+
 import ToastContainer from './toast';
 import { ToastProps } from './toast.const';
 import { ToastContext } from './toast-context';

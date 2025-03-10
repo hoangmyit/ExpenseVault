@@ -1,9 +1,9 @@
-import '@testing-library/jest-dom';
-
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import AlertComponent from './alert-component';
+
+import '@testing-library/jest-dom';
 
 describe('AlertComponent', () => {
   it('renders the alert with the correct type and message', () => {

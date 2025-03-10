@@ -1,8 +1,10 @@
-import classNames from 'classnames';
 import { FC, useEffect } from 'react';
+
+import classNames from 'classnames';
 
 import { alertClassMap } from '../alert/alert-component.const';
 import { alertIconMap } from '../alert/alert-component.util';
+
 import {
   onToastClose,
   ToastContainerProps,

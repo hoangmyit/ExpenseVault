@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { ConsoleLog } from '../../shared/utils/common-util';
+
 import { useCategory } from './hooks/use-category';
 
 const CategoriesPage: FC = () => {

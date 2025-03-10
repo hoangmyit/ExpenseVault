@@ -7,15 +7,16 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
+import { Login } from '../services/auth.service';
+
+import { loginFailure, loginRequest, loginSuccess } from './auth-slice';
+
 import { ApiResult } from '@/shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
 } from '@/shared/types/common/backend-model';
 import { getErrorMessage } from '@/shared/utils/common-util';
-
-import { Login } from '../services/auth.service';
-import { loginFailure, loginRequest, loginSuccess } from './auth-slice';
 
 function* signInSaga(
   action: PayloadAction<LoginCommand>,

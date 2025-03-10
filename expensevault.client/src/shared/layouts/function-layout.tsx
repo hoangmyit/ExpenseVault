@@ -1,7 +1,7 @@
-import './index.css';
-
 import React from 'react';
 import { Outlet } from 'react-router';
+
+import './index.css';
 
 const FunctionLayout: React.FC = () => {
   return (

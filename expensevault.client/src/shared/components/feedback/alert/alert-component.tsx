@@ -1,5 +1,6 @@
-import classnames from 'classnames';
 import { FC } from 'react';
+
+import classnames from 'classnames';
 
 import { alertClassMap, AlertComponentProps } from './alert-component.const';
 import { alertIconMap } from './alert-component.util';

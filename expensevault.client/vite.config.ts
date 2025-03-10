@@ -1,12 +1,12 @@
-import { fileURLToPath, URL } from 'node:url';
+import { reactRouterDevTools } from 'react-router-devtools';
 
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react-swc';
 import child_process from 'child_process';
 import fs from 'fs';
+import { fileURLToPath, URL } from 'node:url';
 import path from 'path';
 import { env } from 'process';
-import { reactRouterDevTools } from 'react-router-devtools';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 

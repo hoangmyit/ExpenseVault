@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import { FC } from 'react';
+
+import classNames from 'classnames';
 
 import { FormInputProps } from './form-input.const';
 

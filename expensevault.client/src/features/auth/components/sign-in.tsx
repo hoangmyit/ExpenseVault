@@ -1,5 +1,3 @@
-import './index.css';
-
 import { FC, useState } from 'react';
 import { Link } from 'react-router';
 
@@ -10,6 +8,8 @@ import LogoIcon from '../../../icons/logon-icon';
 import FormInput from '../../../shared/components/form/form-input/form-input';
 import { useAppDispatch } from '../../../stores/hooks';
 import { loginRequest } from '../store/auth-slice';
+
+import './index.css';
 
 const SignInPage: FC = () => {
   const [username, setUsername] = useState('');
