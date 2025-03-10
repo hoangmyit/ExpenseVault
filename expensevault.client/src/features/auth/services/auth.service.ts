@@ -1,9 +1,9 @@
-import { ApiResult } from '../../shared/types/common';
+import { httpServicePost } from '../../../core/api/client';
+import { ApiResult } from '../../../shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
-} from '../../shared/types/common/backend-model';
-import { httpServicePost } from '../client';
+} from '../../../shared/types/common/backend-model';
 
 export const Login = async ({
   username,

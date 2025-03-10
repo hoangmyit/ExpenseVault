@@ -5,16 +5,16 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
-import { SETTING_ENV } from '../configs/environment';
-import { LoginResponse } from '../shared/types/common/backend-model';
+import { SETTING_ENV } from '../../configs/environment';
 import {
   getAuthUser,
   removeAuthUser,
   removeRefreshToken,
   setAuthUser,
   setRefreshToken,
-} from '../shared/utils/auth-util';
-import { ConsoleLog } from '../shared/utils/common-util';
+} from '../../features/auth/utils/auth-util';
+import { LoginResponse } from '../../shared/types/common/backend-model';
+import { ConsoleLog } from '../../shared/utils/common-util';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: SETTING_ENV.apiUrl,

@@ -5,7 +5,7 @@ import AvatarIcon from '../../../icons/avatar-icon';
 import FacebookIcon from '../../../icons/brand/facebook-icon';
 import LinkedinIcon from '../../../icons/brand/linkedin-icon';
 import TwitterXIcon from '../../../icons/brand/twitter-x-icon';
-import FormInput from '../../../shared/components/form-input/form-input';
+import FormInput from '../../../shared/components/form/form-input/form-input';
 
 const SignUpPage: FC = () => {
   return (

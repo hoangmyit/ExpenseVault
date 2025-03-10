@@ -3,14 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   LoginCommand,
   LoginResponse,
-} from '../../../../shared/types/common/backend-model';
-import {
-  getAuthInfo,
-  removeAuthUser,
-  setAuthUser,
-} from '../../../../shared/utils/auth-util';
-import { RootState } from '../../../../stores/store';
-import { IAuthState } from '../sign-in.const';
+} from '../../../shared/types/common/backend-model';
+import { RootState } from '../../../stores/store';
+import { IAuthState } from '../types/sign-in.const';
+import { getAuthInfo, removeAuthUser, setAuthUser } from '../utils/auth-util';
 
 const initialState = (): IAuthState => {
   const info = getAuthInfo();

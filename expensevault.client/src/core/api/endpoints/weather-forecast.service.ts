@@ -1,5 +1,5 @@
-import { Forecast } from '../../app.const';
-import { SETTING_ENV } from '../../configs/environment';
+import { Forecast } from '../../../app.const';
+import { SETTING_ENV } from '../../../configs/environment';
 
 const mockData: Forecast[] = [
   { date: '2025-02-13', temperatureC: 20, temperatureF: 68, summary: 'Sunny' },

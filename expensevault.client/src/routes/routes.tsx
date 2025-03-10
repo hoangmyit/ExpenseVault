@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 
-import SignInPage from '../features/auth/sign-in/sign-in';
-import { AuthState } from '../features/auth/sign-in/store/auth-slice';
-import SignUpPage from '../features/auth/sign-up/sign-up';
+import SignInPage from '../features/auth/components/sign-in';
+import SignUpPage from '../features/auth/components/sign-up';
+import { AuthState } from '../features/auth/store/auth-slice';
 import CategoriesPage from '../features/category/categories-page';
 import CategoryPage from '../features/category/category-page';
 import ErrorPage from '../features/error-page/error-page';

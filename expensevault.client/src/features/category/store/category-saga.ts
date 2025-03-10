@@ -7,7 +7,8 @@ import {
   getCategories,
   getCategory,
   updateCategory,
-} from '../../../api/endpoints/category.service';
+} from '../../../core/api/endpoints/category.service';
+import { PaginatedList } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { handleApiCall } from '../../../shared/utils/saga-util';
 import {
@@ -34,7 +35,7 @@ function* getCategoriesSaga(
   const { page, pageSize } = action.payload;
   yield* handleApiCall(
     () => getCategories(page, pageSize),
-    (data) => getCategoriesSuccess(data),
+    (data: PaginatedList<CategoryDto>) => getCategoriesSuccess(data),
     (error) => getCategoriesFailure(error),
   );
 }
@@ -42,7 +43,7 @@ function* getCategoriesSaga(
 function* getCategorySaga(action: PayloadAction<string>) {
   yield* handleApiCall(
     () => getCategory(action.payload),
-    (data) => getCategorySuccess(data),
+    (data: CategoryDto) => getCategorySuccess(data),
     (error) => getCategoryFailure(error),
   );
 }
@@ -51,7 +52,7 @@ function* createCategorySaga(action: PayloadAction<CategoryDto>) {
   const category = action.payload;
   yield* handleApiCall(
     () => createCategory(category),
-    (data) => createCategorySuccess(data),
+    (data: string) => createCategorySuccess(data),
     (error) => createCategoryFailure(error),
   );
 }
@@ -69,7 +70,7 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
   const id = action.payload;
   yield* handleApiCall(
     () => deleteCategory(id),
-    (data) => deleteCategorySuccess(data),
+    (data: string) => deleteCategorySuccess(data),
     (error) => deleteCategoryFailure(error),
   );
 }

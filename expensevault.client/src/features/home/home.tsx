@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 
 import { Forecast } from '../../app.const';
+import { populateWeatherData } from '../../core/api/endpoints/weather-forecast.service';
 import FacebookIcon from '../../icons/brand/facebook-icon';
-import { populateWeatherData } from '../../api/endpoints/weather-forecast.service';
 
 const HomePage: FC = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>();

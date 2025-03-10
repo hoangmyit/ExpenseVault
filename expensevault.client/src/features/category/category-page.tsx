@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import FormCheckbox from '../../shared/components/form-checkbox/form-checkbox';
-import FormInput from '../../shared/components/form-input/form-input';
+import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkbox';
+import FormInput from '../../shared/components/form/form-input/form-input';
 import { CategoryDto } from '../../shared/types/common/backend-model';
 import { useCategory } from './hooks/use-category';
 
