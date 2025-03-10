@@ -7,7 +7,7 @@ import {
   takeLatest,
 } from 'redux-saga/effects';
 
-import { Login } from '../../../../services/common/auth/auth.service';
+import { Login } from '../../../../api/endpoints/auth.service';
 import { ApiResult } from '../../../../shared/types/common';
 import {
   LoginCommand,

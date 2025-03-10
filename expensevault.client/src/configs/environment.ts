@@ -7,4 +7,5 @@ export const SETTING_ENV: SettingEnv = {
   isProduction: import.meta.env.MODE === 'production',
   isDevelopment: import.meta.env.MODE === 'development',
   consoleLog: import.meta.env.VITE_CONSOLE_LOG === 'true',
+  timeout: Number(import.meta.env.VITE_TIMEOUT),
 } as const;

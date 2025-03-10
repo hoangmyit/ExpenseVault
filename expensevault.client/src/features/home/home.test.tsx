@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import * as weatherService from '../../services/weather-forecast.service';
+import * as weatherService from '../../api/endpoints/weather-forecast.service';
 import HomePage from './home';
 
 vi.mock('./services/weather-forecast.service');

@@ -5,4 +5,5 @@ export type SettingEnv = {
   consoleLog: boolean;
   isDevelopment: boolean;
   isProduction: boolean;
+  timeout: number;
 };

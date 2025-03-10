@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 
 import { Forecast } from '../../app.const';
 import FacebookIcon from '../../icons/brand/facebook-icon';
-import { populateWeatherData } from '../../services/weather-forecast.service';
+import { populateWeatherData } from '../../api/endpoints/weather-forecast.service';
 
 const HomePage: FC = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>();

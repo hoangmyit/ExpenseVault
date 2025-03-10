@@ -1,11 +1,11 @@
-import { ApiResult, PaginatedList } from '../shared/types/common';
-import { CategoryDto } from '../shared/types/common/backend-model';
+import { ApiResult, PaginatedList } from '../../shared/types/common';
+import { CategoryDto } from '../../shared/types/common/backend-model';
 import {
   httpServiceDelete,
   httpServiceGet,
   httpServicePost,
   httpServicePut,
-} from './common/axios/http.service';
+} from '../client';
 
 export const getCategories = async (
   page = 1,

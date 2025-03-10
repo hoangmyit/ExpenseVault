@@ -1,4 +1,4 @@
-import { SETTING_ENV } from './setting-util';
+import { SETTING_ENV } from '../../configs/environment';
 
 export const getErrorMessage = (error: unknown, defaultMsg: string): string => {
   if (error instanceof Error) {

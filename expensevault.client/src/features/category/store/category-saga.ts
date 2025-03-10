@@ -7,7 +7,7 @@ import {
   getCategories,
   getCategory,
   updateCategory,
-} from '../../../services/category.service';
+} from '../../../api/endpoints/category.service';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { handleApiCall } from '../../../shared/utils/saga-util';
 import {
