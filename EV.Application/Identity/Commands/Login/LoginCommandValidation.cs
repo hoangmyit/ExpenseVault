@@ -9,9 +9,7 @@
                 .Length(3, 50)
                 .WithMessage(x => x.Username.Length < 3
                     ? "Username must be at least 3 characters"
-                    : "Username cannot exceed 50 characters")
-                .Matches("^[a-zA-Z0-9_]*$")
-                .WithMessage("Username must contain only letters, numbers, and underscores");
+                    : "Username cannot exceed 50 characters");
 
             RuleFor(x => x.Password)
                 .NotEmpty()
