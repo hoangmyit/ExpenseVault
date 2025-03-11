@@ -12,7 +12,7 @@ namespace EV.Application.Identity.Handlers
         }
         public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            return await _authService.RegisterUserAsync(request.Name, request.Email, request.Password);
+            return await _authService.RegisterUserAsync(request.Username, request.Email, request.Password);
         }
     }
 }

@@ -10,6 +10,7 @@ import {
 } from '../utils/auth-util';
 
 import { toastSuccess } from '@/shared/components/feedback/toast/toast-event';
+import { ValidationErrors } from '@/shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
@@ -77,6 +78,12 @@ const authSlice = createSlice({
       state.registerInfo.status = 'failed';
       state.registerInfo.error = action.payload;
     },
+    registerUserServerValidation: (
+      state,
+      action: PayloadAction<ValidationErrors<RegisterUserCommand>>,
+    ) => {
+      state.registerInfo.errors = action.payload;
+    },
   },
 });
 
@@ -90,5 +97,6 @@ export const {
   registerUserFailure,
   registerUserRequest,
   registerUserSuccess,
+  registerUserServerValidation,
 } = authSlice.actions;
 export const AuthState = (state: RootState) => state.auth;

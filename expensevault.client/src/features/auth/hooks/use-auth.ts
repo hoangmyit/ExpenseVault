@@ -13,8 +13,8 @@ export const useAuth = () => {
   const login = (username: string, password: string, rememberMe: boolean) => {
     return dispatch(loginRequest({ username, password, rememberMe }));
   };
-  const registerUser = (email: string, password: string, name: string) => {
-    return dispatch(registerUserRequest({ email, password, name }));
+  const registerUser = (email: string, password: string, username: string) => {
+    return dispatch(registerUserRequest({ email, password, username }));
   };
 
   return {

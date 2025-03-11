@@ -17,12 +17,24 @@ const SignUpPage: FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useZodForm(signUpSchema);
 
   useEffect(() => {
     setIsSubmitting(registerData.status === 'loading');
   }, [registerData.status]);
+
+  useEffect(() => {
+    if (registerData.status === 'failed' && registerData.errors) {
+      Object.entries(registerData.errors).forEach(([key, value]) => {
+        setError(key as keyof SignUpFormData, {
+          type: 'manual',
+          message: value[0],
+        });
+      });
+    }
+  }, [registerData.errors, setError, registerData.status]);
 
   const onSubmit = async (data: SignUpFormData) => {
     registerUser(data.email, data.password, data.username);

@@ -1,4 +1,5 @@
 ﻿
+using EV.Application.Common.Utilities;
 using FluentValidation.Results;
 
 namespace EV.Application.Common.Exceptions
@@ -16,12 +17,12 @@ namespace EV.Application.Common.Exceptions
             Errors = failures
                 .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
                 .OrderBy(e => e.Key)
-                .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+                .ToDictionary(failureGroup => failureGroup.Key.ToCamelCase(), failureGroup => failureGroup.ToArray());
         }
 
         public CustomValidationException(string key, string message): this()
         {
-            Errors.Add(key, new string[] { message });
+            Errors.Add(key.ToCamelCase(), new string[] { message });
         }
     }
 }

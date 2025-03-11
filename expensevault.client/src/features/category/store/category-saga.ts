@@ -11,6 +11,7 @@ import {
 import { PaginatedList } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { handleApiCall } from '../../../shared/utils/saga-util';
+import { CategoryParams } from '../types/category';
 
 import {
   createCategoryFailure,
@@ -30,12 +31,10 @@ import {
   updateCategorySuccess,
 } from './category-slice';
 
-function* getCategoriesSaga(
-  action: PayloadAction<{ page?: number; pageSize?: number }>,
-) {
-  const { page, pageSize } = action.payload;
+function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
   yield* handleApiCall(
-    () => getCategories(page, pageSize),
+    getCategories,
+    action.payload,
     (data: PaginatedList<CategoryDto>) => getCategoriesSuccess(data),
     (error) => getCategoriesFailure(error),
   );
@@ -43,7 +42,8 @@ function* getCategoriesSaga(
 
 function* getCategorySaga(action: PayloadAction<string>) {
   yield* handleApiCall(
-    () => getCategory(action.payload),
+    getCategory,
+    action.payload,
     (data: CategoryDto) => getCategorySuccess(data),
     (error) => getCategoryFailure(error),
   );
@@ -52,7 +52,8 @@ function* getCategorySaga(action: PayloadAction<string>) {
 function* createCategorySaga(action: PayloadAction<CategoryDto>) {
   const category = action.payload;
   yield* handleApiCall(
-    () => createCategory(category),
+    createCategory,
+    category,
     (data: string) => createCategorySuccess(data),
     (error) => createCategoryFailure(error),
   );
@@ -61,7 +62,8 @@ function* createCategorySaga(action: PayloadAction<CategoryDto>) {
 function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
   const category = action.payload;
   yield* handleApiCall(
-    () => updateCategory(category),
+    updateCategory,
+    category,
     () => updateCategorySuccess(category), // Note: Using the original category rather than response data
     (error) => updateCategoryFailure(error),
   );
@@ -70,7 +72,8 @@ function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
 function* deleteCategorySaga(action: PayloadAction<string>) {
   const id = action.payload;
   yield* handleApiCall(
-    () => deleteCategory(id),
+    deleteCategory,
+    id,
     (data: string) => deleteCategorySuccess(data),
     (error) => deleteCategoryFailure(error),
   );

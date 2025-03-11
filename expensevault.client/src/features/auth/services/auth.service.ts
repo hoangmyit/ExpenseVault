@@ -6,16 +6,13 @@ import {
   RegisterUserCommand,
 } from '../../../shared/types/common/backend-model';
 
-export const signIn = async ({
-  username,
-  password,
-  rememberMe,
-}: LoginCommand): Promise<ApiResult<LoginResponse>> => {
-  const response = await httpServicePost<LoginResponse>('/api/auth/login', {
-    username,
-    password,
-    rememberMe,
-  });
+export const signIn = async (
+  params: LoginCommand,
+): Promise<ApiResult<LoginResponse>> => {
+  const response = await httpServicePost<LoginResponse>(
+    '/api/auth/login',
+    params,
+  );
   return {
     success: true,
     data: response.data,
@@ -23,16 +20,10 @@ export const signIn = async ({
   };
 };
 
-export const registerUser = async ({
-  name,
-  email,
-  password,
-}: RegisterUserCommand): Promise<ApiResult<string>> => {
-  const response = await httpServicePost<string>('/api/auth/register', {
-    name,
-    email,
-    password,
-  });
+export const registerUser = async (
+  user: RegisterUserCommand,
+): Promise<ApiResult<string>> => {
+  const response = await httpServicePost<string>('/api/auth/register', user);
   return {
     success: true,
     data: response.data,

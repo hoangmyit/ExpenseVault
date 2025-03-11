@@ -79,7 +79,7 @@ namespace EV.Infrastructure.Services
         {
             var normalizedUserName = _userManager.NormalizeName(name);
             Guard.Against.AgainstValidationException(await _userManager.Users
-                .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Name), "Username already exists.");
+                .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
 
             var normalizedEmail = _userManager.NormalizeEmail(email);
             Guard.Against.AgainstValidationException(await _userManager.Users

@@ -7,10 +7,12 @@ export type CommonState<T> = {
 };
 
 export type ValidationState<T> = {
-  errors: {
-    [key in keyof T]?: string[];
-  };
+  errors: ValidationErrors<T>;
 } & CommonState<T>;
+
+export type ValidationErrors<T> = {
+  [key in keyof T]?: string[];
+};
 
 export type ApiResult<T> = {
   data: T;

@@ -9,6 +9,7 @@ import {
   loginSuccess,
   registerUserFailure,
   registerUserRequest,
+  registerUserServerValidation,
   registerUserSuccess,
 } from './auth-slice';
 
@@ -21,7 +22,8 @@ import { handleApiCall } from '@/shared/utils/saga-util';
 
 function* signInSaga(action: PayloadAction<LoginCommand>) {
   yield* handleApiCall(
-    () => signIn(action.payload),
+    signIn,
+    action.payload,
     (data: LoginResponse) => loginSuccess(data),
     (error) => loginFailure(error),
   );
@@ -29,9 +31,11 @@ function* signInSaga(action: PayloadAction<LoginCommand>) {
 
 function* registerUserSaga(action: PayloadAction<RegisterUserCommand>) {
   yield* handleApiCall(
-    () => registerUser(action.payload),
+    registerUser,
+    action.payload,
     (data: string) => registerUserSuccess(data),
     (error) => registerUserFailure(error),
+    registerUserServerValidation,
   );
 }
 
