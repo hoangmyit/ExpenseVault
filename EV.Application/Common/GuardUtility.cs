@@ -1,4 +1,4 @@
-using System;
+using EV.Application.Common.Exceptions;
 using System.Security.Authentication;
 
 namespace EV.Application.Common.Utilities
@@ -18,6 +18,30 @@ namespace EV.Application.Common.Utilities
             if (condition)
             {
                 throw new AuthenticationException(message);
+            }
+        }
+
+        public static void AgainstValidationException(this IGuardClause guard, bool condition, string fieldName, string message = "The operation is invalid.")
+        {
+            if (condition)
+            {
+                throw new CustomValidationException(fieldName, message);
+            }
+        }
+
+        public static async Task AgainstValidationExceptionAsync(this IGuardClause guard, Task<bool> conditionTask, string fieldName, string message = "The operation is invalid.")
+        {
+            if (await conditionTask)
+            {
+                throw new CustomValidationException(fieldName, message);
+            }
+        }
+
+        public static void AgainstBadRequest(this IGuardClause guard, bool condition, string message = "The request is invalid.")
+        {
+            if (condition)
+            {
+                throw new BadRequestException(message);
             }
         }
     }

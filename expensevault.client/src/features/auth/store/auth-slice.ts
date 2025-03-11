@@ -9,6 +9,7 @@ import {
   setRefreshToken,
 } from '../utils/auth-util';
 
+import { toastSuccess } from '@/shared/components/feedback/toast/toast-event';
 import {
   LoginCommand,
   LoginResponse,
@@ -28,6 +29,7 @@ const initialState = (): IAuthState => {
       status: 'idle',
       error: null,
       data: null,
+      errors: {},
     },
   };
 };
@@ -69,7 +71,7 @@ const authSlice = createSlice({
     },
     registerUserSuccess: (state, action: PayloadAction<string>) => {
       state.registerInfo.status = 'succeeded';
-      state.registerInfo.data = action.payload;
+      toastSuccess(action.payload);
     },
     registerUserFailure: (state, action: PayloadAction<string>) => {
       state.registerInfo.status = 'failed';

@@ -51,7 +51,11 @@ const SignUpPage: FC = () => {
                 type="text"
                 error={errors.username}
                 startDecorator={
-                  <AvatarIcon width={undefined} height="h-[1em]" />
+                  <AvatarIcon
+                    className="opacity-50"
+                    width={undefined}
+                    height="h-[1em]"
+                  />
                 }
                 {...register('username')}
               />

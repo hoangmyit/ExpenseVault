@@ -76,7 +76,7 @@
       "templateDirectory": "Templates",
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../expensevault.client/src/model/common/backend-model.ts",
+      "output": "../expensevault.client/src/shared/types/common/backend-model.ts",
       "newLineBehavior": "Auto"
     }
   }

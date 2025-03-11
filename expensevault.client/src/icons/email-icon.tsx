@@ -9,7 +9,7 @@ export const EmailIcon: FC<IconProps> = ({
   color = 'currentColor',
   height = 'h-6',
   width = 'w-6',
-  fill = 'none',
+  fill = 'currentColor',
 }) => {
   return (
     <svg
@@ -19,16 +19,7 @@ export const EmailIcon: FC<IconProps> = ({
       fill={fill}
       viewBox="0 0 24 24"
     >
-      <g
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        strokeWidth="2.5"
-        fill="none"
-        stroke="currentColor"
-      >
-        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-      </g>
+      <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z" />
     </svg>
   );
 };

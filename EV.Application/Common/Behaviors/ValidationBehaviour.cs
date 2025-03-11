@@ -1,4 +1,6 @@
-﻿namespace EV.Application.Common.Behaviors
+﻿using EV.Application.Common.Exceptions;
+
+namespace EV.Application.Common.Behaviors
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
@@ -21,7 +23,7 @@
 
                 if (failures.Count > 0)
                 {
-                    throw new ValidationException(failures);
+                    throw new CustomValidationException(failures);
                 }
             }
 

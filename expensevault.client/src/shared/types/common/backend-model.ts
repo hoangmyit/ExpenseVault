@@ -4,64 +4,75 @@
 // </auto-generated>
 //----------------------
 
-import { DateTime } from 'luxon/src/datetime';
-
 /* tslint:disable */
-
+/* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+
+
 export interface PaginatedListOfCategoryDto {
-  items: CategoryDto[];
-  pageIndex: number;
-  totalPages: number;
-  totalCount: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
+    items: CategoryDto[];
+    pageIndex: number;
+    totalPages: number;
+    totalCount: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
 }
 
 export interface CategoryDto {
-  id: string;
-  name: string;
-  description: string;
-  avatar: string;
-  isDefault: boolean;
+    id: string;
+    name: string;
+    description: string;
+    avatar: string;
+    isDefault: boolean;
+    isDelete: boolean;
 }
 
 export interface CreateCategoryCommand {
-  name: string;
-  description: string;
-  avatar: string;
-  isDefault: boolean;
+    name: string;
+    description: string;
+    avatar: string;
+    isDefault: boolean;
 }
 
 export interface UpdateCategoryCommand {
-  id: string;
-  name: string;
-  description: string;
-  avatar: string;
-  isDefault: boolean;
+    id: string;
+    name: string;
+    description: string;
+    avatar: string;
+    isDefault: boolean;
 }
 
 export interface LoginResponse {
-  token: string;
-  refreshToken: string;
+    token: string;
+    refreshToken: string;
 }
 
 export interface LoginCommand {
-  username: string;
-  password: string;
-  rememberMe: boolean;
+    username: string;
+    password: string;
+    rememberMe: boolean;
 }
 
-export interface WeatherForecast {
-  date: DateTime;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string | null;
+export interface RefreshTokenResponse {
+    token: string;
+    refreshToken: string;
+}
+
+export interface RefreshTokenCommand {
+    token: string;
+    refreshToken: string;
 }
 
 export interface RegisterUserCommand {
-  email: string;
-  password: string;
-  name: string;
+    name: string;
+    email: string;
+    password: string;
+}
+
+export interface WeatherForecast {
+    date: DateTime;
+    temperatureC: number;
+    temperatureF: number;
+    summary: string | null;
 }
