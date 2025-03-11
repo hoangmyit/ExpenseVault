@@ -29,7 +29,7 @@ const SignUpPage: FC = () => {
     if (registerData.status === 'failed' && registerData.errors) {
       Object.entries(registerData.errors).forEach(([key, value]) => {
         setError(key as keyof SignUpFormData, {
-          type: 'manual',
+          type: 'server',
           message: value[0],
         });
       });

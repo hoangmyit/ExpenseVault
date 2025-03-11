@@ -2,7 +2,7 @@ import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 
 import { ApiResult, ValidationErrors } from '../types/common';
 
-import { getErrorMessage } from './common-util';
+import { ConsoleLog, getErrorMessage } from './common-util';
 
 export function* handleApiCall<
   TRequest,
@@ -35,6 +35,7 @@ export function* handleApiCall<
     yield put(successAction(result.data));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    ConsoleLog(error);
     const errorMessage = getErrorMessage(error, 'Operation failed');
     yield put(failureAction(errorMessage));
     if (error.response?.status === 400 && validationAction) {
