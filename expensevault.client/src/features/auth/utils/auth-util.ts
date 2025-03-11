@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 
-import { AuthUser } from '../types/common';
+import { AuthUser } from '@/shared/types/common';
 
 export const setAuthUser = (token: string) =>
   localStorage.setItem('auth_token', token);

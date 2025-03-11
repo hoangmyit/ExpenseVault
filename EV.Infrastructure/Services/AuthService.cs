@@ -73,6 +73,21 @@ namespace EV.Infrastructure.Services
                 Token = newToken
             };
         }
+        public async Task<string> RegisterUserAsync(string name, string email, string password)
+        {
+            bool existName = await _userManager.FindByNameAsync(name) != null;
+            Guard.Against.AgainstUnauthenticated(existName, "Username already exists.");
+            bool existEmail = await _userManager.FindByEmailAsync(email) != null;
+            Guard.Against.AgainstUnauthenticated(existEmail, "Email already exists.");
+
+            var result = await _userManager.CreateAsync(new ApplicationUser()
+            {
+                UserName = name,
+                Email = email,
+            }, password);
+
+            return result.Succeeded ? "User created successfully." : "Failed to create user.";
+        }
         #region Private Methods
         private async Task<string> GenerateRefreshTokenAsync(ApplicationUser user)
         {

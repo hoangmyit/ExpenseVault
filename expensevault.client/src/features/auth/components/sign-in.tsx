@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
+import { useAuth } from '../hooks/use-auth';
 import { LoginFormData, loginSchema } from '../schemas/auth-schemas';
-import { loginRequest } from '../store/auth-slice';
 
 import './index.css';
 
@@ -11,12 +11,11 @@ import LinkedinIcon from '@/icons/brand/linkedin-icon';
 import TwitterXIcon from '@/icons/brand/twitter-x-icon';
 import LogoIcon from '@/icons/logon-icon';
 import FormInput from '@/shared/components/form/form-input/form-input';
+import Button from '@/shared/components/ui/button';
 import { useZodForm } from '@/shared/hooks/use-zod-form';
-import { useAppDispatch } from '@/stores/hooks';
 
-// Using a function declaration rather than FC type (React 19 approach)
-export default function SignInPage() {
-  const dispatch = useAppDispatch();
+const SignInPage: FC = () => {
+  const { login, authnData } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Use the Zod form hook
@@ -26,24 +25,13 @@ export default function SignInPage() {
     formState: { errors },
   } = useZodForm(loginSchema);
 
+  useEffect(() => {
+    setIsSubmitting(authnData.status === 'loading');
+  }, [authnData.status]);
+
   // Handle form submission
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      setIsSubmitting(true);
-      await dispatch(
-        loginRequest({
-          username: data.username,
-          password: data.password,
-          rememberMe: data.rememberMe,
-        }),
-      );
-      // You could add navigation here when login succeeds
-    } catch (error) {
-      // Handle error if needed
-      console.error('Login failed:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    login(data.username, data.password, data.rememberMe);
   };
 
   return (
@@ -58,7 +46,7 @@ export default function SignInPage() {
               Welcome back!
             </h2>
             <p className="mb-6 font-semibold">
-              Please sign in to continue React.
+              Please sign in to continue Expense Vault.
             </p>
           </div>
           <div className="tabs tabs-box bg-white shadow-none" id="sign-in-tabs">
@@ -107,17 +95,13 @@ export default function SignInPage() {
               </div>
 
               <div className="form-control mt-6 w-full">
-                <button
+                <Button
                   type="submit"
                   className="btn btn-primary btn-wide max-w-full"
-                  disabled={isSubmitting}
+                  isLoading={isSubmitting}
                 >
-                  {isSubmitting ? (
-                    <span className="loading loading-spinner loading-xs"></span>
-                  ) : (
-                    'Sign In'
-                  )}
-                </button>
+                  Sign In
+                </Button>
               </div>
               <div className="mt-6 mb-2 flex flex-row justify-around">
                 <Link to="#" className="btn btn-circle border-1">
@@ -150,4 +134,6 @@ export default function SignInPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignInPage;

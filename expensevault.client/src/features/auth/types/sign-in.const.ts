@@ -1,5 +1,6 @@
 import { AuthUser, CommonState } from '../../../shared/types/common';
 
 export type IAuthState = {
-  isAuthenticated: boolean;
-} & CommonState<AuthUser>;
+  authInfo: CommonState<AuthUser> & { isAuthenticated: boolean };
+  registerInfo: CommonState<string>;
+};

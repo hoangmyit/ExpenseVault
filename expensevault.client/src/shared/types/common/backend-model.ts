@@ -59,3 +59,9 @@ export interface WeatherForecast {
   temperatureF: number;
   summary: string | null;
 }
+
+export interface RegisterUserCommand {
+  email: string;
+  password: string;
+  name: string;
+}

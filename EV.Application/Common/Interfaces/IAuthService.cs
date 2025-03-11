@@ -7,5 +7,6 @@ namespace EV.Application.Common.Interfaces
         Task<string> AuthenticateAsync(string username, string password);
         Task<string> GenerateRefreshTokenAsync(string username);
         Task<RefreshTokenResponse> RefreshTokenAsync(string token, string refreshToken);
+        Task<string> RegisterUserAsync(string name, string email, string password);
     }
 }

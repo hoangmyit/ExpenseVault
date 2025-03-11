@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, use, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import AvatarIcon from '../../../icons/avatar-icon';
@@ -6,8 +6,30 @@ import FacebookIcon from '../../../icons/brand/facebook-icon';
 import LinkedinIcon from '../../../icons/brand/linkedin-icon';
 import TwitterXIcon from '../../../icons/brand/twitter-x-icon';
 import FormInput from '../../../shared/components/form/form-input/form-input';
+import { useAuth } from '../hooks/use-auth';
+import { SignUpFormData, signUpSchema } from '../schemas/auth-schemas';
+
+import Button from '@/shared/components/ui/button';
+import { useZodForm } from '@/shared/hooks/use-zod-form';
 
 const SignUpPage: FC = () => {
+  const { registerUser, registerData } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useZodForm(signUpSchema);
+
+  useEffect(() => {
+    setIsSubmitting(registerData.status === 'loading');
+  }, [registerData.status]);
+
+  const onSubmit = async (data: SignUpFormData) => {
+    registerUser(data.email, data.password, data.username);
+  };
+
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="card bg-base-100 shadow-sm">
@@ -24,38 +46,43 @@ const SignUpPage: FC = () => {
             </p>
           </div>
           <div className="my-4">
-            <form>
-              <div className="grid md:grid-cols-2 md:gap-4">
-                <FormInput
-                  label="First name"
-                  placeholder="Enter your first name"
-                  type="text"
-                />
-                <FormInput
-                  label="Last name"
-                  placeholder="Enter your last name"
-                  type="text"
-                />
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <FormInput
+                label="Username"
+                placeholder="Enter your user name"
+                type="text"
+                error={errors.username}
+                {...register('username')}
+              />
               <FormInput
                 label="Email"
                 placeholder="Enter your email"
                 type="email"
+                error={errors.email}
+                {...register('email')}
               />
               <FormInput
                 label="Password"
                 placeholder="Enter your password"
                 type="password"
+                error={errors.password}
+                {...register('password')}
               />
               <FormInput
                 label="Confirm password"
                 placeholder="Enter your password"
                 type="password"
+                error={errors.confirmPassword}
+                {...register('confirmPassword')}
               />
               <div className="form-control mt-6 w-full">
-                <button className="btn btn-primary btn-wide max-w-full">
+                <Button
+                  isLoading={isSubmitting}
+                  type="submit"
+                  className="btn btn-primary btn-wide max-w-full"
+                >
                   Sign Up
-                </button>
+                </Button>
               </div>
               <div className="mt-6 mb-2 flex flex-row justify-around">
                 <Link to="#" className="btn btn-circle border-1">
