@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
-const LogoIcon: FC<Omit<IconProps, 'fill'>> = ({
+export const LogoIcon: FC<Omit<IconProps, 'fill'>> = ({
   className = 'shrink-0 stroke-current',
   height = 'h-6',
   width = 'w-6',
@@ -62,5 +62,3 @@ const LogoIcon: FC<Omit<IconProps, 'fill'>> = ({
     </svg>
   );
 };
-
-export default LogoIcon;

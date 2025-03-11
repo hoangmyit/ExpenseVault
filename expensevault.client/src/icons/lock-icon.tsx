@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import clsx from 'clsx';
 
-import { IconProps } from '../icon-props';
+import { IconProps } from './icon-props';
 
-export const LinkedinIcon: FC<IconProps> = ({
+export const LockIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -19,8 +19,16 @@ export const LinkedinIcon: FC<IconProps> = ({
       fill={fill}
       viewBox="0 0 24 24"
     >
-      <circle cx="4.983" cy="5.009" r="2.188" />
-      <path d="M9.237 8.855v12.139h3.769v-6.003c0-1.584.298-3.118 2.262-3.118 1.937 0 1.961 1.811 1.961 3.218v5.904H21v-6.657c0-3.27-.704-5.783-4.526-5.783-1.835 0-3.065 1.007-3.568 1.96h-.051v-1.66H9.237zm-6.142 0H6.87v12.139H3.095z" />
+      <g
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        strokeWidth="2.5"
+        fill="none"
+        stroke="currentColor"
+      >
+        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+      </g>
     </svg>
   );
 };

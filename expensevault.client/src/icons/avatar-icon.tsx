@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
-const AvatarIcon: FC<IconProps> = ({
+export const AvatarIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -25,5 +25,3 @@ const AvatarIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default AvatarIcon;

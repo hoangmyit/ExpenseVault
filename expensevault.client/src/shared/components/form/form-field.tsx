@@ -18,14 +18,14 @@ const FormField: FC<FormFieldProps> = ({
   id,
 }) => {
   return (
-    <div className="form-control w-full max-w-md">
+    <>
       {label && (
-        <label htmlFor={id} className="label">
-          <span className="label-text font-semibold">{label}</span>
+        <label htmlFor={id} className="fieldset-label">
+          {label}
         </label>
       )}
       {children}
-      <div className="flex h-6 items-start px-1 pt-1">
+      <div className="fieldset-label min-h-6">
         {helper && !error && (
           <span className="label-text-alt text-gray-500">{helper}</span>
         )}
@@ -36,7 +36,7 @@ const FormField: FC<FormFieldProps> = ({
         )}
         {!helper && !error && <span className="label-text-alt"></span>}
       </div>
-    </div>
+    </>
   );
 };
 

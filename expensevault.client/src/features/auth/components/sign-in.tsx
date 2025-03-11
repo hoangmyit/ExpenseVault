@@ -6,10 +6,8 @@ import { LoginFormData, loginSchema } from '../schemas/auth-schemas';
 
 import './index.css';
 
-import FacebookIcon from '@/icons/brand/facebook-icon';
-import LinkedinIcon from '@/icons/brand/linkedin-icon';
-import TwitterXIcon from '@/icons/brand/twitter-x-icon';
-import LogoIcon from '@/icons/logon-icon';
+import { LogoIcon } from '@/icons';
+import { FacebookIcon, LinkedinIcon, TwitterXIcon } from '@/icons/brand';
 import FormInput from '@/shared/components/form/form-input/form-input';
 import Button from '@/shared/components/ui/button';
 import { useZodForm } from '@/shared/hooks/use-zod-form';

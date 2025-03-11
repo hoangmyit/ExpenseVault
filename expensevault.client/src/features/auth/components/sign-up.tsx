@@ -1,14 +1,12 @@
-import { FC, use, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
-import AvatarIcon from '../../../icons/avatar-icon';
-import FacebookIcon from '../../../icons/brand/facebook-icon';
-import LinkedinIcon from '../../../icons/brand/linkedin-icon';
-import TwitterXIcon from '../../../icons/brand/twitter-x-icon';
-import FormInput from '../../../shared/components/form/form-input/form-input';
 import { useAuth } from '../hooks/use-auth';
 import { SignUpFormData, signUpSchema } from '../schemas/auth-schemas';
 
+import { AvatarIcon, EmailIcon, LockIcon, LogoIcon } from '@/icons';
+import { FacebookIcon, LinkedinIcon, TwitterXIcon } from '@/icons/brand';
+import FormInput from '@/shared/components/form/form-input/form-input';
 import Button from '@/shared/components/ui/button';
 import { useZodForm } from '@/shared/hooks/use-zod-form';
 
@@ -35,7 +33,7 @@ const SignUpPage: FC = () => {
       <div className="card bg-base-100 shadow-sm">
         <div className="card-body">
           <div className="mb-6 flex">
-            <AvatarIcon fill="black" width="w-10" height="h-10" />
+            <LogoIcon width="w-10" height="h-10" />
           </div>
           <div className="flex flex-col">
             <h2 className="text-primary mb-2 text-2xl font-semibold">
@@ -52,6 +50,9 @@ const SignUpPage: FC = () => {
                 placeholder="Enter your user name"
                 type="text"
                 error={errors.username}
+                startDecorator={
+                  <AvatarIcon width={undefined} height="h-[1em]" />
+                }
                 {...register('username')}
               />
               <FormInput
@@ -59,6 +60,13 @@ const SignUpPage: FC = () => {
                 placeholder="Enter your email"
                 type="email"
                 error={errors.email}
+                startDecorator={
+                  <EmailIcon
+                    className="opacity-50"
+                    width={undefined}
+                    height="h-[1em]"
+                  />
+                }
                 {...register('email')}
               />
               <FormInput
@@ -66,6 +74,13 @@ const SignUpPage: FC = () => {
                 placeholder="Enter your password"
                 type="password"
                 error={errors.password}
+                startDecorator={
+                  <LockIcon
+                    className="opacity-50"
+                    width={undefined}
+                    height="h-[1em]"
+                  />
+                }
                 {...register('password')}
               />
               <FormInput
@@ -73,6 +88,13 @@ const SignUpPage: FC = () => {
                 placeholder="Enter your password"
                 type="password"
                 error={errors.confirmPassword}
+                startDecorator={
+                  <LockIcon
+                    className="opacity-50"
+                    width={undefined}
+                    height="h-[1em]"
+                  />
+                }
                 {...register('confirmPassword')}
               />
               <div className="form-control mt-6 w-full">

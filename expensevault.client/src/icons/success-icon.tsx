@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
-const SuccessIcon: FC<IconProps> = ({
+export const SuccessIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -28,5 +28,3 @@ const SuccessIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default SuccessIcon;

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from '../icon-props';
 
-const TwitterXIcon: FC<IconProps> = ({
+export const TwitterXIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -23,5 +23,3 @@ const TwitterXIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default TwitterXIcon;
