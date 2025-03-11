@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from '../icon-props';
 
-const FacebookIcon: FC<IconProps> = ({
+export const FacebookIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -27,5 +27,3 @@ const FacebookIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default FacebookIcon;

@@ -4,21 +4,29 @@ import {
   LoginCommand,
   LoginResponse,
 } from '../../../shared/types/common/backend-model';
+import { SignUpFormData } from '../schemas/auth-schemas';
 
-export const Login = async ({
-  username,
-  password,
-}: LoginCommand): Promise<ApiResult<LoginResponse>> => {
-  const response = await httpServicePost<LoginResponse>('/api/auth/login', {
-    username,
-    password,
-  });
+export const signIn = async (
+  params: LoginCommand,
+): Promise<ApiResult<LoginResponse>> => {
+  const response = await httpServicePost<LoginResponse>(
+    '/api/auth/login',
+    params,
+  );
   return {
     success: true,
-    data: {
-      token: response.data.token,
-      refreshToken: response.data.refreshToken,
-    },
+    data: response.data,
+    status: response.status,
+  };
+};
+
+export const registerUser = async (
+  user: SignUpFormData,
+): Promise<ApiResult<string>> => {
+  const response = await httpServicePost<string>('/api/auth/register', user);
+  return {
+    success: true,
+    data: response.data,
     status: response.status,
   };
 };

@@ -2,8 +2,10 @@
 using EV.Application.Common.Models;
 using EV.Application.Common.Utilities;
 using EV.Application.Identity.Commands;
+using EV.Application.Identity.Commands.RegisterUser;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -46,7 +48,7 @@ namespace EV.Infrastructure.Services
 
         public async Task<string> GenerateRefreshTokenAsync(string username)
         {
-            var user = await _userManager.FindByEmailAsync(username);
+            var user = StringUtilities.IsValidEmail(username) ? await _userManager.FindByEmailAsync(username) : await _userManager.FindByNameAsync(username);
             Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password");
 
             return await GenerateRefreshTokenAsync(user!);
@@ -73,6 +75,25 @@ namespace EV.Infrastructure.Services
                 Token = newToken
             };
         }
+        public async Task<string> RegisterUserAsync(string name, string email, string password)
+        {
+            var normalizedUserName = _userManager.NormalizeName(name);
+            Guard.Against.AgainstValidationException(await _userManager.Users
+                .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
+
+            var normalizedEmail = _userManager.NormalizeEmail(email);
+            Guard.Against.AgainstValidationException(await _userManager.Users
+                .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
+
+            var result = await _userManager.CreateAsync(new ApplicationUser()
+            {
+                UserName = name,
+                Email = email,
+            }, password);
+
+            return result.Succeeded ? $"User {name} created successfully." : $"Failed to create user {name}.";
+        }
+
         #region Private Methods
         private async Task<string> GenerateRefreshTokenAsync(ApplicationUser user)
         {

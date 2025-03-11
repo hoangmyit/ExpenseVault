@@ -1,5 +1,5 @@
 ﻿using EV.Application.Common.Interfaces;
-using EV.Application.Identity.Commands;
+using EV.Application.Identity.Commands.Login;
 
 namespace EV.Application.Identity.Handlers
 {

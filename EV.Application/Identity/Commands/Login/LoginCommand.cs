@@ -1,4 +1,4 @@
-﻿namespace EV.Application.Identity.Commands
+﻿namespace EV.Application.Identity.Commands.Login
 {
     public class LoginCommand : IRequest<LoginResponse>
     {

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
-const InfoIcon: FC<IconProps> = ({
+export const ErrorIcon: FC<IconProps> = ({
   className = 'shrink-0',
   color = 'stroke-current',
   height = 'h-6',
@@ -27,5 +27,3 @@ const InfoIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default InfoIcon;

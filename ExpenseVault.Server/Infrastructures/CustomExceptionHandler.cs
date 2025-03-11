@@ -15,10 +15,11 @@ public class CustomExceptionHandler : IExceptionHandler
         // Register known exception types and handlers.
         _exceptionHandlers = new()
             {
-                { typeof(ValidationException), HandleValidationException },
+                { typeof(CustomValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+                { typeof(BadRequestException), HandleBadRequestException   }
             };
         _env = env;
     }
@@ -26,7 +27,6 @@ public class CustomExceptionHandler : IExceptionHandler
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionType = exception.GetType();
-
         if (_exceptionHandlers.ContainsKey(exceptionType))
         {
             await _exceptionHandlers[exceptionType].Invoke(httpContext, exception);
@@ -39,7 +39,7 @@ public class CustomExceptionHandler : IExceptionHandler
 
     private async Task HandleValidationException(HttpContext httpContext, Exception ex)
     {
-        var exception = (ValidationException)ex;
+        var exception = (CustomValidationException)ex;
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
@@ -107,5 +107,19 @@ public class CustomExceptionHandler : IExceptionHandler
         }
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails);
+    }
+    private async Task HandleBadRequestException(HttpContext httpContext, Exception ex)
+    {
+        var exception = (BadRequestException)ex;
+
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Title = "Bad Request",
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Detail = exception.Message
+        });
     }
 }

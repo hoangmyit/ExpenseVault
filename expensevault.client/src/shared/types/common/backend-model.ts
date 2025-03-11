@@ -4,10 +4,10 @@
 // </auto-generated>
 //----------------------
 
-import { DateTime } from 'luxon/src/datetime';
+import { DateTime } from 'luxon';
 
 /* tslint:disable */
-
+/* eslint-disable */
 // ReSharper disable InconsistentNaming
 
 export interface PaginatedListOfCategoryDto {
@@ -25,6 +25,7 @@ export interface CategoryDto {
   description: string;
   avatar: string;
   isDefault: boolean;
+  isDelete: boolean;
 }
 
 export interface CreateCategoryCommand {
@@ -51,6 +52,22 @@ export interface LoginCommand {
   username: string;
   password: string;
   rememberMe: boolean;
+}
+
+export interface RefreshTokenResponse {
+  token: string;
+  refreshToken: string;
+}
+
+export interface RefreshTokenCommand {
+  token: string;
+  refreshToken: string;
+}
+
+export interface RegisterUserCommand {
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface WeatherForecast {

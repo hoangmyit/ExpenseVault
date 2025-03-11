@@ -1,5 +1,3 @@
-import { ApiResult, PaginatedList } from '../../shared/types/common';
-import { CategoryDto } from '../../shared/types/common/backend-model';
 import {
   httpServiceDelete,
   httpServiceGet,
@@ -7,10 +5,14 @@ import {
   httpServicePut,
 } from '../client';
 
-export const getCategories = async (
+import { CategoryParams } from '@/features/category/types/category';
+import { ApiResult, PaginatedList } from '@/shared/types/common';
+import { CategoryDto } from '@/shared/types/common/backend-model';
+
+export const getCategories = async ({
   page = 1,
   pageSize = 10,
-): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
+}: CategoryParams): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
   const response = await httpServiceGet<PaginatedList<CategoryDto>>(
     '/api/category',
     {

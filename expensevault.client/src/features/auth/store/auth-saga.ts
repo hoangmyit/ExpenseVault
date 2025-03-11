@@ -1,48 +1,47 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { takeLatest } from 'redux-saga/effects';
+
+import { SignUpFormData } from '../schemas/auth-schemas';
+import { registerUser, signIn } from '../services/auth.service';
+
 import {
-  call,
-  CallEffect,
-  put,
-  PutEffect,
-  takeLatest,
-} from 'redux-saga/effects';
+  loginFailure,
+  loginRequest,
+  loginSuccess,
+  registerUserFailure,
+  registerUserRequest,
+  registerUserServerValidation,
+  registerUserSuccess,
+} from './auth-slice';
 
-import { Login } from '../services/auth.service';
-
-import { loginFailure, loginRequest, loginSuccess } from './auth-slice';
-
-import { ApiResult } from '@/shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
 } from '@/shared/types/common/backend-model';
-import { getErrorMessage } from '@/shared/utils/common-util';
+import { handleApiCall } from '@/shared/utils/saga-util';
 
-function* signInSaga(
-  action: PayloadAction<LoginCommand>,
-): Generator<
-  | CallEffect<ApiResult<LoginResponse>>
-  | PutEffect<ReturnType<typeof loginSuccess | typeof loginFailure>>,
-  void,
-  ApiResult<LoginResponse>
-> {
-  try {
-    const result = yield call(Login, {
-      username: action.payload.username,
-      password: action.payload.password,
-    });
-    if (result.success) {
-      yield put(loginSuccess(result.data));
-    } else {
-      yield put(loginFailure(result.message ?? 'Failed to login'));
-    }
-  } catch (error) {
-    yield put(loginFailure(getErrorMessage(error, 'Failed to login')));
-  }
+function* signInSaga(action: PayloadAction<LoginCommand>) {
+  yield* handleApiCall(
+    signIn,
+    action.payload,
+    (data: LoginResponse) => loginSuccess(data),
+    (error) => loginFailure(error),
+  );
+}
+
+function* registerUserSaga(action: PayloadAction<SignUpFormData>) {
+  yield* handleApiCall(
+    registerUser,
+    action.payload,
+    (data: string) => registerUserSuccess(data),
+    (error) => registerUserFailure(error),
+    registerUserServerValidation,
+  );
 }
 
 function* authSaga() {
   yield takeLatest(loginRequest.type, signInSaga);
+  yield takeLatest(registerUserRequest.type, registerUserSaga);
 }
 
 export default authSaga;

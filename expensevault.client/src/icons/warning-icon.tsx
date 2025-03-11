@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { IconProps } from './icon-props';
 
-const WarningIcon: FC<IconProps> = ({
+export const WarningIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
   color = 'currentColor',
   height = 'h-6',
@@ -28,5 +28,3 @@ const WarningIcon: FC<IconProps> = ({
     </svg>
   );
 };
-
-export default WarningIcon;

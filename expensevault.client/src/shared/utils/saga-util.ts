@@ -1,27 +1,48 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 
-import { ApiResult } from '../types/common';
+import { ApiResult, ValidationErrors } from '../types/common';
 
-import { getErrorMessage } from './common-util';
+import { ConsoleLog, getErrorMessage } from './common-util';
 
-export function* handleApiCall<TResponse, TSuccessPayload, TErrorPayload>(
-  apiCall: () => Promise<ApiResult<TResponse>>,
+export function* handleApiCall<
+  TRequest,
+  TResponse,
+  TSuccessPayload,
+  TErrorPayload,
+>(
+  apiCall: (request: TRequest) => Promise<ApiResult<TResponse>>,
+  request: TRequest,
   successAction: (data: TResponse) => {
     type: string;
     payload: TSuccessPayload;
   },
   failureAction: (error: string) => { type: string; payload: TErrorPayload },
+  validationAction?: (errors: ValidationErrors<TRequest>) => {
+    type: string;
+    payload: ValidationErrors<TRequest>;
+  },
 ): Generator<
   | CallEffect<ApiResult<TResponse>>
-  | PutEffect<{ type: string; payload: TSuccessPayload | TErrorPayload }>,
+  | PutEffect<{
+      type: string;
+      payload: TSuccessPayload | TErrorPayload | ValidationErrors<TRequest>;
+    }>,
   void,
   ApiResult<TResponse>
 > {
   try {
-    const result = yield call(apiCall);
+    const result = yield call(apiCall, request);
     yield put(successAction(result.data));
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    ConsoleLog(error);
     const errorMessage = getErrorMessage(error, 'Operation failed');
     yield put(failureAction(errorMessage));
+    if (error.response?.status === 400 && validationAction) {
+      const errorData = error.response.data.errors;
+      if (errorData) {
+        yield put(validationAction(error.response.data.errors));
+      }
+    }
   }
 }
