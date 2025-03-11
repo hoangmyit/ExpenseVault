@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../../../stores/store';
+import { SignUpFormData } from '../schemas/auth-schemas';
 import { IAuthState } from '../types/sign-in.const';
 import {
   getAuthInfo,
@@ -14,7 +15,6 @@ import { ValidationErrors } from '@/shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
-  RegisterUserCommand,
 } from '@/shared/types/common/backend-model';
 
 const initialState = (): IAuthState => {
@@ -63,10 +63,7 @@ const authSlice = createSlice({
       state.authInfo.status = 'idle';
       state.authInfo.error = null;
     },
-    registerUserRequest: (
-      state,
-      _action: PayloadAction<RegisterUserCommand>,
-    ) => {
+    registerUserRequest: (state, _action: PayloadAction<SignUpFormData>) => {
       state.registerInfo.status = 'loading';
       state.registerInfo.error = null;
     },
@@ -80,7 +77,7 @@ const authSlice = createSlice({
     },
     registerUserServerValidation: (
       state,
-      action: PayloadAction<ValidationErrors<RegisterUserCommand>>,
+      action: PayloadAction<ValidationErrors<SignUpFormData>>,
     ) => {
       state.registerInfo.errors = action.payload;
     },

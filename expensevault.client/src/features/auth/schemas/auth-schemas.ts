@@ -4,10 +4,14 @@ export const loginSchema = z.object({
   username: z
     .string()
     .min(3, { message: 'Username must be at least 3 characters' })
-    .max(50, { message: 'Username cannot exceed 50 characters' }),
+    .max(50, { message: 'Username cannot exceed 50 characters' })
+    .regex(/^[a-zA-Z0-9_]*$/, {
+      message: 'Username must contain only letters, numbers, and underscores',
+    }),
   password: z
     .string()
-    .min(6, { message: 'Password must be at least 6 characters' }),
+    .min(8, { message: 'Password must be at least 8 characters' })
+    .max(50, { message: 'Password cannot exceed 50 characters' }),
   rememberMe: z.boolean().optional().default(false),
 });
 
@@ -18,7 +22,10 @@ export const signUpSchema = z
     username: z
       .string()
       .min(3, { message: 'Username must be at least 3 characters' })
-      .max(50, { message: 'Username cannot exceed 50 characters' }),
+      .max(50, { message: 'Username cannot exceed 50 characters' })
+      .regex(/^[a-zA-Z0-9_]*$/, {
+        message: 'Username must contain only letters, numbers, and underscores',
+      }),
     email: z.string().email({ message: 'Invalid email address' }),
     password: z
       .string()

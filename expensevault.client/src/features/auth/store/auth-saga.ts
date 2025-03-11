@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 
+import { SignUpFormData } from '../schemas/auth-schemas';
 import { registerUser, signIn } from '../services/auth.service';
 
 import {
@@ -16,7 +17,6 @@ import {
 import {
   LoginCommand,
   LoginResponse,
-  RegisterUserCommand,
 } from '@/shared/types/common/backend-model';
 import { handleApiCall } from '@/shared/utils/saga-util';
 
@@ -29,7 +29,7 @@ function* signInSaga(action: PayloadAction<LoginCommand>) {
   );
 }
 
-function* registerUserSaga(action: PayloadAction<RegisterUserCommand>) {
+function* registerUserSaga(action: PayloadAction<SignUpFormData>) {
   yield* handleApiCall(
     registerUser,
     action.payload,

@@ -3,8 +3,8 @@ import { ApiResult } from '../../../shared/types/common';
 import {
   LoginCommand,
   LoginResponse,
-  RegisterUserCommand,
 } from '../../../shared/types/common/backend-model';
+import { SignUpFormData } from '../schemas/auth-schemas';
 
 export const signIn = async (
   params: LoginCommand,
@@ -21,7 +21,7 @@ export const signIn = async (
 };
 
 export const registerUser = async (
-  user: RegisterUserCommand,
+  user: SignUpFormData,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/auth/register', user);
   return {

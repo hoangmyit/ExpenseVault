@@ -37,7 +37,7 @@ const SignUpPage: FC = () => {
   }, [registerData.errors, setError, registerData.status]);
 
   const onSubmit = async (data: SignUpFormData) => {
-    registerUser(data.email, data.password, data.username);
+    registerUser(data);
   };
 
   return (

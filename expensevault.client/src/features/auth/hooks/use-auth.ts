@@ -1,3 +1,4 @@
+import { SignUpFormData } from '../schemas/auth-schemas';
 import {
   AuthState,
   loginRequest,
@@ -13,8 +14,8 @@ export const useAuth = () => {
   const login = (username: string, password: string, rememberMe: boolean) => {
     return dispatch(loginRequest({ username, password, rememberMe }));
   };
-  const registerUser = (email: string, password: string, username: string) => {
-    return dispatch(registerUserRequest({ email, password, username }));
+  const registerUser = (user: SignUpFormData) => {
+    return dispatch(registerUserRequest(user));
   };
 
   return {
