@@ -60,17 +60,35 @@ namespace EV.Infrastructure.Data
             {
                 var adminRole = new IdentityRole<Guid>()
                 {
-                    Id = Common.ADMIN_ID,
+                    Id = Common.ADMIN_ROLE_ID,
                     Name = Roles.Administrator
                 };
                 if (!await _roleManager.RoleExistsAsync(adminRole.Name))
                 {
                     await _roleManager.CreateAsync(adminRole);
                 }
+                var userRole = new IdentityRole<Guid>()
+                {
+                    Id = Common.USER_ROLE_ID,
+                    Name = Roles.User
+                };
+                if (!await _roleManager.RoleExistsAsync(userRole.Name))
+                {
+                    await _roleManager.CreateAsync(userRole);
+                }
+                var managerRole = new IdentityRole<Guid>()
+                {
+                    Id = Common.MANAGER_ROLE_ID,
+                    Name = Roles.Manager
+                };
+                if (!await _roleManager.RoleExistsAsync(managerRole.Name))
+                {
+                    await _roleManager.CreateAsync(managerRole);
+                }
 
                 var adminUser = new ApplicationUser
                 {
-                    Id = Common.ADMIN_ID,
+                    Id = Common.ADMIN_ROLE_ID,
                     UserName = "admin",
                     Email = "admin@localhost.com",
                     SecurityStamp = Guid.NewGuid().ToString(),
@@ -83,6 +101,50 @@ namespace EV.Infrastructure.Data
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(adminUser, adminRole.Name);
+                    }
+                    else
+                    {
+                        _logger.LogError("An error occurred while seeding the database.");
+                    }
+                }
+
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "testUser",
+                    Email = "testUser@localhost.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                };
+                var testInDB = await _userManager.FindByEmailAsync(user.Email);
+                if (testInDB == null)
+                {
+                    var result = await _userManager.CreateAsync(user, "-Mydev123");
+                    await _context.SaveChangesAsync();
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, userRole.Name);
+                    }
+                    else
+                    {
+                        _logger.LogError("An error occurred while seeding the database.");
+                    }
+                }
+
+                var managerUser = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = "manager",
+                    Email = "manager@localhost.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                };
+                var managerUserInDB = await _userManager.FindByEmailAsync(managerUser.Email);
+                if (managerUserInDB == null)
+                {
+                    var result = await _userManager.CreateAsync(managerUser, "-Mydev123");
+                    await _context.SaveChangesAsync();
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(managerUser, managerRole.Name);
                     }
                     else
                     {

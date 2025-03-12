@@ -1,6 +1,8 @@
 ﻿namespace EV.Domain.Constants;
 
-public abstract class Roles
+public static class Roles
 {
     public const string Administrator = nameof(Administrator);
+    public const string Manager = nameof(Manager);
+    public const string User = nameof(User);
 }
