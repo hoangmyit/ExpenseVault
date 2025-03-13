@@ -22,7 +22,6 @@ namespace EV.Application.Categories.Handlers
 
             Category category = new()
             {
-                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Description = request.Description,
                 Avatar = request.Avatar,

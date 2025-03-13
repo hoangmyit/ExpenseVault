@@ -16,6 +16,14 @@ namespace EV.Infrastructure.Data
         }
         public DbSet<Category> Categories => Set<Category>();
 
+        public DbSet<Account> Accounts => Set<Account>();
+
+        public DbSet<Budget> Budgets => Set<Budget>();
+
+        public DbSet<CategoryGroup> CategoryGroups => Set<CategoryGroup>();
+
+        public DbSet<Expense> Expenses => Set<Expense>();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
