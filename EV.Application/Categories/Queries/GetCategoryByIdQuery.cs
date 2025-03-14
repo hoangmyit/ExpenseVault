@@ -1,4 +1,4 @@
 ﻿namespace EV.Application.Categories.Queries
 {
-  public record GetCategoryByIdQuery(Guid Id) : IRequest<CategoryDto>;
+  public record GetCategoryByIdQuery(int Id) : IRequest<CategoryDto>;
 }

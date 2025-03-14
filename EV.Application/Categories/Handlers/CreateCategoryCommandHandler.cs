@@ -5,7 +5,7 @@ using EV.Domain.Events;
 
 namespace EV.Application.Categories.Handlers
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Guid>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
     {
         private readonly IApplicationDbContext _context;
         private readonly IValidator<CreateCategoryCommand> _validator;
@@ -16,7 +16,7 @@ namespace EV.Application.Categories.Handlers
             _validator = validator;
         }
 
-        public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             _validator.Validate(request);
 

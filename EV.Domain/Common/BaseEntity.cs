@@ -2,9 +2,12 @@
 
 namespace EV.Domain.Common
 {
-    public abstract class BaseEntity<Tid>
+    public class BaseEntity<T> : BaseEntity 
     {
-        public Tid Id { get; set; }
+        public T Id { get; set; }
+    }
+    public abstract class BaseEntity
+    {
         private readonly List<BaseEvent> _domainEvent = new List<BaseEvent>();
         [NotMapped]
         public IReadOnlyCollection<BaseEvent> DomainEvent => _domainEvent.AsReadOnly();

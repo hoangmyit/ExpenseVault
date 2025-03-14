@@ -4,6 +4,7 @@ using ExpenseVault.Server.Services;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 using Clean.Web.Infrastructure;
+using EV.Infrastructure.Services;
 
 namespace ExpenseVault.Server;
 
@@ -40,6 +41,8 @@ public static class DependencyInjection
             configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
 
+        // Resolve AppSettingsService
+        services.AddSingleton<IAppSettingsService, AppSettingsService>();
 
         return services;
     }

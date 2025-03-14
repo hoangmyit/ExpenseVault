@@ -8,6 +8,6 @@
         public bool IsDefault { get; set; }
         public bool IsDelete { get; set; }
         public int GroupId { get; set; }
-        public virtual required CategoryGroup CategoryGroup { get; set; }
+        public virtual CategoryGroup CategoryGroup { get; set; }
     }
 }

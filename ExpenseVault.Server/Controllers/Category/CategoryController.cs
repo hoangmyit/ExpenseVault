@@ -38,13 +38,13 @@ public class CategoryController : BaseController
         return TypedResults.Ok(paginatedList);
     }
 
-    public async Task<Created<Guid>> CreatedAsync(ISender sender, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<Created<int>> CreatedAsync(ISender sender, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
     {
         var id = await sender.Send(command, cancellationToken);
-        return TypedResults.Created<Guid>($"/category/{id}", id);
+        return TypedResults.Created<int>($"/category/{id}", id);
     }
 
-    public async Task<Results<Ok<CategoryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, Guid id, CancellationToken cancellationToken)
+    public async Task<Results<Ok<CategoryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, int id, CancellationToken cancellationToken)
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
@@ -66,7 +66,7 @@ public class CategoryController : BaseController
         return TypedResults.NoContent();
     }
 
-    public async Task<Results<NoContent, BadRequest, NotFound>> DeleteCategoryAsync(ISender sender, Guid id, CancellationToken cancellationToken)
+    public async Task<Results<NoContent, BadRequest, NotFound>> DeleteCategoryAsync(ISender sender, int id, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteCategoryCommand(id), cancellationToken);
         return TypedResults.NoContent();

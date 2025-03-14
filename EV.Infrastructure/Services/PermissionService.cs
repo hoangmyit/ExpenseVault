@@ -3,7 +3,6 @@ using EV.Domain.Constants;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace EV.Infrastructure.Services;
 

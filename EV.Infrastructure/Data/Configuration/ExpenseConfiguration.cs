@@ -40,7 +40,7 @@ namespace EV.Infrastructure.Data.Configuration
                 .HasOne<ApplicationUser>()
                 .WithMany()
                 .HasForeignKey(builder => builder.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
