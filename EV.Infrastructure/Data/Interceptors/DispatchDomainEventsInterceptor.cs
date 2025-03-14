@@ -31,7 +31,7 @@ namespace EV.Infrastructure.Data.Interceptors
             {
                 return;
             }
-            var entities = eventData.Context.ChangeTracker.Entries<BaseEntity>()
+            var entities = eventData.Context.ChangeTracker.Entries<BaseEntity<int>>()
                 .Where(x => x.Entity.DomainEvent.Any()).Select(x => x.Entity).ToList();
             var domainEvents = entities.SelectMany(x => x.DomainEvent).ToList();
             entities.ForEach(x => x.ClearDomainEvent());

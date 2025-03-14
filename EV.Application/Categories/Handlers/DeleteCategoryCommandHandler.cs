@@ -13,6 +13,7 @@ namespace EV.Application.Categories.Handlers
     public DeleteCategoryCommandHandler(IApplicationDbContext context)
     {
       _context = context;
+           
     }
 
     public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)

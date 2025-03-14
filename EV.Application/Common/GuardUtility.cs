@@ -3,7 +3,7 @@ using System.Security.Authentication;
 
 namespace EV.Application.Common.Utilities
 {
-    public static class GuardUtilities
+    public static partial class GuardUtilities
     {
         public static void AgainstUnauthorized(this IGuardClause guard, bool condition, string message = "You do not have permission to access this resource.")
         {
