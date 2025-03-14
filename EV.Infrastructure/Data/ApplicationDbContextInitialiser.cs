@@ -116,12 +116,12 @@ namespace EV.Infrastructure.Data
                 return;
             }
 
-            await CreateUserAsync(Common.ADMIN_USER_ID, "admin", "admin@local.com", "-Mydev123").ConfigureAwait(false);
-            await CreateUserAsync(Guid.NewGuid(), "testUser", "test-user@local.com", "-Mydev123").ConfigureAwait(false);
-            await CreateUserAsync(Guid.NewGuid(), "manager", "manager@local.com", "-Mydev123").ConfigureAwait(false);
+            await CreateUserAsync(Common.ADMIN_USER_ID, "admin", "admin@local.com", "-Mydev123", Roles.Administrator).ConfigureAwait(false);
+            await CreateUserAsync(Guid.NewGuid(), "testUser", "test-user@local.com", "-Mydev123", Roles.User).ConfigureAwait(false);
+            await CreateUserAsync(Guid.NewGuid(), "manager", "manager@local.com", "-Mydev123", Roles.Manager).ConfigureAwait(false);
         }
 
-        private async Task CreateUserAsync(Guid userId, string userName, string email, string password)
+        private async Task CreateUserAsync(Guid userId, string userName, string email, string password, string userRole)
         {
             var user = new ApplicationUser()
             {
@@ -134,6 +134,7 @@ namespace EV.Infrastructure.Data
             if (userInDB == null)
             {
                 var result = await _userManager.CreateAsync(user, password).ConfigureAwait(false);
+                var result1 = await _userManager.AddToRoleAsync(user, userRole);
                 if (!result.Succeeded)
                 {
                     _logger.LogError("An error occurred while creating the user {UserName}.", userName);
@@ -477,8 +478,13 @@ namespace EV.Infrastructure.Data
 
             try
             {
+
+                await _context.Database.OpenConnectionAsync();
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Categories ON");
                 _context.Categories.AddRange(categories);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
+                await _context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Categories OFF");
+                await _context.Database.CloseConnectionAsync();
             }
             catch (Exception)
             {
