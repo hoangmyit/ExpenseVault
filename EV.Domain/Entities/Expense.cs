@@ -12,6 +12,7 @@
         public int CategoryId { get; set; }
         public Guid AccountId { get; set; }
         public Guid UserId { get; set; }
+        public string Avatar { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual Account Account { get; set; }
