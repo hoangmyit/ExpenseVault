@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../../../stores/store';
-import { SignUpFormData } from '../schemas/auth-schemas';
+import { LoginFormData, SignUpFormData } from '../schemas/auth-schemas';
 import { IAuthState } from '../types/sign-in.const';
 import {
   getAuthInfo,
@@ -25,6 +25,7 @@ const initialState = (): IAuthState => {
       status: 'idle',
       error: null,
       data: info,
+      errors: {},
     },
     registerInfo: {
       status: 'idle',
@@ -53,6 +54,12 @@ const authSlice = createSlice({
     loginFailure: (state, action: PayloadAction<string>) => {
       state.authInfo.status = 'failed';
       state.authInfo.error = action.payload;
+    },
+    loginServerValidation: (
+      state,
+      action: PayloadAction<ValidationErrors<LoginFormData>>,
+    ) => {
+      state.authInfo.errors = action.payload;
     },
     logout: (state) => {
       removeAuthUser();
@@ -89,6 +96,7 @@ export const {
   loginRequest,
   loginSuccess,
   loginFailure,
+  loginServerValidation,
   logout,
   clearError,
   registerUserFailure,

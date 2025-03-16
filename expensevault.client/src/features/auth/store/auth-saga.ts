@@ -7,6 +7,7 @@ import { registerUser, signIn } from '../services/auth.service';
 import {
   loginFailure,
   loginRequest,
+  loginServerValidation,
   loginSuccess,
   registerUserFailure,
   registerUserRequest,
@@ -26,6 +27,7 @@ function* signInSaga(action: PayloadAction<LoginCommand>) {
     action.payload,
     (data: LoginResponse) => loginSuccess(data),
     (error) => loginFailure(error),
+    loginServerValidation,
   );
 }
 

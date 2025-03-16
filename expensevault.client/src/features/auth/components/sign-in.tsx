@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, use, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import { useAuth } from '../hooks/use-auth';
@@ -20,12 +20,24 @@ const SignInPage: FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useZodForm(loginSchema);
 
   useEffect(() => {
     setIsSubmitting(authnData.status === 'loading');
   }, [authnData.status]);
+
+  useEffect(() => {
+    if (authnData.status === 'failed' && authnData.errors) {
+      Object.entries(authnData.errors).forEach(([key, value]) => {
+        setError(key as keyof LoginFormData, {
+          type: 'server',
+          message: value[0],
+        });
+      });
+    }
+  }, [authnData.errors, setError, authnData.status]);
 
   // Handle form submission
   const onSubmit = async (data: LoginFormData) => {

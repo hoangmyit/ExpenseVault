@@ -1,8 +1,8 @@
 import { RegisterRequest } from './sign-up.const';
 
-import { AuthUser, CommonState, ValidationState } from '@/shared/types/common';
+import { AuthUser, ValidationState } from '@/shared/types/common';
 
 export type IAuthState = {
-  authInfo: CommonState<AuthUser> & { isAuthenticated: boolean };
+  authInfo: ValidationState<AuthUser> & { isAuthenticated: boolean };
   registerInfo: ValidationState<RegisterRequest>;
 };
