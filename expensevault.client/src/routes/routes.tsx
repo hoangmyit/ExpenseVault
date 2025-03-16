@@ -3,7 +3,6 @@ import { Navigate, Route, Routes, useLocation } from 'react-router';
 
 import SignInPage from '../features/auth/components/sign-in';
 import SignUpPage from '../features/auth/components/sign-up';
-import { AuthState } from '../features/auth/store/auth-slice';
 import CategoriesPage from '../features/category/categories-page';
 import CategoryPage from '../features/category/category-page';
 import ErrorPage from '../features/error-page/error-page';
@@ -13,14 +12,16 @@ import {
 } from '../features/error-page/error-page.const';
 import HomePage from '../features/home/home';
 import FunctionLayout from '../shared/layouts/function-layout';
-import { useAppSelector } from '../stores/hooks';
+
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 const ProtectedRoutes: FC<{
   element: React.ReactElement;
   requiredRoles?: string[];
 }> = ({ element, requiredRoles = [] }) => {
   const location = useLocation();
-  const { isAuthenticated, data: user } = useAppSelector(AuthState);
+  const { authnData } = useAuth();
+  const { isAuthenticated, data: user } = authnData;
   const userRoles = user?.role || [];
 
   if (!isAuthenticated) {
@@ -37,7 +38,8 @@ const ProtectedRoutes: FC<{
 };
 
 const PublicOnlyRoute: FC<{ element: React.ReactElement }> = ({ element }) => {
-  const { isAuthenticated } = useAppSelector(AuthState);
+  const { authnData } = useAuth();
+  const { isAuthenticated } = authnData;
   const location = useLocation();
   if (isAuthenticated) {
     const from = location.state?.pathname || '/dashboard';
