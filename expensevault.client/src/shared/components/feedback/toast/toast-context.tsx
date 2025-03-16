@@ -1,14 +1,8 @@
-import { createContext, ReactNode } from 'react';
-
-import { AlertType } from '../alert/alert-component.const';
+import { createContext } from 'react';
+import { ToastPosition } from 'react-toastify';
 
 type ToastContextType = {
-  showToast: (
-    message: string | ReactNode,
-    type: AlertType,
-    duration?: number,
-  ) => string;
-  hideToast: (id: string) => void;
+  position: ToastPosition;
 };
 
 export const ToastContext = createContext<ToastContextType | undefined>(
