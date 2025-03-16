@@ -1,8 +1,17 @@
+import { LoginFormData } from '../schemas/auth-schemas';
+
 import { RegisterRequest } from './sign-up.const';
 
-import { AuthUser, ValidationState } from '@/shared/types/common';
+import {
+  AuthUser,
+  CommonState,
+  ValidationErrors,
+  ValidationState,
+} from '@/shared/types/common';
 
 export type IAuthState = {
-  authInfo: ValidationState<AuthUser> & { isAuthenticated: boolean };
+  authInfo: CommonState<AuthUser> & { isAuthenticated: boolean } & {
+    errors: ValidationErrors<LoginFormData>;
+  };
   registerInfo: ValidationState<RegisterRequest>;
 };
