@@ -17,17 +17,24 @@ public class CategoryController : BaseController
         var categoryGroup = app.MapRouteGroup(this).RequireAuthorization();
 
         categoryGroup.MapRouteGet(GetCategories)
+            .RequirePermission("Category:R")
             .WithMetadata(new OpenApiOperationAttribute(nameof(GetCategories), "Get a paginated list of categories", "Retrieves a paginated list of categories"));
 
-        categoryGroup.MapRoutePost(CreatedAsync).WithMetadata(new OpenApiOperationAttribute(nameof(CreatedAsync), "Create a new category", "Creates a new category"));
-
-        categoryGroup.MapRouteGet(GetCategoryByIdAsync, "/{id:guid}")
+        categoryGroup.MapRouteGet(GetCategoryByIdAsync, "/{id:int}")
+            .RequirePermission("Category:R")
             .WithMetadata(new OpenApiOperationAttribute(nameof(GetCategoryByIdAsync), "Get a category by ID", "Retrieves a category by its ID"));
 
-        categoryGroup.MapRoutePut(UpdateCategoryAsync, "/{id:guid}")
+        categoryGroup.MapRoutePost(CreatedAsync)
+            .RequirePermission("Category:C")
+            .WithMetadata(new OpenApiOperationAttribute(nameof(CreatedAsync), "Create a new category", "Creates a new category"));
+
+
+        categoryGroup.MapRoutePut(UpdateCategoryAsync, "/{id:int}")
+            .RequirePermission("Category:U")
             .WithMetadata(new OpenApiOperationAttribute(nameof(UpdateCategoryAsync), "Update a category by ID", "Updates a category by its ID"));
 
-        categoryGroup.MapRouteDelete(DeleteCategoryAsync, "/{id:guid}")
+        categoryGroup.MapRouteDelete(DeleteCategoryAsync, "/{id:int}")
+            .RequirePermission("Category:D")
             .WithMetadata(new OpenApiOperationAttribute(nameof(DeleteCategoryAsync), "Delete a category by ID", "Deletes a category by its ID"));
     }
     public async Task<Ok<PaginatedList<CategoryDto>>> GetCategories(ISender sender, [AsParameters] GetCategoryPaginationQuery query, CancellationToken cancellationToken)

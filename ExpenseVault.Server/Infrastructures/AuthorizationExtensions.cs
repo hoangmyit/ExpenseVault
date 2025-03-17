@@ -5,15 +5,15 @@ namespace ExpenseVault.Server.Infrastructures;
 
 public static class AuthorizationExtensions
 {
-    public static RouteHandlerBuilder RequirePermission(
-        this RouteHandlerBuilder builder, 
-        string permission)
+    public static RouteGroupBuilder RequirePermission(
+     this RouteGroupBuilder builder,
+     string permission)
     {
         builder.AddEndpointFilter(async (context, next) =>
         {
             var permissionService = context.HttpContext.RequestServices
                 .GetRequiredService<IPermissionService>();
-            
+
             var userId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -30,9 +30,9 @@ public static class AuthorizationExtensions
 
         return builder;
     }
-    
-    public static RouteHandlerBuilder RequireAnyPermission(
-        this RouteHandlerBuilder builder, 
+
+    public static RouteGroupBuilder RequireAnyPermission(
+        this RouteGroupBuilder builder, 
         params string[] permissions)
     {
         builder.AddEndpointFilter(async (context, next) =>
@@ -57,8 +57,8 @@ public static class AuthorizationExtensions
         return builder;
     }
     
-    public static RouteHandlerBuilder RequireAllPermissions(
-        this RouteHandlerBuilder builder, 
+    public static RouteGroupBuilder RequireAllPermissions(
+        this RouteGroupBuilder builder, 
         params string[] permissions)
     {
         builder.AddEndpointFilter(async (context, next) =>

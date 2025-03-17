@@ -35,6 +35,7 @@ namespace EV.Infrastructure
                 .AddDefaultTokenProviders();
 
             services.AddScoped<ApplicationDbContextInitialiser>();
+            services.AddScoped<IPermissionService, PermissionService>();
 
             services.AddSingleton(TimeProvider.System);
 

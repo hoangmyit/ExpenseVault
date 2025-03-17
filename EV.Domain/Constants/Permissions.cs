@@ -1,39 +1,41 @@
-namespace EV.Domain.Constants;
-
-public static class Permissions
+// EV.Domain/Constants/Permissions.cs
+namespace EV.Domain.Constants
 {
-    // Category Permissions
-    public static class Categories
+    public static class Permissions
     {
-        public const string View = "Categories.View";
-        public const string Create = "Categories.Create";
-        public const string Edit = "Categories.Edit";
-        public const string Delete = "Categories.Delete";
-    }
+        public static class Categories
+        {
+            public const string View = "Category:R";
+            public const string Create = "Category:C";
+            public const string Edit = "Category:U";
+            public const string Delete = "Category:D";
+            public const string All = "Category:*";
+        }
 
-    // Expense Permissions
-    public static class Expenses
-    {
-        public const string View = "Expenses.View";
-        public const string Create = "Expenses.Create";
-        public const string Edit = "Expenses.Edit";
-        public const string Delete = "Expenses.Delete";
-    }
+        public static class Expenses
+        {
+            public const string View = "Expense:R";
+            public const string Create = "Expense:C";
+            public const string Edit = "Expense:U";
+            public const string Delete = "Expense:D";
+            public const string All = "Expense:*";
+        }
 
-    // Report Permissions
-    public static class Reports
-    {
-        public const string View = "Reports.View";
-        public const string Create = "Reports.Create";
-        public const string Export = "Reports.Export";
-    }
+        public static class Reports
+        {
+            public const string View = "Report:R";
+            public const string Create = "Report:C";
+            public const string Export = "Report:E";
+            public const string All = "Report:*";
+        }
 
-    // User Management Permissions
-    public static class Users
-    {
-        public const string View = "Users.View";
-        public const string Create = "Users.Create";
-        public const string Edit = "Users.Edit";
-        public const string Delete = "Users.Delete";
+        public static class Users
+        {
+            public const string View = "User:R";
+            public const string Create = "User:C";
+            public const string Edit = "User:U";
+            public const string Delete = "User:D";
+            public const string All = "User:*";
+        }
     }
 }
