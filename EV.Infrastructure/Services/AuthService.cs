@@ -2,6 +2,7 @@
 using EV.Application.Common.Models;
 using EV.Application.Common.Utilities;
 using EV.Application.Identity.Commands;
+using EV.Application.Identity.Commands.Login;
 using EV.Application.Identity.Commands.RegisterUser;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ namespace EV.Infrastructure.Services
         private readonly IAppSettingsService _settingsService;
         private readonly TimeProvider _timeProvider;
         private readonly Jwt _configuration;
+        private readonly IDictionary<string, string[]> _signInFailure;
 
         public AuthService(
             UserManager<ApplicationUser> userManager,
@@ -33,15 +35,18 @@ namespace EV.Infrastructure.Services
             _settingsService = settingsService;
             _timeProvider = timeProvider;
             _configuration = _settingsService.GetAppSettings().Jwt;
+            _signInFailure = new Dictionary<string, string[]>();
+            _signInFailure!.Add(nameof(LoginCommand.Username), ["Invalid username or password."]);
+            _signInFailure!.Add(nameof(LoginCommand.Password), ["Invalid username or password."]);
         }
 
         public async Task<string> AuthenticateAsync(string username, string password)
         {
             var user = await _userManager.FindByEmailAsync(username);
-            Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password.");
+            Guard.Against.AgainstValidationException(user == null, _signInFailure);
 
             var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
-            Guard.Against.AgainstUnauthenticated(!result.Succeeded, "Invalid username or password.");
+            Guard.Against.AgainstValidationException(!result.Succeeded, _signInFailure);
 
             return await GenerateTokenAsync(user!);
         }
@@ -49,7 +54,7 @@ namespace EV.Infrastructure.Services
         public async Task<string> GenerateRefreshTokenAsync(string username)
         {
             var user = StringUtilities.IsValidEmail(username) ? await _userManager.FindByEmailAsync(username) : await _userManager.FindByNameAsync(username);
-            Guard.Against.AgainstUnauthenticated(user == null, "Invalid username or password");
+            Guard.Against.AgainstValidationException(user == null, _signInFailure);
 
             return await GenerateRefreshTokenAsync(user!);
         }

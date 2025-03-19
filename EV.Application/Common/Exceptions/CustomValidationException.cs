@@ -24,5 +24,13 @@ namespace EV.Application.Common.Exceptions
         {
             Errors.Add(key.ToCamelCase(), new string[] { message });
         }
+
+        public CustomValidationException(IDictionary<string, string[]> failureFields) : this()
+        {
+            foreach(var item in failureFields)
+            {
+                Errors.Add(item.Key.ToCamelCase(), item.Value);
+            }
+        }
     }
 }

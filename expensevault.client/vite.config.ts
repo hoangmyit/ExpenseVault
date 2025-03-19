@@ -9,6 +9,7 @@ import path from 'path';
 import { env } from 'process';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const baseFolder =
@@ -60,6 +61,13 @@ export default defineConfig(({ mode }) => {
           brotliSize: true,
         }),
       mode !== 'production' && reactRouterDevTools(),
+      svgr({
+        svgrOptions: {
+          icon: true,
+          exportType: 'named',
+          namedExport: 'ReactComponent',
+        },
+      }),
     ].filter(Boolean),
     resolve: {
       alias: {

@@ -28,12 +28,27 @@ namespace EV.Application.Common.Utilities
                 throw new CustomValidationException(fieldName, message);
             }
         }
+        public static void AgainstValidationException(this IGuardClause guard, bool condition, IDictionary<string, string[]> failureFields)
+        {
+            if (condition)
+            {
+                throw new CustomValidationException(failureFields);
+            }
+        }
 
         public static async Task AgainstValidationExceptionAsync(this IGuardClause guard, Task<bool> conditionTask, string fieldName, string message = "The operation is invalid.")
         {
             if (await conditionTask)
             {
                 throw new CustomValidationException(fieldName, message);
+            }
+        }
+
+        public static async Task AgainstValidationExceptionAsync(this IGuardClause guard, Task<bool> conditionTask, IDictionary<string, string[]> failureFields)
+        {
+            if (await conditionTask)
+            {
+                throw new CustomValidationException(failureFields);
             }
         }
 
