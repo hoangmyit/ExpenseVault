@@ -10,7 +10,7 @@ import {
   setRefreshToken,
 } from '../utils/auth-util';
 
-import { toastSuccess } from '@/shared/components/feedback/toast/toast-event';
+import { toastSuccess } from '@/shared/components/feedback/toast/toast';
 import { ValidationErrors } from '@/shared/types/common';
 import {
   LoginCommand,

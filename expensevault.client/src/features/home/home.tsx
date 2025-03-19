@@ -9,7 +9,7 @@ import {
   toastInfo,
   toastSuccess,
   toastWarning,
-} from '@/shared/components/feedback/toast/toast-event';
+} from '@/shared/components/feedback/toast/toast';
 
 const HomePage: FC = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>();

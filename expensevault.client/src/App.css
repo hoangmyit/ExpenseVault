@@ -1,49 +1,53 @@
 ﻿:root {
-  --toastify-color-light: var(--color-base-100);
-  --toastify-color-dark: var(--color-neutral);
-  --toastify-color-info: var(--color-info);
-  --toastify-color-success: var(--color-success);
-  --toastify-color-warning: var(--color-warning);
-  --toastify-color-error: var(--color-error);
+  /* Map React-Toastify variables to DaisyUI theme variables */
+  --toastify-color-light: var(--b1, white);
+  --toastify-color-dark: var(--n, #333);
+  --toastify-color-info: var(--in, #3abff8);
+  --toastify-color-success: var(--su, #36d399);
+  --toastify-color-warning: var(--wa, #fbbd23);
+  --toastify-color-error: var(--er, #f87272);
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   
-  --toastify-icon-color-info: var(--color-info);
-  --toastify-icon-color-success: var(--color-success);
-  --toastify-icon-color-warning: var(--color-warning);
-  --toastify-icon-color-error: var(--color-error);
+  /* Icon colors */
+  --toastify-icon-color-info: var(--in, #3abff8);
+  --toastify-icon-color-success: var(--su, #36d399);
+  --toastify-icon-color-warning: var(--wa, #fbbd23);
+  --toastify-icon-color-error: var(--er, #f87272);
   
-  --toastify-container-width: fit-content;
+  /* Text colors */
+  --toastify-text-color-light: var(--bc, #1f2937);
+  --toastify-text-color-dark: var(--nc, white);
+  
+  /* For colored toasts, ensure text is readable */
+  --toastify-text-color-info: var(--inc, white);
+  --toastify-text-color-success: var(--suc, white);
+  --toastify-text-color-warning: var(--wac, white);
+  --toastify-text-color-error: var(--erc, white);
+  
+  /* Progress bar */
+  --toastify-color-progress-info: var(--in, #3abff8);
+  --toastify-color-progress-success: var(--su, #36d399);
+  --toastify-color-progress-warning: var(--wa, #fbbd23);
+  --toastify-color-progress-error: var(--er, #f87272);
+  
+  /* Layout */
   --toastify-toast-width: 320px;
-  --toastify-toast-offset: 16px;
-  --toastify-toast-top: max(var(--toastify-toast-offset), env(safe-area-inset-top));
-  --toastify-toast-right: max(var(--toastify-toast-offset), env(safe-area-inset-right));
-  --toastify-toast-left: max(var(--toastify-toast-offset), env(safe-area-inset-left));
-  --toastify-toast-bottom: max(var(--toastify-toast-offset), env(safe-area-inset-bottom));
-  --toastify-toast-background: #fff;
-  --toastify-toast-padding: 14px;
-  --toastify-toast-min-height: 64px;
-  --toastify-toast-max-height: 800px;
-  --toastify-toast-bd-radius: 6px;
-  --toastify-toast-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  --toastify-font-family: "Poppins", "sans-serif";
-  --toastify-z-index: 9999;
-  --toastify-text-color-light: var(--color-base-content);
-  --toastify-text-color-dark: var(--color-neutral-content);
+  --toastify-toast-bd-radius: var(--rounded-box, 1rem);
+}
 
-  /* Used only for colored theme */
-  --toastify-text-color-info: #fff;
-  --toastify-text-color-success: #fff;
-  --toastify-text-color-warning: #fff;
-  --toastify-text-color-error: #fff;
+/* Add DaisyUI-like styling to the toast container */
+.Toastify__toast {
+  font-family: "Poppins", sans-serif;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  border-radius: var(--rounded-box, 1rem);
+}
 
-  --toastify-spinner-color: #616161;
-  --toastify-spinner-color-empty-area: #e0e0e0;
-  --toastify-color-progress-light: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55);
-  --toastify-color-progress-dark: #bb86fc;
-  --toastify-color-progress-info: var(--color-info);
-  --toastify-color-progress-success: var(--color-success);
-  --toastify-color-progress-warning: var(--color-warning);
-  --toastify-color-progress-error: var(--color-error);
-  /* used to control the opacity of the progress trail */
-  --toastify-color-progress-bgo: 0.2;
+/* Apply DaisyUI button styling to close button */
+.Toastify__close-button {
+  color: var(--bc, #1f2937);
+  opacity: 0.7;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
 }

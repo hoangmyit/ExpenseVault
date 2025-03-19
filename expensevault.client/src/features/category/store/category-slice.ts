@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   toastError,
   toastSuccess,
-} from '../../../shared/components/feedback/toast/toast-event';
+} from '../../../shared/components/feedback/toast/toast';
 import { CommonState } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
