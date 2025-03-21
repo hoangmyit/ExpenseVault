@@ -1,16 +1,17 @@
-using EV.Application.Common.Interfaces;
 using System.Security.Claims;
+using EV.Application.Common.Interfaces;
 
 namespace ExpenseVault.Server.Infrastructures;
 
 public static class AuthorizationExtensions
 {
-    public static RouteGroupBuilder RequirePermission(
-     this RouteGroupBuilder builder,
+    public static RouteHandlerBuilder RequirePermission(
+     this RouteHandlerBuilder builder,
      string permission)
     {
         builder.AddEndpointFilter(async (context, next) =>
         {
+            Console.WriteLine($"Checking permission: {permission} for path: {context.HttpContext.Request.Path}");
             var permissionService = context.HttpContext.RequestServices
                 .GetRequiredService<IPermissionService>();
 
@@ -32,14 +33,14 @@ public static class AuthorizationExtensions
     }
 
     public static RouteGroupBuilder RequireAnyPermission(
-        this RouteGroupBuilder builder, 
+        this RouteGroupBuilder builder,
         params string[] permissions)
     {
         builder.AddEndpointFilter(async (context, next) =>
         {
             var permissionService = context.HttpContext.RequestServices
                 .GetRequiredService<IPermissionService>();
-            
+
             var userId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -56,16 +57,16 @@ public static class AuthorizationExtensions
 
         return builder;
     }
-    
+
     public static RouteGroupBuilder RequireAllPermissions(
-        this RouteGroupBuilder builder, 
+        this RouteGroupBuilder builder,
         params string[] permissions)
     {
         builder.AddEndpointFilter(async (context, next) =>
         {
             var permissionService = context.HttpContext.RequestServices
                 .GetRequiredService<IPermissionService>();
-            
+
             var userId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {

@@ -16,6 +16,8 @@ import {
 import { LoginResponse } from '../../shared/types/common/backend-model';
 import { ConsoleLog } from '../../shared/utils/common-util';
 
+import { navigateTo } from '@/routes/utils/route-util';
+
 const defaultConfig: AxiosRequestConfig = {
   baseURL: SETTING_ENV.apiUrl,
   timeout: SETTING_ENV.timeout,
@@ -129,10 +131,7 @@ httpClient.interceptors.response.use(
 
           // Only redirect to login if this wasn't a background request
           if (typeof window !== 'undefined') {
-            const navigationEvent = new CustomEvent('auth:unauthorized', {
-              detail: { redirectTo: '/sign-in' },
-            });
-            window.dispatchEvent(navigationEvent);
+            navigateTo('auth:unauthorized', '/login');
           }
 
           ConsoleLog(err);
@@ -140,6 +139,11 @@ httpClient.interceptors.response.use(
         } finally {
           isRefreshing = false;
         }
+      }
+    } else if (error.response?.status === 403) {
+      // Forbidden
+      if (typeof window !== 'undefined') {
+        navigateTo('auth:forbidden', '/forbidden');
       }
     }
 
