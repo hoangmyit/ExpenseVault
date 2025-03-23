@@ -1,4 +1,4 @@
-export const ROUTE_PATHS: Record<string, string> = {
+export const ROUTE_PATHS = {
   ROOT: '/',
   DASHBOARD: '/dashboard',
   CATEGORIES: '/category',

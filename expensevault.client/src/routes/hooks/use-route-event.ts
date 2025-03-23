@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
+import { ROUTE_PATHS } from '../constants/route-paths';
 import {
   RouteChangeEvent,
   RouteChangeEventName,
@@ -16,9 +17,9 @@ export const useRouteEvent = () => {
       const { redirectTo, type } = event.detail;
 
       if (type === RouteChangeType_AuthUnauthorized) {
-        navigate('/sign-in', { replace: true });
+        navigate(ROUTE_PATHS.SIGN_IN, { replace: true });
       } else if (type === RouteChangeType_AuthForbidden) {
-        navigate('/forbidden', { replace: true });
+        navigate(ROUTE_PATHS.FORBIDDEN, { replace: true });
       } else if (redirectTo) {
         navigate(redirectTo);
       }

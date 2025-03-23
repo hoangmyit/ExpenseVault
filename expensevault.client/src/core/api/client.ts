@@ -8,6 +8,7 @@ import axios, {
 import { SETTING_ENV } from '../../configs/environment';
 import {
   getAuthUser,
+  getRefreshToken,
   removeAuthUser,
   removeRefreshToken,
   setAuthUser,
@@ -16,11 +17,13 @@ import {
 import { LoginResponse } from '../../shared/types/common/backend-model';
 import { consoleLog } from '../../shared/utils/common-util';
 
+import { ROUTE_PATHS } from '@/routes/constants/route-paths';
 import {
   RouteChangeType_AuthForbidden,
   RouteChangeType_AuthUnauthorized,
 } from '@/routes/types/route-event.type';
 import { navigateTo } from '@/routes/utils/route-util';
+import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: SETTING_ENV.apiUrl,
@@ -95,7 +98,7 @@ httpClient.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          const refreshToken = localStorage.getItem('refresh_token');
+          const refreshToken = getRefreshToken();
           if (!refreshToken) {
             removeAuthUser();
             removeRefreshToken();
@@ -134,8 +137,8 @@ httpClient.interceptors.response.use(
           processQueue(err as Error);
 
           // Only redirect to login if this wasn't a background request
-          if (typeof window !== 'undefined') {
-            navigateTo(RouteChangeType_AuthUnauthorized, '/login');
+          if (!isNullOrUndefined(window)) {
+            navigateTo(RouteChangeType_AuthUnauthorized, ROUTE_PATHS.SIGN_IN);
           }
 
           consoleLog(err);
@@ -146,8 +149,8 @@ httpClient.interceptors.response.use(
       }
     } else if (error.response?.status === 403) {
       // Forbidden
-      if (typeof window !== 'undefined') {
-        navigateTo(RouteChangeType_AuthForbidden, '/forbidden');
+      if (!isNullOrUndefined(window)) {
+        navigateTo(RouteChangeType_AuthForbidden, ROUTE_PATHS.FORBIDDEN);
       }
     }
 
