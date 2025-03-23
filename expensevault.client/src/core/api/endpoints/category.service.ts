@@ -5,7 +5,7 @@ import {
   httpServicePut,
 } from '../client';
 
-import { CategoryParams } from '@/features/category/types/category';
+import { CategoryParams } from '@/features/category/types/category.type';
 import { ApiResult, PaginatedList } from '@/shared/types/common';
 import { CategoryDto } from '@/shared/types/common/backend-model';
 

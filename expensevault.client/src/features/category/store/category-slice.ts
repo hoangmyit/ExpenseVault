@@ -8,8 +8,7 @@ import { CommonState } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
-import { ICategoryState } from '../category.const';
-import { CategoryParams } from '../types/category';
+import { CategoryParams, ICategoryState } from '../types/category.type';
 
 const initialState: ICategoryState = {
   categories: {

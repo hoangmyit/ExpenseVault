@@ -12,7 +12,7 @@ import {
   getCategoryRequest,
   updateCategoryRequest,
 } from '../store/category-slice';
-import { CategoryParams } from '../types/category';
+import { CategoryParams } from '../types/category.type';
 
 export const useCategory = () => {
   const dispatch = useDispatch();
