@@ -14,8 +14,12 @@ import {
   setRefreshToken,
 } from '../../features/auth/utils/auth-util';
 import { LoginResponse } from '../../shared/types/common/backend-model';
-import { ConsoleLog } from '../../shared/utils/common-util';
+import { consoleLog } from '../../shared/utils/common-util';
 
+import {
+  RouteChangeType_AuthForbidden,
+  RouteChangeType_AuthUnauthorized,
+} from '@/routes/types/route-event.type';
 import { navigateTo } from '@/routes/utils/route-util';
 
 const defaultConfig: AxiosRequestConfig = {
@@ -56,7 +60,7 @@ httpClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    ConsoleLog(error);
+    consoleLog(error);
     return Promise.reject(error);
   },
 );
@@ -83,7 +87,7 @@ httpClient.interceptors.response.use(
             return httpClient(originalRequest);
           })
           .catch((err) => {
-            ConsoleLog(err);
+            consoleLog(err);
             return Promise.reject(err);
           });
       } else {
@@ -96,7 +100,7 @@ httpClient.interceptors.response.use(
             removeAuthUser();
             removeRefreshToken();
             processQueue(new Error('No refresh token'));
-            ConsoleLog(error);
+            consoleLog(error);
             return Promise.reject(error);
           }
           const token = getAuthUser();
@@ -131,10 +135,10 @@ httpClient.interceptors.response.use(
 
           // Only redirect to login if this wasn't a background request
           if (typeof window !== 'undefined') {
-            navigateTo('auth:unauthorized', '/login');
+            navigateTo(RouteChangeType_AuthUnauthorized, '/login');
           }
 
-          ConsoleLog(err);
+          consoleLog(err);
           return Promise.reject(err);
         } finally {
           isRefreshing = false;
@@ -143,12 +147,12 @@ httpClient.interceptors.response.use(
     } else if (error.response?.status === 403) {
       // Forbidden
       if (typeof window !== 'undefined') {
-        navigateTo('auth:forbidden', '/forbidden');
+        navigateTo(RouteChangeType_AuthForbidden, '/forbidden');
       }
     }
 
     // For all other errors, just reject with the original error
-    ConsoleLog(error);
+    consoleLog(error);
     return Promise.reject(error);
   },
 );

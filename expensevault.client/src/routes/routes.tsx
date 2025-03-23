@@ -13,6 +13,8 @@ import {
 import HomePage from '../features/home/home';
 import FunctionLayout from '../shared/layouts/function-layout';
 
+import { useRouteEvent } from './hooks/use-route-event';
+
 import { useAuth } from '@/features/auth/hooks/use-auth';
 
 const ProtectedRoutes: FC<{
@@ -49,6 +51,7 @@ const PublicOnlyRoute: FC<{ element: React.ReactElement }> = ({ element }) => {
 };
 
 const MainRoutes: FC = () => {
+  useRouteEvent();
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/sign-in" replace />} />

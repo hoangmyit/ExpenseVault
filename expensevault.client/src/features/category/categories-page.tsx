@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-import { ConsoleLog } from '../../shared/utils/common-util';
+import { consoleLog } from '../../shared/utils/common-util';
 
 import { useCategory } from './hooks/use-category';
 
@@ -16,7 +16,7 @@ const CategoriesPage: FC = () => {
 
   const handleEdit = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
-      ConsoleLog('Edit category', id);
+      consoleLog('Edit category', id);
       navigate('/category/' + id);
       event.preventDefault();
     },
@@ -25,7 +25,7 @@ const CategoriesPage: FC = () => {
 
   const handleDelete = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
-      ConsoleLog('Delete category', id);
+      consoleLog('Delete category', id);
       deleteCategory(id);
       event.preventDefault();
     },

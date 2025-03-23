@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import { ApiResult, ValidationErrors } from '../types/common';
 
-import { ConsoleLog, getErrorMessage } from './common-util';
+import { consoleLog, getErrorMessage } from './common-util';
 
 export function* handleApiCall<
   TRequest,
@@ -60,7 +60,7 @@ export function* handleApiCall<
     yield put(successAction(result.data));
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    ConsoleLog(error);
+    consoleLog(error);
     const errorMessage = getErrorMessage(error, TOAST_MESSAGES_ERROR);
     yield put(failureAction(errorMessage));
     if (error.response?.status === 400 && validationAction) {

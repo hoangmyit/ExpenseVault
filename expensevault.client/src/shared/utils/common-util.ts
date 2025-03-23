@@ -7,8 +7,11 @@ export const getErrorMessage = (error: unknown, defaultMsg: string): string => {
   return defaultMsg;
 };
 
-export const ConsoleLog = (...args: unknown[]): void => {
+export const consoleLog = (...args: unknown[]): void => {
   if (SETTING_ENV.consoleLog) {
     console.log(...args);
   }
 };
+
+export const dispatchEvent = (event: CustomEvent): boolean =>
+  window.dispatchEvent(event);

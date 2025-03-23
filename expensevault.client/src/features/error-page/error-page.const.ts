@@ -1,8 +1,9 @@
 /* eslint-disable quotes */
 export type ErrorPageProps = {
   code: number;
-  message: string;
+  message?: string;
   description: string;
+  title: string;
 };
 
 export const enum ErrorCode {
@@ -15,22 +16,22 @@ export const enum ErrorCode {
 export const ErrorPageData: Record<ErrorCode, ErrorPageProps> = {
   [ErrorCode.NOT_FOUND]: {
     code: ErrorCode.NOT_FOUND,
-    message: "Oops. The page you were looking for doesn't exist.",
+    title: "Oops. The page you were looking for doesn't exist.",
     description: "Oops. The page you were looking for doesn't exist.",
   },
   [ErrorCode.UNAUTHORIZED]: {
     code: ErrorCode.UNAUTHORIZED,
-    message: 'Unauthorized',
+    title: 'Unauthorized',
     description: 'You are not authorized to view the page.',
   },
   [ErrorCode.FORBIDDEN]: {
     code: ErrorCode.FORBIDDEN,
-    message: 'Forbidden',
+    title: 'Forbidden',
     description: 'You don’t have permission to access this page.',
   },
   [ErrorCode.SERVER_ERROR]: {
     code: ErrorCode.SERVER_ERROR,
-    message: 'Server Error',
+    title: 'Server Error',
     description: 'An error occurred on the server. Please try again later.',
   },
 };
