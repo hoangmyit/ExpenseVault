@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router';
 
-export const PageLayout: FC = () => {
+const MainLayout: FC = () => {
   return (
     <div>
       <aside>Example sidebar</aside>
@@ -11,3 +11,5 @@ export const PageLayout: FC = () => {
     </div>
   );
 };
+
+export default MainLayout;
