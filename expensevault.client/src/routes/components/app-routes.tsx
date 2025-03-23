@@ -35,7 +35,7 @@ const AppRoutes: FC = () => {
             element={
               <ProtectedRoute
                 element={route.element}
-                requiredRoles={route.requiredRoles}
+                requiredPermissions={route.requiredRoles}
               />
             }
           />

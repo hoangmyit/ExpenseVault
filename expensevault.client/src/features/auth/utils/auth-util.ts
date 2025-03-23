@@ -4,21 +4,26 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token.const';
 import { MyJwtPayload } from '../types/token.type';
 
 import { AuthUser } from '@/shared/types/common';
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from '@/shared/utils/common-util';
 import { isArray } from '@/shared/utils/type-utils';
 
-export const setAuthUser = (token: string) =>
-  localStorage.setItem(ACCESS_TOKEN, token);
-export const getAuthUser = () => localStorage.getItem(ACCESS_TOKEN);
-export const removeAuthUser = () => localStorage.removeItem(ACCESS_TOKEN);
+export const setAuthToken = (token: string) =>
+  setLocalStorageItem(ACCESS_TOKEN, token);
+export const getAuthToken = () => getLocalStorageItem(ACCESS_TOKEN);
+export const removeAuthToken = () => removeLocalStorageItem(ACCESS_TOKEN);
 
 export const setRefreshToken = (token: string) =>
-  localStorage.setItem(REFRESH_TOKEN, token);
-export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
-export const removeRefreshToken = () => localStorage.removeItem(REFRESH_TOKEN);
+  setLocalStorageItem(REFRESH_TOKEN, token);
+export const getRefreshToken = () => getLocalStorageItem(REFRESH_TOKEN);
+export const removeRefreshToken = () => removeLocalStorageItem(REFRESH_TOKEN);
 
-export const isAuthenticated = () => !!getAuthUser();
+export const isAuthenticated = () => !!getAuthToken();
 export const getAuthInfo = (): AuthUser | null => {
-  const token = getAuthUser();
+  const token = getAuthToken();
   if (!token) {
     return null;
   }

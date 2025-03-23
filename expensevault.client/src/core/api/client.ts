@@ -7,11 +7,11 @@ import axios, {
 
 import { SETTING_ENV } from '../../configs/environment';
 import {
-  getAuthUser,
+  getAuthToken,
   getRefreshToken,
-  removeAuthUser,
+  removeAuthToken,
   removeRefreshToken,
-  setAuthUser,
+  setAuthToken,
   setRefreshToken,
 } from '../../features/auth/utils/auth-util';
 import { LoginResponse } from '../../shared/types/common/backend-model';
@@ -56,7 +56,7 @@ const processQueue = (error: Error | null) => {
 
 httpClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
+    const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -100,13 +100,13 @@ httpClient.interceptors.response.use(
         try {
           const refreshToken = getRefreshToken();
           if (!refreshToken) {
-            removeAuthUser();
+            removeAuthToken();
             removeRefreshToken();
             processQueue(new Error('No refresh token'));
             consoleLog(error);
             return Promise.reject(error);
           }
-          const token = getAuthUser();
+          const token = getAuthToken();
           // Prevent refresh token request from triggering another refresh
           const response = await unauthenticatedHttpClient.post<LoginResponse>(
             'api/auth/refresh-token',
@@ -119,7 +119,7 @@ httpClient.interceptors.response.use(
           if (response.data) {
             const { refreshToken: newRefreshToken, token } = response.data;
             setRefreshToken(newRefreshToken);
-            setAuthUser(token);
+            setAuthToken(token);
             originalRequest.headers.Authorization = `Bearer ${token}`;
 
             // Process all queued requests
@@ -132,7 +132,7 @@ httpClient.interceptors.response.use(
             throw new Error('Invalid refresh token response');
           }
         } catch (err) {
-          removeAuthUser();
+          removeAuthToken();
           removeRefreshToken();
           processQueue(err as Error);
 

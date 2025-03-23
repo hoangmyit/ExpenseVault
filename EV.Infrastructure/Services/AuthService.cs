@@ -122,16 +122,16 @@ namespace EV.Infrastructure.Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), 
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, GetUnixTimeSeconds(0), ClaimValueTypes.Integer64),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
             };
 
             foreach (var role in userRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, role)); // Role claims
             }
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -146,6 +146,7 @@ namespace EV.Infrastructure.Services
             var tokenResult = tokenHandler.WriteToken(token);
             return tokenResult;
         }
+
 
         private ClaimsPrincipal GetPrincipalFromExpiringToken(string expiringToken)
         {

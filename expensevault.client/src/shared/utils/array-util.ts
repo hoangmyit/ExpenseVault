@@ -27,36 +27,36 @@ import {
  * Maps each element of an array using the provided function with index support
  * @template T - Type of elements in the input array
  * @template U - Type of elements in the output array
- * @param {(item: T, index?: number, arr?: T[]) => U} fn - Mapping function
  * @param {T[]} arr - Input array
+ * @param {(item: T, index?: number, arr?: T[]) => U} fn - Mapping function
  * @returns {U[]} - Mapped array
  */
 export const mapArray = <T, U>(
-  fn: (item: T, index?: number, arr?: T[]) => U,
   arr: T[],
+  fn: (item: T, index?: number, arr?: T[]) => U,
 ): U[] =>
   addIndex(map)((item, idx, list) => fn(item as T, idx, list as T[]), arr);
 
 /**
  * Filters elements of an array using the provided predicate function
  * @template T - Type of elements in the array
- * @param {(item: T) => boolean} fn - Predicate function
  * @param {T[]} arr - Input array
+ * @param {(item: T) => boolean} fn - Predicate function
  * @returns {T[]} - Filtered array
  */
-export const filterArray = <T>(fn: (item: T) => boolean, arr: T[]): T[] =>
+export const filterArray = <T>(arr: T[], fn: (item: T) => boolean): T[] =>
   filter(fn, arr);
 
 /**
  * Finds the first element in an array that satisfies the provided function
  * @template T - Type of elements in the array
- * @param {(item: T) => boolean} fn - Predicate function
  * @param {T[]} arr - Input array
+ * @param {(item: T) => boolean} fn - Predicate function
  * @returns {T | undefined} - Found element or undefined if not found
  */
 export const findArray = <T>(
-  fn: (item: T) => boolean,
   arr: T[],
+  fn: (item: T) => boolean,
 ): T | undefined => find(fn, arr);
 
 /**
@@ -69,13 +69,13 @@ export const getArrayLength = (arr: unknown[]): number => length(arr);
 /**
  * Executes a provided function once for each array element with index support
  * @template T - Type of elements in the array
- * @param {(item: T, index?: number, arr?: T[]) => void} fn - Function to execute
  * @param {T[]} arr - Input array
+ * @param {(item: T, index?: number, arr?: T[]) => void} fn - Function to execute
  * @returns {T[]} - The original array (for chaining)
  */
 export const forEachArray = <T>(
-  fn: (item: T, index?: number, arr?: T[]) => void,
   arr: T[],
+  fn: (item: T, index?: number, arr?: T[]) => void,
 ): T[] => {
   addIndex(forEach)(
     fn as (item: unknown, index: number, arr: unknown[]) => void,
@@ -132,13 +132,13 @@ export const flattenArray = <T>(arr: T[][]): T[] => Array.from(flatten(arr));
 /**
  * Groups array elements by a key function
  * @template T - Type of elements in the array
- * @param {(item: T) => string} fn - Key function for grouping
  * @param {T[]} arr - Input array
+ * @param {(item: T) => string} fn - Key function for grouping
  * @returns {Record<string, T[]>} - Object with groups of elements
  */
 export const groupArray = <T>(
-  fn: (item: T) => string,
   arr: T[],
+  fn: (item: T) => string,
 ): Record<string, T[]> => {
   const grouped = groupBy(fn, arr);
   return Object.keys(grouped).reduce(
@@ -154,25 +154,25 @@ export const groupArray = <T>(
  * Reduces array to a single value
  * @template T - Type of elements in the array
  * @template R - Type of the accumulated result
+ * @param {T[]} arr - Input array
  * @param {(acc: R, item: T) => R} fn - Reducer function
  * @param {R} initial - Initial value
- * @param {T[]} arr - Input array
  * @returns {R} - Accumulated result
  */
 export const reduceArray = <T, R>(
+  arr: T[],
   fn: (acc: R, item: T) => R,
   initial: R,
-  arr: T[],
 ): R => reduce(fn, initial, arr);
 
 /**
  * Checks if an array includes a specific value
  * @template T - Type of elements in the array
- * @param {T} value - Value to check for
  * @param {T[]} arr - Input array
+ * @param {T} value - Value to check for
  * @returns {boolean} - True if the value exists in the array
  */
-export const includesArray = <T>(value: T, arr: T[]): boolean =>
+export const includesArray = <T>(arr: T[], value: T): boolean =>
   includes(value, arr);
 
 /**
@@ -185,21 +185,21 @@ export const sumArray = (arr: number[]): number => sum(arr);
 /**
  * Checks if any element in the array satisfies the predicate
  * @template T - Type of elements in the array
- * @param {(item: T) => boolean} fn - Predicate function
  * @param {T[]} arr - Input array
+ * @param {(item: T) => boolean} fn - Predicate function
  * @returns {boolean} - True if any element satisfies the predicate
  */
-export const anyArray = <T>(fn: (item: T) => boolean, arr: T[]): boolean =>
+export const anyArray = <T>(arr: T[], fn: (item: T) => boolean): boolean =>
   any(fn, arr);
 
 /**
  * Checks if all elements in the array satisfy the predicate
  * @template T - Type of elements in the array
- * @param {(item: T) => boolean} fn - Predicate function
  * @param {T[]} arr - Input array
+ * @param {(item: T) => boolean} fn - Predicate function
  * @returns {boolean} - True if all elements satisfy the predicate
  */
-export const allArray = <T>(fn: (item: T) => boolean, arr: T[]): boolean =>
+export const allArray = <T>(arr: T[], fn: (item: T) => boolean): boolean =>
   all(fn, arr);
 
 /**

@@ -7,6 +7,11 @@ import {
   unauthenticatedHttpClient,
 } from './client';
 
+import {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+} from '@/features/auth/constants/token.const';
+
 // Mock the auth utilities
 vi.mock('../../../utils/auth-util', () => ({
   removeAuthUser: vi.fn(),
@@ -91,7 +96,7 @@ describe('HTTP Service', () => {
       const endpoint = '/test-endpoint';
       const responseData = { data: 'success' };
 
-      localStorage.setItem('auth_token', authToken);
+      localStorage.setItem(ACCESS_TOKEN, authToken);
       mockAxios.onGet(endpoint).reply(200, responseData);
 
       // Act
@@ -115,8 +120,8 @@ describe('HTTP Service', () => {
       const endpoint = '/protected-resource';
       const protectedData = { data: 'protected data' };
 
-      localStorage.setItem('auth_token', expiredToken);
-      localStorage.setItem('refresh_token', validRefreshToken);
+      localStorage.setItem(ACCESS_TOKEN, expiredToken);
+      localStorage.setItem(REFRESH_TOKEN, validRefreshToken);
 
       mockAxios
         .onGet(endpoint)
@@ -152,8 +157,8 @@ describe('HTTP Service', () => {
       const endpoint = '/protected-resource';
       const loginPage = '/login';
 
-      localStorage.setItem('auth_token', expiredToken);
-      localStorage.setItem('refresh_token', invalidRefreshToken);
+      localStorage.setItem(ACCESS_TOKEN, expiredToken);
+      localStorage.setItem(REFRESH_TOKEN, invalidRefreshToken);
 
       mockAxios.onGet(endpoint).reply(401);
       mockAxios.onPost('/auth/refresh-token').reply(401, {
@@ -178,8 +183,8 @@ describe('HTTP Service', () => {
       const resource2 = { id: 2 };
       const resource3 = { id: 3 };
 
-      localStorage.setItem('auth_token', expiredToken);
-      localStorage.setItem('refresh_token', validRefreshToken);
+      localStorage.setItem(ACCESS_TOKEN, expiredToken);
+      localStorage.setItem(REFRESH_TOKEN, validRefreshToken);
 
       // Setup initial 401 responses
       mockAxios.onGet(endpoint1).replyOnce(401);

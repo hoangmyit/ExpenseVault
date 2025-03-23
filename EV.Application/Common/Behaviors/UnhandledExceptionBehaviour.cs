@@ -4,7 +4,7 @@ namespace EV.Application.Common.Behaviors
 {
     public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
-        private readonly ILogger<TRequest> _logger;
+    private readonly ILogger<TRequest> _logger;
         public UnhandledExceptionBehaviour(ILogger<TRequest> logger)
         {
             _logger = logger;
