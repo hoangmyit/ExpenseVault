@@ -8,9 +8,8 @@ export const toastConfig: ToastOptions = {
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,
-  // Use the system theme if available, otherwise default to light
   theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
-  className: 'daisyui-toast', // Custom class for additional styling
+  className: 'daisyui-toast',
 };
 
 // Convenience methods for common toast types

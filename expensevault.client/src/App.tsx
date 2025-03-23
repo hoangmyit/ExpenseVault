@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import MainRoutes from './routes/routes';
+import AppRoutes from './routes/components/app-routes';
 
 import './App.css';
 
 const App: FC = () => {
   return (
     <>
-      <MainRoutes />
+      <AppRoutes />
       <ToastContainer />
     </>
   );

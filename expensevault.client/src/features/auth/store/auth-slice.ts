@@ -5,8 +5,8 @@ import { LoginFormData, SignUpFormData } from '../schemas/auth-schemas';
 import { IAuthState } from '../types/sign-in.const';
 import {
   getAuthInfo,
-  removeAuthUser,
-  setAuthUser,
+  removeAuthToken,
+  setAuthToken,
   setRefreshToken,
 } from '../utils/auth-util';
 
@@ -46,7 +46,7 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action: PayloadAction<LoginResponse>) => {
       state.authInfo.status = 'succeeded';
-      setAuthUser(action.payload.token);
+      setAuthToken(action.payload.token);
       setRefreshToken(action.payload.refreshToken);
       state.authInfo.data = getAuthInfo();
       state.authInfo.isAuthenticated = true;
@@ -62,7 +62,7 @@ const authSlice = createSlice({
       state.authInfo.errors = action.payload;
     },
     logout: (state) => {
-      removeAuthUser();
+      removeAuthToken();
       state.authInfo.isAuthenticated = false;
       state.authInfo.data = null;
     },

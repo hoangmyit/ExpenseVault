@@ -24,7 +24,8 @@ namespace EV.Application.Categories.Handlers
 
             return await _context.Categories
               .Where(x => !x.IsDelete)
-              .OrderBy(x => x.Name)
+              .OrderBy(x => x.GroupId)
+              .ThenBy(x => x.Name)
               .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
               .PaginatedListAsync(request.PageIndex, request.PageSize);
         }

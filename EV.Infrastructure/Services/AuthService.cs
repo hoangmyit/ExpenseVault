@@ -120,28 +120,23 @@ namespace EV.Infrastructure.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var userClaim = new ClaimsIdentity();
-            userClaim.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            userClaim.AddClaim(new Claim(ClaimTypes.Name, user!.UserName));
-            userClaim.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-            foreach (var item in userRoles)
+            var claims = new List<Claim>
             {
-                userClaim.AddClaim(new Claim(ClaimTypes.Role, item));
-                userClaim.AddClaim(new Claim(ClaimTypes.Role, "User"));
-            }
-
-            var claims = new Dictionary<string, object>
-            {
-                { JwtRegisteredClaimNames.Sub, user.UserName! },
-                { JwtRegisteredClaimNames.Iat, GetUnixTimeSeconds(0) },
-                { JwtRegisteredClaimNames.Email, user.Email! },
-                { JwtRegisteredClaimNames.Exp, GetUnixTimeSeconds(_configuration.ExpiryInMinutes) },
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), 
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, GetUnixTimeSeconds(0), ClaimValueTypes.Integer64),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName!),
             };
+
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role)); // Role claims
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = userClaim,
-                Claims = claims,
+                Subject = new ClaimsIdentity(claims),
                 Expires = _timeProvider.GetUtcNow().AddMinutes(_configuration.ExpiryInMinutes).UtcDateTime,
                 Issuer = _configuration.Issuer,
                 Audience = _configuration.Audience,
@@ -151,6 +146,7 @@ namespace EV.Infrastructure.Services
             var tokenResult = tokenHandler.WriteToken(token);
             return tokenResult;
         }
+
 
         private ClaimsPrincipal GetPrincipalFromExpiringToken(string expiringToken)
         {

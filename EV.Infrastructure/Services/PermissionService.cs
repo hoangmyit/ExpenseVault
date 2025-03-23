@@ -29,8 +29,8 @@ public class PermissionService : IPermissionService
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(permission))
                 return false;
 
-            var permissions = await GetUserPermissionsAsync(userId);
-            return permissions.Contains(permission);
+            var userPermissions = await GetUserPermissionsAsync(userId);
+            return CheckPermissionMatch(userPermissions, permission);
         }
         catch (Exception ex)
         {
@@ -47,7 +47,7 @@ public class PermissionService : IPermissionService
                 return false;
 
             var userPermissions = await GetUserPermissionsAsync(userId);
-            return permissions.Any(p => userPermissions.Contains(p));
+            return permissions.Any(p => CheckPermissionMatch(userPermissions, p));
         }
         catch (Exception ex)
         {
@@ -64,7 +64,7 @@ public class PermissionService : IPermissionService
                 return false;
 
             var userPermissions = await GetUserPermissionsAsync(userId);
-            return permissions.All(p => userPermissions.Contains(p));
+            return permissions.All(p => CheckPermissionMatch(userPermissions, p));
         }
         catch (Exception ex)
         {
@@ -88,7 +88,7 @@ public class PermissionService : IPermissionService
 
         // Get user roles
         var userRoles = await _userManager.GetRolesAsync(user);
-        
+
         // Get permissions from roles
         var rolePermissions = new List<string>();
         foreach (var roleName in userRoles)
@@ -100,9 +100,9 @@ public class PermissionService : IPermissionService
                 var permissions = roleClaims
                     .Where(c => c.Type == "Permission")
                     .Select(c => c.Value);
-                
+
                 rolePermissions.AddRange(permissions);
-                
+
                 // Add default permissions based on role
                 rolePermissions.AddRange(GetDefaultPermissionsForRole(roleName));
             }
@@ -112,45 +112,94 @@ public class PermissionService : IPermissionService
         return directPermissions.Union(rolePermissions).Distinct();
     }
 
+    private bool CheckPermissionMatch(IEnumerable<string> userPermissions, string requiredPermission)
+    {
+        // Direct match
+        if (userPermissions.Contains(requiredPermission))
+            return true;
+
+        // Extract resource and operation parts
+        var parts = requiredPermission.Split(':');
+        if (parts.Length != 2)
+            return false;
+
+        var resource = parts[0];
+        var operation = parts[1];
+
+        // Check for wildcard resource permissions (e.g., "Category:*")
+        var wildcardPermission = $"{resource}:*";
+        if (userPermissions.Contains(wildcardPermission))
+            return true;
+
+        // Check for specific operation in the user's permissions
+        foreach (var userPermission in userPermissions)
+        {
+            var userParts = userPermission.Split(':');
+            if (userParts.Length != 2)
+                continue;
+
+            var userResource = userParts[0];
+            var userOperations = userParts[1];
+
+            // If resources match and operation is included in user operations
+            if (userResource == resource &&
+                (userOperations == "*" ||
+                 CheckOperationMatch(userOperations, operation)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckOperationMatch(string userOperations, string requiredOperation)
+    {
+        // For single-character operations like "R", "C", "U", "D"
+        if (requiredOperation.Length == 1)
+        {
+            return userOperations.Contains(requiredOperation);
+        }
+
+        // For operation combinations like "CRUD"
+        foreach (char op in requiredOperation)
+        {
+            if (!userOperations.Contains(op))
+                return false;
+        }
+
+        return true;
+    }
+
     private static IEnumerable<string> GetDefaultPermissionsForRole(string roleName)
     {
         return roleName switch
         {
             Roles.Administrator => new[]
             {
-                Permissions.Categories.View, Permissions.Categories.Create, 
-                Permissions.Categories.Edit, Permissions.Categories.Delete,
-                
-                Permissions.Expenses.View, Permissions.Expenses.Create, 
-                Permissions.Expenses.Edit, Permissions.Expenses.Delete,
-                
-                Permissions.Reports.View, Permissions.Reports.Create, Permissions.Reports.Export,
-                
-                Permissions.Users.View, Permissions.Users.Create, 
-                Permissions.Users.Edit, Permissions.Users.Delete
+                "Category:*",
+                "Expense:*",
+                "Permission:*",
+                "Report:*",
+                "User:*"
             },
-            
+
             Roles.Manager => new[]
             {
-                Permissions.Categories.View, 
-                Permissions.Categories.Create, 
-                Permissions.Categories.Edit,
-                
-                Permissions.Expenses.View, Permissions.Expenses.Create, 
-                Permissions.Expenses.Edit, Permissions.Expenses.Delete,
-                
-                Permissions.Reports.View, Permissions.Reports.Create, Permissions.Reports.Export,
-                
-                Permissions.Users.View
+                "Category:CRU",
+                "Permission:R",
+                "Expense:CRUD",
+                "Report:CRU",
+                "User:R"
             },
-            
+
             Roles.User => new[]
             {
-                Permissions.Categories.View,
-                Permissions.Expenses.View, Permissions.Expenses.Create, Permissions.Expenses.Edit,
-                Permissions.Reports.View
+                "Category:R",
+                "Expense:CRUD",
+                "Report:R"
             },
-            
+
             _ => Array.Empty<string>()
         };
     }

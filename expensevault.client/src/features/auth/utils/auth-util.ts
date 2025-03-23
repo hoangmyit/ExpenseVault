@@ -1,31 +1,38 @@
 import { jwtDecode } from 'jwt-decode';
 
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token.const';
+import { MyJwtPayload } from '../types/token.type';
+
 import { AuthUser } from '@/shared/types/common';
+import {
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from '@/shared/utils/common-util';
+import { isArray } from '@/shared/utils/type-utils';
 
-export const setAuthUser = (token: string) =>
-  localStorage.setItem('auth_token', token);
+export const setAuthToken = (token: string) =>
+  setLocalStorageItem(ACCESS_TOKEN, token);
+export const getAuthToken = () => getLocalStorageItem(ACCESS_TOKEN);
+export const removeAuthToken = () => removeLocalStorageItem(ACCESS_TOKEN);
 
-export const getAuthUser = () => localStorage.getItem('auth_token');
-export const removeAuthUser = () => localStorage.removeItem('auth_token');
 export const setRefreshToken = (token: string) =>
-  localStorage.setItem('refresh_token', token);
-export const getRefreshToken = () => localStorage.getItem('refresh_token');
-export const removeRefreshToken = () =>
-  localStorage.removeItem('refresh_token');
+  setLocalStorageItem(REFRESH_TOKEN, token);
+export const getRefreshToken = () => getLocalStorageItem(REFRESH_TOKEN);
+export const removeRefreshToken = () => removeLocalStorageItem(REFRESH_TOKEN);
 
-export const isAuthenticated = () => !!getAuthUser();
+export const isAuthenticated = () => !!getAuthToken();
 export const getAuthInfo = (): AuthUser | null => {
-  const token = getAuthUser();
+  const token = getAuthToken();
   if (!token) {
     return null;
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const info = jwtDecode(token) as any;
+  const info = jwtDecode<MyJwtPayload>(token);
   return {
     email: info.email,
-    id: info.unique_name,
-    name: info.sub,
-    role: typeof info.role === 'string' ? [info.role] : info.role,
+    id: info.jti as string,
+    name: info.sub as string,
+    role: isArray(info.role) ? (info.role as string[]) : [info.role as string],
     token: token,
   };
 };

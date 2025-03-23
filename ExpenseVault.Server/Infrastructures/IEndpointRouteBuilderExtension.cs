@@ -5,7 +5,7 @@ namespace ExpenseVault.Server.Infrastructures
 {
     public static class IEndpointRouteBuilderExtension
     {
-        public static RouteGroupBuilder MapRouteGet(
+        public static RouteHandlerBuilder MapRouteGet(
             this RouteGroupBuilder builder,
             Delegate handler,
             [StringSyntax("Route")] string pattern = "",
@@ -15,13 +15,11 @@ namespace ExpenseVault.Server.Infrastructures
             {
                 Guard.Against.AnonymousMethod(handler);
             }
-            builder.MapGet(pattern, handler)
+            return builder.MapGet(pattern, handler)
                .WithName(handler.Method.Name);
-
-            return builder;
         }
 
-        public static RouteGroupBuilder MapRoutePost(
+        public static RouteHandlerBuilder MapRoutePost(
             this RouteGroupBuilder builder,
             Delegate handler,
             [StringSyntax("Route")] string pattern = "",
@@ -31,13 +29,11 @@ namespace ExpenseVault.Server.Infrastructures
             {
                 Guard.Against.AnonymousMethod(handler);
             }
-            builder.MapPost(pattern, handler)
+            return builder.MapPost(pattern, handler)
                .WithName(handler.Method.Name);
-
-            return builder;
         }
 
-        public static RouteGroupBuilder MapRoutePut(
+        public static RouteHandlerBuilder MapRoutePut(
             this RouteGroupBuilder builder,
             Delegate handler,
             [StringSyntax("Route")] string pattern,
@@ -47,13 +43,11 @@ namespace ExpenseVault.Server.Infrastructures
             {
                 Guard.Against.AnonymousMethod(handler);
             }
-            builder.MapPut(pattern, handler)
+            return builder.MapPut(pattern, handler)
                .WithName(handler.Method.Name);
-
-            return builder;
         }
 
-        public static RouteGroupBuilder MapRoutePatch(
+        public static RouteHandlerBuilder MapRoutePatch(
             this RouteGroupBuilder builder,
             Delegate handler,
             [StringSyntax("Route")] string pattern,
@@ -63,13 +57,11 @@ namespace ExpenseVault.Server.Infrastructures
             {
                 Guard.Against.AnonymousMethod(handler);
             }
-            builder.MapPatch(pattern, handler)
+            return builder.MapPatch(pattern, handler)
                .WithName(handler.Method.Name);
-
-            return builder;
         }
 
-        public static RouteGroupBuilder MapRouteDelete(
+        public static RouteHandlerBuilder MapRouteDelete(
             this RouteGroupBuilder builder,
             Delegate handler,
             [StringSyntax("Route")] string pattern,
@@ -79,10 +71,8 @@ namespace ExpenseVault.Server.Infrastructures
             {
                 Guard.Against.AnonymousMethod(handler);
             }
-            builder.MapDelete(pattern, handler)
+            return builder.MapDelete(pattern, handler)
                .WithName(handler.Method.Name);
-
-            return builder;
         }
     }
 }

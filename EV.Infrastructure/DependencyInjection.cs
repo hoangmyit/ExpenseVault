@@ -1,5 +1,7 @@
-﻿using EV.Application.Common.Interfaces;
+﻿using EV.Application.Authorization;
+using EV.Application.Common.Interfaces;
 using EV.Application.Common.Models;
+using EV.Domain.Constants;
 using EV.Infrastructure.Data;
 using EV.Infrastructure.Data.Interceptors;
 using EV.Infrastructure.Identity;
@@ -35,6 +37,15 @@ namespace EV.Infrastructure
                 .AddDefaultTokenProviders();
 
             services.AddScoped<ApplicationDbContextInitialiser>();
+            services.AddScoped<IPermissionService, PermissionService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Permissions.Categories.Create, policy => policy.Requirements.Add(new PermissionRequirement(Permissions.Categories.Create)));
+                options.AddPolicy(Permissions.Categories.View, policy => policy.Requirements.Add(new PermissionRequirement(Permissions.Categories.View)));
+                options.AddPolicy(Permissions.Categories.Delete, policy => policy.Requirements.Add(new PermissionRequirement(Permissions.Categories.Delete)));
+                options.AddPolicy(Permissions.Categories.Edit, policy => policy.Requirements.Add(new PermissionRequirement(Permissions.Categories.Edit)));
+            });
 
             services.AddSingleton(TimeProvider.System);
 

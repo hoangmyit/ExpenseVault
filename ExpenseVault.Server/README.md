@@ -32,7 +32,7 @@ ExpenseVault is a web app built with .NET 8 and React 19 to simplify daily expen
 - Update database
 
 ```bash
-dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server update database
+dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server database update
 ```
 
 ## Status

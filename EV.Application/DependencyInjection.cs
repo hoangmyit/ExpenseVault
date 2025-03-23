@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using EV.Application.Authorization;
 using EV.Application.Categories.Queries;
 using EV.Application.Common.Behaviors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +16,7 @@ namespace EV.Application
               .AddAutoMapper(Assembly.GetExecutingAssembly())
               .AddAutoMapper(typeof(CategoryProfile))
               .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
+              .AddScoped<IAuthorizationHandler, PermissionHandler>()
               .AddMediatR(cfg =>
               {
                   cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());

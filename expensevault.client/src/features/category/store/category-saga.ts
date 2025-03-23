@@ -11,7 +11,24 @@ import {
 import { PaginatedList } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { handleApiCall } from '../../../shared/utils/saga-util';
-import { CategoryParams } from '../types/category';
+import {
+  CREATE_CATEGORY_ERROR_MESSAGE,
+  CREATE_CATEGORY_PENDING_MESSAGE,
+  CREATE_CATEGORY_SUCCESS_MESSAGE,
+  DELETE_CATEGORY_ERROR_MESSAGE,
+  DELETE_CATEGORY_PENDING_MESSAGE,
+  DELETE_CATEGORY_SUCCESS_MESSAGE,
+  GET_CATEGORIES_ERROR_MESSAGE,
+  GET_CATEGORIES_PENDING_MESSAGE,
+  GET_CATEGORIES_SUCCESS_MESSAGE,
+  GET_CATEGORY_ERROR_MESSAGE,
+  GET_CATEGORY_PENDING_MESSAGE,
+  GET_CATEGORY_SUCCESS_MESSAGE,
+  UPDATE_CATEGORY_ERROR_MESSAGE,
+  UPDATE_CATEGORY_PENDING_MESSAGE,
+  UPDATE_CATEGORY_SUCCESS_MESSAGE,
+} from '../constants';
+import { CategoryParams } from '../types/category.type';
 
 import {
   createCategoryFailure,
@@ -37,6 +54,12 @@ function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
     action.payload,
     (data: PaginatedList<CategoryDto>) => getCategoriesSuccess(data),
     (error) => getCategoriesFailure(error),
+    {
+      useToastPromise: true,
+      error: GET_CATEGORIES_ERROR_MESSAGE,
+      pending: GET_CATEGORIES_PENDING_MESSAGE,
+      success: GET_CATEGORIES_SUCCESS_MESSAGE,
+    },
   );
 }
 
@@ -46,6 +69,12 @@ function* getCategorySaga(action: PayloadAction<string>) {
     action.payload,
     (data: CategoryDto) => getCategorySuccess(data),
     (error) => getCategoryFailure(error),
+    {
+      useToastPromise: true,
+      error: GET_CATEGORY_ERROR_MESSAGE,
+      pending: GET_CATEGORY_PENDING_MESSAGE,
+      success: GET_CATEGORY_SUCCESS_MESSAGE,
+    },
   );
 }
 
@@ -56,6 +85,12 @@ function* createCategorySaga(action: PayloadAction<CategoryDto>) {
     category,
     (data: string) => createCategorySuccess(data),
     (error) => createCategoryFailure(error),
+    {
+      useToastPromise: true,
+      error: CREATE_CATEGORY_ERROR_MESSAGE,
+      pending: CREATE_CATEGORY_PENDING_MESSAGE,
+      success: CREATE_CATEGORY_SUCCESS_MESSAGE,
+    },
   );
 }
 
@@ -66,6 +101,12 @@ function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
     category,
     () => updateCategorySuccess(category), // Note: Using the original category rather than response data
     (error) => updateCategoryFailure(error),
+    {
+      useToastPromise: true,
+      error: UPDATE_CATEGORY_ERROR_MESSAGE,
+      pending: UPDATE_CATEGORY_PENDING_MESSAGE,
+      success: UPDATE_CATEGORY_SUCCESS_MESSAGE,
+    },
   );
 }
 
@@ -76,6 +117,12 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
     id,
     (data: string) => deleteCategorySuccess(data),
     (error) => deleteCategoryFailure(error),
+    {
+      useToastPromise: true,
+      error: DELETE_CATEGORY_ERROR_MESSAGE,
+      pending: DELETE_CATEGORY_PENDING_MESSAGE,
+      success: DELETE_CATEGORY_SUCCESS_MESSAGE,
+    },
   );
 }
 

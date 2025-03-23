@@ -1,4 +1,5 @@
 // useCategory.ts
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CategoryDto } from '../../../shared/types/common/backend-model';
@@ -11,21 +12,33 @@ import {
   getCategoryRequest,
   updateCategoryRequest,
 } from '../store/category-slice';
-import { CategoryParams } from '../types/category';
+import { CategoryParams } from '../types/category.type';
 
 export const useCategory = () => {
   const dispatch = useDispatch();
   const categoriesData = useSelector(CategoriesState);
   const categoryData = useSelector(CategoryState);
 
-  const getCategories = (params: CategoryParams) =>
-    dispatch(getCategoriesRequest(params));
-  const createCategory = (category: CategoryDto) =>
-    dispatch(createCategoryRequest(category));
-  const deleteCategory = (id: string) => dispatch(deleteCategoryRequest(id));
-  const getCategory = (id: string) => dispatch(getCategoryRequest(id));
-  const updateCategory = (category: CategoryDto) =>
-    dispatch(updateCategoryRequest(category));
+  const getCategories = useCallback(
+    (params: CategoryParams) => dispatch(getCategoriesRequest(params)),
+    [dispatch],
+  );
+  const createCategory = useCallback(
+    (category: CategoryDto) => dispatch(createCategoryRequest(category)),
+    [dispatch],
+  );
+  const deleteCategory = useCallback(
+    (id: string) => dispatch(deleteCategoryRequest(id)),
+    [dispatch],
+  );
+  const getCategory = useCallback(
+    (id: string) => dispatch(getCategoryRequest(id)),
+    [dispatch],
+  );
+  const updateCategory = useCallback(
+    (category: CategoryDto) => dispatch(updateCategoryRequest(category)),
+    [dispatch],
+  );
 
   return {
     categories: categoriesData.data,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 import { ErrorPageProps } from './error-page.const';
 
@@ -7,7 +7,10 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
   code,
   description,
   message,
+  title,
 }) => {
+  const location = useLocation();
+  console.log(location.state);
   return (
     <div className="flex flex-1 flex-col items-center justify-center p-[20px] text-center">
       <div className="w-full">
@@ -19,12 +22,13 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                 <span className="text-2xl">error</span>
               </h1>
               <h2 className="mt-[20px] mb-[15px] text-[1.65rem] font-medium tracking-[-0.5px] text-white">
-                {message}
+                {title}
               </h2>
               <h6 className="mb-[40px] text-white opacity-[0.6]">
                 {description}
               </h6>
-              <Link className="btn" to={'dashboard/'}>
+              {message && <p className="error-custom-message">{message}</p>}
+              <Link className="btn" to={'/dashboard'}>
                 Back to Home
               </Link>
             </div>

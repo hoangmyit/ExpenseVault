@@ -2,6 +2,7 @@
 using EV.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Clean.Web.Infrastructure;
 
@@ -19,7 +20,8 @@ public class CustomExceptionHandler : IExceptionHandler
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-                { typeof(BadRequestException), HandleBadRequestException   }
+                { typeof(BadRequestException), HandleBadRequestException   },
+                { typeof(SecurityTokenException), HandleSecurityTokenException } // Register SecurityTokenException handler
             };
         _env = env;
     }
@@ -119,6 +121,21 @@ public class CustomExceptionHandler : IExceptionHandler
             Status = StatusCodes.Status400BadRequest,
             Title = "Bad Request",
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Detail = exception.Message
+        });
+    }
+
+    private async Task HandleSecurityTokenException(HttpContext httpContext, Exception ex)
+    {
+        var exception = (SecurityTokenException)ex;
+
+        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = StatusCodes.Status401Unauthorized,
+            Title = "Invalid Token",
+            Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
             Detail = exception.Message
         });
     }

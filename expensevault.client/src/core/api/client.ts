@@ -7,14 +7,23 @@ import axios, {
 
 import { SETTING_ENV } from '../../configs/environment';
 import {
-  getAuthUser,
-  removeAuthUser,
+  getAuthToken,
+  getRefreshToken,
+  removeAuthToken,
   removeRefreshToken,
-  setAuthUser,
+  setAuthToken,
   setRefreshToken,
 } from '../../features/auth/utils/auth-util';
 import { LoginResponse } from '../../shared/types/common/backend-model';
-import { ConsoleLog } from '../../shared/utils/common-util';
+import { consoleLog } from '../../shared/utils/common-util';
+
+import { ROUTE_PATHS } from '@/routes/constants/route-paths';
+import {
+  RouteChangeType_AuthForbidden,
+  RouteChangeType_AuthUnauthorized,
+} from '@/routes/types/route-event.type';
+import { navigateTo } from '@/routes/utils/route-util';
+import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: SETTING_ENV.apiUrl,
@@ -47,14 +56,14 @@ const processQueue = (error: Error | null) => {
 
 httpClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
+    const token = getAuthToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
-    ConsoleLog(error);
+    consoleLog(error);
     return Promise.reject(error);
   },
 );
@@ -81,7 +90,7 @@ httpClient.interceptors.response.use(
             return httpClient(originalRequest);
           })
           .catch((err) => {
-            ConsoleLog(err);
+            consoleLog(err);
             return Promise.reject(err);
           });
       } else {
@@ -89,15 +98,15 @@ httpClient.interceptors.response.use(
         isRefreshing = true;
 
         try {
-          const refreshToken = localStorage.getItem('refresh_token');
+          const refreshToken = getRefreshToken();
           if (!refreshToken) {
-            removeAuthUser();
+            removeAuthToken();
             removeRefreshToken();
             processQueue(new Error('No refresh token'));
-            ConsoleLog(error);
+            consoleLog(error);
             return Promise.reject(error);
           }
-          const token = getAuthUser();
+          const token = getAuthToken();
           // Prevent refresh token request from triggering another refresh
           const response = await unauthenticatedHttpClient.post<LoginResponse>(
             'api/auth/refresh-token',
@@ -110,7 +119,7 @@ httpClient.interceptors.response.use(
           if (response.data) {
             const { refreshToken: newRefreshToken, token } = response.data;
             setRefreshToken(newRefreshToken);
-            setAuthUser(token);
+            setAuthToken(token);
             originalRequest.headers.Authorization = `Bearer ${token}`;
 
             // Process all queued requests
@@ -123,28 +132,30 @@ httpClient.interceptors.response.use(
             throw new Error('Invalid refresh token response');
           }
         } catch (err) {
-          removeAuthUser();
+          removeAuthToken();
           removeRefreshToken();
           processQueue(err as Error);
 
           // Only redirect to login if this wasn't a background request
-          if (typeof window !== 'undefined') {
-            const navigationEvent = new CustomEvent('auth:unauthorized', {
-              detail: { redirectTo: '/sign-in' },
-            });
-            window.dispatchEvent(navigationEvent);
+          if (!isNullOrUndefined(window)) {
+            navigateTo(RouteChangeType_AuthUnauthorized, ROUTE_PATHS.SIGN_IN);
           }
 
-          ConsoleLog(err);
+          consoleLog(err);
           return Promise.reject(err);
         } finally {
           isRefreshing = false;
         }
       }
+    } else if (error.response?.status === 403) {
+      // Forbidden
+      if (!isNullOrUndefined(window)) {
+        navigateTo(RouteChangeType_AuthForbidden, ROUTE_PATHS.FORBIDDEN);
+      }
     }
 
     // For all other errors, just reject with the original error
-    ConsoleLog(error);
+    consoleLog(error);
     return Promise.reject(error);
   },
 );
