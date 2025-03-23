@@ -1,1 +1,53 @@
-﻿
+﻿:root {
+  /* Map React-Toastify variables to DaisyUI theme variables */
+  --toastify-color-light: var(--b1, white);
+  --toastify-color-dark: var(--n, #333);
+  --toastify-color-info: var(--in, #3abff8);
+  --toastify-color-success: var(--su, #36d399);
+  --toastify-color-warning: var(--wa, #fbbd23);
+  --toastify-color-error: var(--er, #f87272);
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  
+  /* Icon colors */
+  --toastify-icon-color-info: var(--in, #3abff8);
+  --toastify-icon-color-success: var(--su, #36d399);
+  --toastify-icon-color-warning: var(--wa, #fbbd23);
+  --toastify-icon-color-error: var(--er, #f87272);
+  
+  /* Text colors */
+  --toastify-text-color-light: var(--bc, #1f2937);
+  --toastify-text-color-dark: var(--nc, white);
+  
+  /* For colored toasts, ensure text is readable */
+  --toastify-text-color-info: var(--inc, white);
+  --toastify-text-color-success: var(--suc, white);
+  --toastify-text-color-warning: var(--wac, white);
+  --toastify-text-color-error: var(--erc, white);
+  
+  /* Progress bar */
+  --toastify-color-progress-info: var(--in, #3abff8);
+  --toastify-color-progress-success: var(--su, #36d399);
+  --toastify-color-progress-warning: var(--wa, #fbbd23);
+  --toastify-color-progress-error: var(--er, #f87272);
+  
+  /* Layout */
+  --toastify-toast-width: 320px;
+  --toastify-toast-bd-radius: var(--rounded-box, 1rem);
+}
+
+/* Add DaisyUI-like styling to the toast container */
+.Toastify__toast {
+  font-family: "Poppins", sans-serif;
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  border-radius: var(--rounded-box, 1rem);
+}
+
+/* Apply DaisyUI button styling to close button */
+.Toastify__close-button {
+  color: var(--bc, #1f2937);
+  opacity: 0.7;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}

@@ -4,6 +4,12 @@ import { Forecast } from '../../app.const';
 import { populateWeatherData } from '../../core/api/endpoints/weather-forecast.service';
 
 import { FacebookIcon } from '@/icons/brand';
+import {
+  toastError,
+  toastInfo,
+  toastSuccess,
+  toastWarning,
+} from '@/shared/components/feedback/toast/toast';
 
 const HomePage: FC = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>();
@@ -64,6 +70,30 @@ const HomePage: FC = () => {
         <button className="btn btn-primary">
           <FacebookIcon />
           Button
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => toastError('Hello world!')}
+        >
+          show toasts Error
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => toastInfo('Hello world!')}
+        >
+          show toasts info
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => toastSuccess('Hello world!')}
+        >
+          show toasts success
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => toastWarning('Hello world!')}
+        >
+          show toasts Warning
         </button>
       </div>
     </div>

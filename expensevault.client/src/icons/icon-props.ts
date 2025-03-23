@@ -5,3 +5,7 @@ export type IconProps = {
   className?: string;
   fill?: string;
 } & React.SVGProps<SVGSVGElement>;
+
+export type SvgIconProps = {
+  icon: React.FunctionComponent<IconProps>;
+} & IconProps;

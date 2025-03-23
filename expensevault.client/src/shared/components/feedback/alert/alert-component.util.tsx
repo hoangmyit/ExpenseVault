@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 
 import { AlertType } from './alert-component.const';
 
-import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '@/icons';
+import { ErrorIcon, InfoCircleIcon, SuccessIcon, WarningIcon } from '@/icons';
 
 export const alertIconMap: Record<AlertType, ReactNode> = {
   success: <SuccessIcon />,
-  alert: <InfoIcon />,
+  alert: <InfoCircleIcon />,
   warning: <WarningIcon />,
-  info: <InfoIcon />,
+  info: <InfoCircleIcon />,
   error: <ErrorIcon />,
 };

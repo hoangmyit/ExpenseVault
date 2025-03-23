@@ -6,17 +6,13 @@ import { IconProps } from './icon-props';
 
 export const WarningIcon: FC<IconProps> = ({
   className = 'shrink-0 stroke-current',
-  color = 'currentColor',
   height = 'h-6',
   width = 'w-6',
-  fill = 'none',
 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className={clsx(height, width, className)}
-      stroke={color}
-      fill={fill}
       viewBox="0 0 24 24"
     >
       <path
