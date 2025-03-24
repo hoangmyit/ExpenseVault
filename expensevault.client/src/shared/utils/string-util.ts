@@ -335,3 +335,15 @@ export const splitString = curry(
     return split(delimiter, str);
   },
 );
+
+export const formatString = curry(
+  (template: string, values: Record<string, string | number>): string => {
+    return replace(
+      /{(\d+)}/g,
+      (match, key) => {
+        return values[key] !== undefined ? String(values[key]) : match;
+      },
+      template,
+    );
+  },
+);

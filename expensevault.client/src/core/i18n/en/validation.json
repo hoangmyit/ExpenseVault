@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "usernameMin": "Username must be at least {0} characters",
+    "usernameMax": "Username cannot exceed {0} characters",
+    "passwordMin": "Password must be at least {0} characters",
+    "passwordMax": "Password cannot exceed {0} characters",
+    "invalidEmail": "Invalid email address",
+    "passwordPattern": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "usernamePattern": "Username must contain only letters, numbers, and underscores"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "signIn": "Đăng nhập",
+  "welcomeBack": "Chào mừng trở lại!",
+  "pleaseSignIn": "Vui lòng đăng nhập để tiếp tục sử dụng Expense Vault.",
+  "username": "Tên người dùng",
+  "enterUsername": "Nhập tên người dùng của bạn",
+  "password": "Mật khẩu",
+  "enterPassword": "Nhập mật khẩu của bạn",
+  "rememberMe": "Ghi nhớ tôi",
+  "forgotPassword": "Quên mật khẩu?",
+  "notHaveAccount": "Chưa có tài khoản?",
+  "createAccount": "Tạo tài khoản"
+}
