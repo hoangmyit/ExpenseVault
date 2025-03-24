@@ -1,4 +1,5 @@
-import { FC, use, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 import { useAuth } from '../hooks/use-auth';
@@ -15,6 +16,7 @@ import { useZodForm } from '@/shared/hooks/use-zod-form';
 const SignInPage: FC = () => {
   const { login, authnData } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation();
 
   // Use the Zod form hook
   const {
@@ -53,11 +55,9 @@ const SignInPage: FC = () => {
           </div>
           <div className="flex flex-col">
             <h2 className="text-primary mb-2 text-2xl font-semibold">
-              Welcome back!
+              {t('signIn:welcomeBack')}
             </h2>
-            <p className="mb-6 font-semibold">
-              Please sign in to continue Expense Vault.
-            </p>
+            <p className="mb-6 font-semibold">{t('signIn:pleaseSignIn')}</p>
           </div>
           <div className="tabs tabs-box bg-white shadow-none" id="sign-in-tabs">
             <input
@@ -77,16 +77,16 @@ const SignInPage: FC = () => {
           <div className="m-4">
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormInput
-                label="Username"
-                placeholder="Enter your username"
+                label={t('signIn:username')}
+                placeholder={t('signIn:enterUsername')}
                 type="text"
                 error={errors.username}
                 {...register('username')}
                 autoComplete="username"
               />
               <FormInput
-                label="Password"
-                placeholder="Enter your password"
+                label={t('signIn:password')}
+                placeholder={t('signIn:enterPassword')}
                 type="password"
                 error={errors.password}
                 {...register('password')}
@@ -100,7 +100,7 @@ const SignInPage: FC = () => {
                     className="checkbox checkbox-primary"
                     {...register('rememberMe')}
                   />
-                  <span className="label-text">Remember me</span>
+                  <span className="label-text">{t('signIn:rememberMe')}</span>
                 </label>
               </div>
 
@@ -110,7 +110,7 @@ const SignInPage: FC = () => {
                   className="btn btn-primary btn-wide max-w-full"
                   isLoading={isSubmitting}
                 >
-                  Sign In
+                  {t('signIn:signIn')}
                 </Button>
               </div>
               <div className="mt-6 mb-2 flex flex-row justify-around">
@@ -131,12 +131,12 @@ const SignInPage: FC = () => {
               to="/forgot-password"
               className="text-primary ml-1 text-center text-sm font-bold"
             >
-              Forgot your password?
+              {t('signIn:forgotPassword')}
             </Link>
             <div className="flex flex-row items-center justify-center text-sm">
-              <div>Don't have an account?</div>
+              <div>{t('signIn:notHaveAccount')}</div>
               <Link to="/sign-up" className="text-primary ml-1 font-bold">
-                Create an Account
+                {t('signIn:createAccount')}
               </Link>
             </div>
           </div>
