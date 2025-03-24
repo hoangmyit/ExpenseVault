@@ -1,40 +1,98 @@
-# ExpenseVault
+# ExpenseVault - Modern Expense Tracking Solution
 
-ExpenseVault is a web app built with .NET 8 and React 19 to simplify daily expense management. Track spending, set budgets, and gain insights with a responsive and user-friendly interface. Designed for security and accessibility, ExpenseVault helps you take control of your finances with ease, anytime and anywhere!
+## Project Overview
 
-## Structure
+ExpenseVault is a comprehensive expense tracking application designed to help individuals and businesses efficiently manage their financial transactions. This solution provides a robust platform for recording, categorizing, and analyzing expenses, enabling users to gain better control over their financial activities.
 
-### Front-end
+## Key Features
 
-- Apply Tailwind and DaisyUI
-- Setup Vitest
-- React router
-- Example base layout
+- **Expense Tracking**: Log and monitor all expenses with detailed information
+- **Categorization**: Organize expenses into customizable categories
+- **Financial Analysis**: Generate reports and visualize spending patterns
+- **Multi-user Support**: Different access levels for team members
+- **Secure Authentication**: Protect sensitive financial data
+- **Responsive Design**: Access from any device with a consistent experience
 
-### Back-end
+## Target Audience
 
-- Implement CLEAN architecture
-- Implement Swagger
-- Implement MediatR
-- Implement simple workflow CRUD on category
-- Implement EF core Code first with SQL Server
+- **Individual Users**: Personal finance management
+- **Small Businesses**: Track business expenses and receipts
+- **Finance Teams**: Manage departmental budgets and expenses
+- **Freelancers**: Separate personal and business expenses
 
-## Set up
+## Technical Architecture
 
-### Database Migrations
+ExpenseVault implements a clean, modular architecture following domain-driven design principles:
 
-- Add migration
+### 1. Domain Layer (EV.Domain)
 
-```bash
- dotnet ef --project EV.Infrastructure --startup-project .\ExpenseVault.Server migrations add *comment here*
-```
+The core of the application containing:
 
-- Update database
+- **Entities**: Expense, Category, User, Transaction models
+- **Value Objects**: Money, DateRange, RecurrenceRule
+- **Domain Events**: ExpenseCreated, CategoryUpdated
+- **Domain Services**: Core business logic without external dependencies
 
-```bash
-dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server update database
-```
+### 2. Application Layer (EV.Application)
 
-## Status
+Orchestrates the application workflow:
 
-[![Board Status](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/0b31a195-dd7a-4a82-8134-bcc2a7182059/_apis/work/boardbadge/376f7740-e3ce-47d3-84da-7ff1bd6afbf5)](https://dev.azure.com/hoangmyit/60cc3e6e-54db-409f-b1e0-e88c18a72c4d/_boards/board/t/0b31a195-dd7a-4a82-8134-bcc2a7182059/Stories/)
+- **Commands/Queries**: Following CQRS pattern for clear separation
+- **DTOs**: Data transfer objects for API communication
+- **Validators**: Input validation logic
+- **Mappers**: Object transformation between layers
+- **Authorization**: Fine-grained permission system
+
+### 3. Infrastructure Layer (EV.Infrastructure)
+
+Provides technical capabilities:
+
+- **Data Persistence**: Entity Framework Core implementation
+- **Identity Services**: Authentication and user management
+- **External Integrations**: Email, payment processing, file storage
+- **Caching**: Performance optimization strategies
+
+### 4. Presentation Layer
+
+- **ExpenseVault.Server**: ASP.NET Core API backend
+- **expensevault.client**: Modern responsive frontend with React 19
+
+## Technology Stack
+
+- **Backend**: .NET 8, Entity Framework Core, ASP.NET Core
+- **Frontend**: TypeScript with React 19
+- **Database**: SQL Server/PostgreSQL
+- **Authentication**: JWT token-based auth with refresh capabilities
+- **API Documentation**: Swagger/OpenAPI
+- **Testing**: xUnit, NSubstitute, and Fluent Assertions
+
+## Key Project Benefits
+
+- **Clean Architecture**: Maintainable and testable codebase
+- **Domain-Driven Design**: Business-focused development approach
+- **Security-First**: Protecting sensitive financial information
+- **Performance Optimized**: Fast response times even with large datasets
+- **Extensible Design**: Easy to add new features and integrations
+
+## Getting Started
+
+To run the project locally:
+
+1. Clone the repository
+2. Ensure .NET 8 SDK is installed
+3. Create and configure the application database:
+
+   ```bash
+   dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server database update
+   ```
+
+4. Run the backend API project
+5. Launch the frontend client application with `pnpm dev`
+
+## Future Roadmap
+
+- Mobile applications for iOS and Android
+- Advanced reporting capabilities
+- Budget planning features
+- OCR receipt scanning
+- Integration with accounting software
