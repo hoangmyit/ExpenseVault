@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
 import { useSidebar } from '@/context/hooks/use-sidebar';
@@ -6,7 +6,7 @@ import NotificationDropdown from '@/shared/components/header/notification-dropdo
 import UserDropdown from '@/shared/components/header/user-dropdown';
 import ThemeToggleButton from '@/shared/components/ui/theme-toggle-button';
 
-const AppHeader: React.FC = () => {
+const AppHeader: FC = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();

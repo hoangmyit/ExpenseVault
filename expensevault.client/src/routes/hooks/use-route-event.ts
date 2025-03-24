@@ -7,7 +7,7 @@ import {
   RouteChangeEventName,
   RouteChangeType_AuthForbidden,
   RouteChangeType_AuthUnauthorized,
-} from '../types/route-event.type';
+} from '../types';
 
 export const useRouteEvent = () => {
   const navigate = useNavigate();

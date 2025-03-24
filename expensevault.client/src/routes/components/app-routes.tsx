@@ -13,7 +13,7 @@ import { ProtectedRoute, PublicOnlyRoute } from './route-guards';
 
 import ErrorPage from '@/features/error-page/error-page';
 import { ErrorPageData } from '@/features/error-page/error-page.const';
-import AppLayout from '@/shared/layouts/app-layout/app-layout';
+import { AppLayout } from '@/shared/layouts/app-layout';
 import FunctionLayout from '@/shared/layouts/function-layout';
 
 const AppRoutes: FC = () => {

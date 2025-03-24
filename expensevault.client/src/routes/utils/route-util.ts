@@ -1,7 +1,4 @@
-import {
-  RouteChangeEvent,
-  RouteChangeEventName,
-} from '../types/route-event.type';
+import { RouteChangeEvent, RouteChangeEventName } from '../types';
 
 export const navigateTo = (eventName: string, path: string): boolean => {
   const navigationEvent = new CustomEvent<RouteChangeEvent>(

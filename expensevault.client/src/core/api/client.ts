@@ -21,7 +21,7 @@ import { ROUTE_PATHS } from '@/routes/constants/route-paths';
 import {
   RouteChangeType_AuthForbidden,
   RouteChangeType_AuthUnauthorized,
-} from '@/routes/types/route-event.type';
+} from '@/routes/types/route-event';
 import { navigateTo } from '@/routes/utils/route-util';
 import { isNullOrUndefined } from '@/shared/utils/type-utils';
 

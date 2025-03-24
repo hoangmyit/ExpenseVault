@@ -5,6 +5,7 @@ import clsx from 'clsx';
 
 import Backdrop from './app-backdrop';
 import AppHeader from './app-header';
+import AppSidebar from './app-sidebar';
 
 import { useSidebar } from '@/context/hooks/use-sidebar';
 
@@ -14,7 +15,7 @@ const AppLayoutContent: FC = () => {
   return (
     <div className="min-h-screen xl:flex">
       <div>
-        {/* <AppSidebar />*/}
+        <AppSidebar />
         <Backdrop />
       </div>
       <div
