@@ -8,6 +8,7 @@
       "@core/*": ["./src/core/*"],
       "@icons/*": ["./src/icons/*"],
       "@assets/*": ["./src/assets/*"],
+      "@context/*": ["./src/context/*"],
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",

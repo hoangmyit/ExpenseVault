@@ -13,8 +13,8 @@ import { ProtectedRoute, PublicOnlyRoute } from './route-guards';
 
 import ErrorPage from '@/features/error-page/error-page';
 import { ErrorPageData } from '@/features/error-page/error-page.const';
+import AppLayout from '@/shared/layouts/app-layout/app-layout';
 import FunctionLayout from '@/shared/layouts/function-layout';
-import MainLayout from '@/shared/layouts/main-layout';
 
 const AppRoutes: FC = () => {
   useRouteEvent();
@@ -27,7 +27,7 @@ const AppRoutes: FC = () => {
       />
 
       {/* Protected Routes */}
-      <Route element={<MainLayout />}>
+      <Route element={<AppLayout />}>
         {protectedRoutes.map((route) => (
           <Route
             key={route.path}
