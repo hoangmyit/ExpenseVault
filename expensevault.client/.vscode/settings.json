@@ -1,8 +1,14 @@
 {
   "cSpell.words": [
+    "expensevault",
+    "languagedetector",
     "luxon",
+    "prefersdark",
     "svgr",
     "uuidv"
   ],
-  "cSpell.language": "en,vi", 
+  "cSpell.language": "en,vi",
+  "i18n-ally.localesPaths": [
+    "src/core/i18n"
+  ],  
 }

@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react';
 import { Theme } from './types/theme-context.type';
 import { ThemeContext } from './theme-context';
 
+import {
+  getLocalStorageItem,
+  setLocalStorageItem,
+} from '@/shared/utils/common-util';
+
 const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -11,7 +16,7 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // This code will only run on the client side
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const savedTheme = getLocalStorageItem('theme') as Theme | null;
     const initialTheme = savedTheme || 'light'; // Default to light theme
 
     setTheme(initialTheme);
@@ -20,17 +25,17 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem('theme', theme);
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      const newTheme = theme === 'light' ? 'dark' : 'light';
+      setLocalStorageItem('theme', newTheme);
+      setTheme(newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
     }
+    setIsInitialized(false);
   }, [theme, isInitialized]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    // setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setIsInitialized(true);
   };
 
   return (

@@ -30,8 +30,8 @@ export const getAuthInfo = (): AuthUser | null => {
   const info = jwtDecode<MyJwtPayload>(token);
   return {
     email: info.email,
-    id: info.jti as string,
-    name: info.sub as string,
+    id: info.sub as string,
+    name: info.unique_name as string,
     role: isArray(info.role) ? (info.role as string[]) : [info.role as string],
     token: token,
   };

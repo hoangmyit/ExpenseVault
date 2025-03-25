@@ -1,6 +1,8 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
+import clsx from 'clsx';
+
 import SidebarWidget from '../widget/sidebar-widget';
 
 import { useSidebar } from '@/context/hooks/use-sidebar';
@@ -83,31 +85,33 @@ const AppSidebar: FC = () => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group ${
+              className={clsx(
+                'menu-item join',
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? 'menu-item-active'
-                  : 'menu-item-inactive'
-              } cursor-pointer ${
+                  : 'menu-item-inactive',
+                'cursor-pointer',
                 !isExpanded && !isHovered
                   ? 'lg:justify-center'
-                  : 'lg:justify-start'
-              }`}
+                  : 'lg:justify-start',
+              )}
             >
               <span
-                className={`menu-item-icon-size ${
+                className={clsx(
+                  'menu-item-icon-size join-item',
                   openSubmenu?.type === menuType && openSubmenu?.index === index
                     ? 'menu-item-icon-active'
-                    : 'menu-item-icon-inactive'
-                }`}
+                    : 'menu-item-icon-inactive',
+                )}
               >
                 {nav.icon}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className="menu-item-text">{nav.name}</span>
+                <span className="menu-item-text join-item">{nav.name}</span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
-                  className={`ml-auto h-5 w-5 transition-transform duration-200 ${
+                  className={`join-item ml-auto h-5 w-5 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
                       ? 'text-brand-500 rotate-180'
@@ -120,7 +124,7 @@ const AppSidebar: FC = () => {
             nav.path && (
               <Link
                 to={nav.path}
-                className={`menu-item group ${
+                className={`menu-item join ${
                   isActive(nav.path) ? 'menu-item-active' : 'menu-item-inactive'
                 }`}
               >
@@ -157,32 +161,35 @@ const AppSidebar: FC = () => {
                   <li key={subItem.name}>
                     <Link
                       to={subItem.path}
-                      className={`menu-dropdown-item ${
+                      className={clsx(
+                        'menu-dropdown-item',
                         isActive(subItem.path)
                           ? 'menu-dropdown-item-active'
-                          : 'menu-dropdown-item-inactive'
-                      }`}
+                          : 'menu-dropdown-item-inactive',
+                      )}
                     >
                       {subItem.name}
                       <span className="ml-auto flex items-center gap-1">
                         {subItem.new && (
                           <span
-                            className={`ml-auto ${
+                            className={clsx(
                               isActive(subItem.path)
                                 ? 'menu-dropdown-badge-active'
-                                : 'menu-dropdown-badge-inactive'
-                            } menu-dropdown-badge`}
+                                : 'menu-dropdown-badge-inactive',
+                              'menu-dropdown-badge ml-auto',
+                            )}
                           >
                             new
                           </span>
                         )}
                         {subItem.pro && (
                           <span
-                            className={`ml-auto ${
+                            className={clsx(
                               isActive(subItem.path)
                                 ? 'menu-dropdown-badge-active'
-                                : 'menu-dropdown-badge-inactive'
-                            } menu-dropdown-badge`}
+                                : 'menu-dropdown-badge-inactive',
+                              'menu-dropdown-badge ml-auto',
+                            )}
                           >
                             pro
                           </span>
@@ -201,42 +208,48 @@ const AppSidebar: FC = () => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 mt-16 flex h-screen flex-col border-r border-gray-200 bg-white px-5 text-gray-900 transition-all duration-300 ease-in-out lg:mt-0 dark:border-gray-800 dark:bg-gray-900 ${
+      className={clsx(
+        'fixed top-0 left-0 z-50 mt-16 flex h-screen',
         isExpanded || isMobileOpen
           ? 'w-[290px]'
           : isHovered
             ? 'w-[290px]'
-            : 'w-[90px]'
-      } ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+            : 'w-[90px]',
+        'flex-col border-r border-gray-200 bg-white px-5 text-gray-900 transition-all duration-300 ease-in-out lg:mt-0',
+        isMobileOpen ? 'translate-x-0' : '-translate-x-full',
+        'lg:translate-x-0',
+        'dark:border-gray-800 dark:bg-gray-900',
+      )}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`flex py-8 ${
-          !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start'
-        }`}
+        className={clsx(
+          'flex py-8',
+          !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start',
+        )}
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
               <img
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/assets/imgs/logo.svg"
                 alt="Logo"
-                width={150}
+                width={40}
                 height={40}
               />
               <img
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/assets/imgs/logo.svg"
                 alt="Logo"
-                width={150}
+                width={40}
                 height={40}
               />
             </>
           ) : (
             <img
-              src="/images/logo/logo-icon.svg"
+              src="/assets/imgs/logo.svg"
               alt="Logo"
               width={32}
               height={32}
@@ -249,11 +262,12 @@ const AppSidebar: FC = () => {
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 flex text-xs leading-[20px] text-gray-400 uppercase ${
+                className={clsx(
                   !isExpanded && !isHovered
                     ? 'lg:justify-center'
-                    : 'justify-start'
-                }`}
+                    : 'justify-start',
+                  'mb-4 flex text-xs leading-[20px] text-gray-400 uppercase',
+                )}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   'Menu'
@@ -265,11 +279,12 @@ const AppSidebar: FC = () => {
             </div>
             <div className="">
               <h2
-                className={`mb-4 flex text-xs leading-[20px] text-gray-400 uppercase ${
+                className={clsx(
                   !isExpanded && !isHovered
                     ? 'lg:justify-center'
-                    : 'justify-start'
-                }`}
+                    : 'justify-start',
+                  'mb-4 flex text-xs leading-[20px] text-gray-400 uppercase',
+                )}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
                   'Others'

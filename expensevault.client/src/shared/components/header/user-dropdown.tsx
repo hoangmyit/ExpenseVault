@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 import Dropdown from '../ui/dropdown/dropdown';
 import DropdownItem from '../ui/dropdown/dropdown-item';
 
+import { useAuth } from '@/features/auth/hooks/use-auth';
+
 const UserDropdown: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { authnData } = useAuth();
+  const { data: userData } = authnData;
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -21,10 +25,12 @@ const UserDropdown: FC = () => {
         className="dropdown-toggle flex items-center text-gray-700 dark:text-gray-400"
       >
         <span className="mr-3 h-11 w-11 overflow-hidden rounded-full">
-          <img src="/images/user/owner.jpg" alt="User" />
+          <img src="/assets/imgs/avatar-icon.svg" alt="User" />
         </span>
 
-        <span className="text-theme-sm mr-1 block font-medium">Musharof</span>
+        <span className="text-theme-sm mr-1 block font-medium">
+          {userData?.name}
+        </span>
         <svg
           className={`stroke-gray-500 transition-transform duration-200 dark:stroke-gray-400 ${
             isOpen ? 'rotate-180' : ''
@@ -52,10 +58,10 @@ const UserDropdown: FC = () => {
       >
         <div>
           <span className="text-theme-sm block font-medium text-gray-700 dark:text-gray-400">
-            Musharof Chowdhury
+            {userData?.name}
           </span>
           <span className="text-theme-xs mt-0.5 block text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+            {userData?.email}
           </span>
         </div>
 
