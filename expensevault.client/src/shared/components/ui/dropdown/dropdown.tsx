@@ -1,10 +1,11 @@
-import type React from 'react';
-import { FC, useEffect, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef } from 'react';
+
+import clsx from 'clsx';
 
 interface DropdownProps {
   isOpen: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
@@ -38,7 +39,10 @@ const Dropdown: FC<DropdownProps> = ({
   return (
     <div
       ref={dropdownRef}
-      className={`shadow-theme-lg dark:bg-gray-dark absolute right-0 z-40 mt-2 rounded-xl border border-gray-200 bg-white dark:border-gray-800 ${className}`}
+      className={clsx(
+        'shadow-theme-lg dark:bg-gray-dark absolute right-0 z-40 mt-2 rounded-xl border border-gray-200 dark:border-gray-800',
+        className,
+      )}
     >
       {children}
     </div>
