@@ -14,9 +14,6 @@ export const consoleLog = (...args: unknown[]): void => {
   }
 };
 
-export const dispatchEvent = (event: CustomEvent): boolean =>
-  window.dispatchEvent(event);
-
 export const setLocalStorageItem = (key: string, value: string): void =>
   localStorage.setItem(key, value);
 

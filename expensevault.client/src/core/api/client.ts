@@ -18,11 +18,10 @@ import { LoginResponse } from '../../shared/types/common/backend-model';
 import { consoleLog } from '../../shared/utils/common-util';
 
 import { ROUTE_PATHS } from '@/routes/constants/route-paths';
-import {
-  RouteChangeType_AuthForbidden,
-  RouteChangeType_AuthUnauthorized,
-} from '@/routes/types/route-event';
+import { RouteChangeType_AuthForbidden } from '@/routes/types/route-event';
 import { navigateTo } from '@/routes/utils/route-util';
+import { LOGOUT_EVENT } from '@/shared/constants/auth';
+import { dispatchWindowEvent } from '@/shared/utils/event-util';
 import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const defaultConfig: AxiosRequestConfig = {
@@ -138,7 +137,7 @@ httpClient.interceptors.response.use(
 
           // Only redirect to login if this wasn't a background request
           if (!isNullOrUndefined(window)) {
-            navigateTo(RouteChangeType_AuthUnauthorized, ROUTE_PATHS.SIGN_IN);
+            dispatchWindowEvent(LOGOUT_EVENT);
           }
 
           consoleLog(err);

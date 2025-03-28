@@ -93,5 +93,6 @@ export default tseslint.config({ ignores: ['dist'] }, prettier, {
     'react/jsx-uses-react': 'off', 
     'react/prop-types': 'off',
     'security/detect-object-injection': 'warn',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
 });

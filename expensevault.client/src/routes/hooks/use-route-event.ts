@@ -9,12 +9,14 @@ import {
   RouteChangeType_AuthUnauthorized,
 } from '../types';
 
+import { addWindowEventListener } from '@/shared/utils/event-util';
+
 export const useRouteEvent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleRouteEvent = (event: CustomEvent<RouteChangeEvent>) => {
-      const { redirectTo, type } = event.detail;
+    const handleRouteEvent = (data: RouteChangeEvent) => {
+      const { redirectTo, type } = data;
 
       if (type === RouteChangeType_AuthUnauthorized) {
         navigate(ROUTE_PATHS.SIGN_IN, { replace: true });
@@ -25,16 +27,13 @@ export const useRouteEvent = () => {
       }
     };
 
-    window.addEventListener(
+    const routeEventUnsubscribe = addWindowEventListener(
       RouteChangeEventName,
-      handleRouteEvent as EventListener,
+      handleRouteEvent,
     );
 
     return () => {
-      window.removeEventListener(
-        RouteChangeEventName,
-        handleRouteEvent as EventListener,
-      );
+      routeEventUnsubscribe();
     };
   }, [navigate]);
 };
