@@ -60,6 +60,7 @@ namespace EV.Infrastructure
             services.Configure<AppSettings>(configuration);
             services.AddSingleton<IAppSettingsService, AppSettingsService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddTransient<IEmailService, EmailService>();
         }
     }
 }
