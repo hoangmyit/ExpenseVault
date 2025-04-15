@@ -62,7 +62,10 @@ builder.Services
         options.TokenValidationParameters = builder.Services.BuildServiceProvider().GetRequiredService<TokenValidationParameters>();
     });
 
+if(builder.Environment.IsDevelopment())
+{
     builder.Services.AddControllersWithViews();
+}
 var app = builder.Build();
 
 // Add security headers
