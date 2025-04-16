@@ -1,6 +1,7 @@
 ﻿using EV.Application.Common.Interfaces;
 using EV.Application.Common.Models;
 using EV.Application.Common.Utilities;
+using EV.Application.Emails.Models;
 using EV.Application.Identity.Commands;
 using EV.Application.Identity.Commands.Login;
 using EV.Application.Identity.Commands.RegisterUser;
@@ -23,12 +24,16 @@ namespace EV.Infrastructure.Services
         private readonly TimeProvider _timeProvider;
         private readonly Jwt _configuration;
         private readonly IDictionary<string, string[]> _signInFailure;
+        private readonly IApplicationDbContext _dbContext;
+        private readonly IEmailService _emailService;
 
         public AuthService(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IAppSettingsService settingsService,
-            TimeProvider timeProvider)
+            TimeProvider timeProvider,
+            IApplicationDbContext dbContext,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,6 +43,8 @@ namespace EV.Infrastructure.Services
             _signInFailure = new Dictionary<string, string[]>();
             _signInFailure!.Add(nameof(LoginCommand.Username), ["Invalid username or password."]);
             _signInFailure!.Add(nameof(LoginCommand.Password), ["Invalid username or password."]);
+            _dbContext = dbContext;
+            _emailService = emailService;
         }
 
         public async Task<string> AuthenticateAsync(string username, string password)
@@ -90,13 +97,43 @@ namespace EV.Infrastructure.Services
             Guard.Against.AgainstValidationException(await _userManager.Users
                 .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
 
-            var result = await _userManager.CreateAsync(new ApplicationUser()
+            try
             {
-                UserName = name,
-                Email = email,
-            }, password);
+                await _dbContext.BeginTransactionAsync();
+                var user = new ApplicationUser()
+                {
+                    UserName = name,
+                    Email = email,
+                };
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var emailConfirmationLink = $"https://example.com/confirm?token={token}";
 
-            return result.Succeeded ? $"User {name} created successfully." : $"Failed to create user {name}.";
+                    var emailData = new VerifyEmailModel()
+                    {
+                        ConfirmationLink = emailConfirmationLink,
+                        Email = email,
+                        Username = name,
+                    };
+
+                    await _emailService.SendEmailAsync<VerifyEmailModel>(
+                        name, 
+                        email, 
+                        "Confirm Your Email",
+                        "Templates/Emails/VerifyEmail.cshtml", 
+                        emailData
+                    );
+                    await _dbContext.CommitTransactionAsync();
+                }
+                return result.Succeeded ? $"User {name} created successfully." : $"Failed to create user {name}.";
+            }
+            catch (Exception)
+            {
+                await _dbContext.RollbackTransactionAsync();
+                throw;
+            }
         }
 
         #region Private Methods
@@ -122,7 +159,7 @@ namespace EV.Infrastructure.Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()), 
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, GetUnixTimeSeconds(0), ClaimValueTypes.Integer64),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
