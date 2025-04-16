@@ -8,6 +8,7 @@
     <SpaProxyLaunchCommand>pnpm dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
     <UsePnpm>true</UsePnpm>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>

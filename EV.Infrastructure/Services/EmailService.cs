@@ -1,4 +1,8 @@
 ﻿using EV.Application.Common.Interfaces;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Logging;
+using MimeKit;
 using RazorLight;
 
 namespace EV.Infrastructure.Services
@@ -6,20 +10,56 @@ namespace EV.Infrastructure.Services
     public class EmailService : IEmailService
     {
         private readonly RazorLightEngine _razorEngine;
+        private readonly IAppSettingsService _appSettingsService;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService()
+        public EmailService(
+            IAppSettingsService appSettingsService,
+            ILogger<EmailService> logger)
         {
             _razorEngine = new RazorLightEngineBuilder()
                 .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "Templates/Emails"))
                 .UseMemoryCachingProvider()
                 .Build();
+            _appSettingsService = appSettingsService;
+            _logger = logger;
         }
 
-        public async Task SendEmailAsync<T>(string to, string subject, string templatePath, T data)
+        public async Task SendEmailAsync<T>(string to, string toEmail, string subject, string templatePath, T emailData)
         {
-            var body = await _razorEngine.CompileRenderAsync(templatePath, data);
+            var emailSetting = _appSettingsService.GetAppSettings().EmailSetting;
+            var body = await _razorEngine.CompileRenderAsync(templatePath, emailData);
 
-            Console.WriteLine($"Sending email to: {to} with {subject} and body is {body}");
+            _logger.LogInformation($"{nameof(EmailService)} - Sending email to: {toEmail} with {subject} and body is {body}");
+
+            var emailMessage = new MimeMessage();
+            emailMessage.Sender = new MailboxAddress(emailSetting.SenderName, emailSetting.SenderEmail);
+            emailMessage.To.Add(new MailboxAddress(to, toEmail));
+            emailMessage.Subject = subject;
+
+            var bodueBuilder = new BodyBuilder
+            {
+                HtmlBody = body
+            };
+            emailMessage.Body = bodueBuilder.ToMessageBody();
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    await client.ConnectAsync(emailSetting.SmtpServer, emailSetting.Port, SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync(emailSetting.SenderEmail, emailSetting.Password);
+                    await client.SendAsync(emailMessage);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error sending email");
+                    throw;
+                }
+                finally
+                {
+                    await client.DisconnectAsync(true);
+                }
+            }
         }
     }
 }

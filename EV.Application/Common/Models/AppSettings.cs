@@ -4,6 +4,9 @@ public class AppSettings
     public ConnectionStrings ConnectionStrings { get; set; }
     public Jwt Jwt { get; set; }
     public Logging Logging { get; set; }
+    public int Port { get; set; }
+    public EmailSetting EmailSetting { get; set; }
+    public DevelopmentSetting DevelopmentSetting { get; set; }
 }
 
 public class ConnectionStrings
@@ -30,4 +33,27 @@ public class LogLevel
 {
     public string Default { get; set; }
     public string MicrosoftAspNetCore { get; set; }
+}
+
+public record EmailSetting
+{
+    public string SmtpServer { get; set; }
+    public int Port { get; set; }
+    public string SenderEmail { get; set; }
+    public string SenderName { get; set; }
+    public string Password { get; set; }
+}
+
+public record DevelopmentSetting
+{
+    public bool IsDevelopment { get; set; }
+    public ContentSecurityPolicy ContentSecurityPolicy { get; set; }
+}
+
+public record ContentSecurityPolicy
+{
+    public string DefaultSrc { get; set; }
+    public string StyleSrc { get; set; }
+    public string ScriptSrc { get; set; }
+    public string ImgSrc { get; set; }
 }

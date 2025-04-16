@@ -62,16 +62,25 @@ builder.Services
         options.TokenValidationParameters = builder.Services.BuildServiceProvider().GetRequiredService<TokenValidationParameters>();
     });
 
-if(builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddControllersWithViews();
 }
 var app = builder.Build();
+var appSetting = app.Services.GetRequiredService<IAppSettingsService>().GetAppSettings();
 
 // Add security headers
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'");
+    if (appSetting.DevelopmentSetting.IsDevelopment)
+    {
+        var policy = appSetting.DevelopmentSetting.ContentSecurityPolicy;
+        context.Response.Headers.Append("Content-Security-Policy", $"default-src {policy.DefaultSrc}; script-src {policy.ScriptSrc}; style-src {policy.StyleSrc}; img-src {policy.ImgSrc}; object-src 'none'");
+    }
+    else
+    {
+        context.Response.Headers.Append("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'");
+    }
     context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Append("X-Frame-Options", "DENY");
     context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
