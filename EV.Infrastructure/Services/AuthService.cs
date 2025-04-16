@@ -26,6 +26,7 @@ namespace EV.Infrastructure.Services
         private readonly IDictionary<string, string[]> _signInFailure;
         private readonly IApplicationDbContext _dbContext;
         private readonly IEmailService _emailService;
+        private readonly AppSettings _appSettings;
 
         public AuthService(
             UserManager<ApplicationUser> userManager,
@@ -39,7 +40,8 @@ namespace EV.Infrastructure.Services
             _signInManager = signInManager;
             _settingsService = settingsService;
             _timeProvider = timeProvider;
-            _configuration = _settingsService.GetAppSettings().Jwt;
+            _appSettings = _settingsService.GetAppSettings();
+            _configuration = _appSettings.Jwt;
             _signInFailure = new Dictionary<string, string[]>();
             _signInFailure!.Add(nameof(LoginCommand.Username), ["Invalid username or password."]);
             _signInFailure!.Add(nameof(LoginCommand.Password), ["Invalid username or password."]);
@@ -51,6 +53,8 @@ namespace EV.Infrastructure.Services
         {
             var user = await _userManager.FindByEmailAsync(username);
             Guard.Against.AgainstValidationException(user == null, _signInFailure);
+
+            Guard.Against.AgainstValidationException(!user!.EmailConfirmed, _signInFailure);
 
             var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
             Guard.Against.AgainstValidationException(!result.Succeeded, _signInFailure);
@@ -102,6 +106,7 @@ namespace EV.Infrastructure.Services
                 await _dbContext.BeginTransactionAsync();
                 var user = new ApplicationUser()
                 {
+                    Id = Guid.NewGuid(),
                     UserName = name,
                     Email = email,
                 };
@@ -109,7 +114,7 @@ namespace EV.Infrastructure.Services
                 if (result.Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var emailConfirmationLink = $"https://example.com/confirm?token={token}";
+                    var emailConfirmationLink = GenerateConfirmLink(user.Id.ToString(), token);
 
                     var emailData = new VerifyEmailModel()
                     {
@@ -134,6 +139,16 @@ namespace EV.Infrastructure.Services
                 await _dbContext.RollbackTransactionAsync();
                 throw;
             }
+        }
+        public async Task<bool> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user!, token);
+                return result.Succeeded;
+            }
+            return false;
         }
 
         #region Private Methods
@@ -218,6 +233,11 @@ namespace EV.Infrastructure.Services
             var sercureKey = new RsaSecurityKey(rsa);
             var credentials = new SigningCredentials(sercureKey, SecurityAlgorithms.RsaSha256);
             return credentials;
+        }
+        private string GenerateConfirmLink(string userId, string token)
+        {
+            var confirmationLink = $"{_appSettings}/confirm?userId={userId}&token={token}";
+            return confirmationLink;
         }
         #endregion
     }

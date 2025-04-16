@@ -37,11 +37,13 @@ namespace EV.Infrastructure.Services
             emailMessage.To.Add(new MailboxAddress(to, toEmail));
             emailMessage.Subject = subject;
 
-            var bodueBuilder = new BodyBuilder
+            var bodyBuilder = new BodyBuilder
             {
-                HtmlBody = body
+                HtmlBody = body,
+                TextBody = "Your email client does not support HTML emails."
             };
-            emailMessage.Body = bodueBuilder.ToMessageBody();
+            bodyBuilder.HtmlBody = body;
+            emailMessage.Body = bodyBuilder.ToMessageBody();
             using (var client = new SmtpClient())
             {
                 try

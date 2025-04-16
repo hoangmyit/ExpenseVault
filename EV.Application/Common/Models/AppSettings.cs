@@ -7,6 +7,8 @@ public class AppSettings
     public int Port { get; set; }
     public EmailSetting EmailSetting { get; set; }
     public DevelopmentSetting DevelopmentSetting { get; set; }
+    public string AppUrl { get; set; }
+    public string ServerUrl { get; set; }
 }
 
 public class ConnectionStrings

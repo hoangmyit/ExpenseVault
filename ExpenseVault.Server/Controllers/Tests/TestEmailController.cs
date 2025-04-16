@@ -34,7 +34,7 @@ namespace ExpenseVault.Server.Controllers.Tests
 
             await emailService.SendEmailAsync<VerifyEmailModel>(
                 "Hoang My",
-                "nobuyuki.dangki@gmail.com",
+                "expense@mailinator.com",
                 subject: "Confirm Your Email",
                 templatePath: templatePath,
                 model

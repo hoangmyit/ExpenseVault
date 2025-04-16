@@ -18,6 +18,7 @@ public class AuthController : BaseController
         builder.MapRoutePost(LoginAsync, "login").AllowAnonymous();
         builder.MapRoutePost(RefreshTokenAsync, "refresh-token").AllowAnonymous();
         builder.MapRoutePost(RegisterUserAsync, "register").AllowAnonymous();
+        builder.MapRouteGet(ConfirmEmailAsync, "confirm-email").AllowAnonymous();
     }
 
     public async Task<Ok<LoginResponse>> LoginAsync(ISender sender, [FromBody] LoginCommand command, CancellationToken cancellationToken)
@@ -34,6 +35,17 @@ public class AuthController : BaseController
 
     public async Task<Ok<string>> RegisterUserAsync(ISender sender, [FromBody] RegisterUserCommand command, CancellationToken cancellationToken)
     {
+        var response = await sender.Send(command, cancellationToken);
+        return TypedResults.Ok(response);
+    }
+
+    public async Task<Ok<string>> ConfirmEmailAsync(ISender sender, [FromQuery] string userId, [FromQuery] string token, CancellationToken cancellationToken)
+    {
+        var command = new ConfirmEmailCommand
+        {
+            UserId = userId,
+            Token = token
+        };
         var response = await sender.Send(command, cancellationToken);
         return TypedResults.Ok(response);
     }
