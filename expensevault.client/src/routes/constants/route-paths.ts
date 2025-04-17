@@ -9,4 +9,5 @@ export const ROUTE_PATHS = {
   FORBIDDEN: '/forbidden',
   SERVER_ERROR: '/server-error',
   NOT_FOUND: '/not-found',
+  CONFIRM_EMAIL: '/confirm-email',
 };
