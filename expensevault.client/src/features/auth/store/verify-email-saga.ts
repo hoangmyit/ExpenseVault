@@ -8,10 +8,10 @@ import {
 import { VerifyEmailCommand } from '../types/verify-email';
 
 import {
-  resendEmail,
   resendEmailFailed,
+  resendEmailRequest,
   resendEmailSuccess,
-  verifyEmail,
+  verifyEmailRequest,
 } from './verify-email-slice';
 
 import { getLangText } from '@/shared/utils/language-util';
@@ -48,8 +48,8 @@ function* verifyUserEmail(action: PayloadAction<VerifyEmailCommand>) {
 }
 
 function* verifyEmailSaga() {
-  yield takeLatest(resendEmail.type, resendVerificationEmail);
-  yield takeLatest(verifyEmail.type, verifyUserEmail);
+  yield takeLatest(resendEmailRequest.type, resendVerificationEmail);
+  yield takeLatest(verifyEmailRequest.type, verifyUserEmail);
 }
 
 export default verifyEmailSaga;

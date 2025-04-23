@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { SignUpFormData } from '../schemas/auth-schemas';
 import {
   AuthState,
@@ -11,12 +13,18 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const authData = useAppSelector(AuthState);
 
-  const login = (username: string, password: string, rememberMe: boolean) => {
-    return dispatch(loginRequest({ username, password, rememberMe }));
-  };
-  const registerUser = (user: SignUpFormData) => {
-    return dispatch(registerUserRequest(user));
-  };
+  const login = useCallback(
+    (username: string, password: string, rememberMe: boolean) => {
+      return dispatch(loginRequest({ username, password, rememberMe }));
+    },
+    [dispatch],
+  );
+  const registerUser = useCallback(
+    (user: SignUpFormData) => {
+      return dispatch(registerUserRequest(user));
+    },
+    [dispatch],
+  );
 
   return {
     login,

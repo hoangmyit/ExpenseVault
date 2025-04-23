@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ResendEmailCommand, VerifyEmailState } from '../types/verify-email';
+import {
+  ResendEmailCommand,
+  VerifyEmailCommand,
+  VerifyEmailState,
+} from '../types/verify-email';
 
 import { toastInfo } from '@/shared/components/feedback/toast/toast';
 import { dateAdd, dateDiff, getDateTimeNow } from '@/shared/utils/date-utils';
 import { getLangText } from '@/shared/utils/language-util';
 import { isNullOrEmpty, isNullOrUndefined } from '@/shared/utils/type-utils';
+import { RootState } from '@/stores/store';
 
 const initialState: VerifyEmailState = {
   confirmEmail: {
@@ -28,7 +33,7 @@ const emailSlice = createSlice({
   initialState,
   name: 'Verify Email',
   reducers: {
-    resendEmail: (state) => {
+    resendEmailRequest: (state) => {
       const confirmData = state.confirmEmail.data;
       const sentTime = confirmData!.sentTime;
       if (
@@ -55,7 +60,7 @@ const emailSlice = createSlice({
       state.confirmEmail.status = 'failed';
       state.confirmEmail.error = action.payload;
     },
-    verifyEmail: (state) => {
+    verifyEmailRequest: (state, _action: PayloadAction<VerifyEmailCommand>) => {
       state.verifyEmail.status = 'loading';
       state.verifyEmail.error = null;
     },
@@ -75,12 +80,13 @@ const emailSlice = createSlice({
 });
 
 export const {
-  resendEmail,
+  resendEmailRequest,
   resendEmailSuccess,
   resendEmailFailed,
-  verifyEmail,
+  verifyEmailRequest,
   verifyEmailSuccess,
   verifyEmailFailed,
 } = emailSlice.actions;
 
-export const emailReducer = emailSlice.reducer;
+export const verifyEmailReducer = emailSlice.reducer;
+export const verifyEmailState = (state: RootState) => state.verifyEmail;
