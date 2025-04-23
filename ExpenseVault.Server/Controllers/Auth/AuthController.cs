@@ -18,7 +18,8 @@ public class AuthController : BaseController
         builder.MapRoutePost(LoginAsync, "login").AllowAnonymous();
         builder.MapRoutePost(RefreshTokenAsync, "refresh-token").AllowAnonymous();
         builder.MapRoutePost(RegisterUserAsync, "register").AllowAnonymous();
-        builder.MapRouteGet(ConfirmEmailAsync, "confirm-email").AllowAnonymous();
+        builder.MapRouteGet(ConfirmEmailAsync, "verify-email").AllowAnonymous();
+        builder.MapRoutePost(ResendEmailAsync, "resend-email").AllowAnonymous();
     }
 
     public async Task<Ok<LoginResponse>> LoginAsync(ISender sender, [FromBody] LoginCommand command, CancellationToken cancellationToken)
@@ -46,6 +47,12 @@ public class AuthController : BaseController
             UserId = userId,
             Token = token
         };
+        var response = await sender.Send(command, cancellationToken);
+        return TypedResults.Ok(response);
+    }
+
+    public async Task<Ok<bool>> ResendEmailAsync(ISender sender, [FromBody] ResendEmailCommand command, CancellationToken cancellationToken)
+    {
         var response = await sender.Send(command, cancellationToken);
         return TypedResults.Ok(response);
     }

@@ -15,7 +15,7 @@ namespace ExpenseVault.Server.Controllers.Tests
             {
                 Username = "TestUser",
                 Email = "ExpampleEmail@test.com",
-                ConfirmationLink = "https://example.com/confirm?token=12345"
+                ConfirmationLink = "https://localhost:7030/confirm?userId=975da179-8e51-4461-a7ba-0d6a3839caf0&token=CfDJ8ISp4RgKLLVJrNgJkiSdQZTS41yTa/Hjl6Al2zwKBXRLK3LigOQsQVhXSdlxbMqCZ8JiVMsFNhM8HVzcigPa6v7r/ADotYPuIn7E4BjR5CxW/w6mBqR6bFnfyATKQwOfQzOfk8+wjrqpHrJZ05oLZ8SqpR3oYbOxDjjUJTtcRjgs4H8PjnKkG0go7OPuANBHrQz2hlNKHVnSgBiL6N15jvLES5D37sQG51nNY+NvmajfHry+731lSw2jeJPjbiKqeA=="
             };
 
             return View("~/Templates/Emails/VerifyEmail.cshtml", model);
@@ -28,17 +28,30 @@ namespace ExpenseVault.Server.Controllers.Tests
             var model = new VerifyEmailModel
             {
                 Username = "TestUser",
-                ConfirmationLink = "https://example.com/confirm?token=12345"
+                ConfirmationLink = "https://localhost:7030/confirm?userId=975da179-8e51-4461-a7ba-0d6a3839caf0&token=CfDJ8ISp4RgKLLVJrNgJkiSdQZTS41yTa/Hjl6Al2zwKBXRLK3LigOQsQVhXSdlxbMqCZ8JiVMsFNhM8HVzcigPa6v7r/ADotYPuIn7E4BjR5CxW/w6mBqR6bFnfyATKQwOfQzOfk8+wjrqpHrJZ05oLZ8SqpR3oYbOxDjjUJTtcRjgs4H8PjnKkG0go7OPuANBHrQz2hlNKHVnSgBiL6N15jvLES5D37sQG51nNY+NvmajfHry+731lSw2jeJPjbiKqeA=="
             };
             var templatePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates/Emails/VerifyEmail.cshtml");
 
-            await emailService.SendEmailAsync<VerifyEmailModel>(
+            List<Task> tasks = new List<Task>();
+            tasks.Add(
+            emailService.SendEmailAsync<VerifyEmailModel>(
                 "Hoang My",
                 "expense@mailinator.com",
                 subject: "Confirm Your Email",
                 templatePath: templatePath,
                 model
+            ));
+            tasks.Add(
+                emailService.SendEmailAsync<VerifyEmailModel>(
+                    "Hoang My",
+                    "hoangmyit@outlook.com",
+                    subject: "Confirm Your Email",
+                    templatePath: templatePath,
+                    model
+                )
             );
+
+            await Task.WhenAll(tasks);
 
             return Ok("Email sent successfully!");
         }

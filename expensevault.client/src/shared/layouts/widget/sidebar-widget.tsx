@@ -17,7 +17,7 @@ const SidebarWidget: FC = () => {
       <a
         href="https://github.com/hoangmyit/ExpenseVault"
         target="_blank"
-        rel="nofollow"
+        rel="nofollow noreferrer"
         className="bg-brand-500 text-theme-sm hover:bg-brand-600 flex items-center justify-center rounded-lg p-3 font-medium text-white"
       >
         Follow on GitHub

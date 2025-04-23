@@ -9,5 +9,6 @@ namespace EV.Application.Common.Interfaces
         Task<RefreshTokenResponse> RefreshTokenAsync(string token, string refreshToken);
         Task<string> RegisterUserAsync(string name, string email, string password);
         Task<bool> ConfirmEmailAsync(string userId, string token);
+        Task<bool> ResendEmailAsync(string userId, string email);
     }
 }

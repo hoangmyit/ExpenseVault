@@ -17,7 +17,6 @@ const initialState: VerifyEmailState = {
     data: {
       sentTime: dateAdd(getDateTimeNow(), { minutes: -6 }),
       email: '',
-      userId: '',
     },
     status: 'idle',
     error: null,
@@ -42,10 +41,7 @@ const emailSlice = createSlice({
       ) {
         state.confirmEmail.status = 'loading';
         state.confirmEmail.error = null;
-      } else if (
-        isNullOrEmpty(confirmData!.email) ||
-        isNullOrEmpty(confirmData!.userId)
-      ) {
+      } else if (isNullOrEmpty(confirmData!.email)) {
         state.confirmEmail.status = 'failed';
         state.confirmEmail.error = getLangText('email.toast.resendEmail.error');
       } else {
@@ -74,7 +70,6 @@ const emailSlice = createSlice({
     },
     setConfirmEmail: (state, action: PayloadAction<ResendEmailCommand>) => {
       state.confirmEmail.data!.email = action.payload.email;
-      state.confirmEmail.data!.userId = action.payload.userId;
     },
   },
 });
@@ -86,6 +81,7 @@ export const {
   verifyEmailRequest,
   verifyEmailSuccess,
   verifyEmailFailed,
+  setConfirmEmail,
 } = emailSlice.actions;
 
 export const verifyEmailReducer = emailSlice.reducer;

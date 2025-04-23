@@ -8,6 +8,7 @@ using EV.Application.Identity.Commands.RegisterUser;
 using EV.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -26,6 +27,7 @@ namespace EV.Infrastructure.Services
         private readonly IDictionary<string, string[]> _signInFailure;
         private readonly IApplicationDbContext _dbContext;
         private readonly IEmailService _emailService;
+        private readonly ILogger<AuthService> _logger;
         private readonly AppSettings _appSettings;
 
         public AuthService(
@@ -34,7 +36,8 @@ namespace EV.Infrastructure.Services
             IAppSettingsService settingsService,
             TimeProvider timeProvider,
             IApplicationDbContext dbContext,
-            IEmailService emailService)
+            IEmailService emailService,
+            ILogger<AuthService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -47,62 +50,90 @@ namespace EV.Infrastructure.Services
             _signInFailure!.Add(nameof(LoginCommand.Password), ["Invalid username or password."]);
             _dbContext = dbContext;
             _emailService = emailService;
+            _logger = logger;
         }
 
         public async Task<string> AuthenticateAsync(string username, string password)
         {
-            var user = await _userManager.FindByEmailAsync(username);
-            Guard.Against.AgainstValidationException(user == null, _signInFailure);
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(username);
+                Guard.Against.AgainstValidationException(user == null, _signInFailure);
 
-            Guard.Against.AgainstValidationException(!user!.EmailConfirmed, _signInFailure);
+                Guard.Against.AgainstValidationException(!user!.EmailConfirmed, _signInFailure);
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
-            Guard.Against.AgainstValidationException(!result.Succeeded, _signInFailure);
+                var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
+                Guard.Against.AgainstValidationException(!result.Succeeded, _signInFailure);
 
-            return await GenerateTokenAsync(user!);
+                return await GenerateTokenAsync(user!);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{nameof(AuthService)} - Error occurred while authenticating user {username}");
+                throw;
+            }
+
         }
 
         public async Task<string> GenerateRefreshTokenAsync(string username)
         {
-            var user = StringUtilities.IsValidEmail(username) ? await _userManager.FindByEmailAsync(username) : await _userManager.FindByNameAsync(username);
-            Guard.Against.AgainstValidationException(user == null, _signInFailure);
+            try
+            {
+                var user = StringUtilities.IsValidEmail(username) ? await _userManager.FindByEmailAsync(username) : await _userManager.FindByNameAsync(username);
+                Guard.Against.AgainstValidationException(user == null, _signInFailure);
 
-            return await GenerateRefreshTokenAsync(user!);
+                return await GenerateRefreshTokenAsync(user!);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{nameof(AuthService)} - Error occurred while generating refresh token for user {username}");
+                throw;
+            }
         }
 
         public async Task<RefreshTokenResponse> RefreshTokenAsync(string token, string refreshToken)
         {
-            var principal = GetPrincipalFromExpiringToken(token);
-            var userId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-
-            var user = await _userManager.FindByIdAsync(userId);
-            Guard.Against.AgainstUnauthenticated(
-                user == null
-                || user.RefreshToken != refreshToken
-                || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow()
-                , "Invalid refresh token.");
-
-            var newToken = await GenerateTokenAsync(user!);
-            var newRefreshToken = await GenerateRefreshTokenAsync(user!);
-
-            return new RefreshTokenResponse()
-            {
-                RefreshToken = newRefreshToken,
-                Token = newToken
-            };
-        }
-        public async Task<string> RegisterUserAsync(string name, string email, string password)
-        {
-            var normalizedUserName = _userManager.NormalizeName(name);
-            Guard.Against.AgainstValidationException(await _userManager.Users
-                .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
-
-            var normalizedEmail = _userManager.NormalizeEmail(email);
-            Guard.Against.AgainstValidationException(await _userManager.Users
-                .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
-
             try
             {
+                var principal = GetPrincipalFromExpiringToken(token);
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+                var user = await _userManager.FindByIdAsync(userId);
+                Guard.Against.AgainstUnauthenticated(
+                    user == null
+                    || user.RefreshToken != refreshToken
+                    || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow(),
+                    "Invalid refresh token."
+                );
+
+                var newToken = await GenerateTokenAsync(user!);
+                var newRefreshToken = await GenerateRefreshTokenAsync(user!);
+
+                return new RefreshTokenResponse()
+                {
+                    RefreshToken = newRefreshToken,
+                    Token = newToken
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in {MethodName} for token: {Token}", nameof(RefreshTokenAsync), token);
+                throw;
+            }
+        }
+
+        public async Task<string> RegisterUserAsync(string name, string email, string password)
+        {
+            try
+            {
+                var normalizedUserName = _userManager.NormalizeName(name);
+                Guard.Against.AgainstValidationException(await _userManager.Users
+                    .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
+
+                var normalizedEmail = _userManager.NormalizeEmail(email);
+                Guard.Against.AgainstValidationException(await _userManager.Users
+                    .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
+
                 await _dbContext.BeginTransactionAsync();
                 var user = new ApplicationUser()
                 {
@@ -113,43 +144,57 @@ namespace EV.Infrastructure.Services
                 var result = await _userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var emailConfirmationLink = GenerateConfirmLink(user.Id.ToString(), token);
-
-                    var emailData = new VerifyEmailModel()
-                    {
-                        ConfirmationLink = emailConfirmationLink,
-                        Email = email,
-                        Username = name,
-                    };
-
-                    await _emailService.SendEmailAsync<VerifyEmailModel>(
-                        name, 
-                        email, 
-                        "Confirm Your Email",
-                        "Templates/Emails/VerifyEmail.cshtml", 
-                        emailData
-                    );
-                    await _dbContext.CommitTransactionAsync();
+                    await SendConfirmEmail(user);
                 }
                 return result.Succeeded ? $"User {name} created successfully." : $"Failed to create user {name}.";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await _dbContext.RollbackTransactionAsync();
+                _logger.LogError(ex, "Error in {MethodName} for user: {Name}", nameof(RegisterUserAsync), name);
                 throw;
             }
         }
+
         public async Task<bool> ConfirmEmailAsync(string userId, string token)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
+            try
             {
-                var result = await _userManager.ConfirmEmailAsync(user!, token);
-                return result.Succeeded;
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    var result = await _userManager.ConfirmEmailAsync(user!, token);
+                    return result.Succeeded;
+                }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in {MethodName} for userId: {UserId}", nameof(ConfirmEmailAsync), userId);
+                throw;
+            }
         }
+
+
+        public async Task<bool> ResendEmailAsync(string userId, string email)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null || user.NormalizedEmail != email || user.EmailConfirmed)
+                {
+                    return false;
+                }
+                await SendConfirmEmail(user);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in {MethodName} for userId: {UserId}, email: {Email}", nameof(ResendEmailAsync), userId, email);
+                throw;
+            }
+        }
+
 
         #region Private Methods
         private async Task<string> GenerateRefreshTokenAsync(ApplicationUser user)
@@ -236,8 +281,30 @@ namespace EV.Infrastructure.Services
         }
         private string GenerateConfirmLink(string userId, string token)
         {
-            var confirmationLink = $"{_appSettings}/confirm?userId={userId}&token={token}";
+            var confirmationLink = $"{_appSettings.AppUrl}/confirm?userId={userId}&token={token}";
             return confirmationLink;
+        }
+
+        private async Task SendConfirmEmail(ApplicationUser user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var emailConfirmationLink = GenerateConfirmLink(user.Id.ToString(), token);
+
+            var emailData = new VerifyEmailModel()
+            {
+                ConfirmationLink = emailConfirmationLink,
+                Email = user.Email,
+                Username = user.UserName,
+            };
+
+            await _emailService.SendEmailAsync<VerifyEmailModel>(
+                user.UserName,
+                user.Email,
+                "Confirm Your Email",
+                "Templates/Emails/VerifyEmail.cshtml",
+                emailData
+            );
+            await _dbContext.CommitTransactionAsync();
         }
         #endregion
     }

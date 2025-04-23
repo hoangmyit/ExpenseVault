@@ -1,0 +1,15 @@
+{
+  "title": "Get Started",
+  "subtitle": "It's free to sign-up and only takes a minute.",
+  "username": "Username",
+  "usernamePlaceholder": "Enter a unique username",
+  "email": "Email Address",
+  "emailPlaceholder": "Enter your email address",
+  "password": "Password",
+  "passwordPlaceholder": "Create a secure password",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordPlaceholder": "Re-enter your password",
+  "submitButton": "Create Account",
+  "alreadyHaveAccount": "Already registered?",
+  "signInLink": "Sign In"
+}

@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router';
 
-import { useAuth } from '../hooks/use-auth';
+import { useAuth, useVerifyEmail } from '../hooks';
 import { SignUpFormData, signUpSchema } from '../schemas/auth-schemas';
 
 import { AvatarIcon, EmailIcon, LockIcon, LogoIcon } from '@/icons';
@@ -12,7 +13,11 @@ import { useZodForm } from '@/shared/hooks/use-zod-form';
 
 const SignUpPage: FC = () => {
   const { registerUser, registerData } = useAuth();
+  const { updateConfirmEmail } = useVerifyEmail();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState('');
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,7 +41,16 @@ const SignUpPage: FC = () => {
     }
   }, [registerData.errors, setError, registerData.status]);
 
+  useEffect(() => {
+    if (registerData.status === 'succeeded') {
+      updateConfirmEmail(email);
+      navigate('/confirm-email');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [registerData.status]);
+
   const onSubmit = async (data: SignUpFormData) => {
+    setEmail(data.email);
     registerUser(data);
   };
 
@@ -49,17 +63,15 @@ const SignUpPage: FC = () => {
           </div>
           <div className="flex flex-col">
             <h2 className="text-primary mb-2 text-2xl font-semibold">
-              Get Started
+              {t('signUp:title')}
             </h2>
-            <p className="mb-6 font-semibold">
-              It's free to signup and only takes a minute.
-            </p>
+            <p className="mb-6 font-semibold">{t('signUp:subtitle')}</p>
           </div>
           <div className="my-4">
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <FormInput
-                label="Username"
-                placeholder="Enter your user name"
+                label={t('signUp:username')}
+                placeholder={t('signUp:usernamePlaceholder')}
                 type="text"
                 error={errors.username}
                 startDecorator={
@@ -72,8 +84,8 @@ const SignUpPage: FC = () => {
                 {...register('username')}
               />
               <FormInput
-                label="Email"
-                placeholder="Enter your email"
+                label={t('signUp:email')}
+                placeholder={t('signUp:emailPlaceholder')}
                 type="email"
                 error={errors.email}
                 startDecorator={
@@ -86,8 +98,8 @@ const SignUpPage: FC = () => {
                 {...register('email')}
               />
               <FormInput
-                label="Password"
-                placeholder="Enter your password"
+                label={t('signUp:password')}
+                placeholder={t('signUp:passwordPlaceholder')}
                 type="password"
                 error={errors.password}
                 startDecorator={
@@ -100,8 +112,8 @@ const SignUpPage: FC = () => {
                 {...register('password')}
               />
               <FormInput
-                label="Confirm password"
-                placeholder="Enter your password"
+                label={t('signUp:confirmPassword')}
+                placeholder={t('signUp:confirmPasswordPlaceholder')}
                 type="password"
                 error={errors.confirmPassword}
                 startDecorator={
@@ -119,7 +131,7 @@ const SignUpPage: FC = () => {
                   type="submit"
                   className="btn btn-primary btn-wide max-w-full"
                 >
-                  Sign Up
+                  {t('signUp:submitButton')}
                 </Button>
               </div>
               <div className="mt-6 mb-2 flex flex-row justify-around">
@@ -137,9 +149,9 @@ const SignUpPage: FC = () => {
           </div>
           <div className="mb-4 flex flex-col">
             <div className="flex flex-row items-center justify-center text-sm">
-              <div>Already have an account?</div>
+              <div>{t('signUp:alreadyHaveAccount')}</div>
               <Link to="/sign-in" className="text-primary ml-1 font-bold">
-                Sign In
+                {t('signUp:signInLink')}
               </Link>
             </div>
           </div>

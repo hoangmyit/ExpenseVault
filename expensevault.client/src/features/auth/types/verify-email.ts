@@ -14,5 +14,4 @@ export type VerifyEmailCommand = {
 
 export type ResendEmailCommand = {
   email: string;
-  userId: string;
 };

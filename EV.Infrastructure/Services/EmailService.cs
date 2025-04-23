@@ -28,7 +28,8 @@ namespace EV.Infrastructure.Services
         public async Task SendEmailAsync<T>(string to, string toEmail, string subject, string templatePath, T emailData)
         {
             var emailSetting = _appSettingsService.GetAppSettings().EmailSetting;
-            var body = await _razorEngine.CompileRenderAsync(templatePath, emailData);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), templatePath);
+            var body = await _razorEngine.CompileRenderAsync(path, emailData);
 
             _logger.LogInformation($"{nameof(EmailService)} - Sending email to: {toEmail} with {subject} and body is {body}");
 
