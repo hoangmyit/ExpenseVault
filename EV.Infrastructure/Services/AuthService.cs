@@ -176,11 +176,11 @@ namespace EV.Infrastructure.Services
         }
 
 
-        public async Task<bool> ResendEmailAsync(string userId, string email)
+        public async Task<bool> ResendEmailAsync(string email)
         {
             try
             {
-                var user = await _userManager.FindByIdAsync(userId);
+                var user = await _userManager.FindByEmailAsync(email);
                 if (user == null || user.NormalizedEmail != email || user.EmailConfirmed)
                 {
                     return false;

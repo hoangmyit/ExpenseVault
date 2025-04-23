@@ -19,7 +19,7 @@ namespace EV.Application.Identity.Handlers
 
         public Task<bool> Handle(ResendEmailCommand request, CancellationToken cancellationToken)
         {
-            return _authService.ResendEmailAsync(request.UserId.ToString(), request.Email);
+            return _authService.ResendEmailAsync(request.Email);
         }
     }
 }
