@@ -126,10 +126,12 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
   );
 }
 
-export function* categorySaga() {
+function* categorySaga() {
   yield takeLatest(getCategoriesRequest.type, getCategoriesSaga);
   yield takeLatest(getCategoryRequest.type, getCategorySaga);
   yield takeLatest(createCategoryRequest.type, createCategorySaga);
   yield takeLatest(updateCategoryRequest.type, updateCategorySaga);
   yield takeLatest(deleteCategoryRequest.type, deleteCategorySaga);
 }
+
+export default categorySaga;

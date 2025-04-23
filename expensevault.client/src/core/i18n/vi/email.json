@@ -2,5 +2,18 @@
   "verifyEmailTitle": "Xác minh địa chỉ email của bạn",
   "verifyEmailMessage": "Chúng tôi đã gửi một email xác minh đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư đến và nhấp vào liên kết trong email để hoàn tất việc xác minh tài khoản.",
   "verifyEmailResendNote": "Nếu bạn không nhận được email, vui lòng kiểm tra thư mục spam hoặc nhấp vào nút bên dưới để yêu cầu gửi lại email xác minh.",
-  "resendEmailButton": "Gửi lại email xác minh"
+  "resendEmailButton": "Gửi lại email xác minh",
+  "resendEmailTooSoon": "Bạn chỉ có thể gửi lại email mỗi 5 phút một lần. Vui lòng đợi một chút trước khi thử lại.",
+  "toast": {
+    "resendEmail": {
+      "error": "Không thể gửi lại email xác minh",
+      "pending": "Đang gửi lại email xác minh...",
+      "success": "Đã gửi lại email xác minh thành công"
+    },
+    "verifyEmail": {
+      "error": "Không thể xác minh email",
+      "pending": "Đang xác minh email...",
+      "success": "Đã xác minh email thành công"
+    }
+  }
 }

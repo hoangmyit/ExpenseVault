@@ -10,7 +10,7 @@ import {
   SIGN_IN_SUCCESS_MESSAGE,
 } from '../constants/message.const';
 import { SignUpFormData } from '../schemas/auth-schemas';
-import { registerUser, signIn } from '../services/auth.service';
+import { registerUserService, signInService } from '../services/auth.service';
 
 import {
   loginFailure,
@@ -31,7 +31,7 @@ import { handleApiCall } from '@/shared/utils/saga-util';
 
 function* signInSaga(action: PayloadAction<LoginCommand>) {
   yield* handleApiCall(
-    signIn,
+    signInService,
     action.payload,
     (data: LoginResponse) => loginSuccess(data),
     (error) => loginFailure(error),
@@ -47,7 +47,7 @@ function* signInSaga(action: PayloadAction<LoginCommand>) {
 
 function* registerUserSaga(action: PayloadAction<SignUpFormData>) {
   yield* handleApiCall(
-    registerUser,
+    registerUserService,
     action.payload,
     (data: string) => registerUserSuccess(data),
     (error) => registerUserFailure(error),
