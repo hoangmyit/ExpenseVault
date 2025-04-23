@@ -1,6 +1,6 @@
 {
-    "verifyEmailTitle": "Verify Your Email Address",
-    "verifyEmailMessage": "A verification email has been sent to your address. Please check your inbox (or spam folder) and click the link to complete verification.",
-    "verifyEmailResendNote": "If you did not receive the email, please click below to resend it.",
-    "resendEmailButton": "Resend Verification Email"
+  "verifyEmailTitle": "Verify Your Email Address",
+  "verifyEmailMessage": "A verification email has been sent to your address. Please check your inbox (or spam folder) and click the link to complete verification.",
+  "verifyEmailResendNote": "If you did not receive the email, please click below to resend it.",
+  "resendEmailButton": "Resend Verification Email"
 }

@@ -1,12 +1,12 @@
 {
-    "auth": {
-      "usernameMin": "Tên người dùng phải có ít nhất {0} ký tự",
-      "usernameMax": "Tên người dùng không được vượt quá {0} ký tự",
-      "passwordMin": "Mật khẩu phải có ít nhất {0} ký tự",
-      "passwordMax": "Mật khẩu không được vượt quá {0} ký tự",
-      "invalidEmail": "Địa chỉ email không hợp lệ",
-      "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt (@$!%*#?&)",
-      "passwordsDoNotMatch": "Mật khẩu không khớp",
-      "usernamePattern": "Tên người dùng chỉ được chứa chữ cái, số và dấu gạch dưới"
-    }
+  "auth": {
+    "usernameMin": "Tên người dùng phải có ít nhất {0} ký tự",
+    "usernameMax": "Tên người dùng không được vượt quá {0} ký tự",
+    "passwordMin": "Mật khẩu phải có ít nhất {0} ký tự",
+    "passwordMax": "Mật khẩu không được vượt quá {0} ký tự",
+    "invalidEmail": "Địa chỉ email không hợp lệ",
+    "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt (@$!%*#?&)",
+    "passwordsDoNotMatch": "Mật khẩu không khớp",
+    "usernamePattern": "Tên người dùng chỉ được chứa chữ cái, số và dấu gạch dưới"
   }
+}
