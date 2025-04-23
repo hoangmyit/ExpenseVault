@@ -4,9 +4,11 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languageDetector';
 
 import commonEn from './en/common.json';
+import emailEn from './en/email.json';
 import signInEn from './en/sign-in.json';
 import validationEn from './en/validation.json';
 import commonVi from './vi/common.json';
+import emailVi from './vi/email.json';
 import signInVi from './vi/sign-in.json';
 import validationVi from './vi/validation.json';
 
@@ -21,11 +23,13 @@ i18n
         common: commonEn,
         validation: validationEn,
         signIn: signInEn,
+        email: emailEn,
       },
       vi: {
         common: commonVi,
         validation: validationVi,
         signIn: signInVi,
+        email: emailVi,
       },
     },
     fallbackLng: 'en',

@@ -1,25 +1,36 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmEmailPage: FC = () => {
+  const { t } = useTranslation();
+
   return (
-    <div className="card bg-base-100 w-96 shadow-sm">
-      <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
-        />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
+    <div className="flex flex-1 flex-col items-center justify-center p-[20px] text-center">
+      <div className="card bg-white shadow-xl sm:w-full">
+        <div className="card-body w-full">
+          <div className="email">
+            <img
+              src="/assets/imgs/email-send.jpg"
+              alt="email"
+              className="mx-auto mb-4 h-64 w-64"
+            />
+          </div>
+          <div className="text-2xl font-bold">
+            {t('email:verifyEmailTitle')}
+          </div>
+          <div>{t('email:verifyEmailMessage')}</div>
+          <div className="mt-4 text-sm text-gray-500">
+            {t('email:verifyEmailResendNote')}
+          </div>
+          <div className="mt-4 flex w-full justify-center">
+            <button className="btn btn-primary mt-4" type="button">
+              {t('email:resendEmailButton')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default ConfirmEmailPage;
