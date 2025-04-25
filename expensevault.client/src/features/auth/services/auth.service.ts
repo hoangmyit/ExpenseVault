@@ -5,7 +5,7 @@ import {
   LoginResponse,
 } from '../../../shared/types/common/backend-model';
 import { SignUpFormData } from '../schemas/auth-schemas';
-import { VerifyEmailCommand } from '../types/verify-email';
+import { ResendEmailCommand, VerifyEmailCommand } from '../types/verify-email';
 
 export const signInService = async (
   params: LoginCommand,
@@ -47,11 +47,12 @@ export const verifyEmailService = async (
 };
 
 export const resendEmailService = async (
-  email: string,
+  email: ResendEmailCommand,
 ): Promise<ApiResult<string>> => {
-  const response = await httpServicePost<string>('/api/auth/resend-email', {
+  const response = await httpServicePost<string>(
+    '/api/auth/resend-email',
     email,
-  });
+  );
   return {
     success: true,
     data: response.data,

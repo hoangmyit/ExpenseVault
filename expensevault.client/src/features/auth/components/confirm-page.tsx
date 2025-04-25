@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { Last_Resend_Email_Time_Interval } from '../constants/token.const';
 import { useVerifyEmail } from '../hooks';
 
 import { consoleLog } from '@/shared/utils/common-util';
@@ -13,7 +14,6 @@ const ConfirmEmailPage: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const lastSentTime = confirmEmailData?.sentTime;
-  const COOLDOWN_TIME = 5 * 60; // 5 minutes in seconds
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -41,11 +41,12 @@ const ConfirmEmailPage: FC = () => {
     event.preventDefault();
 
     const now = getDateTimeNow();
-    const timeDiffResult = dateDiff(now, lastSentTime!, 'second').seconds ?? 0;
-    const canSendEmail = !lastSentTime || timeDiffResult >= COOLDOWN_TIME;
+    const timeDiffResult = dateDiff(lastSentTime!, now, 'second').seconds ?? 0;
+    const canSendEmail =
+      !lastSentTime || timeDiffResult >= Last_Resend_Email_Time_Interval;
 
     if (!canSendEmail) {
-      const remainingTime = COOLDOWN_TIME - timeDiffResult;
+      const remainingTime = Last_Resend_Email_Time_Interval - timeDiffResult;
       setCountdown(remainingTime > 0 ? remainingTime : 0);
       return;
     }
@@ -55,7 +56,7 @@ const ConfirmEmailPage: FC = () => {
 
       resendEmail();
 
-      setCountdown(COOLDOWN_TIME);
+      setCountdown(Last_Resend_Email_Time_Interval);
     } catch (error) {
       consoleLog('Failed to resend email:', error);
     } finally {
@@ -66,7 +67,7 @@ const ConfirmEmailPage: FC = () => {
   // Format countdown to MM:SS
   const formatCountdown = () => {
     const minutes = Math.floor(countdown / 60);
-    const seconds = countdown % 60;
+    const seconds = Math.floor(countdown % 60);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 

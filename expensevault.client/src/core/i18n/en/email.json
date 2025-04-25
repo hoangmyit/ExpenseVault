@@ -15,6 +15,7 @@
       "pending": "Verifying email...",
       "success": "Email verified successfully"
     }
-  }
+  },
+  "signInToResend": "Your account is not verified. Please sign in to resend the verification email."
 }
 

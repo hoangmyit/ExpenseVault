@@ -15,5 +15,6 @@
       "pending": "Đang xác minh email...",
       "success": "Đã xác minh email thành công"
     }
-  }
+  },
+  "signInToResend": "Tài khoản của bạn chưa được xác minh. Vui lòng đăng nhập để gửi lại email xác minh."
 }

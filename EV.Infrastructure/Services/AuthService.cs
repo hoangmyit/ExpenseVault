@@ -190,7 +190,7 @@ namespace EV.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {MethodName} for userId: {UserId}, email: {Email}", nameof(ResendEmailAsync), userId, email);
+                _logger.LogError(ex, "Error in {MethodName} for email: {Email}", nameof(ResendEmailAsync), email);
                 throw;
             }
         }

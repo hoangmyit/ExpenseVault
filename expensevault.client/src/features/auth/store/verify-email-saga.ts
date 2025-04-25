@@ -5,7 +5,7 @@ import {
   resendEmailService,
   verifyEmailService,
 } from '../services/auth.service';
-import { VerifyEmailCommand } from '../types/verify-email';
+import { ResendEmailCommand, VerifyEmailCommand } from '../types/verify-email';
 
 import {
   resendEmailFailed,
@@ -17,7 +17,7 @@ import {
 import { getLangText } from '@/shared/utils/language-util';
 import { handleApiCall } from '@/shared/utils/saga-util';
 
-function* resendVerificationEmail(action: PayloadAction<string>) {
+function* resendVerificationEmail(action: PayloadAction<ResendEmailCommand>) {
   yield* handleApiCall(
     resendEmailService,
     action.payload,

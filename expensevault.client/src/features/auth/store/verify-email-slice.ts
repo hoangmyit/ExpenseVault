@@ -5,9 +5,13 @@ import {
   VerifyEmailCommand,
   VerifyEmailState,
 } from '../types/verify-email';
+import {
+  getLastResendEmailTime,
+  setLastResendEmailTime,
+} from '../utils/verify-email-util';
 
 import { toastInfo } from '@/shared/components/feedback/toast/toast';
-import { dateAdd, dateDiff, getDateTimeNow } from '@/shared/utils/date-utils';
+import { dateDiff, getDateTimeNow } from '@/shared/utils/date-utils';
 import { getLangText } from '@/shared/utils/language-util';
 import { isNullOrEmpty, isNullOrUndefined } from '@/shared/utils/type-utils';
 import { RootState } from '@/stores/store';
@@ -15,7 +19,7 @@ import { RootState } from '@/stores/store';
 const initialState: VerifyEmailState = {
   confirmEmail: {
     data: {
-      sentTime: dateAdd(getDateTimeNow(), { minutes: -6 }),
+      sentTime: getLastResendEmailTime(),
       email: '',
     },
     status: 'idle',
@@ -30,9 +34,9 @@ const initialState: VerifyEmailState = {
 
 const emailSlice = createSlice({
   initialState,
-  name: 'Verify Email',
+  name: 'VerifyEmail',
   reducers: {
-    resendEmailRequest: (state) => {
+    resendEmailRequest: (state, _action: PayloadAction<ResendEmailCommand>) => {
       const confirmData = state.confirmEmail.data;
       const sentTime = confirmData!.sentTime;
       if (
@@ -51,6 +55,7 @@ const emailSlice = createSlice({
     resendEmailSuccess: (state) => {
       state.confirmEmail.status = 'succeeded';
       state.confirmEmail.data!.sentTime = getDateTimeNow();
+      setLastResendEmailTime(state.confirmEmail.data!.sentTime!);
     },
     resendEmailFailed: (state, action) => {
       state.confirmEmail.status = 'failed';

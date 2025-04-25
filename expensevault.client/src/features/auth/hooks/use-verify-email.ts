@@ -7,6 +7,9 @@ import {
   verifyEmailState,
 } from '../store/verify-email-slice';
 
+import { toastError } from '@/shared/components/feedback/toast/toast';
+import { getLangText } from '@/shared/utils/language-util';
+import { isNullOrEmpty } from '@/shared/utils/type-utils';
 import { useAppDispatch, useAppSelector } from '@/stores/hooks';
 
 export const useVerifyEmail = () => {
@@ -21,8 +24,13 @@ export const useVerifyEmail = () => {
   );
 
   const resendEmail = useCallback(() => {
-    return dispatch(resendEmailRequest());
-  }, [dispatch]);
+    const email = verifyEmailData.confirmEmail.data!.email;
+    if (!isNullOrEmpty(email)) {
+      return dispatch(resendEmailRequest({ email }));
+    } else {
+      toastError(getLangText('email:signInToResend'));
+    }
+  }, [dispatch, verifyEmailData.confirmEmail.data]);
 
   const updateConfirmEmail = useCallback(
     (email: string) => {
