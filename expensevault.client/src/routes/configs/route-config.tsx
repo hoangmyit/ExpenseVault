@@ -49,7 +49,7 @@ export const protectedRoutes: AppRoute[] = [
 ];
 
 // Public routes configuration
-export const publicRoutes: AppRoute[] = [
+export const guestAccessRoutes: AppRoute[] = [
   {
     path: ROUTE_PATHS.SIGN_IN,
     element: <SignInPage />,
@@ -58,6 +58,9 @@ export const publicRoutes: AppRoute[] = [
     path: ROUTE_PATHS.SIGN_UP,
     element: <SignUpPage />,
   },
+];
+
+export const publicRoutes: AppRoute[] = [
   {
     path: ROUTE_PATHS.CONFIRM_EMAIL,
     element: <ConfirmEmailPage />,

@@ -2,14 +2,18 @@ import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Last_Resend_Email_Time_Interval } from '../constants/token.const';
-import { useVerifyEmail } from '../hooks';
+import { useAuth, useVerifyEmail } from '../hooks';
+import { getAuthInfo, getAuthToken } from '../utils/auth-util';
 
 import { consoleLog } from '@/shared/utils/common-util';
 import { dateDiff, getDateTimeNow } from '@/shared/utils/date-utils';
+import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 const ConfirmEmailPage: FC = () => {
   const { t } = useTranslation();
-  const { resendEmail, confirmEmailData } = useVerifyEmail();
+  const { resendEmail, confirmEmailData, updateConfirmEmail } =
+    useVerifyEmail();
+  const { authnData } = useAuth();
   const [countdown, setCountdown] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -35,6 +39,18 @@ const ConfirmEmailPage: FC = () => {
     };
   }, [countdown]);
 
+  useEffect(() => {
+    if (isNullOrEmpty(confirmEmailData?.email)) {
+      if (authnData.isAuthenticated) {
+        updateConfirmEmail(authnData.data?.email ?? '');
+      } else if (getAuthToken()) {
+        const user = getAuthInfo();
+        if (user) {
+          updateConfirmEmail(user.email);
+        }
+      }
+    }
+  });
   const handleResendEmail = async (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
