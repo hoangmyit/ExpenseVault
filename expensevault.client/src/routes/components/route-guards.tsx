@@ -51,7 +51,7 @@ export const ProtectedRoute: FC<{
  * Component that ensures routes are only accessible
  * when not authenticated (like login/signup)
  */
-export const PublicOnlyRoute: FC<{
+export const GuestRoute: FC<{
   element: React.ReactElement;
 }> = ({ element }) => {
   const { authnData } = useAuth();

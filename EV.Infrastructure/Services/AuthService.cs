@@ -57,13 +57,20 @@ namespace EV.Infrastructure.Services
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(username);
+                var normalizedInput = StringUtilities.IsValidEmail(username)
+                    ? _userManager.NormalizeEmail(username)
+                    : _userManager.NormalizeName(username);
+
+                var user = await _userManager.Users
+                    .FirstOrDefaultAsync(u =>
+                        u.NormalizedEmail == normalizedInput ||
+                        u.NormalizedUserName == normalizedInput);
+
+                if (user == null)
+                {
+                    _logger.LogWarning("Failed login attempt for user {Username} at {Time}", username, _timeProvider.GetUtcNow());
+                }
                 Guard.Against.AgainstValidationException(user == null, _signInFailure);
-
-                Guard.Against.AgainstValidationException(!user!.EmailConfirmed, _signInFailure);
-
-                var result = await _signInManager.CheckPasswordSignInAsync(user!, password, false);
-                Guard.Against.AgainstValidationException(!result.Succeeded, _signInFailure);
 
                 return await GenerateTokenAsync(user!);
             }
@@ -96,18 +103,35 @@ namespace EV.Infrastructure.Services
             try
             {
                 var principal = GetPrincipalFromExpiringToken(token);
-                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                
+                if (string.IsNullOrEmpty(userId))
+                {
+                    throw new SecurityTokenException("Token is missing user identifier");
+                }
 
                 var user = await _userManager.FindByIdAsync(userId);
-                Guard.Against.AgainstUnauthenticated(
-                    user == null
-                    || user.RefreshToken != refreshToken
-                    || user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow(),
-                    "Invalid refresh token."
-                );
+                
+                if (user == null)
+                {
+                    _logger.LogWarning("Refresh token attempted for non-existent user with ID: {UserId}", userId);
+                    throw new SecurityTokenException("Invalid token");
+                }
+                
+                if (user.RefreshToken != refreshToken)
+                {
+                    _logger.LogWarning("Invalid refresh token used for user: {UserId}", userId);
+                    throw new SecurityTokenException("The refresh token is not valid");
+                }
+                
+                if (user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow())
+                {
+                    _logger.LogWarning("Expired refresh token used for user: {UserId}", userId);
+                    throw new SecurityTokenException("The refresh token has expired, please log in again");
+                }
 
-                var newToken = await GenerateTokenAsync(user!);
-                var newRefreshToken = await GenerateRefreshTokenAsync(user!);
+                var newToken = await GenerateTokenAsync(user);
+                var newRefreshToken = await GenerateRefreshTokenAsync(user);
 
                 return new RefreshTokenResponse()
                 {
@@ -115,9 +139,16 @@ namespace EV.Infrastructure.Services
                     Token = newToken
                 };
             }
+            catch (SecurityTokenException ex)
+            {
+                _logger.LogWarning(ex, "Token refresh failed: {ErrorMessage}", ex.Message);
+                throw; // Let the global exception handler deal with it
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {MethodName} for token: {Token}", nameof(RefreshTokenAsync), token);
+                _logger.LogError(ex, "Error in {MethodName} for token: {TokenPreview}", 
+                    nameof(RefreshTokenAsync), 
+                    token?.Length > 10 ? token.Substring(0, 10) + "..." : "null");
                 throw;
             }
         }
@@ -181,7 +212,7 @@ namespace EV.Infrastructure.Services
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                if (user == null || user.NormalizedEmail != email || user.EmailConfirmed)
+                if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || user.EmailConfirmed)
                 {
                     return false;
                 }
@@ -247,28 +278,78 @@ namespace EV.Infrastructure.Services
 
         private ClaimsPrincipal GetPrincipalFromExpiringToken(string expiringToken)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var publicKey = X509CertificateLoader.LoadCertificateFromFile(_configuration.PublicFilePath);
-            Guard.Against.Null(publicKey, "Public key is null");
-
-            var validationParameters = new TokenValidationParameters
+            if (string.IsNullOrEmpty(expiringToken))
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = _configuration.Issuer,
-                ValidAudience = _configuration.Audience,
-                IssuerSigningKey = new X509SecurityKey(publicKey),
-            };
-            var principal = tokenHandler.ValidateToken(expiringToken, validationParameters, out var validatedToken);
-            var jwtSecurityToken = validatedToken as JwtSecurityToken;
-            if (validatedToken == null || !jwtSecurityToken!.Header.Alg.Equals(SecurityAlgorithms.RsaSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token");
+                throw new SecurityTokenException("Token is empty or null");
             }
 
-            return principal;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            
+            // Validate token format first
+            if (!tokenHandler.CanReadToken(expiringToken))
+            {
+                throw new SecurityTokenException("Token has an invalid format");
+            }
+            
+            try 
+            {
+                var publicKey = X509CertificateLoader.LoadCertificateFromFile(_configuration.PublicFilePath);
+                Guard.Against.Null(publicKey, "Public key certificate could not be loaded");
+
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _configuration.Issuer,
+                    ValidAudience = _configuration.Audience,
+                    IssuerSigningKey = new X509SecurityKey(publicKey),
+                    ClockSkew = TimeSpan.Zero  // Optional: for stricter token lifetime validation
+                };
+
+                var principal = tokenHandler.ValidateToken(expiringToken, validationParameters, out var validatedToken);
+                
+                // Validate the algorithm
+                var jwtSecurityToken = validatedToken as JwtSecurityToken;
+                if (jwtSecurityToken == null || 
+                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.RsaSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    throw new SecurityTokenException("Token uses an invalid signing algorithm");
+                }
+                
+                return principal;
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                _logger.LogWarning("Token validation failed: Token has expired");
+                throw new SecurityTokenException("Your session has expired. Please log in again.");
+            }
+            catch (SecurityTokenInvalidSignatureException)
+            {
+                _logger.LogWarning("Token validation failed: Invalid signature");
+                throw new SecurityTokenException("The token has an invalid signature.");
+            }
+            catch (SecurityTokenInvalidIssuerException)
+            {
+                _logger.LogWarning("Token validation failed: Invalid issuer");
+                throw new SecurityTokenException("The token has an invalid issuer.");
+            }
+            catch (SecurityTokenInvalidAudienceException)
+            {
+                _logger.LogWarning("Token validation failed: Invalid audience");
+                throw new SecurityTokenException("The token has an invalid audience.");
+            }
+            catch (SecurityTokenValidationException ex)
+            {
+                _logger.LogWarning(ex, "Token validation failed: General validation error");
+                throw new SecurityTokenException("The token is invalid.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected token validation error");
+                throw new SecurityTokenException("An error occurred while validating the token.");
+            }
         }
         private SigningCredentials GetCredentialFormRsaPrivateKey()
         {
@@ -287,19 +368,21 @@ namespace EV.Infrastructure.Services
 
         private async Task SendConfirmEmail(ApplicationUser user)
         {
+            ArgumentNullException.ThrowIfNull(user);
+
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var emailConfirmationLink = GenerateConfirmLink(user.Id.ToString(), token);
 
             var emailData = new VerifyEmailModel()
             {
                 ConfirmationLink = emailConfirmationLink,
-                Email = user.Email,
-                Username = user.UserName,
+                Email = user.Email!,
+                Username = user.UserName!,
             };
 
             await _emailService.SendEmailAsync<VerifyEmailModel>(
-                user.UserName,
-                user.Email,
+                user.UserName!,
+                user.Email!,
                 "Confirm Your Email",
                 "Templates/Emails/VerifyEmail.cshtml",
                 emailData
