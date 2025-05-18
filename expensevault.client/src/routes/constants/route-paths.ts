@@ -10,4 +10,5 @@ export const ROUTE_PATHS = {
   SERVER_ERROR: '/server-error',
   NOT_FOUND: '/not-found',
   CONFIRM_EMAIL: '/confirm-email',
+  VERIFY_EMAIL: '/verify-email',
 };

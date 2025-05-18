@@ -105,6 +105,11 @@ const ConfirmEmailPage: FC = () => {
           <div className="mt-4 text-sm text-gray-500">
             {t('email:verifyEmailResendNote')}
           </div>
+          {authnData.isAuthenticated && (
+            <div className="text-sm text-gray-500">
+              {t('email:verifyEmailResendLogOutNote')}
+            </div>
+          )}
           <div className="mt-4 flex w-full justify-center">
             <button
               className="btn btn-primary mt-4"
@@ -120,6 +125,13 @@ const ConfirmEmailPage: FC = () => {
             </button>
           </div>
         </div>
+        {authnData.isAuthenticated && (
+          <div className="card-actions justify-end">
+            <button className="btn btn-primary m-4">
+              {t('profile:signOut')}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

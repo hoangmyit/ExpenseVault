@@ -4,6 +4,7 @@ import { SignUpFormData } from '../schemas/auth-schemas';
 import {
   AuthState,
   loginRequest,
+  logout,
   registerUserRequest,
 } from '../store/auth-slice';
 
@@ -26,9 +27,14 @@ export const useAuth = () => {
     [dispatch],
   );
 
+  const signOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
   return {
     login,
     registerUser,
+    signOut,
     authnData: authData.authInfo,
     registerData: authData.registerInfo,
   };

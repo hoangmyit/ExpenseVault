@@ -1,4 +1,5 @@
-﻿using EV.Application.Identity.Commands;
+﻿using EV.Application.Common.Models;
+using EV.Application.Identity.Commands;
 
 namespace EV.Application.Common.Interfaces
 {
@@ -9,6 +10,6 @@ namespace EV.Application.Common.Interfaces
         Task<RefreshTokenResponse> RefreshTokenAsync(string token, string refreshToken);
         Task<string> RegisterUserAsync(string name, string email, string password);
         Task<bool> ConfirmEmailAsync(string userId, string token);
-        Task<bool> ResendEmailAsync(string email);
+        Task<RequestResult> ResendEmailAsync(string email);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using EV.Application.Authorization;
 using EV.Application.Common.Interfaces;
-using EV.Application.Common.Models;
+using EV.Application.Common.Models.AppSetting;
 using EV.Domain.Constants;
 using EV.Infrastructure.Data;
 using EV.Infrastructure.Data.Interceptors;

@@ -116,3 +116,21 @@ export const defaultIfNil = <T>(
   value: T | null | undefined,
   defaultValue: T,
 ): T => (isNil(value) ? defaultValue : value);
+
+/**
+ * Checks if a string is a valid GUID/UUID
+ * @param {string | null | undefined} value - String to check
+ * @returns {boolean} - True if value is a valid GUID/UUID
+ */
+export const isGuid = (value: string | null | undefined): boolean => {
+  if (isNil(value)) return false;
+  if (!isString(value)) return false;
+
+  // Regular expression for validating GUID/UUID format
+  // Supports formats with and without hyphens:
+  // - 123e4567-e89b-12d3-a456-426614174000
+  // - 123e4567e89b12d3a456426614174000
+  const guidRegex =
+    /^[0-9a-f]{8}-?[0-9a-f]{4}-?[1-5][0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12}$/i;
+  return guidRegex.test(value);
+};

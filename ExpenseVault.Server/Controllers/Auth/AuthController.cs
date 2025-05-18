@@ -18,7 +18,7 @@ public class AuthController : BaseController
         builder.MapRoutePost(LoginAsync, "login").AllowAnonymous();
         builder.MapRoutePost(RefreshTokenAsync, "refresh-token").AllowAnonymous();
         builder.MapRoutePost(RegisterUserAsync, "register").AllowAnonymous();
-        builder.MapRouteGet(ConfirmEmailAsync, "verify-email").AllowAnonymous();
+        builder.MapRoutePost(ConfirmEmailAsync, "verify-email").AllowAnonymous();
         builder.MapRoutePost(ResendEmailAsync, "resend-email").AllowAnonymous();
     }
 
@@ -40,20 +40,19 @@ public class AuthController : BaseController
         return TypedResults.Ok(response);
     }
 
-    public async Task<Ok<string>> ConfirmEmailAsync(ISender sender, [FromQuery] string userId, [FromQuery] string token, CancellationToken cancellationToken)
+    public async Task<Ok<string>> ConfirmEmailAsync(ISender sender, [FromBody] ConfirmEmailCommand command, CancellationToken cancellationToken)
     {
-        var command = new ConfirmEmailCommand
-        {
-            UserId = userId,
-            Token = token
-        };
         var response = await sender.Send(command, cancellationToken);
         return TypedResults.Ok(response);
     }
 
-    public async Task<Ok<bool>> ResendEmailAsync(ISender sender, [FromBody] ResendEmailCommand command, CancellationToken cancellationToken)
+    public async Task<Results<Ok<string>, BadRequest<string>>> ResendEmailAsync(ISender sender, [FromBody] ResendEmailCommand command, CancellationToken cancellationToken)
     {
         var response = await sender.Send(command, cancellationToken);
-        return TypedResults.Ok(response);
+        if (response.IsSucessed)
+        {
+            return TypedResults.Ok(response.Message);
+        }
+        return TypedResults.BadRequest(response.Message);
     }
 }

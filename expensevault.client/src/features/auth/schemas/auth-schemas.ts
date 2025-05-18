@@ -62,10 +62,13 @@ export const signUpSchema = z
       .max(Password_Max_Length, {
         message: 'Password cannot exceed 50 characters',
       })
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
-        message:
-          'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)',
-      }),
+      .regex(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&]{8,}$/,
+        {
+          message:
+            'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)',
+        },
+      ),
     confirmPassword: z
       .string()
       .min(Password_Min_Length, {

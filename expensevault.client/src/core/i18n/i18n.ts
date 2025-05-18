@@ -3,8 +3,22 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languageDetector';
 
-import { commonEn, emailEn, signInEn, signUpEn, validationEn } from './en';
-import { commonVi, emailVi, signInVi, signUpVi, validationVi } from './vi';
+import {
+  commonEn,
+  emailEn,
+  profileEn,
+  signInEn,
+  signUpEn,
+  validationEn,
+} from './en';
+import {
+  commonVi,
+  emailVi,
+  profileVi,
+  signInVi,
+  signUpVi,
+  validationVi,
+} from './vi';
 
 import { SETTING_ENV } from '@/configs/environment';
 
@@ -19,6 +33,7 @@ i18n
         signIn: signInEn,
         signUp: signUpEn,
         email: emailEn,
+        profile: profileEn,
       },
       vi: {
         common: commonVi,
@@ -26,6 +41,7 @@ i18n
         signIn: signInVi,
         signUp: signUpVi,
         email: emailVi,
+        profile: profileVi,
       },
     },
     fallbackLng: 'en',

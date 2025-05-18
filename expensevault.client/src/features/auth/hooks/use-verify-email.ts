@@ -9,7 +9,7 @@ import {
 
 import { toastError } from '@/shared/components/feedback/toast/toast';
 import { getLangText } from '@/shared/utils/language-util';
-import { isNullOrEmpty } from '@/shared/utils/type-utils';
+import { isGuid, isNullOrEmpty } from '@/shared/utils/type-utils';
 import { useAppDispatch, useAppSelector } from '@/stores/hooks';
 
 export const useVerifyEmail = () => {
@@ -18,6 +18,10 @@ export const useVerifyEmail = () => {
 
   const verifyEmail = useCallback(
     (token: string, userId: string) => {
+      if (isNullOrEmpty(token) || isNullOrEmpty(userId) || !isGuid(userId)) {
+        toastError(getLangText('email:verifyEmail.error'));
+        return;
+      }
       return dispatch(verifyEmailRequest({ token, userId }));
     },
     [dispatch],
@@ -40,7 +44,7 @@ export const useVerifyEmail = () => {
   );
 
   return {
-    verifyData: verifyEmailData.verifyEmail.data,
+    verifyData: verifyEmailData.verifyEmail,
     confirmEmailData: verifyEmailData.confirmEmail.data,
     verifyEmail,
     resendEmail,

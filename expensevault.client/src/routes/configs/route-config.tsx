@@ -5,6 +5,7 @@ import { ROUTE_PATHS } from '../constants/route-paths';
 import ConfirmEmailPage from '@/features/auth/components/confirm-page';
 import SignInPage from '@/features/auth/components/sign-in';
 import SignUpPage from '@/features/auth/components/sign-up';
+import VerifyEmailPage from '@/features/auth/components/verify-page';
 import CategoriesPage from '@/features/category/categories-page';
 import CategoryPage from '@/features/category/category-page';
 import { ErrorCode } from '@/features/error-page/error-page.const';
@@ -64,6 +65,10 @@ export const publicRoutes: AppRoute[] = [
   {
     path: ROUTE_PATHS.CONFIRM_EMAIL,
     element: <ConfirmEmailPage />,
+  },
+  {
+    path: ROUTE_PATHS.VERIFY_EMAIL,
+    element: <VerifyEmailPage />,
   },
 ];
 

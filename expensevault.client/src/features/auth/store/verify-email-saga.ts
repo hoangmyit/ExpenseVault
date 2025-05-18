@@ -11,7 +11,9 @@ import {
   resendEmailFailed,
   resendEmailRequest,
   resendEmailSuccess,
+  verifyEmailFailed,
   verifyEmailRequest,
+  verifyEmailSuccess,
 } from './verify-email-slice';
 
 import { getLangText } from '@/shared/utils/language-util';
@@ -36,8 +38,8 @@ function* verifyUserEmail(action: PayloadAction<VerifyEmailCommand>) {
   yield* handleApiCall(
     verifyEmailService,
     action.payload,
-    () => resendEmailSuccess(),
-    (error) => resendEmailFailed(error),
+    () => verifyEmailSuccess(),
+    (error) => verifyEmailFailed(error),
     {
       useToastPromise: true,
       error: getLangText('email:toast.verifyEmail.error'),

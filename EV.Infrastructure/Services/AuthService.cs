@@ -1,5 +1,6 @@
 ﻿using EV.Application.Common.Interfaces;
 using EV.Application.Common.Models;
+using EV.Application.Common.Models.AppSetting;
 using EV.Application.Common.Utilities;
 using EV.Application.Emails.Models;
 using EV.Application.Identity.Commands;
@@ -23,7 +24,7 @@ namespace EV.Infrastructure.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAppSettingsService _settingsService;
         private readonly TimeProvider _timeProvider;
-        private readonly Jwt _configuration;
+        private readonly JwtSetting _configuration;
         private readonly IDictionary<string, string[]> _signInFailure;
         private readonly IApplicationDbContext _dbContext;
         private readonly IEmailService _emailService;
@@ -104,26 +105,26 @@ namespace EV.Infrastructure.Services
             {
                 var principal = GetPrincipalFromExpiringToken(token);
                 var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                
+
                 if (string.IsNullOrEmpty(userId))
                 {
                     throw new SecurityTokenException("Token is missing user identifier");
                 }
 
                 var user = await _userManager.FindByIdAsync(userId);
-                
+
                 if (user == null)
                 {
                     _logger.LogWarning("Refresh token attempted for non-existent user with ID: {UserId}", userId);
                     throw new SecurityTokenException("Invalid token");
                 }
-                
+
                 if (user.RefreshToken != refreshToken)
                 {
                     _logger.LogWarning("Invalid refresh token used for user: {UserId}", userId);
                     throw new SecurityTokenException("The refresh token is not valid");
                 }
-                
+
                 if (user.RefreshTokenExpiryTime < _timeProvider.GetUtcNow())
                 {
                     _logger.LogWarning("Expired refresh token used for user: {UserId}", userId);
@@ -146,8 +147,8 @@ namespace EV.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {MethodName} for token: {TokenPreview}", 
-                    nameof(RefreshTokenAsync), 
+                _logger.LogError(ex, "Error in {MethodName} for token: {TokenPreview}",
+                    nameof(RefreshTokenAsync),
                     token?.Length > 10 ? token.Substring(0, 10) + "..." : "null");
                 throw;
             }
@@ -187,7 +188,7 @@ namespace EV.Infrastructure.Services
             }
         }
 
-        public async Task<bool> ConfirmEmailAsync(string userId, string token)
+        public async Task<RequestResult> ConfirmEmailAsync(string userId, string token)
         {
             try
             {
@@ -195,9 +196,12 @@ namespace EV.Infrastructure.Services
                 if (user != null)
                 {
                     var result = await _userManager.ConfirmEmailAsync(user!, token);
-                    return result.Succeeded;
+                    if (result.Succeeded)
+                    {
+                        return new RequestResult(result.Succeeded, "Confirm email successfully");
+                    }
                 }
-                return false;
+                return new RequestResult(false, "Confirm email failed.");
             }
             catch (Exception ex)
             {
@@ -212,7 +216,7 @@ namespace EV.Infrastructure.Services
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || user.EmailConfirmed)
+                if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || !user.EmailConfirmed)
                 {
                     return false;
                 }
@@ -284,14 +288,14 @@ namespace EV.Infrastructure.Services
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            
+
             // Validate token format first
             if (!tokenHandler.CanReadToken(expiringToken))
             {
                 throw new SecurityTokenException("Token has an invalid format");
             }
-            
-            try 
+
+            try
             {
                 var publicKey = X509CertificateLoader.LoadCertificateFromFile(_configuration.PublicFilePath);
                 Guard.Against.Null(publicKey, "Public key certificate could not be loaded");
@@ -309,15 +313,15 @@ namespace EV.Infrastructure.Services
                 };
 
                 var principal = tokenHandler.ValidateToken(expiringToken, validationParameters, out var validatedToken);
-                
+
                 // Validate the algorithm
                 var jwtSecurityToken = validatedToken as JwtSecurityToken;
-                if (jwtSecurityToken == null || 
+                if (jwtSecurityToken == null ||
                     !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.RsaSha256, StringComparison.InvariantCultureIgnoreCase))
                 {
                     throw new SecurityTokenException("Token uses an invalid signing algorithm");
                 }
-                
+
                 return principal;
             }
             catch (SecurityTokenExpiredException)
