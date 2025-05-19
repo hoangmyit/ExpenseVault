@@ -6,7 +6,7 @@ export const getPermissionsService = async (): Promise<ApiResult<string[]>> => {
     '/api/permission/permissions',
   );
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };

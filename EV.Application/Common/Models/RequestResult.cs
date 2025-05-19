@@ -2,18 +2,23 @@
 {
     public class RequestResult
     {
-        public bool IsSucessed { get; set; }
+        public bool IsSuccess { get; set; }
         public string Message { get; set; }
+        public string MessageKey { get; set; }
+        public List<string>? MessageParams { get; set; }
         public RequestResult()
         {
-            IsSucessed = true;
+            IsSuccess = true;
             Message = string.Empty;
+            MessageKey = string.Empty;
         }
 
-        public RequestResult(bool isSuccessed, string message)
+        public RequestResult(bool isSuccessed, string message, string messageKey, List<string>? messageParams)
         {
-            IsSucessed = isSuccessed;
+            IsSuccess = isSuccessed;
             Message = message;
+            MessageKey = messageKey;
+            MessageParams = messageParams;
         }
     }
 }

@@ -21,7 +21,7 @@ export const getCategories = async ({
     },
   );
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };
@@ -32,7 +32,7 @@ export const getCategory = async (
 ): Promise<ApiResult<CategoryDto>> => {
   const response = await httpServiceGet<CategoryDto>(`/api/category/${id}`);
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };
@@ -43,7 +43,7 @@ export const createCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };
@@ -57,7 +57,7 @@ export const updateCategory = async (
     category,
   );
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };
@@ -68,7 +68,7 @@ export const deleteCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServiceDelete<string>(`/api/category/${id}`);
   return {
-    success: true,
+    isSucessed: true,
     data: response.data,
     status: response.status,
   };

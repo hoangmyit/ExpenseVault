@@ -16,7 +16,8 @@ export type ValidationErrors<T> = {
 
 export type ApiResult<T> = {
   data: T;
-  success: boolean;
+  isSuccess: boolean;
   status: number;
   message?: string;
+  messageKey?: string;
 };

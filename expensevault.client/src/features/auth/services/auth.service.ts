@@ -15,7 +15,7 @@ export const signInService = async (
     params,
   );
   return {
-    success: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -26,7 +26,7 @@ export const registerUserService = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/auth/register', user);
   return {
-    success: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -40,7 +40,7 @@ export const verifyEmailService = async (
     verifyEmailCommand,
   );
   return {
-    success: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -54,7 +54,7 @@ export const resendEmailService = async (
     email,
   );
   return {
-    success: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };

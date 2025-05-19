@@ -1,14 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 
-import {
-  REGISTER_USER_ERROR_MESSAGE,
-  REGISTER_USER_PENDING_MESSAGE,
-  REGISTER_USER_SUCCESS_MESSAGE,
-  SIGN_IN_ERROR_MESSAGE,
-  SIGN_IN_PENDING_MESSAGE,
-  SIGN_IN_SUCCESS_MESSAGE,
-} from '../constants/message.const';
 import { SignUpFormData } from '../schemas/auth-schemas';
 import { registerUserService, signInService } from '../services/auth.service';
 
@@ -27,6 +19,7 @@ import {
   LoginCommand,
   LoginResponse,
 } from '@/shared/types/common/backend-model';
+import { getLangText } from '@/shared/utils/language-util';
 import { handleApiCall } from '@/shared/utils/saga-util';
 
 function* signInSaga(action: PayloadAction<LoginCommand>) {
@@ -37,9 +30,9 @@ function* signInSaga(action: PayloadAction<LoginCommand>) {
     (error) => loginFailure(error),
     {
       useToastPromise: true,
-      error: SIGN_IN_ERROR_MESSAGE,
-      pending: SIGN_IN_PENDING_MESSAGE,
-      success: SIGN_IN_SUCCESS_MESSAGE,
+      error: getLangText('signIn:failedSignIn'),
+      pending: getLangText('signIn:pendingSignIn'),
+      success: getLangText('signIn:successSignIn'),
     },
     loginServerValidation,
   );
@@ -53,9 +46,9 @@ function* registerUserSaga(action: PayloadAction<SignUpFormData>) {
     (error) => registerUserFailure(error),
     {
       useToastPromise: true,
-      error: REGISTER_USER_ERROR_MESSAGE,
-      pending: REGISTER_USER_PENDING_MESSAGE,
-      success: REGISTER_USER_SUCCESS_MESSAGE,
+      error: getLangText('signUp:failedSignUp'),
+      pending: getLangText('signUp:pendingSignUp'),
+      success: getLangText('signUp:successSignUp'),
     },
     registerUserServerValidation,
   );

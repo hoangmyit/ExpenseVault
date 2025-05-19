@@ -11,5 +11,8 @@
   "confirmPasswordPlaceholder": "Re-enter your password",
   "submitButton": "Create Account",
   "alreadyHaveAccount": "Already registered?",
-  "signInLink": "Sign In"
+  "signInLink": "Sign In",
+  "successSignUp": "Registration successful",
+  "pendingSignUp": "Creating account...",
+  "failedSignUp": "Unable to create account"
 }

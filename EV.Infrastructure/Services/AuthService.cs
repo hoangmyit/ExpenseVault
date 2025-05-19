@@ -156,16 +156,16 @@ namespace EV.Infrastructure.Services
 
         public async Task<string> RegisterUserAsync(string name, string email, string password)
         {
+
+            var normalizedUserName = _userManager.NormalizeName(name);
+            Guard.Against.AgainstValidationException(await _userManager.Users
+                .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
+
+            var normalizedEmail = _userManager.NormalizeEmail(email);
+            Guard.Against.AgainstValidationException(await _userManager.Users
+                .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
             try
             {
-                var normalizedUserName = _userManager.NormalizeName(name);
-                Guard.Against.AgainstValidationException(await _userManager.Users
-                    .AnyAsync(u => u.NormalizedUserName == normalizedUserName), nameof(RegisterUserCommand.Username), "Username already exists.");
-
-                var normalizedEmail = _userManager.NormalizeEmail(email);
-                Guard.Against.AgainstValidationException(await _userManager.Users
-                    .AnyAsync(u => u.NormalizedEmail == normalizedEmail), nameof(RegisterUserCommand.Email), "Email already exists.");
-
                 await _dbContext.BeginTransactionAsync();
                 var user = new ApplicationUser()
                 {
@@ -198,10 +198,10 @@ namespace EV.Infrastructure.Services
                     var result = await _userManager.ConfirmEmailAsync(user!, token);
                     if (result.Succeeded)
                     {
-                        return new RequestResult(result.Succeeded, "Confirm email successfully");
+                        return new RequestResult(result.Succeeded, "Your email has been confirmed successfully.", "serverResult:auth.email.successConfirmation", null);
                     }
                 }
-                return new RequestResult(false, "Confirm email failed.");
+                return new RequestResult(false, "Your email confirmation failed. Please try again.", "serverResult:auth.email.failureConfirmation", null);
             }
             catch (Exception ex)
             {
@@ -211,17 +211,17 @@ namespace EV.Infrastructure.Services
         }
 
 
-        public async Task<bool> ResendEmailAsync(string email)
+        public async Task<RequestResult> ResendEmailAsync(string email)
         {
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
                 if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || !user.EmailConfirmed)
                 {
-                    return false;
+                    return new RequestResult(false, "Failed to resend confirmation email. Please try again.", "serverResult:auth.email.failureResend", null);
                 }
                 await SendConfirmEmail(user);
-                return true;
+                return new RequestResult(false, "A new confirmation email has been sent to your email address.", "serverResult:auth.email.successResend", null);
             }
             catch (Exception ex)
             {

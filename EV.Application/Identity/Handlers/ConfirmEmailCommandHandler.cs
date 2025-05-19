@@ -1,10 +1,11 @@
 ﻿using EV.Application.Common.Interfaces;
+using EV.Application.Common.Models;
 using EV.Application.Identity.Commands;
 using Microsoft.Extensions.Logging;
 
 namespace EV.Application.Identity.Handlers
 {
-    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, string>
+    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, RequestResult>
     {
         private readonly ILogger<ConfirmEmailCommandHandler> _logger;
         private readonly IAuthService _authService;
@@ -15,18 +16,18 @@ namespace EV.Application.Identity.Handlers
             _authService = authService;
         }
 
-        public async Task<string> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
             var result = await _authService.ConfirmEmailAsync(request.UserId, request.Token);
-            if (result)
+            if (result.IsSuccess)
             {
                 _logger.LogInformation($"{nameof(ConfirmEmailCommandHandler)} - Email confirmed successfully for user {request.UserId}");
-                return "Email confirmed successfully";
+                return result;
             }
             else
             {
                 _logger.LogInformation($"{nameof(ConfirmEmailCommandHandler)} - Email confirmation failed for user  {request.UserId}");
-                return "Email confirmation failed";
+                return result;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using EV.Application.Identity.Commands;
+﻿using EV.Application.Common.Models;
+using EV.Application.Identity.Commands;
 using EV.Application.Identity.Commands.Login;
 using EV.Application.Identity.Commands.RegisterUser;
 using ExpenseVault.Server.Infrastructures;
@@ -40,19 +41,23 @@ public class AuthController : BaseController
         return TypedResults.Ok(response);
     }
 
-    public async Task<Ok<string>> ConfirmEmailAsync(ISender sender, [FromBody] ConfirmEmailCommand command, CancellationToken cancellationToken)
+    public async Task<Results<Ok<RequestResult>, BadRequest<RequestResult>>> ConfirmEmailAsync(ISender sender, [FromBody] ConfirmEmailCommand command, CancellationToken cancellationToken)
     {
         var response = await sender.Send(command, cancellationToken);
-        return TypedResults.Ok(response);
+        if (response.IsSuccess)
+        {
+            return TypedResults.Ok(response);
+        }
+        return TypedResults.BadRequest(response);
     }
 
-    public async Task<Results<Ok<string>, BadRequest<string>>> ResendEmailAsync(ISender sender, [FromBody] ResendEmailCommand command, CancellationToken cancellationToken)
+    public async Task<Results<Ok<RequestResult>, BadRequest<RequestResult>>> ResendEmailAsync(ISender sender, [FromBody] ResendEmailCommand command, CancellationToken cancellationToken)
     {
         var response = await sender.Send(command, cancellationToken);
-        if (response.IsSucessed)
+        if (response.IsSuccess)
         {
-            return TypedResults.Ok(response.Message);
+            return TypedResults.Ok(response);
         }
-        return TypedResults.BadRequest(response.Message);
+        return TypedResults.BadRequest(response);
     }
 }
