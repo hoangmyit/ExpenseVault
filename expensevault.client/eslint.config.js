@@ -60,7 +60,7 @@ export default tseslint.config({ ignores: ['dist'] }, prettier, {
     'prettier/prettier': [
       'error',
       {
-        endOfLine: 'auto',
+        endOfLine: 'lf',
         singleQuote: true,
         semi: true,
         trailingComma: 'all',

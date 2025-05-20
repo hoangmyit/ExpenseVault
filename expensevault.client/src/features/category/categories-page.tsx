@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { consoleLog } from '../../shared/utils/common-util';
@@ -11,7 +11,7 @@ import { ColumnType } from '@/shared/types/ui';
 
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState<number>(10);
   const { categories, getCategories, deleteCategory } = useCategory();
 
   useEffect(() => {
@@ -99,14 +99,14 @@ const CategoriesPage: FC = () => {
       render: (_, record) => (
         <>
           <button
-            className="btn btn-sm btn-outline mr-2"
+            className="btn btn-sm btn-outline btn-primary mr-2"
             onClick={(e) => handleEdit(e, record.id)}
             type="button"
           >
             Edit
           </button>
           <button
-            className="btn btn-sm btn-danger"
+            className="btn btn-sm btn-outline btn-error"
             onClick={(e) => handleDelete(e, record.id)}
             type="button"
           >
@@ -118,7 +118,7 @@ const CategoriesPage: FC = () => {
   ];
 
   return (
-    <div>
+    <div className="bg-base-100 mx-2">
       <div className="flex flex-col items-center p-4">
         <h1 className="mb-4 text-xl font-bold">Categories</h1>
         {categories.items.length === 0 && <p>No categories found.</p>}
@@ -142,18 +142,15 @@ const CategoriesPage: FC = () => {
           pinColumn={true}
           zebra={true}
           highlightRow={true}
-          pagination={
-            categories.totalCount > 10
-              ? {
-                  current: categories.pageIndex,
-                  pageSize: pageSize,
-                  total: categories.totalCount,
-                  onChange: (page, pageSize) => {
-                    getCategories({ page, pageSize });
-                  },
-                }
-              : false
-          }
+          pagination={{
+            ...categories,
+            pageSize,
+            onChange(page, pageSize) {
+              setPageSize(pageSize);
+              getCategories({ page, pageSize });
+              consoleLog('Page changed', page, pageSize);
+            },
+          }}
         />
       </div>
     </div>

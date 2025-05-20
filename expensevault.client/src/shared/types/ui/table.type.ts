@@ -1,6 +1,6 @@
 import { Key, ReactNode } from 'react';
 
-import { sizeType } from '../common';
+import { PaginatedData, sizeType } from '../common';
 
 export interface ColumnType<T> {
   title: ReactNode;
@@ -9,7 +9,8 @@ export interface ColumnType<T> {
   className?: string;
   style?: React.CSSProperties;
   width?: string | number;
-  render?: (value: never, record: T, index: number) => ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  render?: (value: any, record: T, index: number) => ReactNode;
   colSpan?: number;
   align?: 'left' | 'center' | 'right';
   fixed?: boolean;
@@ -22,14 +23,7 @@ export interface TableProps<T> {
   columns: ColumnType<T>[];
   rowKey?: keyof T | ((record: T) => Key);
   loading?: boolean;
-  pagination?:
-    | {
-        current?: number;
-        pageSize?: number;
-        total?: number;
-        onChange?: (page: number, pageSize: number) => void;
-      }
-    | false;
+  pagination: PaginatedData;
   bordered?: boolean;
   size?: sizeType;
   scroll?: {
@@ -48,4 +42,21 @@ export interface TableProps<T> {
   pinRow?: boolean;
   pinColumn?: boolean;
   highlightRow?: boolean | string;
+}
+
+export interface TableBodyProps<T> {
+  loading?: boolean;
+  dataSource: T[];
+  columns: ColumnType<T>[];
+  locale: {
+    loadingText: ReactNode;
+    emptyText: ReactNode;
+  };
+  onRow?: (record: T, index: number) => React.HTMLAttributes<HTMLElement>;
+  highlightRow?: boolean | string;
+  rowKey: keyof T | ((record: T) => Key);
+}
+
+export interface TableHeaderProps<T> {
+  columns: ColumnType<T>[];
 }

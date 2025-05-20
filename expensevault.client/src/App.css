@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   /* Map React-Toastify variables to DaisyUI theme variables */
   --toastify-color-light: var(--b1, white);
   --toastify-color-dark: var(--n, #333);
