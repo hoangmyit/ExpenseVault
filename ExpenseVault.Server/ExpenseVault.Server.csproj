@@ -8,6 +8,7 @@
     <SpaProxyLaunchCommand>pnpm dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
     <UsePnpm>true</UsePnpm>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +47,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\certificates\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Templates\Emails\VerifyEmail.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   
   <Target Name="EnsureNodeModulesInstalled" BeforeTargets="Build" Outputs="@(SpaRoot);node_modules">

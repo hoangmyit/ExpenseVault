@@ -54,8 +54,9 @@ const CategoriesPage: FC = () => {
             <thead>
               <tr>
                 <th>
-                  <label>
+                  <label title="Select category">
                     <input type="checkbox" className="checkbox" />
+                    <span className="sr-only">Select category</span>
                   </label>
                 </th>
                 <th className="text-left">Name</th>

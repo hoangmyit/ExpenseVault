@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"  # Map container port 6379 to host port 6379
+    command: >
+      redis-server 
+      --requirepass -Mydev123
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy volatile-lru
+      --notify-keyspace-events Ex
+      --loglevel warning
+    volumes:
+      - redis-data:/data  # Persist Redis data
+    restart: unless-stopped
+    environment:
+      - REDIS_PASSWORD=-Mydev123
+    networks:
+      - app-network
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

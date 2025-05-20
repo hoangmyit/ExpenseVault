@@ -1,4 +1,4 @@
-using EV.Application.Common.Models;
+using EV.Application.Common.Models.AppSetting;
 
 namespace EV.Application.Common.Interfaces
 {

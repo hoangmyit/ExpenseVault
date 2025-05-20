@@ -1,0 +1,29 @@
+{
+  "toast": {
+    "getCategory": {
+      "success": "Category details successfully retrieved",
+      "pending": "Loading category details...",
+      "error": "Unable to retrieve category details"
+    },
+    "getCategories": {
+      "success": "Categories successfully retrieved",
+      "pending": "Loading categories...",
+      "error": "Unable to retrieve categories"
+    },
+    "createCategory": {
+      "success": "Category successfully created",
+      "pending": "Creating category...",
+      "error": "Unable to create category"
+    },
+    "updateCategory": {
+      "success": "Category successfully updated",
+      "pending": "Updating category...",
+      "error": "Unable to update category"
+    },
+    "deleteCategory": {
+      "success": "Category successfully deleted",
+      "pending": "Deleting category...",
+      "error": "Unable to delete category"
+    }
+  }
+}

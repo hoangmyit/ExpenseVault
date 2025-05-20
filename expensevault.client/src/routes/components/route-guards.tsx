@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router';
 
+import { RESEND_EMAIL_PERMISSION } from '../constants/permission.const';
 import { ROUTE_PATHS } from '../constants/route-paths';
 
 import { useAuth } from '@/features/auth/hooks/use-auth';
@@ -34,12 +35,13 @@ export const ProtectedRoute: FC<{
     );
   }
 
-  if (
-    !isNullOrEmpty(requiredPermissions) &&
-    !isNullOrEmpty(permissions) &&
-    hasPermission(requiredPermissions, permissions as string[])
-  ) {
-    return <Navigate to={ROUTE_PATHS.FORBIDDEN} replace />;
+  if (!isNullOrEmpty(requiredPermissions) && !isNullOrEmpty(permissions)) {
+    if (hasPermission([RESEND_EMAIL_PERMISSION], permissions as string[])) {
+      return <Navigate to={ROUTE_PATHS.CONFIRM_EMAIL} replace />;
+    }
+    if (hasPermission(requiredPermissions, permissions as string[])) {
+      return <Navigate to={ROUTE_PATHS.FORBIDDEN} replace />;
+    }
   }
 
   return status === 'succeeded' ? element : <div>Loading...</div>;
@@ -49,7 +51,7 @@ export const ProtectedRoute: FC<{
  * Component that ensures routes are only accessible
  * when not authenticated (like login/signup)
  */
-export const PublicOnlyRoute: FC<{
+export const GuestRoute: FC<{
   element: React.ReactElement;
 }> = ({ element }) => {
   const { authnData } = useAuth();

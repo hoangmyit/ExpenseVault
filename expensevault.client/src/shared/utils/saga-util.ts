@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 
+import { Axios, AxiosError } from 'axios';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 
 import { ToastPromiseOptions } from '../components/feedback/toast/toast.const';
@@ -11,6 +12,7 @@ import {
 import { ApiResult, ValidationErrors } from '../types/common';
 
 import { consoleLog, getErrorMessage } from './common-util';
+import { getLangText } from './language-util';
 
 export function* handleApiCall<
   TRequest,
@@ -45,12 +47,35 @@ export function* handleApiCall<
     if (toastOptions?.useToastPromise) {
       toast.promise(apiPromise, {
         pending: toastOptions.pending || TOAST_MESSAGES_PENDING,
-        success: toastOptions.success || TOAST_MESSAGES_SUCCESS,
+        success: {
+          render({ data }) {
+            // Use API success message if available
+            if (data?.message) {
+              return data.message;
+            }
+            return toastOptions.success || TOAST_MESSAGES_SUCCESS;
+          },
+        },
         error: {
           render({ data }) {
-            return typeof data === 'string'
-              ? data
-              : toastOptions.error || TOAST_MESSAGES_ERROR;
+            const axiosError = data as AxiosError<ApiResult<TResponse>>;
+            if (axiosError?.isAxiosError) {
+              const result = axiosError.response?.data;
+              // Try to get message key from response data
+              if (result?.messageKey) {
+                return getLangText(result.messageKey);
+              }
+              // Try to get message from response data
+              if (result?.message) {
+                return result.message;
+              }
+            }
+            // If it's a string, use it directly
+            if (typeof data === 'string') {
+              return data;
+            }
+            // Fallback to default or provided error message
+            return toastOptions.error || TOAST_MESSAGES_ERROR;
           },
         },
       });

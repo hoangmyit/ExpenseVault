@@ -78,6 +78,10 @@ public class PermissionService : IPermissionService
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
             return Enumerable.Empty<string>();
+        if (!user.EmailConfirmed)
+        {
+            return ["CONFIRM_EMAIL:*"];
+        }
 
         // Get user claims directly
         var userClaims = await _userManager.GetClaimsAsync(user);

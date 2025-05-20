@@ -6,6 +6,7 @@ import { IAuthState } from '../types/sign-in.const';
 import {
   getAuthInfo,
   removeAuthToken,
+  removeRefreshToken,
   setAuthToken,
   setRefreshToken,
 } from '../utils/auth-util';
@@ -63,6 +64,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       removeAuthToken();
+      removeRefreshToken();
       state.authInfo.isAuthenticated = false;
       state.authInfo.data = null;
     },

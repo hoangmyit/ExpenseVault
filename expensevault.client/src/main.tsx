@@ -10,13 +10,16 @@ import { store } from './stores/store';
 import App from './App';
 
 import './index.css';
+import ThemeProvider from './context/theme-provider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </StrictMode>,
 );

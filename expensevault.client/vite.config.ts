@@ -50,7 +50,9 @@ export default defineConfig(({ mode }) => {
   const isAnalyze = process.env.VITE_ANALYZE === 'true';
   return {
     plugins: [
-      react(),
+      react({
+        jsxImportSource: 'react',
+      }),
       tsconfigPaths(),
       tailwindcss(),
       isAnalyze &&

@@ -1,26 +1,38 @@
 // Get single category messages
 export const GET_CATEGORY_SUCCESS_MESSAGE =
-  'Category details successfully retrieved';
-export const GET_CATEGORY_PENDING_MESSAGE = 'Loading category details...';
-export const GET_CATEGORY_ERROR_MESSAGE = 'Unable to retrieve category details';
+  'category:toast.getCategory.success';
+export const GET_CATEGORY_PENDING_MESSAGE =
+  'category:toast.getCategory.pending';
+export const GET_CATEGORY_ERROR_MESSAGE = 'category:toast.getCategory.error';
 
 // Get multiple categories messages
 export const GET_CATEGORIES_SUCCESS_MESSAGE =
-  'Categories successfully retrieved';
-export const GET_CATEGORIES_PENDING_MESSAGE = 'Loading categories...';
-export const GET_CATEGORIES_ERROR_MESSAGE = 'Unable to retrieve categories';
+  'category:toast.getCategories.success';
+export const GET_CATEGORIES_PENDING_MESSAGE =
+  'category:toast.getCategories.pending';
+export const GET_CATEGORIES_ERROR_MESSAGE =
+  'category:toast.getCategories.error';
 
 // Create category messages
-export const CREATE_CATEGORY_SUCCESS_MESSAGE = 'Category successfully created';
-export const CREATE_CATEGORY_PENDING_MESSAGE = 'Creating category...';
-export const CREATE_CATEGORY_ERROR_MESSAGE = 'Unable to create category';
+export const CREATE_CATEGORY_SUCCESS_MESSAGE =
+  'category:toast.createCategory.success';
+export const CREATE_CATEGORY_PENDING_MESSAGE =
+  'category:toast.createCategory.pending';
+export const CREATE_CATEGORY_ERROR_MESSAGE =
+  'category:toast.createCategory.error';
 
 // Update category messages
-export const UPDATE_CATEGORY_SUCCESS_MESSAGE = 'Category successfully updated';
-export const UPDATE_CATEGORY_PENDING_MESSAGE = 'Updating category...';
-export const UPDATE_CATEGORY_ERROR_MESSAGE = 'Unable to update category';
+export const UPDATE_CATEGORY_SUCCESS_MESSAGE =
+  'category:toast.updateCategory.success';
+export const UPDATE_CATEGORY_PENDING_MESSAGE =
+  'category:toast.updateCategory.pending';
+export const UPDATE_CATEGORY_ERROR_MESSAGE =
+  'category:toast.updateCategory.error';
 
 // Delete category messages
-export const DELETE_CATEGORY_SUCCESS_MESSAGE = 'Category successfully deleted';
-export const DELETE_CATEGORY_PENDING_MESSAGE = 'Deleting category...';
-export const DELETE_CATEGORY_ERROR_MESSAGE = 'Unable to delete category';
+export const DELETE_CATEGORY_SUCCESS_MESSAGE =
+  'category:toast.deleteCategory.success';
+export const DELETE_CATEGORY_PENDING_MESSAGE =
+  'category:toast.deleteCategory.pending';
+export const DELETE_CATEGORY_ERROR_MESSAGE =
+  'category:toast.deleteCategory.error';
