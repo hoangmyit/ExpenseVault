@@ -24,8 +24,8 @@
                 .WithMessage(x => x.Password.Length < 8
                     ? "Password must be at least 8 characters"
                     : "Password cannot exceed 50 characters")
-                .Matches(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&]{8,}$")
-                .WithMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)");
+                .Matches(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&\-_])[A-Za-z\d@$!%*#?&]{8,}$")
+                .WithMessage("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&-_)");
 
             RuleFor(x => x.ConfirmPassword)
                 .NotEmpty()

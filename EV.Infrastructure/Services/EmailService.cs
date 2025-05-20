@@ -1,4 +1,5 @@
 ﻿using EV.Application.Common.Interfaces;
+using EV.Application.Common.Utilities;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ namespace EV.Infrastructure.Services
             var path = Path.Combine(Directory.GetCurrentDirectory(), templatePath);
             var body = await _razorEngine.CompileRenderAsync(path, emailData);
 
-            _logger.LogInformation($"{nameof(EmailService)} - Sending email to: {toEmail} with {subject} and body is {body}");
+            _logger.LogInformation($"{nameof(EmailService)} - Sending email to: {StringUtilities.MaskEmail(toEmail)} with {subject}");
 
             var emailMessage = new MimeMessage();
             emailMessage.Sender = new MailboxAddress(emailSetting.SenderName, emailSetting.SenderEmail);

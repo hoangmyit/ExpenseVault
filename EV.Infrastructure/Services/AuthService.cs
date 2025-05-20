@@ -15,6 +15,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Web;
 
 namespace EV.Infrastructure.Services
 {
@@ -194,15 +195,15 @@ namespace EV.Infrastructure.Services
             try
             {
                 var user = await _userManager.FindByIdAsync(userId);
-                if (user != null)
+                if (user != null && !user.EmailConfirmed)
                 {
                     var result = await _userManager.ConfirmEmailAsync(user!, token);
                     if (result.Succeeded)
                     {
-                        return new RequestResult(result.Succeeded, "Your email has been confirmed successfully.", "serverResult:auth.email.successConfirmation", null);
+                        return new RequestResult(result.Succeeded, "Your email has been confirmed successfully.", "serverResult:auth.email.successConfirmation");
                     }
-                }
-                return new RequestResult(false, "Your email confirmation failed. Please try again.", "serverResult:auth.email.failureConfirmation", null);
+                 }
+                return new RequestResult(false, "Your email confirmation failed. Please try again.", "serverResult:auth.email.failureConfirmation");
             }
             catch (Exception ex)
             {
@@ -219,7 +220,7 @@ namespace EV.Infrastructure.Services
                 var user = await _userManager.FindByEmailAsync(email);
                 if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || user.EmailConfirmed)
                 {
-                    return new RequestResult(false, "Failed to resend confirmation email. Please try again.", "serverResult:auth.email.failureResend", null);
+                    return new RequestResult(false, "Failed to resend confirmation email. Please try again.", "serverResult:auth.email.failureResend");
                 }
                 try
                 {
@@ -232,11 +233,11 @@ namespace EV.Infrastructure.Services
                     await _dbContext.RollbackTransactionAsync();
                     throw;
                 }
-                return new RequestResult(true, "A new confirmation email has been sent to your email address.", "serverResult:auth.email.successResend", null);
+                return new RequestResult(true, "A new confirmation email has been sent to your email address.", "serverResult:auth.email.successResend");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in {MethodName} for email: {Email}", nameof(ResendEmailAsync), email);
+                _logger.LogError(ex, "Error in {MethodName} for email: {Email}", nameof(ResendEmailAsync), StringUtilities.MaskEmail(email));
                 throw;
             }
         }
@@ -371,13 +372,14 @@ namespace EV.Infrastructure.Services
             var privateKeyPem = File.ReadAllText(_configuration.PrivateFilePath);
             RSA rsa = RSA.Create();
             rsa.ImportFromPem(privateKeyPem);
-            var sercureKey = new RsaSecurityKey(rsa);
-            var credentials = new SigningCredentials(sercureKey, SecurityAlgorithms.RsaSha256);
+            var secureRsaKey = new RsaSecurityKey(rsa);
+            var credentials = new SigningCredentials(secureRsaKey, SecurityAlgorithms.RsaSha256);
             return credentials;
         }
         private string GenerateConfirmLink(string userId, string token)
         {
-            var confirmationLink = $"{_appSettings.AppUrl}/verify-email?userId={userId}&token={token}";
+            var encodedToken = HttpUtility.UrlEncode(token);
+            var confirmationLink = $"{_appSettings.AppUrl}/verify-email?userId={userId}&token={encodedToken}";
             return confirmationLink;
         }
 

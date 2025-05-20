@@ -26,8 +26,8 @@ public class AppSettingValidator : AbstractValidator<AppSettings>
             .NotNull().WithMessage("AppUrl cannot be null.")
             .NotEmpty().WithMessage("AppUrl cannot be empty.");
         RuleFor(x => x.ServerUrl)
-            .NotNull().WithMessage("AppUrl cannot be null.")
-            .NotEmpty().WithMessage("AppUrl cannot be empty.");
+            .NotNull().WithMessage("ServerUrl cannot be null.")
+            .NotEmpty().WithMessage("ServerUrl cannot be empty.");
         RuleFor(x => x.Port)
             .GreaterThan(0).WithMessage("Port must be greater than 0.");
     }
