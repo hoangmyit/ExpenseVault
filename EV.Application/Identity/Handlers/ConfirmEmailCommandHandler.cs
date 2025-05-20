@@ -22,13 +22,12 @@ namespace EV.Application.Identity.Handlers
             if (result.IsSuccess)
             {
                 _logger.LogInformation($"{nameof(ConfirmEmailCommandHandler)} - Email confirmed successfully for user {request.UserId}");
-                return result;
             }
             else
             {
                 _logger.LogInformation($"{nameof(ConfirmEmailCommandHandler)} - Email confirmation failed for user  {request.UserId}");
-                return result;
             }
+            return result;
         }
     }
 }

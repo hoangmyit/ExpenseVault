@@ -177,6 +177,7 @@ namespace EV.Infrastructure.Services
                 if (result.Succeeded)
                 {
                     await SendConfirmEmail(user);
+                    await _dbContext.CommitTransactionAsync();
                 }
                 return result.Succeeded ? $"User {name} created successfully." : $"Failed to create user {name}.";
             }
@@ -216,12 +217,22 @@ namespace EV.Infrastructure.Services
             try
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || !user.EmailConfirmed)
+                if (user == null || user.NormalizedEmail != _userManager.NormalizeEmail(email) || user.EmailConfirmed)
                 {
                     return new RequestResult(false, "Failed to resend confirmation email. Please try again.", "serverResult:auth.email.failureResend", null);
                 }
-                await SendConfirmEmail(user);
-                return new RequestResult(false, "A new confirmation email has been sent to your email address.", "serverResult:auth.email.successResend", null);
+                try
+                {
+                    await _dbContext.BeginTransactionAsync();
+                    await SendConfirmEmail(user);
+                    await _dbContext.CommitTransactionAsync();
+                }
+                catch (Exception)
+                {
+                    await _dbContext.RollbackTransactionAsync();
+                    throw;
+                }
+                return new RequestResult(true, "A new confirmation email has been sent to your email address.", "serverResult:auth.email.successResend", null);
             }
             catch (Exception ex)
             {
@@ -366,7 +377,7 @@ namespace EV.Infrastructure.Services
         }
         private string GenerateConfirmLink(string userId, string token)
         {
-            var confirmationLink = $"{_appSettings.AppUrl}/confirm?userId={userId}&token={token}";
+            var confirmationLink = $"{_appSettings.AppUrl}/verify-email?userId={userId}&token={token}";
             return confirmationLink;
         }
 
@@ -385,13 +396,12 @@ namespace EV.Infrastructure.Services
             };
 
             await _emailService.SendEmailAsync<VerifyEmailModel>(
-                user.UserName!,
-                user.Email!,
-                "Confirm Your Email",
-                "Templates/Emails/VerifyEmail.cshtml",
-                emailData
+               user.UserName!,
+               user.Email!,
+               "Confirm Your Email",
+               "Templates/Emails/VerifyEmail.cshtml",
+               emailData
             );
-            await _dbContext.CommitTransactionAsync();
         }
         #endregion
     }

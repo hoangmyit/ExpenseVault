@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 
 import { Last_Resend_Email_Time_Interval } from '../constants/token.const';
 import { useAuth, useVerifyEmail } from '../hooks';
 import { getAuthInfo, getAuthToken } from '../utils/auth-util';
 
+import { ROUTE_PATHS } from '@/routes/constants/route-paths';
 import { consoleLog } from '@/shared/utils/common-util';
 import { dateDiff, getDateTimeNow } from '@/shared/utils/date-utils';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
@@ -13,7 +15,8 @@ const ConfirmEmailPage: FC = () => {
   const { t } = useTranslation();
   const { resendEmail, confirmEmailData, updateConfirmEmail } =
     useVerifyEmail();
-  const { authnData } = useAuth();
+  const { authnData, signOut } = useAuth();
+  const navigate = useNavigate();
   const [countdown, setCountdown] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -80,6 +83,12 @@ const ConfirmEmailPage: FC = () => {
     }
   };
 
+  const handleSignOut = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    signOut();
+    navigate(ROUTE_PATHS.SIGN_IN);
+  };
+
   // Format countdown to MM:SS
   const formatCountdown = () => {
     const minutes = Math.floor(countdown / 60);
@@ -127,7 +136,10 @@ const ConfirmEmailPage: FC = () => {
         </div>
         {authnData.isAuthenticated && (
           <div className="card-actions justify-end">
-            <button className="btn btn-primary m-4">
+            <button
+              className="btn btn-primary m-4"
+              onClick={(event) => handleSignOut(event)}
+            >
               {t('profile:signOut')}
             </button>
           </div>

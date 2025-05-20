@@ -1,26 +1,26 @@
 {
   "auth": {
     "email": {
-      "successConfirmation": "Your email has been confirmed successfully.",
-      "failureConfirmation": "Your email confirmation failed. Please try again.",
-      "successResend": "A new confirmation email has been sent to your email address.",
-      "failureResend": "Failed to resend confirmation email. Please try again.",
-      "successReset": "A password reset link has been sent to your email address.",
-      "failureReset": "Failed to send password reset link. Please try again.",
-      "successVerify": "Your account has been verified successfully.",
-      "failureVerify": "Failed to verify account. Please try again."
+      "successConfirmation": "Email của bạn đã được xác nhận thành công.",
+      "failureConfirmation": "Xác nhận email của bạn không thành công. Vui lòng thử lại.",
+      "successResend": "Một email xác nhận mới đã được gửi đến địa chỉ email của bạn.",
+      "failureResend": "Không thể gửi lại email xác nhận. Vui lòng thử lại.",
+      "successReset": "Liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn.",
+      "failureReset": "Không thể gửi liên kết đặt lại mật khẩu. Vui lòng thử lại.",
+      "successVerify": "Tài khoản của bạn đã được xác minh thành công.",
+      "failureVerify": "Xác minh tài khoản không thành công. Vui lòng thử lại."
     },
-    "successChange": "Your password has been changed successfully.",
-    "failureChange": "Failed to change password. Please try again.",
-    "successLogin": "You have logged in successfully.",
-    "failureLogin": "Failed to log in. Please check your credentials and try again.",
-    "successLogout": "You have logged out successfully.",
-    "failureLogout": "Failed to log out. Please try again.",
-    "successRegister": "You have registered successfully. Please check your email to confirm your account.",
-    "failureRegister": "Failed to register. Please check your details and try again.",
-    "successUpdate": "Your profile has been updated successfully.",
-    "failureUpdate": "Failed to update profile. Please try again.",
-    "successDelete": "Your account has been deleted successfully.",
-    "failureDelete": "Failed to delete account. Please try again."
+    "successChange": "Mật khẩu của bạn đã được thay đổi thành công.",
+    "failureChange": "Thay đổi mật khẩu không thành công. Vui lòng thử lại.",
+    "successLogin": "Bạn đã đăng nhập thành công.",
+    "failureLogin": "Đăng nhập không thành công. Vui lòng kiểm tra thông tin đăng nhập và thử lại.",
+    "successLogout": "Bạn đã đăng xuất thành công.",
+    "failureLogout": "Đăng xuất không thành công. Vui lòng thử lại.",
+    "successRegister": "Bạn đã đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản của bạn.",
+    "failureRegister": "Đăng ký không thành công. Vui lòng kiểm tra thông tin và thử lại.",
+    "successUpdate": "Hồ sơ của bạn đã được cập nhật thành công.",
+    "failureUpdate": "Cập nhật hồ sơ không thành công. Vui lòng thử lại.",
+    "successDelete": "Tài khoản của bạn đã được xóa thành công.",
+    "failureDelete": "Xóa tài khoản không thành công. Vui lòng thử lại."
   }
 }
