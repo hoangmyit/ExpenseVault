@@ -23,5 +23,17 @@ namespace EV.Application.Common.Utilities
             }
             return char.ToLowerInvariant(value[0]) + value.Substring(1);
         }
+
+        public static string MaskEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
+                return email; // Return as-is if email is invalid or empty
+            }
+
+            var atIndex = email.IndexOf('@');
+            var maskedLocalPart = email.Substring(0, 1) + new string('*', atIndex - 2) + email.Substring(atIndex - 1, 1);
+            return maskedLocalPart + email.Substring(atIndex);
+        }
     }
 }
