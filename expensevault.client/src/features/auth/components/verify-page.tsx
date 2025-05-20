@@ -23,7 +23,7 @@ const VerifyEmailPage: FC = () => {
 
   useEffect(() => {
     const userId = searchParams.get('userId');
-    const token = searchParams.get('token');
+    const token = decodeURIComponent(searchParams.get('token') ?? '');
     verifyEmail(token!, userId!);
   }, []);
 
