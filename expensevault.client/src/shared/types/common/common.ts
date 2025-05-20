@@ -21,3 +21,5 @@ export type ApiResult<T> = {
   message?: string;
   messageKey?: string;
 };
+
+export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';

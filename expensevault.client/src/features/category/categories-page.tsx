@@ -5,13 +5,17 @@ import { consoleLog } from '../../shared/utils/common-util';
 
 import { useCategory } from './hooks/use-category';
 
+import Table from '@/shared/components/ui/table/table';
+import { CategoryDto } from '@/shared/types/common/backend-model';
+import { ColumnType } from '@/shared/types/ui';
+
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
-
+  const pageSize = 10;
   const { categories, getCategories, deleteCategory } = useCategory();
 
   useEffect(() => {
-    getCategories({ page: 1, pageSize: 10 });
+    getCategories({ page: 1, pageSize: pageSize });
   }, [getCategories]);
 
   const handleEdit = useCallback(
@@ -36,11 +40,88 @@ const CategoriesPage: FC = () => {
     return null;
   }
 
+  const columns: ColumnType<CategoryDto>[] = [
+    // {
+    //   title: (
+    //     <label title="Select category">
+    //       <input type="checkbox" className="checkbox" />
+    //       <span className="sr-only">Select category</span>
+    //     </label>
+    //   ),
+    //   width: 50,
+    //   render: () => (
+    //     <label>
+    //       <input type="checkbox" className="checkbox" />
+    //     </label>
+    //   ),
+    //   fixed: true,
+    // },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      className: 'text-left',
+      fixed: true,
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+      className: 'text-left',
+    },
+    {
+      title: 'Avatar',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      className: 'text-left',
+    },
+    {
+      title: 'Is Default',
+      dataIndex: 'isDefault',
+      key: 'isDefault',
+      className: 'text-left',
+      render: (value) => (
+        <label>
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={value}
+            readOnly
+          />
+        </label>
+      ),
+    },
+    {
+      title: '',
+      key: 'action',
+      width: 180,
+      className: 'whitespace-nowrap',
+      render: (_, record) => (
+        <>
+          <button
+            className="btn btn-sm btn-outline mr-2"
+            onClick={(e) => handleEdit(e, record.id)}
+            type="button"
+          >
+            Edit
+          </button>
+          <button
+            className="btn btn-sm btn-danger"
+            onClick={(e) => handleDelete(e, record.id)}
+            type="button"
+          >
+            Delete
+          </button>
+        </>
+      ),
+    },
+  ];
+
   return (
     <div>
       <div className="flex flex-col items-center p-4">
         <h1 className="mb-4 text-xl font-bold">Categories</h1>
-        <p>No categories found.</p>
+        {categories.items.length === 0 && <p>No categories found.</p>}
         <button
           className="btn btn-primary mt-4"
           onClick={() => navigate('/category/new')}
@@ -49,60 +130,31 @@ const CategoriesPage: FC = () => {
         </button>
       </div>
       <div>
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>
-                  <label title="Select category">
-                    <input type="checkbox" className="checkbox" />
-                    <span className="sr-only">Select category</span>
-                  </label>
-                </th>
-                <th className="text-left">Name</th>
-                <th className="text-left">Description</th>
-                <th className="text-left">Avatar</th>
-                <th className="text-left">Is Default</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.items.map((category) => (
-                <tr key={category.id}>
-                  <td>
-                    <label>
-                      <input type="checkbox" className="checkbox" />
-                    </label>
-                  </td>
-                  <td>{category.name}</td>
-                  <td>{category.description}</td>
-                  <td>{category.avatar}</td>
-                  <td>
-                    <label>
-                      <input type="checkbox" className="checkbox" />
-                    </label>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-outline"
-                      onClick={(e) => handleEdit(e, category.id)}
-                      type="button"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={(e) => handleDelete(e, category.id)}
-                      type="button"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table<CategoryDto>
+          dataSource={categories.items}
+          columns={columns}
+          rowKey="id"
+          locale={{
+            emptyText: 'No categories found',
+            loadingText: 'Loading categories...',
+          }}
+          pinRow={true}
+          pinColumn={true}
+          zebra={true}
+          highlightRow={true}
+          pagination={
+            categories.totalCount > 10
+              ? {
+                  current: categories.pageIndex,
+                  pageSize: pageSize,
+                  total: categories.totalCount,
+                  onChange: (page, pageSize) => {
+                    getCategories({ page, pageSize });
+                  },
+                }
+              : false
+          }
+        />
       </div>
     </div>
   );
