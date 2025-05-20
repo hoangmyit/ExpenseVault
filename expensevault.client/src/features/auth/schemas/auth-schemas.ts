@@ -79,7 +79,7 @@ export const signUpSchema = z
         }),
       })
       .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&-_])[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&\-_])[A-Za-z\d@$!%*#?&]{8,}$/,
         {
           message:
             'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)',
