@@ -50,9 +50,13 @@ const TableBody = <T extends Record<string, any>>({
     const dataIndex = column.dataIndex;
     const value = dataIndex !== undefined ? record[dataIndex] : undefined;
 
+    if (column.render) {
+      return column.render(value, record, rowIndex);
+    }
+
     return (
-      <div className="line-clamp-3">
-        {column.render ? column.render(value, record, rowIndex) : value}
+      <div className="tooltip bg-color-ini" data-tip={value}>
+        <div className="line-clamp-3">{value}</div>
       </div>
     );
   };
