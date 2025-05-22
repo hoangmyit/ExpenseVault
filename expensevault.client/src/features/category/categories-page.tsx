@@ -16,7 +16,7 @@ const CategoriesPage: FC = () => {
 
   useEffect(() => {
     getCategories({ page: 1, pageSize: pageSize });
-  }, [getCategories]);
+  }, []);
 
   const handleEdit = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
