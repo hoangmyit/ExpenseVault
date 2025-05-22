@@ -5,6 +5,7 @@ import profileEn from './profile.json';
 import serverResultEn from './server-result.json';
 import signInEn from './sign-in.json';
 import signUpEn from './sign-up.json';
+import tableEn from './table.json';
 import validationEn from './validation.json';
 
 export {
@@ -15,5 +16,6 @@ export {
   serverResultEn,
   signInEn,
   signUpEn,
+  tableEn,
   validationEn,
 };
