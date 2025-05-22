@@ -33,7 +33,12 @@ const TableSort = <
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      onSearch(event, searchKeyword, filterField, sortField, sortOrder);
+      onSearch({
+        filterBy: filterField,
+        search: searchKeyword,
+        sortBy: sortField,
+        isAsc: sortOrder,
+      });
     }
   };
 
@@ -44,17 +49,26 @@ const TableSort = <
   const handleSortFieldChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSortField(event.target.value);
+    const sortBy = event.target.value;
+    setSortField(sortBy);
+    onSearch({ sortBy });
   };
   const handleSortOrderChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setSortOrder(event.target.value === 'true');
+    const isAsc = event.target.value === 'true';
+    setSortOrder(isAsc);
+    onSearch({ isAsc });
   };
 
   const handleSearch = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    onSearch(event, searchKeyword, filterField, sortField, sortOrder);
+    onSearch({
+      filterBy: filterField,
+      search: searchKeyword,
+      sortBy: sortField,
+      isAsc: sortOrder,
+    });
   };
   return (
     <div className="flex flex-col justify-between gap-2 p-4 text-sm md:flex-row md:items-center">
