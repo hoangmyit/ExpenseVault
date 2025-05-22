@@ -5,23 +5,30 @@ import {
   httpServicePut,
 } from '../client';
 
-import { CategoryParams } from '@/features/category/types/category.type';
-import { ApiResult, PaginatedList } from '@/shared/types/common';
+import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
 import { CategoryDto } from '@/shared/types/common/backend-model';
 
 export const getCategories = async ({
-  page = 1,
+  pageIndex = 1,
   pageSize = 10,
-}: CategoryParams): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
+  search = '',
+  sortBy = 'id',
+  isAsc = false,
+}: Partial<SearchState<CategoryDto>>): Promise<
+  ApiResult<PaginatedList<CategoryDto>>
+> => {
   const response = await httpServiceGet<PaginatedList<CategoryDto>>(
     '/api/category',
     {
-      pageIndex: page,
+      pageIndex: pageIndex,
       pageSize: pageSize,
+      search: search,
+      sort: sortBy,
+      isAsc: isAsc,
     },
   );
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -32,7 +39,7 @@ export const getCategory = async (
 ): Promise<ApiResult<CategoryDto>> => {
   const response = await httpServiceGet<CategoryDto>(`/api/category/${id}`);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -43,7 +50,7 @@ export const createCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -57,7 +64,7 @@ export const updateCategory = async (
     category,
   );
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -68,7 +75,7 @@ export const deleteCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServiceDelete<string>(`/api/category/${id}`);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };

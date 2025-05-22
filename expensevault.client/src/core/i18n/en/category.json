@@ -25,5 +25,12 @@
       "pending": "Deleting category...",
       "error": "Unable to delete category"
     }
+  },
+  "title":{
+    "id": "ID",
+    "name": "Name",
+    "description": "Description",
+    "avatar": "Avatar",
+    "isDefault": "Is Default"
   }
 }

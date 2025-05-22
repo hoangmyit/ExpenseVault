@@ -1,21 +1,27 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { consoleLog } from '../../shared/utils/common-util';
 
+import {
+  CATEGORY_TABLE_FILTER_COLUMN,
+  CATEGORY_TABLE_ORDER_COLUMN,
+} from './constants/category.const';
 import { useCategory } from './hooks/use-category';
 
 import Table from '@/shared/components/ui/table/table';
+import { SearchState } from '@/shared/types/common';
 import { CategoryDto } from '@/shared/types/common/backend-model';
 import { ColumnType } from '@/shared/types/ui';
+import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
-  const [pageSize, setPageSize] = useState<number>(10);
-  const { categories, getCategories, deleteCategory } = useCategory();
+  const { categories, getCategories, deleteCategory, searchParams } =
+    useCategory();
 
   useEffect(() => {
-    getCategories({ page: 1, pageSize: pageSize });
+    handleOnSearch(searchParams);
   }, []);
 
   const handleEdit = useCallback(
@@ -36,6 +42,13 @@ const CategoriesPage: FC = () => {
     [deleteCategory],
   );
 
+  const handleOnSearch = useCallback(
+    (params: Partial<SearchState<CategoryDto>>) => {
+      consoleLog('Search categories', params);
+      getCategories(params);
+    },
+    [],
+  );
   if (categories === null) {
     return null;
   }
@@ -151,12 +164,22 @@ const CategoriesPage: FC = () => {
           highlightRow={true}
           pagination={{
             ...categories,
-            pageSize,
-            onChange(page, pageSize) {
-              setPageSize(pageSize);
-              getCategories({ page, pageSize });
-              consoleLog('Page changed', page, pageSize);
-            },
+            pageSize: searchParams.pageSize!,
+            onChange: handleOnSearch,
+          }}
+          searchData={{
+            sortValue: searchParams.sortBy,
+            filterValue: searchParams.filterBy,
+            isAsc: searchParams.isAsc,
+            onSearch: handleOnSearch,
+            sortOptions: getTableColumnsOptions(
+              CATEGORY_TABLE_ORDER_COLUMN,
+              'category:title',
+            ),
+            filterOptions: getTableColumnsOptions(
+              CATEGORY_TABLE_FILTER_COLUMN,
+              'category:title',
+            ),
           }}
         />
       </div>

@@ -1,7 +1,14 @@
 import { toast } from 'react-toastify';
 
-import { Axios, AxiosError } from 'axios';
-import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
+import { AxiosError } from 'axios';
+import {
+  call,
+  CallEffect,
+  put,
+  PutEffect,
+  select,
+  SelectEffect,
+} from 'redux-saga/effects';
 
 import { ToastPromiseOptions } from '../components/feedback/toast/toast.const';
 import {
@@ -13,12 +20,15 @@ import { ApiResult, ValidationErrors } from '../types/common';
 
 import { consoleLog, getErrorMessage } from './common-util';
 import { getLangText } from './language-util';
+import { isNullOrUndefined } from './type-utils';
 
 export function* handleApiCall<
   TRequest,
   TResponse,
   TSuccessPayload,
   TErrorPayload,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TState = any,
 >(
   apiCall: (request: TRequest) => Promise<ApiResult<TResponse>>,
   request: TRequest,
@@ -28,6 +38,15 @@ export function* handleApiCall<
   },
   failureAction: (error: string) => { type: string; payload: TErrorPayload },
   toastOptions: ToastPromiseOptions | null,
+  preProcessAction?: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    stateValue: (state: any) => TState;
+    updateRequest: (state: TState) => TRequest;
+  },
+  postProcessPayload?: (request: TRequest) => {
+    type: string;
+    payload: TRequest;
+  },
   validationAction?: (errors: ValidationErrors<TRequest>) => {
     type: string;
     payload: ValidationErrors<TRequest>;
@@ -36,12 +55,22 @@ export function* handleApiCall<
   | CallEffect<ApiResult<TResponse>>
   | PutEffect<{
       type: string;
-      payload: TSuccessPayload | TErrorPayload | ValidationErrors<TRequest>;
-    }>,
+      payload:
+        | TSuccessPayload
+        | TErrorPayload
+        | ValidationErrors<TRequest>
+        | TRequest;
+    }>
+  | SelectEffect,
   void,
   ApiResult<TResponse>
 > {
   try {
+    if (!isNullOrUndefined(preProcessAction)) {
+      const stateValue = yield select(preProcessAction!.stateValue);
+      request = preProcessAction!.updateRequest(stateValue as TState);
+    }
+
     const apiPromise = apiCall(request);
 
     if (toastOptions?.useToastPromise) {
@@ -79,6 +108,11 @@ export function* handleApiCall<
           },
         },
       });
+    }
+
+    if (!isNullOrUndefined(postProcessPayload)) {
+      const action = postProcessPayload!(request);
+      yield put(action);
     }
 
     const result = yield call(() => apiPromise);

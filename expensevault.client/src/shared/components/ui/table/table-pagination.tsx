@@ -1,6 +1,6 @@
 import { FC } from 'react';
-
-import { useTranslation } from 'node_modules/react-i18next';
+import { ReactElement } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   DEFAULT_NUM_OF_ITEM_PER_PAGE_OPTIONS,
@@ -8,8 +8,10 @@ import {
 } from '@/shared/constants/variable.const';
 import { PaginatedData } from '@/shared/types/common';
 import { mapArray } from '@/shared/utils/array-util';
+import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
-const TablePagination: FC<PaginatedData> = ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const TablePagination = <T extends Record<string, any>>({
   pageIndex = 1,
   totalPages = 1,
   totalCount = 0,
@@ -17,7 +19,7 @@ const TablePagination: FC<PaginatedData> = ({
   hasNextPage = false,
   onChange,
   pageSize = 10,
-}) => {
+}: PaginatedData<T>): ReactElement => {
   const { t } = useTranslation();
   let startPage = Math.max(
     1,
@@ -35,9 +37,19 @@ const TablePagination: FC<PaginatedData> = ({
     (_, i) => startPage + i,
   );
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+    page: number,
+    size?: number,
+  ) => {
+    event.preventDefault();
     if (page !== pageIndex) {
-      onChange(page, pageSize);
+      onChange?.({
+        pageIndex: page,
+        pageSize: isNullOrUndefined(size) ? pageSize : size,
+      });
     }
   };
 
@@ -48,10 +60,12 @@ const TablePagination: FC<PaginatedData> = ({
         <select
           className="select select-bordered ml-2"
           value={pageSize}
-          onChange={(e) => onChange?.(pageIndex, +e.target.value)}
+          onChange={(e) => handlePageChange(e, pageIndex, +e.target.value)}
         >
           {mapArray(DEFAULT_NUM_OF_ITEM_PER_PAGE_OPTIONS, (value) => (
-            <option value={value}>{value}</option>
+            <option key={value} value={value}>
+              {value}
+            </option>
           ))}
         </select>
       </div>
@@ -71,7 +85,7 @@ const TablePagination: FC<PaginatedData> = ({
           <button
             key={page}
             className={`join-item btn btn-sm ${page === pageIndex ? 'btn-primary' : ''}`}
-            onClick={() => handlePageChange(page)}
+            onClick={(e) => handlePageChange(e, page)}
           >
             {page}
           </button>
@@ -80,11 +94,7 @@ const TablePagination: FC<PaginatedData> = ({
           className="btn btn-outline join-item btn-sm"
           disabled={!hasNextPage}
           type="button"
-          onClick={() => {
-            if (onChange) {
-              onChange(pageIndex + 1, pageSize);
-            }
-          }}
+          onClick={(e) => handlePageChange(e, pageIndex + 1)}
         >
           {t('table:next')}
         </button>

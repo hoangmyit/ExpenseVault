@@ -14,6 +14,15 @@ export type ValidationErrors<T> = {
   [key in keyof T]?: string[];
 };
 
+export type SearchState<T> = {
+  filterBy: keyof T;
+  sortBy: keyof T;
+  isAsc: boolean;
+  pageIndex?: number;
+  pageSize?: number;
+  search?: string;
+};
+
 export type ApiResult<T> = {
   data: T;
   isSuccess: boolean;

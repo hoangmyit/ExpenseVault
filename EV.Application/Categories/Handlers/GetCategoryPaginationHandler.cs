@@ -28,16 +28,18 @@ namespace EV.Application.Categories.Handlers
 
             if (!string.IsNullOrEmpty(request.Search))
             {
-                query = query.Where(x => x.Name.Contains(request.Search) || x.Description.Contains(request.Search));
+                query = query.Where("(@0).Contains(@1)", request.FilterBy, request.Search);
             }
             if (string.IsNullOrEmpty(request.OrderBy))
             {
-                query = query.OrderBy(x => x.Id);
+                query = request.IsAsc ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id);
             }
             else
             {
-                query = query.OrderBy(request.OrderBy);
+                var order = request.IsAsc ? "ascending" : "descending";
+                query = query.OrderBy($"{request.OrderBy} {order}");
             }
+
 
             return await query
               .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)

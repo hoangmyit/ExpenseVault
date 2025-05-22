@@ -1,6 +1,5 @@
 import { initReactI18next } from 'react-i18next';
 
-import { table } from 'console';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languageDetector';
 

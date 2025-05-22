@@ -1,6 +1,8 @@
 import { Key, ReactNode } from 'react';
 
-import { PaginatedData, sizeType } from '../common';
+import { PaginatedData, SearchState, sizeType } from '../common';
+
+import { ISelectOption } from './select.type';
 
 export interface ColumnType<T> {
   title: ReactNode;
@@ -23,7 +25,7 @@ export interface TableProps<T> {
   columns: ColumnType<T>[];
   rowKey?: keyof T | ((record: T) => Key);
   loading?: boolean;
-  pagination: PaginatedData;
+  pagination: PaginatedData<T>;
   bordered?: boolean;
   size?: sizeType;
   scroll?: {
@@ -42,6 +44,7 @@ export interface TableProps<T> {
   pinRow?: boolean;
   pinColumn?: boolean;
   highlightRow?: boolean | string;
+  searchData?: TableSortProps<T> | null;
 }
 
 export interface TableBodyProps<T> {
@@ -60,3 +63,23 @@ export interface TableBodyProps<T> {
 export interface TableHeaderProps<T> {
   columns: ColumnType<T>[];
 }
+
+export interface TablePaginationProps {
+  pageIndex: number;
+  pageSize: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  onChange?: (pageIndex: number, pageSize: number) => void;
+}
+
+export interface TableSortProps<T> {
+  sortValue: keyof T;
+  filterValue: keyof T;
+  isAsc: boolean;
+  sortOptions: ISelectOption<T>[];
+  filterOptions: ISelectOption<T>[];
+  onSearch: TableOnSearchHandler<T>;
+}
+
+export type TableOnSearchHandler<T> = (params: Partial<SearchState<T>>) => void;
