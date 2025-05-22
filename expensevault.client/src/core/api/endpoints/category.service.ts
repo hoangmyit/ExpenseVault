@@ -7,6 +7,7 @@ import {
 
 import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
 import { CategoryDto } from '@/shared/types/common/backend-model';
+import { toPascalCase } from '@/shared/utils/string-util';
 
 export const getCategories = async ({
   pageIndex = 1,
@@ -14,6 +15,7 @@ export const getCategories = async ({
   search = '',
   sortBy = 'id',
   isAsc = false,
+  filterBy = 'name',
 }: Partial<SearchState<CategoryDto>>): Promise<
   ApiResult<PaginatedList<CategoryDto>>
 > => {
@@ -23,8 +25,9 @@ export const getCategories = async ({
       pageIndex: pageIndex,
       pageSize: pageSize,
       search: search,
-      sort: sortBy,
+      sort: toPascalCase(sortBy),
       isAsc: isAsc,
+      filterBy: toPascalCase(filterBy),
     },
   );
   return {

@@ -64,6 +64,18 @@ export const toKebabCase = (str: string): string => {
 };
 
 /**
+ * Converts a string to PascalCase
+ * @param {string} str - String to convert
+ * @returns {string} - PascalCase string
+ */
+export const toPascalCase = (str: string): string => {
+  return pipe(
+    replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => toUpperCase(word)),
+    replace(/\s+|[-_]/g, ''),
+  )(str);
+};
+
+/**
  * Truncates a string to specified length with optional suffix
  * @param {string} str - String to truncate
  * @param {number} maxLength - Maximum length
