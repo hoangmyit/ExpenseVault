@@ -2,7 +2,12 @@ import { FC } from 'react';
 
 import { useTranslation } from 'node_modules/react-i18next';
 
+import {
+  DEFAULT_NUM_OF_ITEM_PER_PAGE_OPTIONS,
+  DEFAULT_SHOW_PAGE_NUM,
+} from '@/shared/constants/variable.const';
 import { PaginatedData } from '@/shared/types/common';
+import { mapArray } from '@/shared/utils/array-util';
 
 const TablePagination: FC<PaginatedData> = ({
   pageIndex = 1,
@@ -14,14 +19,15 @@ const TablePagination: FC<PaginatedData> = ({
   pageSize = 10,
 }) => {
   const { t } = useTranslation();
-  // Calculate which page buttons to show
-  const showPageNumbers = 5; // Number of page buttons to show
-  let startPage = Math.max(1, pageIndex - Math.floor(showPageNumbers / 2));
-  let endPage = startPage + showPageNumbers - 1;
+  let startPage = Math.max(
+    1,
+    pageIndex - Math.floor(DEFAULT_SHOW_PAGE_NUM / 2),
+  );
+  let endPage = startPage + DEFAULT_SHOW_PAGE_NUM - 1;
 
   if (endPage > totalPages) {
     endPage = totalPages;
-    startPage = Math.max(1, endPage - showPageNumbers + 1);
+    startPage = Math.max(1, endPage - DEFAULT_SHOW_PAGE_NUM + 1);
   }
 
   const pages = Array.from(
@@ -44,9 +50,9 @@ const TablePagination: FC<PaginatedData> = ({
           value={pageSize}
           onChange={(e) => onChange?.(pageIndex, +e.target.value)}
         >
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={50}>50</option>
+          {mapArray(DEFAULT_NUM_OF_ITEM_PER_PAGE_OPTIONS, (value) => (
+            <option value={value}>{value}</option>
+          ))}
         </select>
       </div>
       <div className="hidden text-sm md:block">

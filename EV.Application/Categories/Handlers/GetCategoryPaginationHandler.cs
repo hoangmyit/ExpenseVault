@@ -4,6 +4,7 @@ using EV.Application.Categories.Queries;
 using EV.Application.Common.Interfaces;
 using EV.Application.Common.Models;
 using EV.Application.Mapping;
+using System.Linq.Dynamic.Core;
 
 namespace EV.Application.Categories.Handlers
 {
@@ -22,10 +23,23 @@ namespace EV.Application.Categories.Handlers
         {
             _validator.Validate(request);
 
-            return await _context.Categories
-              .Where(x => !x.IsDelete)
-              .OrderBy(x => x.GroupId)
-              .ThenBy(x => x.Name)
+            var query = _context.Categories.Where(x => !x.IsDelete);
+
+
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                query = query.Where(x => x.Name.Contains(request.Search) || x.Description.Contains(request.Search));
+            }
+            if (string.IsNullOrEmpty(request.OrderBy))
+            {
+                query = query.OrderBy(x => x.Id);
+            }
+            else
+            {
+                query = query.OrderBy(request.OrderBy);
+            }
+
+            return await query
               .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
               .PaginatedListAsync(request.PageIndex, request.PageSize);
         }
