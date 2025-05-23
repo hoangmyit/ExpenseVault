@@ -48,6 +48,7 @@ export function Table<T extends Record<string, any>>(
           sortOptions={searchData.sortOptions}
           filterOptions={searchData.filterOptions}
           onSearch={searchData.onSearch}
+          disabled={loading}
         />
       )}
       <div className="rounded-box border-base-content/5 bg-base-100 max-h-[60vh] overflow-x-auto overflow-y-auto border">
@@ -74,7 +75,7 @@ export function Table<T extends Record<string, any>>(
           />
         </table>
       </div>
-      <TablePagination {...pagination} />
+      <TablePagination {...pagination} disabled={loading} />
     </div>
   );
 }

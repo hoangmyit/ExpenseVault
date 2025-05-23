@@ -10,9 +10,9 @@
               .GreaterThanOrEqualTo(1).WithMessage("PageSize must be greater than or equal to 1.");
             RuleFor(x => x.PageSize)
               .LessThanOrEqualTo(100).WithMessage("PageSize must be less than or equal to 100.");
-            RuleFor(x => x.OrderBy)
+            RuleFor(x => x.SortBy)
                 .Must(BeAValidOrderProperty)
-                .When(x => !string.IsNullOrEmpty(x.OrderBy))
+                .When(x => !string.IsNullOrEmpty(x.SortBy))
                 .WithMessage("OrderBy must be empty or contain Id, Name, or Description.");
             RuleFor(x => x.FilterBy)
                 .Must(BeAValidFilterProperty)

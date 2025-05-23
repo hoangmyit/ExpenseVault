@@ -17,8 +17,13 @@ import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
-  const { categories, getCategories, deleteCategory, searchParams } =
-    useCategory();
+  const {
+    categories,
+    getCategories,
+    deleteCategory,
+    searchParams,
+    categoriesStatus,
+  } = useCategory();
 
   useEffect(() => {
     handleOnSearch(searchParams);
@@ -167,6 +172,7 @@ const CategoriesPage: FC = () => {
             pageSize: searchParams.pageSize!,
             onChange: handleOnSearch,
           }}
+          loading={categoriesStatus === 'loading'}
           searchData={{
             sortValue: searchParams.sortBy,
             filterValue: searchParams.filterBy,
@@ -180,6 +186,7 @@ const CategoriesPage: FC = () => {
               CATEGORY_TABLE_FILTER_COLUMN,
               'category:title',
             ),
+            disabled: categoriesStatus === 'loading',
           }}
         />
       </div>

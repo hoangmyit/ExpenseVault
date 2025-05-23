@@ -2,6 +2,7 @@ import { Key, ReactElement } from 'react';
 
 import clsx from 'clsx';
 
+import { InfoCircleIcon } from '@/icons';
 import { ColumnType, TableBodyProps } from '@/shared/types/ui';
 import { isString } from '@/shared/utils/type-utils';
 
@@ -20,7 +21,10 @@ const TableBody = <T extends Record<string, any>>({
       <tbody>
         <tr>
           <td colSpan={columns.length} className="py-4 text-center">
-            {locale.loadingText}
+            <div className="flex flex-col items-center justify-center gap-2">
+              <span className="loading loading-infinity loading-md w-32" />
+              {locale.loadingText}
+            </div>
           </td>
         </tr>
       </tbody>
@@ -32,7 +36,10 @@ const TableBody = <T extends Record<string, any>>({
       <tbody>
         <tr>
           <td colSpan={columns.length} className="py-4 text-center">
-            {locale.emptyText}
+            <div className="flex flex-col items-center justify-center gap-2">
+              <InfoCircleIcon className="h-32 w-32" />
+              {locale.emptyText}
+            </div>
           </td>
         </tr>
       </tbody>

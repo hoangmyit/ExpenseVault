@@ -62,6 +62,7 @@ export interface TableBodyProps<T> {
 
 export interface TableHeaderProps<T> {
   columns: ColumnType<T>[];
+  disabled?: boolean;
 }
 
 export interface TablePaginationProps {
@@ -70,6 +71,7 @@ export interface TablePaginationProps {
   totalCount: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
+  disabled?: boolean;
   onChange?: (pageIndex: number, pageSize: number) => void;
 }
 
@@ -80,6 +82,7 @@ export interface TableSortProps<T> {
   sortOptions: ISelectOption<T>[];
   filterOptions: ISelectOption<T>[];
   onSearch: TableOnSearchHandler<T>;
+  disabled: boolean;
 }
 
 export type TableOnSearchHandler<T> = (params: Partial<SearchState<T>>) => void;

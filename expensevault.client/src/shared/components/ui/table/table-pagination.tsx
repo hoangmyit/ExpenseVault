@@ -19,7 +19,8 @@ const TablePagination = <T extends Record<string, any>>({
   hasNextPage = false,
   onChange,
   pageSize = 10,
-}: PaginatedData<T>): ReactElement => {
+  disabled = false,
+}: PaginatedData<T> & { disabled: boolean }): ReactElement => {
   const { t } = useTranslation();
   let startPage = Math.max(
     1,
@@ -61,6 +62,7 @@ const TablePagination = <T extends Record<string, any>>({
           className="select select-bordered ml-2"
           value={pageSize}
           onChange={(e) => handlePageChange(e, pageIndex, +e.target.value)}
+          disabled={disabled}
         >
           {mapArray(DEFAULT_NUM_OF_ITEM_PER_PAGE_OPTIONS, (value) => (
             <option key={value} value={value}>
@@ -70,14 +72,14 @@ const TablePagination = <T extends Record<string, any>>({
         </select>
       </div>
       <div className="hidden text-sm md:block">
-        {`${t('table:showing')} ${pageSize * (pageIndex - 1) + 1} ${t('table:to')} ${
+        {`${t('table:showing')} ${totalCount > 0 ? pageSize * (pageIndex - 1) + 1 : 0} ${t('table:to')} ${
           pageSize * pageIndex > totalCount ? totalCount : pageSize * pageIndex
         } ${t('table:of')} ${totalCount} ${t('table:entries')}`}
       </div>
       <div className="join ml-4 flex">
         <button
           className="btn btn-outline join-item btn-sm"
-          disabled={!hasPreviousPage}
+          disabled={!hasPreviousPage || disabled}
         >
           {t('table:previous')}
         </button>
@@ -86,13 +88,15 @@ const TablePagination = <T extends Record<string, any>>({
             key={page}
             className={`join-item btn btn-sm ${page === pageIndex ? 'btn-primary' : ''}`}
             onClick={(e) => handlePageChange(e, page)}
+            disabled={disabled}
+            type="button"
           >
             {page}
           </button>
         ))}
         <button
           className="btn btn-outline join-item btn-sm"
-          disabled={!hasNextPage}
+          disabled={!hasNextPage || disabled}
           type="button"
           onClick={(e) => handlePageChange(e, pageIndex + 1)}
         >

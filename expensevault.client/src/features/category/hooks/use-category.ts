@@ -46,11 +46,13 @@ export const useCategory = () => {
 
   return {
     categories: categoriesData.data,
+    categoriesStatus: categoriesData.status,
     getCategories,
     createCategory,
     deleteCategory,
     getCategory,
     category: categoryData.data,
+    categoryStatus: categoryData.status,
     updateCategory,
     searchParams,
   };

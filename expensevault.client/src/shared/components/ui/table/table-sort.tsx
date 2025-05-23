@@ -19,6 +19,7 @@ const TableSort = <
   sortOptions,
   filterOptions,
   onSearch,
+  disabled = false,
 }: TableSortProps<T>): ReactElement => {
   const { t } = useTranslation();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -79,6 +80,7 @@ const TableSort = <
             className="select select-bordered flex-grow"
             aria-label="Sort Field"
             onChange={handleSortFieldChange}
+            disabled={disabled}
           >
             {mapArray(sortOptions, (option, inx) => (
               <option
@@ -97,6 +99,7 @@ const TableSort = <
             className="select select-bordered"
             aria-label="Sort Order"
             onChange={handleSortOrderChange}
+            disabled={disabled}
           >
             <option key="asc" value="true" selected={sortOrder === true}>
               {t('table:sortAsc')}
@@ -124,6 +127,13 @@ const TableSort = <
               onInput={handleSearchChange}
               onKeyDown={handleKeyDown}
               value={searchKeyword}
+              disabled={disabled}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              aria-label="Search"
+              aria-describedby="search"
             />
             <kbd className="kbd kbd-sm">⌘</kbd>
           </label>
@@ -132,6 +142,7 @@ const TableSort = <
               className="select"
               aria-label="Filter"
               onChange={handleFilterChange}
+              disabled={disabled}
             >
               <option disabled>{t('table:filter')}</option>
               {mapArray(filterOptions, (option, inx) => (
@@ -148,7 +159,11 @@ const TableSort = <
           </div>
 
           <div className="indicator">
-            <button className="btn join-item btn-accent" onClick={handleSearch}>
+            <button
+              className="btn join-item btn-accent"
+              onClick={handleSearch}
+              disabled={disabled}
+            >
               {t('table:search')}
             </button>
           </div>

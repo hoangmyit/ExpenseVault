@@ -25,7 +25,7 @@ export const getCategories = async ({
       pageIndex: pageIndex,
       pageSize: pageSize,
       search: search,
-      sort: toPascalCase(sortBy),
+      sortBy: toPascalCase(sortBy),
       isAsc: isAsc,
       filterBy: toPascalCase(filterBy),
     },

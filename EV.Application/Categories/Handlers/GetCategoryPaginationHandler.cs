@@ -30,14 +30,14 @@ namespace EV.Application.Categories.Handlers
             {
                 query = query.Where("(@0).Contains(@1)", request.FilterBy, request.Search);
             }
-            if (string.IsNullOrEmpty(request.OrderBy))
+            if (string.IsNullOrEmpty(request.SortBy))
             {
                 query = request.IsAsc ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id);
             }
             else
             {
                 var order = request.IsAsc ? "ascending" : "descending";
-                query = query.OrderBy($"{request.OrderBy} {order}");
+                query = query.OrderBy($"{request.SortBy} {order}");
             }
 
 
