@@ -1,9 +1,18 @@
 {
-  "rowPerPage": "Số dòng mỗi trang",
+  "rowPerPage": "Số dòng hiển thị mỗi trang:",
   "showing": "Hiển thị",
   "to": "đến",
-  "of": "của",
-  "entries": "mục",
-  "previous": "Trước",
-  "next": "Tiếp"
+  "of": "trên tổng số",
+  "entries": "bản ghi",
+  "previous": "Trang trước",
+  "next": "Trang tiếp theo",
+  "sortBy": "Sắp xếp theo:",
+  "sortOrder": "Thứ tự sắp xếp",
+  "sortField": "Trường sắp xếp",
+  "sortAsc": "Tăng dần",
+  "sortDesc": "Giảm dần",
+  "filter": "Lọc dữ liệu",
+  "filterField": "Trường lọc dữ liệu",
+  "search": "Tìm kiếm",
+  "searchPlaceholder": "Nhập từ khóa tìm kiếm..."
 }

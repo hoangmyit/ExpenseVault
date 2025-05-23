@@ -75,14 +75,14 @@ export function* handleApiCall<
 
     if (toastOptions?.useToastPromise) {
       toast.promise(apiPromise, {
-        pending: toastOptions.pending || TOAST_MESSAGES_PENDING,
+        pending: toastOptions.pending || getLangText(TOAST_MESSAGES_PENDING),
         success: {
           render({ data }) {
             // Use API success message if available
             if (data?.message) {
               return data.message;
             }
-            return toastOptions.success || TOAST_MESSAGES_SUCCESS;
+            return toastOptions.success || getLangText(TOAST_MESSAGES_SUCCESS);
           },
         },
         error: {
@@ -104,7 +104,7 @@ export function* handleApiCall<
               return data;
             }
             // Fallback to default or provided error message
-            return toastOptions.error || TOAST_MESSAGES_ERROR;
+            return toastOptions.error || getLangText(TOAST_MESSAGES_ERROR);
           },
         },
       });
@@ -120,7 +120,10 @@ export function* handleApiCall<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     consoleLog(error);
-    const errorMessage = getErrorMessage(error, TOAST_MESSAGES_ERROR);
+    const errorMessage = getErrorMessage(
+      error,
+      getLangText(TOAST_MESSAGES_ERROR),
+    );
     yield put(failureAction(errorMessage));
     if (error.response?.status === 400 && validationAction) {
       const errorData = error.response.data.errors;

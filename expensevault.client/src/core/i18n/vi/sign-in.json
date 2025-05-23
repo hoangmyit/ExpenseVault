@@ -1,13 +1,26 @@
 {
   "signIn": "Đăng nhập",
-  "welcomeBack": "Chào mừng trở lại!",
-  "pleaseSignIn": "Vui lòng đăng nhập để tiếp tục sử dụng Expense Vault.",
-  "username": "Tên người dùng",
-  "enterUsername": "Nhập tên người dùng của bạn",
+  "welcomeBack": "Chào mừng quý khách quay trở lại!",
+  "pleaseSignIn": "Vui lòng đăng nhập để tiếp tục sử dụng hệ thống quản lý chi tiêu ExpenseVault.",
+  "username": "Tên đăng nhập",
+  "enterUsername": "Nhập tên đăng nhập của quý khách",
   "password": "Mật khẩu",
-  "enterPassword": "Nhập mật khẩu của bạn",
-  "rememberMe": "Ghi nhớ tôi",
+  "enterPassword": "Nhập mật khẩu của quý khách",
+  "rememberMe": "Ghi nhớ đăng nhập",
   "forgotPassword": "Quên mật khẩu?",
   "notHaveAccount": "Chưa có tài khoản?",
-  "createAccount": "Tạo tài khoản"
+  "createAccount": "Đăng ký tài khoản mới",
+  "validation": {
+    "usernameMin": "Tên đăng nhập phải có ít nhất {0} ký tự",
+    "usernameMax": "Tên đăng nhập không được vượt quá {0} ký tự",
+    "passwordMin": "Mật khẩu phải có ít nhất {0} ký tự",
+    "passwordMax": "Mật khẩu không được vượt quá {0} ký tự",
+    "invalidEmail": "Địa chỉ email không hợp lệ",
+    "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt (@$!%*#?&)",
+    "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp với mật khẩu đã nhập",
+    "usernamePattern": "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới"
+  },
+  "successSignIn": "Đăng nhập thành công",
+  "pendingSignIn": "Hệ thống đang xác thực thông tin đăng nhập...",
+  "failedSignIn": "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin."
 }

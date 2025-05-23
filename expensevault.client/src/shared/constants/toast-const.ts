@@ -1,3 +1,3 @@
-export const TOAST_MESSAGES_PENDING = 'Processing...';
-export const TOAST_MESSAGES_SUCCESS = 'Operation completed successfully!';
-export const TOAST_MESSAGES_ERROR = 'Operation failed';
+export const TOAST_MESSAGES_PENDING = 'common:toast.pending';
+export const TOAST_MESSAGES_SUCCESS = 'common:toast.success';
+export const TOAST_MESSAGES_ERROR = 'common:toast.error';

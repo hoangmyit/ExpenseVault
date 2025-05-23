@@ -1,26 +1,26 @@
 {
   "auth": {
     "email": {
-      "successConfirmation": "Email của bạn đã được xác nhận thành công.",
-      "failureConfirmation": "Xác nhận email của bạn không thành công. Vui lòng thử lại.",
-      "successResend": "Một email xác nhận mới đã được gửi đến địa chỉ email của bạn.",
-      "failureResend": "Không thể gửi lại email xác nhận. Vui lòng thử lại.",
-      "successReset": "Liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn.",
-      "failureReset": "Không thể gửi liên kết đặt lại mật khẩu. Vui lòng thử lại.",
-      "successVerify": "Tài khoản của bạn đã được xác minh thành công.",
-      "failureVerify": "Xác minh tài khoản không thành công. Vui lòng thử lại."
+      "successConfirmation": "Địa chỉ email của quý khách đã được xác nhận thành công.",
+      "failureConfirmation": "Quá trình xác nhận email không thành công. Vui lòng thử lại sau.",
+      "successResend": "Một email xác nhận mới đã được gửi đến địa chỉ email đã đăng ký của quý khách.",
+      "failureResend": "Không thể gửi lại email xác nhận. Vui lòng liên hệ bộ phận hỗ trợ khách hàng.",
+      "successReset": "Liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của quý khách.",
+      "failureReset": "Không thể gửi liên kết đặt lại mật khẩu. Vui lòng kiểm tra lại thông tin và thử lại.",
+      "successVerify": "Tài khoản của quý khách đã được xác minh thành công.",
+      "failureVerify": "Quá trình xác minh tài khoản không thành công. Vui lòng thử lại sau."
     },
-    "successChange": "Mật khẩu của bạn đã được thay đổi thành công.",
-    "failureChange": "Thay đổi mật khẩu không thành công. Vui lòng thử lại.",
-    "successLogin": "Bạn đã đăng nhập thành công.",
+    "successChange": "Mật khẩu của quý khách đã được thay đổi thành công.",
+    "failureChange": "Thay đổi mật khẩu không thành công. Vui lòng kiểm tra thông tin và thử lại.",
+    "successLogin": "Quý khách đã đăng nhập thành công vào hệ thống.",
     "failureLogin": "Đăng nhập không thành công. Vui lòng kiểm tra thông tin đăng nhập và thử lại.",
-    "successLogout": "Bạn đã đăng xuất thành công.",
+    "successLogout": "Quý khách đã đăng xuất khỏi hệ thống thành công.",
     "failureLogout": "Đăng xuất không thành công. Vui lòng thử lại.",
-    "successRegister": "Bạn đã đăng ký thành công. Vui lòng kiểm tra email để xác nhận tài khoản của bạn.",
-    "failureRegister": "Đăng ký không thành công. Vui lòng kiểm tra thông tin và thử lại.",
-    "successUpdate": "Hồ sơ của bạn đã được cập nhật thành công.",
-    "failureUpdate": "Cập nhật hồ sơ không thành công. Vui lòng thử lại.",
-    "successDelete": "Tài khoản của bạn đã được xóa thành công.",
-    "failureDelete": "Xóa tài khoản không thành công. Vui lòng thử lại."
+    "successRegister": "Quý khách đã đăng ký tài khoản thành công. Vui lòng kiểm tra email để xác nhận tài khoản.",
+    "failureRegister": "Đăng ký tài khoản không thành công. Vui lòng kiểm tra thông tin và thử lại.",
+    "successUpdate": "Thông tin hồ sơ của quý khách đã được cập nhật thành công.",
+    "failureUpdate": "Cập nhật thông tin hồ sơ không thành công. Vui lòng thử lại.",
+    "successDelete": "Tài khoản của quý khách đã được xóa thành công khỏi hệ thống.",
+    "failureDelete": "Không thể xóa tài khoản. Vui lòng liên hệ bộ phận hỗ trợ khách hàng."
   }
 }

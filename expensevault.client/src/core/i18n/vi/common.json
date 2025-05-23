@@ -1,3 +1,8 @@
 {
-  "loading": "Đang tải..."
+  "loading": "Đang tải dữ liệu...",
+  "toast": {
+    "success": "Thao tác đã được thực hiện thành công!",
+    "error": "Thao tác không thành công. Vui lòng thử lại!",
+    "pending": "Hệ thống đang xử lý yêu cầu..."
+  }
 }
