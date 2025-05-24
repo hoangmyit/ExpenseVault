@@ -1,14 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import {
-  toastError,
-  toastSuccess,
-} from '../../../shared/components/feedback/toast/toast';
-import { CommonState } from '../../../shared/types/common';
+import { SearchState } from '../../../shared/types/common';
 import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
-import { CategoryParams, ICategoryState } from '../types/category.type';
+import {
+  CATEGORY_TABLE_FILTER_COLUMN,
+  CATEGORY_TABLE_ORDER_COLUMN,
+} from '../constants/category.const';
+import { ICategoryState } from '../types/category.type';
+
+import {
+  toastError,
+  toastSuccess,
+} from '@/shared/components/feedback/toast/toast';
+import { getItemPerPage } from '@/shared/utils/setting-util';
+import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 const initialState: ICategoryState = {
   categories: {
@@ -28,14 +35,24 @@ const initialState: ICategoryState = {
     status: 'idle',
     error: null,
   },
+  searchParams: {
+    pageIndex: 1,
+    pageSize: getItemPerPage(),
+    search: '',
+    isAsc: true,
+    filterBy: CATEGORY_TABLE_FILTER_COLUMN[0],
+    sortBy: CATEGORY_TABLE_ORDER_COLUMN[0],
+  },
 };
 
 const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    // Get categories actions
-    getCategoriesRequest: (state, _action: PayloadAction<CategoryParams>) => {
+    getCategoriesRequest: (
+      state,
+      _action: PayloadAction<Partial<SearchState<CategoryDto>>>,
+    ) => {
       state.categories.status = 'loading';
       state.categories.error = null;
     },
@@ -112,7 +129,44 @@ const categorySlice = createSlice({
       state.category.error = action.payload;
       toastError(action.payload);
     },
-
+    updateSearchParams: (
+      state,
+      action: PayloadAction<Partial<SearchState<CategoryDto>>>,
+    ) => {
+      const { filterBy, isAsc, pageIndex, pageSize, search, sortBy } =
+        action.payload;
+      if (!isNullOrEmpty(filterBy)) {
+        state.searchParams.filterBy = filterBy!;
+      }
+      if (!isNullOrEmpty(isAsc)) {
+        state.searchParams.isAsc = isAsc!;
+      }
+      if (!isNullOrEmpty(pageIndex)) {
+        state.searchParams.pageIndex = pageIndex!;
+      }
+      if (!isNullOrEmpty(pageSize)) {
+        state.searchParams.pageSize = pageSize!;
+      }
+      if (!isNullOrEmpty(search)) {
+        state.searchParams.search = search!;
+      }
+      if (!isNullOrEmpty(sortBy)) {
+        state.searchParams.sortBy = sortBy!;
+      }
+    },
+    updateSearchParamsByKey: (
+      state,
+      action: PayloadAction<{
+        key: keyof SearchState<CategoryDto>;
+        value: string | number | boolean;
+      }>,
+    ) => {
+      const { key, value } = action.payload;
+      if (key in state.searchParams) {
+        // eslint-disable-next-line security/detect-object-injection
+        (state.searchParams as Record<string, unknown>)[key] = value;
+      }
+    },
     // Reset category state
     resetCategory: (state) => {
       state.category = initialState.category;
@@ -136,12 +190,14 @@ export const {
   deleteCategoryRequest,
   deleteCategorySuccess,
   deleteCategoryFailure,
+  updateSearchParams,
+  updateSearchParamsByKey,
   resetCategory,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
 
-export const CategoriesState = (state: RootState) =>
-  state.category.categories as CommonState<PaginatedList<CategoryDto>>;
-export const CategoryState = (state: RootState) =>
-  state.category.category as CommonState<CategoryDto>;
+export const CategoriesState = (state: RootState) => state.category.categories;
+export const CategoryState = (state: RootState) => state.category.category;
+export const CategorySearchState = (state: RootState) =>
+  state.category.searchParams;

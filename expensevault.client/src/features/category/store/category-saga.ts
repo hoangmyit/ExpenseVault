@@ -8,8 +8,7 @@ import {
   getCategory,
   updateCategory,
 } from '../../../core/api/endpoints/category.service';
-import { PaginatedList } from '../../../shared/types/common';
-import { CategoryDto } from '../../../shared/types/common/backend-model';
+import { PaginatedList, SearchState } from '../../../shared/types/common';
 import { handleApiCall } from '../../../shared/utils/saga-util';
 import {
   CREATE_CATEGORY_ERROR_MESSAGE,
@@ -28,7 +27,6 @@ import {
   UPDATE_CATEGORY_PENDING_MESSAGE,
   UPDATE_CATEGORY_SUCCESS_MESSAGE,
 } from '../constants';
-import { CategoryParams } from '../types/category.type';
 
 import {
   createCategoryFailure,
@@ -46,9 +44,14 @@ import {
   updateCategoryFailure,
   updateCategoryRequest,
   updateCategorySuccess,
+  updateSearchParams,
 } from './category-slice';
 
-function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
+import { CategoryDto } from '@/shared/types/backend/category';
+import { getLangText } from '@/shared/utils/language-util';
+import { isNullOrEmpty } from '@/shared/utils/type-utils';
+
+function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
   yield* handleApiCall(
     getCategories,
     action.payload,
@@ -56,10 +59,40 @@ function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
     (error) => getCategoriesFailure(error),
     {
       useToastPromise: true,
-      error: GET_CATEGORIES_ERROR_MESSAGE,
-      pending: GET_CATEGORIES_PENDING_MESSAGE,
-      success: GET_CATEGORIES_SUCCESS_MESSAGE,
+      error: getLangText(GET_CATEGORIES_ERROR_MESSAGE),
+      pending: getLangText(GET_CATEGORIES_PENDING_MESSAGE),
+      success: getLangText(GET_CATEGORIES_SUCCESS_MESSAGE),
     },
+    {
+      stateValue: (state) => state.category.searchParams,
+      updateRequest: (state) => {
+        const enrichRequest = {
+          ...state,
+        };
+        const { filterBy, isAsc, pageIndex, pageSize, search, sortBy } =
+          action.payload;
+        if (!isNullOrEmpty(filterBy)) {
+          enrichRequest.filterBy = filterBy;
+        }
+        if (!isNullOrEmpty(isAsc)) {
+          enrichRequest.isAsc = isAsc!;
+        }
+        if (!isNullOrEmpty(pageIndex)) {
+          enrichRequest.pageIndex = pageIndex;
+        }
+        if (!isNullOrEmpty(pageSize)) {
+          enrichRequest.pageSize = pageSize;
+        }
+        if (!isNullOrEmpty(search)) {
+          enrichRequest.search = search;
+        }
+        if (!isNullOrEmpty(sortBy)) {
+          enrichRequest.sortBy = sortBy;
+        }
+        return enrichRequest;
+      },
+    },
+    updateSearchParams,
   );
 }
 
@@ -71,9 +104,9 @@ function* getCategorySaga(action: PayloadAction<string>) {
     (error) => getCategoryFailure(error),
     {
       useToastPromise: true,
-      error: GET_CATEGORY_ERROR_MESSAGE,
-      pending: GET_CATEGORY_PENDING_MESSAGE,
-      success: GET_CATEGORY_SUCCESS_MESSAGE,
+      error: getLangText(GET_CATEGORY_ERROR_MESSAGE),
+      pending: getLangText(GET_CATEGORY_PENDING_MESSAGE),
+      success: getLangText(GET_CATEGORY_SUCCESS_MESSAGE),
     },
   );
 }
@@ -87,9 +120,9 @@ function* createCategorySaga(action: PayloadAction<CategoryDto>) {
     (error) => createCategoryFailure(error),
     {
       useToastPromise: true,
-      error: CREATE_CATEGORY_ERROR_MESSAGE,
-      pending: CREATE_CATEGORY_PENDING_MESSAGE,
-      success: CREATE_CATEGORY_SUCCESS_MESSAGE,
+      error: getLangText(CREATE_CATEGORY_ERROR_MESSAGE),
+      pending: getLangText(CREATE_CATEGORY_PENDING_MESSAGE),
+      success: getLangText(CREATE_CATEGORY_SUCCESS_MESSAGE),
     },
   );
 }
@@ -103,9 +136,9 @@ function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
     (error) => updateCategoryFailure(error),
     {
       useToastPromise: true,
-      error: UPDATE_CATEGORY_ERROR_MESSAGE,
-      pending: UPDATE_CATEGORY_PENDING_MESSAGE,
-      success: UPDATE_CATEGORY_SUCCESS_MESSAGE,
+      error: getLangText(UPDATE_CATEGORY_ERROR_MESSAGE),
+      pending: getLangText(UPDATE_CATEGORY_PENDING_MESSAGE),
+      success: getLangText(UPDATE_CATEGORY_SUCCESS_MESSAGE),
     },
   );
 }
@@ -119,9 +152,9 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
     (error) => deleteCategoryFailure(error),
     {
       useToastPromise: true,
-      error: DELETE_CATEGORY_ERROR_MESSAGE,
-      pending: DELETE_CATEGORY_PENDING_MESSAGE,
-      success: DELETE_CATEGORY_SUCCESS_MESSAGE,
+      error: getLangText(DELETE_CATEGORY_ERROR_MESSAGE),
+      pending: getLangText(DELETE_CATEGORY_PENDING_MESSAGE),
+      success: getLangText(DELETE_CATEGORY_SUCCESS_MESSAGE),
     },
   );
 }

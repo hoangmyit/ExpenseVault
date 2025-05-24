@@ -8,6 +8,7 @@ using EV.Application.Categories.Commands;
 using EV.Application.Categories.Commands.UpdateCategory;
 using NSwag.Annotations;
 using EV.Application.Categories.Commands.DeleteCategory;
+using EV.Application.Common.Dtos;
 
 namespace ExpenseVault.Server.Controllers.Category;
 public class CategoryController : BaseController
@@ -39,9 +40,7 @@ public class CategoryController : BaseController
     public async Task<Ok<PaginatedList<CategoryDto>>> GetCategories(ISender sender, [AsParameters] GetCategoryPaginationQuery query, CancellationToken cancellationToken)
     {
         var categories = await sender.Send(query, cancellationToken);
-        var filteredCategories = categories.Items.Where(c => !c.IsDelete).ToList();
-        var paginatedList = new PaginatedList<CategoryDto>(filteredCategories, categories.TotalCount, categories.PageIndex, categories.TotalCount);
-        return TypedResults.Ok(paginatedList);
+        return TypedResults.Ok(categories);
     }
 
     public async Task<Created<int>> CreatedAsync(ISender sender, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken)
@@ -50,7 +49,7 @@ public class CategoryController : BaseController
         return TypedResults.Created<int>($"/category/{id}", id);
     }
 
-    public async Task<Results<Ok<CategoryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, int id, CancellationToken cancellationToken)
+    public async Task<Results<Ok<CategorySummaryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, int id, CancellationToken cancellationToken)
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 

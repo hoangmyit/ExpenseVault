@@ -13,7 +13,7 @@ const AppLayoutContent: FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   return (
-    <div className="min-h-screen xl:flex">
+    <div className="bg-base-300 min-h-screen xl:flex">
       <div>
         <AppSidebar />
         <Backdrop />
@@ -26,7 +26,7 @@ const AppLayoutContent: FC = () => {
         )}
       >
         <AppHeader />
-        <div className="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+        <div className="rounded-box bg-base-100 m-4 mx-auto h-[calc(100vh-95px)] shadow-lg md:mx-4 md:h-[calc(100vh-120px)]">
           <Outlet />
         </div>
       </div>

@@ -11,7 +11,7 @@ namespace EV.Application.Common.Models
 
         public bool HasPreviousPage => PageIndex > 1;
 
-        public bool HasNextPage => PageIndex < TotalPages - 1;
+        public bool HasNextPage => PageIndex < TotalPages;
 
         public PaginatedList(IReadOnlyCollection<T> items, int pageIndex, int pageSize, int totalCount)
         {

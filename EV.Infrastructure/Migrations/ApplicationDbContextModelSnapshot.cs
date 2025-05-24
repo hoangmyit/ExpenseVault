@@ -153,8 +153,7 @@ namespace EV.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("NVARCHAR(MAX)");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -177,8 +176,7 @@ namespace EV.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("NVARCHAR(MAX)");
 
                     b.HasKey("Id");
 

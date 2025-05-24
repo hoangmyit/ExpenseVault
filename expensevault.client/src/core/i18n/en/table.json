@@ -1,0 +1,18 @@
+{
+  "rowPerPage": "Rows per page:",
+  "showing": "Showing",
+  "to": "to",
+  "of": "of",
+  "entries": "entries",
+  "previous": "Previous",
+  "next": "Next",
+  "sortBy": "Sort by:",
+  "sortOrder": "Sort order",
+  "sortField": "Sort field",
+  "sortAsc": "Ascending",
+  "sortDesc": "Descending",
+  "filter": "Filter",
+  "filterField": "Filter field",
+  "search": "Search",
+  "searchPlaceholder": "Search..."
+}

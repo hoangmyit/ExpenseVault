@@ -10,6 +10,7 @@ export * from './svg-icon';
 export * from './warning-icon';
 
 import { ReactComponent as BoxCubeIcon } from './box-cube.svg?react';
+import { ReactComponent as SearchIcon } from './bx-search.svg?react';
 import { ReactComponent as CalenderIcon } from './calendar.svg?react';
 import { ReactComponent as ChevronDownIcon } from './chevron-down.svg?react';
 import { ReactComponent as GridIcon } from './grid.svg?react';
@@ -33,6 +34,7 @@ export {
   PageIcon,
   PieChartIcon,
   PlugInIcon,
+  SearchIcon,
   TableIcon,
   UserCircleIcon,
 };

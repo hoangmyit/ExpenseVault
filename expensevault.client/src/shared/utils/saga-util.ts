@@ -1,7 +1,14 @@
 import { toast } from 'react-toastify';
 
-import { Axios, AxiosError } from 'axios';
-import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
+import { AxiosError } from 'axios';
+import {
+  call,
+  CallEffect,
+  put,
+  PutEffect,
+  select,
+  SelectEffect,
+} from 'redux-saga/effects';
 
 import { ToastPromiseOptions } from '../components/feedback/toast/toast.const';
 import {
@@ -13,12 +20,15 @@ import { ApiResult, ValidationErrors } from '../types/common';
 
 import { consoleLog, getErrorMessage } from './common-util';
 import { getLangText } from './language-util';
+import { isNullOrUndefined } from './type-utils';
 
 export function* handleApiCall<
   TRequest,
   TResponse,
   TSuccessPayload,
   TErrorPayload,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TState = any,
 >(
   apiCall: (request: TRequest) => Promise<ApiResult<TResponse>>,
   request: TRequest,
@@ -28,6 +38,15 @@ export function* handleApiCall<
   },
   failureAction: (error: string) => { type: string; payload: TErrorPayload },
   toastOptions: ToastPromiseOptions | null,
+  preProcessAction?: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    stateValue: (state: any) => TState;
+    updateRequest: (state: TState) => TRequest;
+  },
+  postProcessPayload?: (request: TRequest) => {
+    type: string;
+    payload: TRequest;
+  },
   validationAction?: (errors: ValidationErrors<TRequest>) => {
     type: string;
     payload: ValidationErrors<TRequest>;
@@ -36,24 +55,34 @@ export function* handleApiCall<
   | CallEffect<ApiResult<TResponse>>
   | PutEffect<{
       type: string;
-      payload: TSuccessPayload | TErrorPayload | ValidationErrors<TRequest>;
-    }>,
+      payload:
+        | TSuccessPayload
+        | TErrorPayload
+        | ValidationErrors<TRequest>
+        | TRequest;
+    }>
+  | SelectEffect,
   void,
   ApiResult<TResponse>
 > {
   try {
+    if (!isNullOrUndefined(preProcessAction)) {
+      const stateValue = yield select(preProcessAction!.stateValue);
+      request = preProcessAction!.updateRequest(stateValue as TState);
+    }
+
     const apiPromise = apiCall(request);
 
     if (toastOptions?.useToastPromise) {
       toast.promise(apiPromise, {
-        pending: toastOptions.pending || TOAST_MESSAGES_PENDING,
+        pending: toastOptions.pending || getLangText(TOAST_MESSAGES_PENDING),
         success: {
           render({ data }) {
             // Use API success message if available
             if (data?.message) {
               return data.message;
             }
-            return toastOptions.success || TOAST_MESSAGES_SUCCESS;
+            return toastOptions.success || getLangText(TOAST_MESSAGES_SUCCESS);
           },
         },
         error: {
@@ -75,10 +104,15 @@ export function* handleApiCall<
               return data;
             }
             // Fallback to default or provided error message
-            return toastOptions.error || TOAST_MESSAGES_ERROR;
+            return toastOptions.error || getLangText(TOAST_MESSAGES_ERROR);
           },
         },
       });
+    }
+
+    if (!isNullOrUndefined(postProcessPayload)) {
+      const action = postProcessPayload!(request);
+      yield put(action);
     }
 
     const result = yield call(() => apiPromise);
@@ -86,7 +120,10 @@ export function* handleApiCall<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     consoleLog(error);
-    const errorMessage = getErrorMessage(error, TOAST_MESSAGES_ERROR);
+    const errorMessage = getErrorMessage(
+      error,
+      getLangText(TOAST_MESSAGES_ERROR),
+    );
     yield put(failureAction(errorMessage));
     if (error.response?.status === 400 && validationAction) {
       const errorData = error.response.data.errors;

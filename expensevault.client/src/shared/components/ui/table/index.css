@@ -1,0 +1,18 @@
+.table {
+  :where(.table-pin-cols tr td.sticky) {
+    position: sticky;
+    right: calc(0.25rem * 0);
+    left: calc(0.25rem * 0);
+    background-color: inherit;
+  }
+}
+
+.table-zebra {
+    & tbody {
+        & tr {
+            &:where(:nth-child(odd):not(:hover)) {
+                background-color: var(--color-base-100);
+            }
+        }
+    }
+}

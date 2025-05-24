@@ -14,6 +14,15 @@ export type ValidationErrors<T> = {
   [key in keyof T]?: string[];
 };
 
+export type SearchState<T> = {
+  filterBy: keyof T;
+  sortBy: keyof T;
+  isAsc: boolean;
+  pageIndex?: number;
+  pageSize?: number;
+  search?: string;
+};
+
 export type ApiResult<T> = {
   data: T;
   isSuccess: boolean;
@@ -21,3 +30,15 @@ export type ApiResult<T> = {
   message?: string;
   messageKey?: string;
 };
+
+export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type SupportLanguages = 'en' | 'vi';
+
+export type SupportLanguageField = Record<SupportLanguages, string>;
+
+export const enum TransactionTypeEnum {
+  Income = 1,
+  Expense = 2,
+  Transfer = 3,
+}

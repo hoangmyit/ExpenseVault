@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using EV.Application.Categories.Queries;
+using EV.Application.Common.Dtos;
 using EV.Application.Common.Interfaces;
 using EV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EV.Application.Categories.Handlers
 {
-    public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
+    public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategorySummaryDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -20,13 +21,13 @@ namespace EV.Application.Categories.Handlers
             _mapper = mapper;
         }
 
-        public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+        public async Task<CategorySummaryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
             var category = await _context.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Id == request.Id && !x.IsDelete, cancellationToken);
 
             Guard.Against.NotFound<Category>($"The category {request.Id} is not found!", category);
 
-            return _mapper.Map<CategoryDto>(category);
+            return _mapper.Map<CategorySummaryDto>(category);
         }
     }
 }

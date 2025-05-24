@@ -25,5 +25,19 @@
       "pending": "Deleting category...",
       "error": "Unable to delete category"
     }
+  },
+  "tableHeader":{
+    "id": "ID",
+    "name": "Name",
+    "description": "Description",
+    "avatar": "Avatar",
+    "isDefault": "Is Default",
+    "groupName": "Group Name"
+  },
+  "title": {
+    "create": "Create Category",
+    "update": "Update Category",
+    "view": "Categories",
+    "add": "Add New Category"
   }
 }

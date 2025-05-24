@@ -4,21 +4,25 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languageDetector';
 
 import {
+  categoryEn,
   commonEn,
   emailEn,
   profileEn,
   serverResultEn,
   signInEn,
   signUpEn,
+  tableEn,
   validationEn,
 } from './en';
 import {
+  categoryVi,
   commonVi,
   emailVi,
   profileVi,
   serverResultVi,
   signInVi,
   signUpVi,
+  tableVi,
   validationVi,
 } from './vi';
 
@@ -37,6 +41,8 @@ i18n
         email: emailEn,
         profile: profileEn,
         serverResult: serverResultEn,
+        category: categoryEn,
+        table: tableEn,
       },
       vi: {
         common: commonVi,
@@ -46,6 +52,8 @@ i18n
         email: emailVi,
         profile: profileVi,
         serverResult: serverResultVi,
+        category: categoryVi,
+        table: tableVi,
       },
     },
     fallbackLng: 'en',
