@@ -4,78 +4,69 @@
 // </auto-generated>
 //----------------------
 
-import { DateTime } from "luxon/src/datetime";
+import { DateTime } from 'luxon/src/datetime';
+
+import { CategoryDto } from '../backend/category';
 
 /* tslint:disable */
-/* eslint-disable */
+
 // ReSharper disable InconsistentNaming
 
-
-
 export interface PaginatedListOfCategoryDto {
-    items: CategoryDto[];
-    pageIndex: number;
-    totalPages: number;
-    totalCount: number;
-    hasPreviousPage: boolean;
-    hasNextPage: boolean;
-}
-
-export interface CategoryDto {
-    id: string;
-    name: string;
-    description: string;
-    avatar: string;
-    isDefault: boolean;
-    isDelete: boolean;
+  items: CategoryDto[];
+  pageIndex: number;
+  totalPages: number;
+  totalCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
 }
 
 export interface CreateCategoryCommand {
-    name: string;
-    description: string;
-    avatar: string;
-    isDefault: boolean;
+  name: string;
+  description: string;
+  avatar: string;
+  isDefault: boolean;
 }
 
 export interface UpdateCategoryCommand {
-    id: string;
-    name: string;
-    description: string;
-    avatar: string;
-    isDefault: boolean;
+  id: string;
+  name: string;
+  description: string;
+  avatar: string;
+  isDefault: boolean;
 }
 
 export interface LoginResponse {
-    token: string;
-    refreshToken: string;
+  token: string;
+  refreshToken: string;
 }
 
 export interface LoginCommand {
-    username: string;
-    password: string;
-    rememberMe: boolean;
+  username: string;
+  password: string;
+  rememberMe: boolean;
 }
 
 export interface RefreshTokenResponse {
-    token: string;
-    refreshToken: string;
+  token: string;
+  refreshToken: string;
 }
 
 export interface RefreshTokenCommand {
-    token: string;
-    refreshToken: string;
+  token: string;
+  refreshToken: string;
 }
 
 export interface RegisterUserCommand {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface WeatherForecast {
-    date: DateTime;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string | null;
+  date: DateTime;
+  temperatureC: number;
+  temperatureF: number;
+  summary: string | null;
 }

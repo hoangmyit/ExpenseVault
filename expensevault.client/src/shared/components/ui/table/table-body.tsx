@@ -3,8 +3,10 @@ import { Key, ReactElement } from 'react';
 import clsx from 'clsx';
 
 import { InfoCircleIcon } from '@/icons';
+import { SupportLanguageField } from '@/shared/types/common';
 import { ColumnType, TableBodyProps } from '@/shared/types/ui';
-import { isString } from '@/shared/utils/type-utils';
+import { getLangFieldText } from '@/shared/utils/language-util';
+import { isObject, isString } from '@/shared/utils/type-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TableBody = <T extends Record<string, any>>({
@@ -55,7 +57,11 @@ const TableBody = <T extends Record<string, any>>({
 
   const renderCell = (record: T, column: ColumnType<T>, rowIndex: number) => {
     const dataIndex = column.dataIndex;
-    const value = dataIndex !== undefined ? record[dataIndex] : undefined;
+    let value = dataIndex !== undefined ? record[dataIndex] : undefined;
+
+    if (column.supportLanguage && isObject(value)) {
+      value = getLangFieldText(value as SupportLanguageField) as T[keyof T];
+    }
 
     if (column.render) {
       return column.render(value, record, rowIndex);

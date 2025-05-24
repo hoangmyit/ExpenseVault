@@ -31,7 +31,8 @@
     "name": "Name",
     "description": "Description",
     "avatar": "Avatar",
-    "isDefault": "Is Default"
+    "isDefault": "Is Default",
+    "groupName": "Group Name"
   },
   "title": {
     "create": "Create Category",

@@ -9,7 +9,6 @@ import {
   updateCategory,
 } from '../../../core/api/endpoints/category.service';
 import { PaginatedList, SearchState } from '../../../shared/types/common';
-import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { handleApiCall } from '../../../shared/utils/saga-util';
 import {
   CREATE_CATEGORY_ERROR_MESSAGE,
@@ -48,6 +47,7 @@ import {
   updateSearchParams,
 } from './category-slice';
 
+import { CategoryDto } from '@/shared/types/backend/category';
 import { getLangText } from '@/shared/utils/language-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 

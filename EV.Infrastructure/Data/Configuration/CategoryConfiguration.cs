@@ -16,13 +16,13 @@ namespace EV.Infrastructure.Data.Configuration
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
                     v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions)null) ?? new Dictionary<string, string>())
-                .HasColumnType("json");
+                .HasColumnType("NVARCHAR(MAX)");
             builder.Property(x => x.Description)
                 .IsRequired()
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
                     v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions)null) ?? new Dictionary<string, string>())
-                .HasColumnType("json");
+                .HasColumnType("NVARCHAR(MAX)");
             builder.Property(x => x.Avatar)
                 .HasDefaultValue(FieldConstrants.DefaultCategoryAvatar)
                 .HasMaxLength(FieldConstrants.Avatar);

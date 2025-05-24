@@ -5,8 +5,8 @@ import {
   httpServicePut,
 } from '../client';
 
+import { CategoryDto } from '@/shared/types/backend/category';
 import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
-import { CategoryDto } from '@/shared/types/common/backend-model';
 import { toPascalCase } from '@/shared/utils/string-util';
 
 export const getCategories = async ({

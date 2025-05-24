@@ -32,3 +32,13 @@ export type ApiResult<T> = {
 };
 
 export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type SupportLanguages = 'en' | 'vi';
+
+export type SupportLanguageField = Record<SupportLanguages, string>;
+
+export const enum TransactionTypeEnum {
+  Income = 1,
+  Expense = 2,
+  Transfer = 3,
+}

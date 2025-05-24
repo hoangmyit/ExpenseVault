@@ -12,8 +12,8 @@ import { useCategory } from './hooks/use-category';
 
 import FeatureTitle from '@/shared/components/feature-title';
 import Table from '@/shared/components/ui/table/table';
+import { CategoryDto } from '@/shared/types/backend/category';
 import { SearchState } from '@/shared/types/common';
-import { CategoryDto } from '@/shared/types/common/backend-model';
 import { ColumnType } from '@/shared/types/ui';
 import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
@@ -83,20 +83,28 @@ const CategoriesPage: FC = () => {
     //   fixed: true,
     // },
     {
-      title: 'Name',
+      title: t('category:tableHeader.name'),
       dataIndex: 'name',
       key: 'name',
       className: 'text-left',
       fixed: true,
+      supportLanguage: true,
     },
     {
-      title: 'Description',
+      title: t('category:tableHeader.description'),
       dataIndex: 'description',
       key: 'description',
       className: 'text-left',
+      supportLanguage: true,
     },
     {
-      title: 'Avatar',
+      title: t('category:tableHeader.groupName'),
+      dataIndex: 'groupName',
+      key: 'groupName',
+      className: 'text-left',
+    },
+    {
+      title: t('category:tableHeader.avatar'),
       dataIndex: 'avatar',
       key: 'avatar',
       className: 'text-center',
@@ -109,7 +117,7 @@ const CategoriesPage: FC = () => {
       ),
     },
     {
-      title: 'Is Default',
+      title: t('category:tableHeader.isDefault'),
       dataIndex: 'isDefault',
       key: 'isDefault',
       className: 'text-left',
@@ -136,14 +144,14 @@ const CategoriesPage: FC = () => {
             onClick={(e) => handleEdit(e, record.id)}
             type="button"
           >
-            Edit
+            {t('common:edit')}
           </button>
           <button
             className="btn btn-sm btn-outline btn-error"
             onClick={(e) => handleDelete(e, record.id)}
             type="button"
           >
-            Delete
+            {t('common:delete')}
           </button>
         </>
       ),

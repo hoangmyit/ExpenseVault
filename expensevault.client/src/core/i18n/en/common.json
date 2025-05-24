@@ -4,5 +4,7 @@
     "success": "Operation completed successfully!",
     "error": "Operation failed!",
     "pending": "Processing..."
-  }
+  },
+  "edit": "Edit",
+  "delete": "Delete"
 }

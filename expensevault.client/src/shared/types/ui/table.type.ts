@@ -18,6 +18,7 @@ export interface ColumnType<T> {
   fixed?: boolean;
   onCell?: (record: T, rowIndex: number) => React.HTMLAttributes<HTMLElement>;
   onHeaderCell?: () => React.HTMLAttributes<HTMLElement>;
+  supportLanguage?: boolean;
 }
 
 export interface TableProps<T> {
