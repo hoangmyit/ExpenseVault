@@ -51,7 +51,7 @@ export function Table<T extends Record<string, any>>(
           disabled={loading}
         />
       )}
-      <div className="rounded-box border-base-content/5 bg-base-100 overflow-x-auto overflow-y-auto border">
+      <div className="rounded-box border-base-content/5 bg-base-100 max-h-[60vh] overflow-x-auto overflow-y-auto border">
         <table
           className={clsx(
             zebra && 'table-zebra',

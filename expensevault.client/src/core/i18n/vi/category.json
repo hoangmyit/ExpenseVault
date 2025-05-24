@@ -31,7 +31,8 @@
     "name": "Tên danh mục",
     "description": "Mô tả chi tiết",
     "avatar": "Biểu tượng",
-    "isDefault": "Mặc định hệ thống"
+    "isDefault": "Mặc định hệ thống",
+    "groupName": "Tên nhóm"
   },
   "title": {
     "create": "Tạo danh mục chi tiêu",
