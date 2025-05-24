@@ -17,7 +17,7 @@
             RuleFor(x => x.FilterBy)
                 .Must(BeAValidFilterProperty)
                 .When(x => !string.IsNullOrEmpty(x.Search))
-                .WithMessage("OrderBy must be empty or contain Name, or Description.");
+                .WithMessage("FilterBy must be empty or contain Name, or Description.");
         }
 
         private bool BeAValidOrderProperty(string propertyName)

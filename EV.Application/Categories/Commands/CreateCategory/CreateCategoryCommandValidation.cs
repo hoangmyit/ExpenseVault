@@ -20,7 +20,7 @@ namespace EV.Application.Categories.Commands.CreateCategory
                  .ForEach(des =>
                  {
                      des.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.Description)
-                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstrants.Description} characters.");
+                         .WithMessage($"Description must not be empty and must be less than or equal to {FieldConstrants.Description} characters.");
                  });
 
             RuleFor(x => x.Avatar)
