@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EV.Domain.Entities;
 
-namespace EV.Application.Categories.Queries
+namespace EV.Application.Common.Dtos
 {
-    public class CategoryDto
+    public class CategorySummaryDto
     {
         public required int Id { get; set; }
         public required string Name { get; set; }
@@ -16,7 +16,7 @@ namespace EV.Application.Categories.Queries
     {
         public CategoryProfile(): base()
         {
-            CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategorySummaryDto>();
         }
     }
 }

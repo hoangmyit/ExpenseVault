@@ -1,4 +1,5 @@
-﻿using EV.Application.Common.Models;
+﻿using EV.Application.Common.Dtos;
+using EV.Application.Common.Models;
 
 namespace EV.Application.Categories.Queries
 {

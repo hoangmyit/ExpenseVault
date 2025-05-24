@@ -26,11 +26,17 @@
       "error": "Không thể xóa danh mục chi tiêu"
     }
   },
-  "title":{
+  "tableHeader":{
     "id": "Mã số",
     "name": "Tên danh mục",
     "description": "Mô tả chi tiết",
     "avatar": "Biểu tượng",
     "isDefault": "Mặc định hệ thống"
+  },
+  "title": {
+    "create": "Tạo danh mục chi tiêu",
+    "update": "Cập nhật danh mục chi tiêu",
+    "view": "Danh sách danh mục chi tiêu",
+    "add": "Thêm danh mục chi tiêu mới"
   }
 }

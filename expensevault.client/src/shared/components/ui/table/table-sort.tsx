@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import clsx from 'clsx';
 
+import { useCategory } from '@/features/category/hooks/use-category';
 import { SearchIcon } from '@/icons';
 import { TableSortProps } from '@/shared/types/ui';
 import { mapArray } from '@/shared/utils/array-util';
@@ -22,13 +23,16 @@ const TableSort = <
   disabled = false,
 }: TableSortProps<T>): ReactElement => {
   const { t } = useTranslation();
+  const { updateSearchParams } = useCategory();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [filterField, setFilterField] = useState<keyof T>(filterValue);
   const [sortField, setSortField] = useState<keyof T>(sortValue);
   const [sortOrder, setSortOrder] = useState<boolean>(isAsc);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
+    const searchValue = event.target.value;
+    updateSearchParams('search', searchValue);
+    setSearchKeyword(searchValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -137,7 +141,10 @@ const TableSort = <
             />
             <kbd className="kbd kbd-sm">⌘</kbd>
           </label>
-          <div className="tooltip join-item w-1/4" data-tip={filterField}>
+          <div
+            className="tooltip join-item w-1/4"
+            data-tip={t('table:filterField')}
+          >
             <select
               className="select"
               aria-label="Filter"

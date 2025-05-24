@@ -154,6 +154,19 @@ const categorySlice = createSlice({
         state.searchParams.sortBy = sortBy!;
       }
     },
+    updateSearchParamsByKey: (
+      state,
+      action: PayloadAction<{
+        key: keyof SearchState<CategoryDto>;
+        value: string | number | boolean;
+      }>,
+    ) => {
+      const { key, value } = action.payload;
+      if (key in state.searchParams) {
+        // eslint-disable-next-line security/detect-object-injection
+        (state.searchParams as Record<string, unknown>)[key] = value;
+      }
+    },
     // Reset category state
     resetCategory: (state) => {
       state.category = initialState.category;
@@ -178,6 +191,7 @@ export const {
   deleteCategorySuccess,
   deleteCategoryFailure,
   updateSearchParams,
+  updateSearchParamsByKey,
   resetCategory,
 } = categorySlice.actions;
 

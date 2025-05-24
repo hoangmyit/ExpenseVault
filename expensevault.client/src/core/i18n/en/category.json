@@ -26,11 +26,17 @@
       "error": "Unable to delete category"
     }
   },
-  "title":{
+  "tableHeader":{
     "id": "ID",
     "name": "Name",
     "description": "Description",
     "avatar": "Avatar",
     "isDefault": "Is Default"
+  },
+  "title": {
+    "create": "Create Category",
+    "update": "Update Category",
+    "view": "Categories",
+    "add": "Add New Category"
   }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using EV.Application.Authorization;
-using EV.Application.Categories.Queries;
 using EV.Application.Common.Behaviors;
+using EV.Application.Common.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

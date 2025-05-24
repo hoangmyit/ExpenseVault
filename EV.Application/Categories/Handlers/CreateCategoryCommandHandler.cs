@@ -22,8 +22,8 @@ namespace EV.Application.Categories.Handlers
 
             Category category = new()
             {
-                Name = request.Name,
-                Description = request.Description,
+                Name = request.Name!,
+                Description = request.Description!,
                 Avatar = request.Avatar,
                 IsDefault = request.IsDefault
             };

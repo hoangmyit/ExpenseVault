@@ -12,6 +12,7 @@ import {
   getCategoriesRequest,
   getCategoryRequest,
   updateCategoryRequest,
+  updateSearchParamsByKey,
 } from '../store/category-slice';
 
 import { SearchState } from '@/shared/types/common';
@@ -43,6 +44,11 @@ export const useCategory = () => {
     (category: CategoryDto) => dispatch(updateCategoryRequest(category)),
     [dispatch],
   );
+  const updateSearchParams = useCallback(
+    (key: keyof SearchState<CategoryDto>, value: string | number | boolean) =>
+      dispatch(updateSearchParamsByKey({ key, value })),
+    [dispatch],
+  );
 
   return {
     categories: categoriesData.data,
@@ -55,5 +61,6 @@ export const useCategory = () => {
     categoryStatus: categoryData.status,
     updateCategory,
     searchParams,
+    updateSearchParams,
   };
 };

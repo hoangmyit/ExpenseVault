@@ -1,4 +1,5 @@
-import { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { consoleLog } from '../../shared/utils/common-util';
@@ -9,6 +10,7 @@ import {
 } from './constants/category.const';
 import { useCategory } from './hooks/use-category';
 
+import FeatureTitle from '@/shared/components/feature-title';
 import Table from '@/shared/components/ui/table/table';
 import { SearchState } from '@/shared/types/common';
 import { CategoryDto } from '@/shared/types/common/backend-model';
@@ -17,6 +19,7 @@ import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     categories,
     getCategories,
@@ -57,6 +60,11 @@ const CategoriesPage: FC = () => {
   if (categories === null) {
     return null;
   }
+
+  const handleAddNewCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate('/category/new');
+  };
 
   const columns: ColumnType<CategoryDto>[] = [
     // {
@@ -144,17 +152,12 @@ const CategoriesPage: FC = () => {
 
   return (
     <div className="bg-base-100 mx-2">
-      <div className="flex flex-col items-center p-4">
-        <h1 className="mb-4 text-xl font-bold">Categories</h1>
-        {categories.items.length === 0 && <p>No categories found.</p>}
-        <button
-          className="btn btn-primary mt-4"
-          onClick={() => navigate('/category/new')}
-        >
-          Create Category
-        </button>
-      </div>
-      <div>
+      <FeatureTitle
+        title={t('category:title.view')}
+        addActionName={t('category:title.add')}
+        addNewAction={handleAddNewCategory}
+      />
+      <div className="h-max-[40vh] flex flex-col">
         <Table<CategoryDto>
           dataSource={categories.items}
           columns={columns}
@@ -180,11 +183,11 @@ const CategoriesPage: FC = () => {
             onSearch: handleOnSearch,
             sortOptions: getTableColumnsOptions(
               CATEGORY_TABLE_ORDER_COLUMN,
-              'category:title',
+              'category:tableHeader',
             ),
             filterOptions: getTableColumnsOptions(
               CATEGORY_TABLE_FILTER_COLUMN,
-              'category:title',
+              'category:tableHeader',
             ),
             disabled: categoriesStatus === 'loading',
           }}

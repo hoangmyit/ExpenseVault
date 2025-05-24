@@ -22,7 +22,7 @@ const TableBody = <T extends Record<string, any>>({
         <tr>
           <td colSpan={columns.length} className="py-4 text-center">
             <div className="flex flex-col items-center justify-center gap-2">
-              <span className="loading loading-infinity loading-md w-32" />
+              <span className="loading loading-infinity loading-md" />
               {locale.loadingText}
             </div>
           </td>
