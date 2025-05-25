@@ -6,7 +6,7 @@
         public required Dictionary<string, string> Description { get; set; }
         public string? Avatar { get; set; }
         public bool IsDefault { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
         public int GroupId { get; set; }
         public virtual CategoryGroup CategoryGroup { get; set; }
         public string GetName(string languageCode) => Name.TryGetValue(languageCode, out var value) ? value : Name["en"];
