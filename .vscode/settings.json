@@ -25,7 +25,7 @@
   "i18n-ally.localesPaths": ["src/core/i18n"],
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "text": "Always detail the changes made in the commit message. Use a lot of icons to make it more visually appealing."
+      "text": "Generate short and clear commit messages that fulfill information requirements without using icons."
     }
   ],
   "github.copilot.chat.codeGeneration.instructions": [
