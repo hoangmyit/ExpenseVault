@@ -4,6 +4,15 @@
 
 ExpenseVault is a comprehensive expense tracking application designed to help individuals and businesses efficiently manage their financial transactions. This solution provides a robust platform for recording, categorizing, and analyzing expenses, enabling users to gain better control over their financial activities.
 
+## Documentation
+
+For more detailed information about ExpenseVault, please refer to these resources:
+
+- [Detailed Product Overview](./docs/product-overview.md) - In-depth description of features and benefits
+- [Technical Case Study](./docs/technical-case-study.md) - Technical implementation details
+- [Portfolio README](./README-portfolio.md) - Comprehensive project showcase
+- [Contributing Guide](./CONTRIBUTING.md) - Guidelines for contributors
+
 ## Key Features
 
 - **Expense Tracking**: Log and monitor all expenses with detailed information

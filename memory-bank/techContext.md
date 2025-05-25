@@ -1,117 +1,138 @@
-# ExpenseVault Technical Context
+# Technical Context: ExpenseVault
 
 ## Technology Stack
 
 ### Backend
 
-- **.NET 9.0**: Core framework for the server-side application
-- **ASP.NET Core**: Web framework for building the API
-- **Entity Framework Core**: ORM for database access
-- **MediatR**: Mediator implementation for CQRS pattern
-- **FluentValidation**: Validation library
-- **AutoMapper**: Object-to-object mapping
-- **NSwag**: API documentation
-- **xUnit/NSubstitute/FluentAssertions**: Testing frameworks
+- **Framework**: .NET 8 with ASP.NET Core
+- **Architecture**: Clean Architecture / Onion Architecture
+- **API**: RESTful API with Swagger/OpenAPI documentation
+- **Data Access**: Entity Framework Core (Code-First approach)
+- **Authentication**: JWT token-based auth with refresh capabilities
+- **Patterns**: CQRS with MediatR, Repository Pattern, DDD principles
+- **Validation**: FluentValidation for input validation
+- **Testing**: xUnit, NSubstitute, and Fluent Assertions
 
 ### Frontend
 
-- **React 19**: UI library
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **DaisyUI**: Component library for Tailwind
-- **Vitest**: Testing framework
-- **React Router**: Client-side routing
+- **Framework**: React 19 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with DaisyUI components
+- **State Management**: Custom hooks and context
+- **Routing**: React Router
+- **API Communication**: Axios with interceptors
+- **Testing**: Vitest with React Testing Library
 
 ### Database
 
-- **SQL Server**: Primary data store
-- **Entity Framework Core Migrations**: Database schema management
+- **Primary Database**: SQL Server / PostgreSQL
+- **ORM**: Entity Framework Core with migrations
+- **Data Schema**: Code-First approach with domain models
 
-### Development Tools
+### DevOps & Infrastructure
 
-- **Visual Studio**: Primary IDE
-- **VS Code**: Frontend development
-- **Azure DevOps**: Project management and CI/CD
-- **Git**: Source control
-- **Docker**: Containerization
+- **Source Control**: Git
+- **CI/CD**: Azure DevOps
+- **Containerization**: Docker with docker-compose
+- **Deployment**: Azure App Service
 
-## Development Environment Setup
+## Development Environment
 
-### Required Software
+### Required Tools
 
-- .NET 9.0 SDK
-- Node.js and pnpm
-- SQL Server/LocalDB
-- Docker (optional)
-- Visual Studio 2022+
-- VS Code with JavaScript/TypeScript extensions
+- **IDE**: Visual Studio 2022+ or VS Code
+- **SDK**: .NET 8 SDK
+- **Node.js**: v18+ for frontend development
+- **Package Manager**: pnpm (preferred for frontend)
+- **Database**: SQL Server (or PostgreSQL) instance
+- **Git**: For version control
 
-### Local Development Configuration
+### Local Setup
 
-- SQL Server connection string in appsettings.Development.json
-- CORS configuration for local API access
-- Development certificates for HTTPS
+1. Clone repository
+2. Install .NET 8 SDK
+3. Install Node.js and pnpm
+4. Run database migrations:
 
-## Build and Deployment Pipeline
+   ```bash
+   dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server database update
+   ```
 
-### Local Development Workflow
+5. Start backend (ExpenseVault.Server)
+6. Start frontend with `pnpm dev`
 
-- Backend run via Visual Studio or dotnet CLI
-- Frontend development server via pnpm
-- Database migrations through EF Core commands
+### Development Workflow
 
-```bash
-# Add migration
-dotnet ef --project EV.Infrastructure --startup-project .\ExpenseVault.Server migrations add [MigrationName]
-
-# Update database
-dotnet ef --project .\EV.Infrastructure --startup-project .\ExpenseVault.Server database update
-```
-
-### DevOps Pipeline
-
-- Azure DevOps for CI/CD
-- Automated testing on PR
-- Build artifacts for deployment
+1. Feature branches created from main
+2. Code reviews via pull requests
+3. CI runs tests and builds
+4. Deployment after successful reviews and tests
 
 ## Technical Constraints
 
 ### Performance Requirements
 
-- API response times under 500ms for standard operations
-- Support for large datasets (10,000+ expenses)
-- Efficient query patterns for reporting
+- API response time under 300ms for standard operations
+- Support for at least 10,000 expense entries per user
+- Efficient handling of reporting queries on large datasets
+- Optimized asset delivery for frontend application
 
 ### Security Requirements
 
-- Secure authentication with JWT
 - HTTPS for all communications
-- Proper authorization for sensitive operations
-- Data protection for financial information
+- JWT token authentication with refresh token rotation
+- Password storage using secure hashing (Argon2id)
+- Input validation on both client and server
+- Content Security Policy implementation
+- Protection against common web vulnerabilities (CSRF, XSS, injection)
+- Regular security audits
 
-### Scalability Considerations
+### Compatibility Requirements
 
-- Horizontal scaling for API servers
-- Database performance optimization
-- Potential for future microservices architecture
+- Modern browsers (last 2 versions)
+- Mobile-responsive design for all screen sizes
+- Progressive enhancement for core functionality
 
 ## Integration Points
 
 ### External Services
 
 - Email service for notifications
-- Potential payment processor integration
-- File storage for receipts and attachments
+- Storage service for receipts and attachments
+- (Potential) Payment processor integration
+- (Potential) Third-party accounting software integration
 
-### API Architecture
+### Internal APIs
 
-- RESTful API with JSON response format
-- OpenAPI/Swagger documentation
-- Versioned API endpoints
+- Authentication API
+- Expense management API
+- Reporting API
+- User management API
 
-## Testing Strategy
+## Monitoring & Observability
 
-- Unit tests for domain and application logic
-- Integration tests for API endpoints
-- Frontend component tests with Vitest
-- Manual testing for UX workflows
+- Application logging with structured logs
+- Performance metrics collection
+- Error tracking and alerting
+- Usage analytics
+
+## Deployment Architecture
+
+```mermaid
+graph TD
+    Client[Client Browser] --> CDN[Content Delivery Network]
+    Client --> API[API Gateway]
+    API --> WebApp[ExpenseVault API Service]
+    WebApp --> SQL[(SQL Database)]
+    WebApp --> Storage[(Blob Storage)]
+    WebApp --> Cache[(Redis Cache)]
+```
+
+## Technical Debt & Limitations
+
+- Initial version has limited reporting capabilities
+- Mobile applications planned for future releases
+- OCR receipt scanning to be added in future iterations
+- Limited offline capabilities in the initial release
+
+**Current Date:** May 25, 2025

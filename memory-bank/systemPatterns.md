@@ -1,109 +1,164 @@
-# ExpenseVault System Patterns
+# System Patterns: ExpenseVault
 
 ## Architectural Overview
 
-ExpenseVault follows the Clean Architecture pattern with clear separation of concerns across multiple layers:
+ExpenseVault implements a clean, modular architecture following domain-driven design principles, structured in layers with clear separation of concerns:
 
-```note
-┌─────────────────────────────────────────────┐
-│ Presentation Layer                          │
-│ (ExpenseVault.Server, expensevault.client)  │
-├─────────────────────────────────────────────┤
-│ Application Layer (EV.Application)          │
-├─────────────────────────────────────────────┤
-│ Infrastructure Layer (EV.Infrastructure)    │
-├─────────────────────────────────────────────┤
-│ Domain Layer (EV.Domain)                    │
-└─────────────────────────────────────────────┘
+```mermaid
+graph TD
+    Client[Client Application - React/TypeScript] --> |HTTP/API| Server[Server API - ASP.NET Core]
+    Server --> |Commands/Queries| App[Application Layer]
+    App --> Domain[Domain Layer]
+    App --> |Repository Interface| Infra[Infrastructure Layer]
+    Infra --> |Implementation| Domain
+    Infra --> DB[(Database)]
 ```
 
-## Key Architectural Patterns
+## Key Architecture Patterns
 
 ### Clean Architecture
 
-- Clear separation of concerns
-- Dependencies point inward (domain at the center)
-- Outer layers depend on inner layers, never the reverse
-- Domain layer has no dependencies on other layers
+The solution follows Clean Architecture principles with concentric layers:
+
+1. **Core (Domain)**: Contains business entities and logic, free from external dependencies
+2. **Application**: Contains business use cases, coordinating domain entities
+3. **Infrastructure**: Implements interfaces defined in the application layer
+4. **Presentation**: Handles user interaction and API endpoints
+
+Dependencies flow inward, with inner layers having no knowledge of outer layers, ensuring:
+
+- Separation of concerns
+- Testability
+- Flexibility to change external systems
 
 ### Domain-Driven Design (DDD)
 
-- Rich domain model with entities, value objects, and domain events
-- Encapsulated business logic in domain entities
-- Aggregates defining transaction boundaries
-- Domain events for cross-aggregate communication
+The domain model is designed around the core business concepts:
+
+- **Entities**: Long-lived objects with identity (Expense, Category, Account)
+- **Value Objects**: Immutable objects defined by attributes (Money, DateRange)
+- **Aggregates**: Clusters of entities and value objects with a root entity
+- **Domain Events**: Record significant state changes (ExpenseCreated, CategoryUpdated)
+- **Repositories**: Abstract data access for domain objects
 
 ### Command Query Responsibility Segregation (CQRS)
 
-- Separation of read and write operations
-- Commands for state changes (mutations)
-- Queries for data retrieval (no state changes)
-- MediatR for commands/queries pipeline
+The application layer is organized using CQRS pattern:
+
+- **Commands**: Handle state changes (CreateExpense, UpdateCategory)
+- **Queries**: Retrieve data without modifying state (GetExpensesList, GetCategoryDetails)
+- **Handlers**: Process commands or queries and return results
+- **Mediator**: Routes commands and queries to appropriate handlers
 
 ### Repository Pattern
 
-- Abstraction layer between domain and data access
-- Domain entities persistence without exposing storage details
-- Centralized data access logic
+Data access is abstracted through repositories:
+
+- Domain entities are persisted through repository interfaces
+- Implementation details (EF Core) are isolated in the infrastructure layer
+- Repositories maintain the integrity of domain aggregates
 
 ## Component Relationships
 
-### Domain Layer Components
+### Backend Components
 
-- **Entities**: Core business objects (Expense, Category, Budget)
-- **Value Objects**: Immutable objects representing concepts without identity
-- **Domain Events**: Notification of state changes within the domain
-- **Domain Services**: Complex operations involving multiple entities
+```mermaid
+graph TD
+    Controller[API Controllers] --> |Use| Mediator[MediatR]
+    Mediator --> |Routes to| CH[Command Handlers]
+    Mediator --> |Routes to| QH[Query Handlers]
+    CH --> |Use| Domain[Domain Services/Entities]
+    QH --> |Use| Domain
+    CH --> |Use| Repo[Repositories]
+    QH --> |Use| Repo
+    Repo --> |Implement| EF[Entity Framework Core]
+    EF --> DB[(Database)]
+```
 
-### Application Layer Components
+### Frontend Components
 
-- **Commands/Queries**: Request objects representing user intentions
-- **Handlers**: Processing logic for commands and queries
-- **DTOs**: Data transfer objects for API communication
-- **Validators**: Input validation rules
-- **Behaviors**: Cross-cutting concerns (logging, validation, authorization)
+```mermaid
+graph TD
+    Routes[React Router] --> Pages[Pages/Views]
+    Pages --> Components[UI Components]
+    Pages --> Hooks[Custom Hooks]
+    Components --> |Use| State[State Management]
+    Hooks --> |Use| State
+    State --> |API Calls| Services[API Services]
+    Services --> |HTTP| Backend[Backend API]
+```
 
-### Infrastructure Layer Components
+## Authentication Flow
 
-- **Repositories**: Implementation of domain repositories
-- **DbContext**: Entity Framework context for data access
-- **Identity Services**: Authentication and authorization
-- **External Services**: Email, file storage, etc.
+```mermaid
+sequenceDiagram
+    participant User
+    participant Client
+    participant API
+    participant TokenService
+    participant Database
+    
+    User->>Client: Enter Credentials
+    Client->>API: Login Request
+    API->>Database: Validate Credentials
+    Database-->>API: Valid User
+    API->>TokenService: Generate JWT
+    TokenService-->>API: Access & Refresh Tokens
+    API-->>Client: Return Tokens
+    Client->>Client: Store Tokens
+    
+    Note over Client,API: Subsequent Requests
+    
+    Client->>API: Request with Access Token
+    API->>API: Validate Token
+    API-->>Client: Response
+    
+    Note over Client,API: Token Refresh
+    
+    Client->>API: Use Refresh Token
+    API->>TokenService: Validate & Generate New Tokens
+    TokenService-->>API: New Tokens
+    API-->>Client: Return New Tokens
+```
 
-### Presentation Layer Components
+## Data Flow
 
-- **Controllers**: API endpoints
-- **Middleware**: Request/response processing
-- **React Components**: UI elements
-- **State Management**: Client-side data management
+```mermaid
+graph TD
+    UI[User Interface] -->|Submit Form| VC[View Component]
+    VC -->|Dispatch Action| SM[State Management]
+    SM -->|API Call| AS[API Service]
+    AS -->|HTTP Request| API[API Controller]
+    API -->|Command| Mediator[MediatR]
+    Mediator -->|Route| Handler[Command Handler]
+    Handler -->|Validate| Validator[Fluent Validator]
+    Handler -->|Repository Call| Repo[Repository]
+    Repo -->|EF Core| DB[(Database)]
+    
+    DB -->|Entity| Repo
+    Repo -->|Domain Object| Handler
+    Handler -->|DTO| API
+    API -->|Response| AS
+    AS -->|Result| SM
+    SM -->|Updated State| VC
+    VC -->|Render| UI
+```
 
-## Cross-Cutting Concerns
+## Error Handling Pattern
 
-### Authentication & Authorization
+The application implements a centralized error handling approach:
 
-- Identity services for user authentication
-- Permission-based authorization with role management
-- JWT tokens for API authentication
+- Domain exceptions capture business rule violations
+- Application exceptions represent use case failures
+- Infrastructure exceptions handle technical issues
+- Global exception middleware transforms exceptions into appropriate HTTP responses
+- Frontend error boundaries catch and display user-friendly messages
 
-### Validation
+## Validation Strategy
 
-- FluentValidation for input validation
-- Validation behaviors in command/query pipeline
+- **Domain Validation**: Enforces invariants within domain entities
+- **Application Validation**: Uses FluentValidation for command/query validation
+- **API Validation**: Leverages model binding validation
+- **Client Validation**: Implements form validation before submission
 
-### Error Handling
-
-- Exception middleware for consistent error responses
-- Domain exceptions for business rule violations
-- Application exceptions for application-specific errors
-
-### Logging & Monitoring
-
-- Structured logging throughout the application
-- Performance monitoring in request pipeline
-
-## Data Flow Patterns
-
-- API requests flow through controllers to application handlers
-- Commands/queries dispatched through MediatR
-- Domain events published after successful operations
-- Repositories handle data persistence operations
+**Current Date:** May 25, 2025
