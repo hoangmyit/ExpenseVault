@@ -1,6 +1,8 @@
 import { Key, ReactNode } from 'react';
 
-import { PaginatedData, sizeType } from '../common';
+import { PaginatedData, SearchState, sizeType } from '../common';
+
+import { ISelectOption } from './select.type';
 
 export interface ColumnType<T> {
   title: ReactNode;
@@ -16,6 +18,7 @@ export interface ColumnType<T> {
   fixed?: boolean;
   onCell?: (record: T, rowIndex: number) => React.HTMLAttributes<HTMLElement>;
   onHeaderCell?: () => React.HTMLAttributes<HTMLElement>;
+  supportLanguage?: boolean;
 }
 
 export interface TableProps<T> {
@@ -23,7 +26,7 @@ export interface TableProps<T> {
   columns: ColumnType<T>[];
   rowKey?: keyof T | ((record: T) => Key);
   loading?: boolean;
-  pagination: PaginatedData;
+  pagination: PaginatedData<T>;
   bordered?: boolean;
   size?: sizeType;
   scroll?: {
@@ -42,6 +45,7 @@ export interface TableProps<T> {
   pinRow?: boolean;
   pinColumn?: boolean;
   highlightRow?: boolean | string;
+  searchData?: TableSortProps<T> | null;
 }
 
 export interface TableBodyProps<T> {
@@ -59,4 +63,27 @@ export interface TableBodyProps<T> {
 
 export interface TableHeaderProps<T> {
   columns: ColumnType<T>[];
+  disabled?: boolean;
 }
+
+export interface TablePaginationProps {
+  pageIndex: number;
+  pageSize: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  disabled?: boolean;
+  onChange?: (pageIndex: number, pageSize: number) => void;
+}
+
+export interface TableSortProps<T> {
+  sortValue: keyof T;
+  filterValue: keyof T;
+  isAsc: boolean;
+  sortOptions: ISelectOption<T>[];
+  filterOptions: ISelectOption<T>[];
+  onSearch: TableOnSearchHandler<T>;
+  disabled: boolean;
+}
+
+export type TableOnSearchHandler<T> = (params: Partial<SearchState<T>>) => void;

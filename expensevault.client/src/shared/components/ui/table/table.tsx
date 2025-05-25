@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import TableBody from './table-body';
 import TableHeader from './table-header';
 import TablePagination from './table-pagination';
+import TableSort from './table-sort';
 
 import './index.css';
 
@@ -34,10 +35,22 @@ export function Table<T extends Record<string, any>>(
     },
     showHeader = true,
     highlightRow = false,
+    searchData = null,
   } = props;
 
   return (
-    <div>
+    <>
+      {!!searchData && (
+        <TableSort<T>
+          sortValue={searchData.sortValue}
+          filterValue={searchData.filterValue}
+          isAsc={searchData.isAsc}
+          sortOptions={searchData.sortOptions}
+          filterOptions={searchData.filterOptions}
+          onSearch={searchData.onSearch}
+          disabled={loading}
+        />
+      )}
       <div className="rounded-box border-base-content/5 bg-base-100 max-h-[60vh] overflow-x-auto overflow-y-auto border">
         <table
           className={clsx(
@@ -62,8 +75,8 @@ export function Table<T extends Record<string, any>>(
           />
         </table>
       </div>
-      <TablePagination {...pagination} />
-    </div>
+      <TablePagination {...pagination} disabled={loading} />
+    </>
   );
 }
 

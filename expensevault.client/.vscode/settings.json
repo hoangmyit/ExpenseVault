@@ -5,11 +5,22 @@
     "luxon",
     "nanoevents",
     "prefersdark",
+    "squircle",
     "svgr",
     "uuidv",
     "VITE"
   ],
   "cSpell.language": "en,vi",
+  "cSpell.ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "*.min.*",
+    "**/*.d.ts",
+    "package-lock.json",
+    "yarn.lock",
+    "pnpm-lock.yaml",
+  ],
   "i18n-ally.localesPaths": [
     "src/core/i18n"
   ],

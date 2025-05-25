@@ -1,20 +1,29 @@
 {
-  "verifyEmailTitle": "Xác minh địa chỉ email của bạn",
-  "verifyEmailMessage": "Chúng tôi đã gửi một email xác minh đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư đến và nhấp vào liên kết trong email để hoàn tất việc xác minh tài khoản.",
-  "verifyEmailResendNote": "Nếu bạn không nhận được email, vui lòng kiểm tra thư mục spam hoặc nhấp vào nút bên dưới để yêu cầu gửi lại email xác minh.",
+  "verifyEmailTitle": "Xác minh địa chỉ email của quý khách",
+  "verifyEmailMessage": "Hệ thống đã gửi một email xác minh đến địa chỉ email đã đăng ký. Vui lòng kiểm tra hộp thư đến và nhấp vào liên kết trong email để hoàn tất quá trình xác minh tài khoản.",
+  "verifyEmailResendNote": "Trong trường hợp không nhận được email, quý khách vui lòng kiểm tra thư mục spam hoặc nhấp vào nút bên dưới để yêu cầu gửi lại email xác minh.",
+  "verifyEmailResendLogOutNote": "Nếu quý khách đã xác minh địa chỉ email nhưng vẫn thấy trang này, vui lòng đăng xuất và đăng nhập lại vào hệ thống.",
   "resendEmailButton": "Gửi lại email xác minh",
-  "resendEmailTooSoon": "Bạn chỉ có thể gửi lại email mỗi 5 phút một lần. Vui lòng đợi một chút trước khi thử lại.",
+  "resendEmailTooSoon": "Hệ thống chỉ cho phép gửi lại email xác minh mỗi 5 phút. Vui lòng đợi thêm thời gian trước khi thử lại.",
+  "confirmEmailSuccessTitle": "Xác minh email thành công",
+  "confirmEmailSuccessMessage1": "Cảm ơn quý khách đã xác nhận địa chỉ email.",
+  "confirmEmailSuccessMessage2": "Tài khoản ExpenseVault của quý khách đã được kích hoạt thành công. Quý khách có thể đăng nhập để truy cập vào hệ thống quản lý tài chính cá nhân.",
+  "confirmEmailSuccessNote": "Quý khách có thể cần đăng xuất và đăng nhập lại để cập nhật trạng thái mới nhất.",
+  "confirmEmailFailedTitle": "Xác minh email không thành công",
+  "confirmEmailFailedMessage1": "Hệ thống không thể xác minh địa chỉ email của quý khách.",
+  "confirmEmailFailedMessage2": "Lỗi này có thể do liên kết xác nhận đã hết hạn hoặc không hợp lệ.",
+  "confirmEmailFailedNote": "Quý khách vui lòng đăng nhập để yêu cầu gửi lại email xác minh.",
   "toast": {
     "resendEmail": {
-      "error": "Không thể gửi lại email xác minh",
-      "pending": "Đang gửi lại email xác minh...",
+      "error": "Không thể gửi lại email xác minh. Vui lòng thử lại sau.",
+      "pending": "Hệ thống đang gửi lại email xác minh...",
       "success": "Đã gửi lại email xác minh thành công"
     },
     "verifyEmail": {
-      "error": "Không thể xác minh email",
+      "error": "Không thể xác minh email. Vui lòng kiểm tra và thử lại.",
       "pending": "Đang xác minh email...",
       "success": "Đã xác minh email thành công"
     }
   },
-  "signInToResend": "Tài khoản của bạn chưa được xác minh. Vui lòng đăng nhập để gửi lại email xác minh."
+  "signInToResend": "Tài khoản của quý khách chưa được xác minh. Vui lòng đăng nhập để yêu cầu gửi lại email xác minh."
 }

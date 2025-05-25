@@ -128,6 +128,7 @@ namespace EV.Infrastructure.Data
                 Id = userId,
                 UserName = userName,
                 Email = email,
+                EmailConfirmed = true,
             };
 
             var userInDB = await _userManager.FindByEmailAsync(user.Email).ConfigureAwait(false);
@@ -238,8 +239,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 1,
-                    Name = "Salary & Wages",
-                    Description = "Fixed earnings from employment.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Salary & Wages" },
+                        { "vi", "Lương và tiền công" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Fixed earnings from employment." },
+                        { "vi", "Thu nhập cố định từ công việc." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -247,8 +256,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 2,
-                    Name = "Bonuses & Incentives",
-                    Description = "Extra income from performance-based rewards.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Bonuses & Incentives" },
+                        { "vi", "Thưởng và khuyến khích" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Extra income from performance-based rewards." },
+                        { "vi", "Thu nhập thêm từ các phần thưởng dựa trên hiệu suất." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -256,8 +273,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 3,
-                    Name = "Freelance & Contract",
-                    Description = "Payments from gig work, side projects, or independent contracts.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Freelance & Contract" },
+                        { "vi", "Công việc tự do và hợp đồng" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Payments from gig work, side projects, or independent contracts." },
+                        { "vi", "Thanh toán từ công việc tự do, dự án phụ hoặc hợp đồng độc lập." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -265,8 +290,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 4,
-                    Name = "Investments & Dividends",
-                    Description = "Earnings from stocks, bonds, or interest.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Investments & Dividends" },
+                        { "vi", "Đầu tư và cổ tức" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Earnings from stocks, bonds, or interest." },
+                        { "vi", "Thu nhập từ cổ phiếu, trái phiếu hoặc lãi suất." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -274,8 +307,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 5,
-                    Name = "Business Revenue",
-                    Description = "Income from owned businesses or self-employment.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Business Revenue" },
+                        { "vi", "Doanh thu kinh doanh" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Income from owned businesses or self-employment." },
+                        { "vi", "Thu nhập từ doanh nghiệp sở hữu hoặc tự kinh doanh." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -283,8 +324,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 6,
-                    Name = "Passive Income",
-                    Description = "Rental income, royalties, affiliate marketing, or any automated earnings.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Passive Income" },
+                        { "vi", "Thu nhập thụ động" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Rental income, royalties, affiliate marketing, or any automated earnings." },
+                        { "vi", "Thu nhập từ cho thuê, tiền bản quyền, tiếp thị liên kết hoặc bất kỳ thu nhập tự động nào." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -292,18 +341,33 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 7,
-                    Name = "Other Income",
-                    Description = "Miscellaneous earnings such as refunds, gifts, or unexpected financial gains.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Other Income" },
+                        { "vi", "Thu nhập khác" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Miscellaneous earnings such as refunds, gifts, or unexpected financial gains." },
+                        { "vi", "Thu nhập khác như hoàn tiền, quà tặng hoặc các khoản thu nhập bất ngờ." }
+                    },
                     GroupId = 1,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                 },
-                // Essential Expenses (Needs)
                 new()
                 {
                     Id = 8,
-                    Name = "Housing",
-                    Description = "Rent, mortgage payments, property tax, home maintenance.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Housing" },
+                        { "vi", "Nhà ở" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Rent, mortgage payments, property tax, home maintenance." },
+                        { "vi", "Tiền thuê nhà, trả góp, thuế tài sản, bảo trì nhà cửa." }
+                    },
                     GroupId = 2,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -311,8 +375,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 9,
-                    Name = "Utilities",
-                    Description = "Electricity, water, gas, internet, phone bills.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Utilities" },
+                        { "vi", "Tiện ích" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Electricity, water, gas, internet, phone bills." },
+                        { "vi", "Điện, nước, gas, internet, hóa đơn điện thoại." }
+                    },
                     GroupId = 2,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -320,8 +392,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 10,
-                    Name = "Groceries",
-                    Description = "Food, beverages, and household essentials.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Groceries" },
+                        { "vi", "Hàng tạp hóa" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Food, beverages, and household essentials." },
+                        { "vi", "Thực phẩm, đồ uống và các nhu yếu phẩm gia đình." }
+                    },
                     GroupId = 2,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -329,8 +409,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 11,
-                    Name = "Transportation",
-                    Description = "Fuel, public transit, car payments, insurance, maintenance.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Transportation" },
+                        { "vi", "Giao thông vận tải" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Fuel, public transit, car payments, insurance, maintenance." },
+                        { "vi", "Nhiên liệu, giao thông công cộng, trả góp xe, bảo hiểm, bảo trì." }
+                    },
                     GroupId = 2,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -338,18 +426,33 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 12,
-                    Name = "Healthcare",
-                    Description = "Medical bills, prescriptions, insurance, doctor visits.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Healthcare" },
+                        { "vi", "Chăm sóc sức khỏe" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Medical bills, prescriptions, insurance, doctor visits." },
+                        { "vi", "Hóa đơn y tế, đơn thuốc, bảo hiểm, khám bác sĩ." }
+                    },
                     GroupId = 2,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                 },
-                // Financial Obligations
                 new()
                 {
                     Id = 13,
-                    Name = "Debt Payments",
-                    Description = "Loan repayments, credit card bills, student loans.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Debt Payments" },
+                        { "vi", "Thanh toán nợ" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Loan repayments, credit card bills, student loans." },
+                        { "vi", "Trả nợ vay, hóa đơn thẻ tín dụng, khoản vay sinh viên." }
+                    },
                     GroupId = 3,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -357,8 +460,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 14,
-                    Name = "Savings & Investments",
-                    Description = "Contributions to savings accounts, retirement funds, stocks.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Savings & Investments" },
+                        { "vi", "Tiết kiệm và đầu tư" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Contributions to savings accounts, retirement funds, stocks." },
+                        { "vi", "Đóng góp vào tài khoản tiết kiệm, quỹ hưu trí, cổ phiếu." }
+                    },
                     GroupId = 3,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -366,18 +477,33 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 15,
-                    Name = "Taxes",
-                    Description = "Income tax, property tax, business tax, self-employment tax.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Taxes" },
+                        { "vi", "Thuế" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Income tax, property tax, business tax, self-employment tax." },
+                        { "vi", "Thuế thu nhập, thuế tài sản, thuế kinh doanh, thuế tự doanh." }
+                    },
                     GroupId = 3,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                 },
-                // Lifestyle & Personal
                 new()
                 {
                     Id = 16,
-                    Name = "Dining & Entertainment",
-                    Description = "Eating out, coffee shops, movies, concerts.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Dining & Entertainment" },
+                        { "vi", "Ăn uống và giải trí" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Eating out, coffee shops, movies, concerts." },
+                        { "vi", "Ăn ngoài, quán cà phê, xem phim, buổi hòa nhạc." }
+                    },
                     GroupId = 4,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -385,8 +511,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 17,
-                    Name = "Shopping & Fashion",
-                    Description = "Clothing, accessories, electronics, home décor.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Shopping & Fashion" },
+                        { "vi", "Mua sắm và thời trang" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Clothing, accessories, electronics, home décor." },
+                        { "vi", "Quần áo, phụ kiện, đồ điện tử, trang trí nhà cửa." }
+                    },
                     GroupId = 4,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -394,8 +528,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 18,
-                    Name = "Hobbies & Recreation",
-                    Description = "Gym memberships, sports, travel, books, personal interests.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Hobbies & Recreation" },
+                        { "vi", "Sở thích và giải trí" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Gym memberships, sports, travel, books, personal interests." },
+                        { "vi", "Thẻ thành viên phòng gym, thể thao, du lịch, sách, sở thích cá nhân." }
+                    },
                     GroupId = 4,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -403,18 +545,33 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 19,
-                    Name = "Subscriptions",
-                    Description = "Streaming services, software licenses, membership fees.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Subscriptions" },
+                        { "vi", "Đăng ký" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Streaming services, software licenses, membership fees." },
+                        { "vi", "Dịch vụ phát trực tuyến, giấy phép phần mềm, phí thành viên." }
+                    },
                     GroupId = 4,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                 },
-                // Family & Social
                 new()
                 {
                     Id = 20,
-                    Name = "Childcare & Education",
-                    Description = "School fees, daycare, tuition, books, online courses.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Childcare & Education" },
+                        { "vi", "Chăm sóc trẻ em và giáo dục" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "School fees, daycare, tuition, books, online courses." },
+                        { "vi", "Học phí, nhà trẻ, học phí, sách, khóa học trực tuyến." }
+                    },
                     GroupId = 5,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -422,8 +579,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 21,
-                    Name = "Gifts & Donations",
-                    Description = "Charity contributions, presents for friends & family.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Gifts & Donations" },
+                        { "vi", "Quà tặng và quyên góp" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Charity contributions, presents for friends & family." },
+                        { "vi", "Đóng góp từ thiện, quà tặng cho bạn bè và gia đình." }
+                    },
                     GroupId = 5,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -431,18 +596,33 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 22,
-                    Name = "Pets",
-                    Description = "Pet food, grooming, vet bills, pet insurance.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Pets" },
+                        { "vi", "Thú cưng" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Pet food, grooming, vet bills, pet insurance." },
+                        { "vi", "Thức ăn cho thú cưng, chăm sóc, hóa đơn bác sĩ thú y, bảo hiểm thú cưng." }
+                    },
                     GroupId = 5,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                 },
-                // Business & Work
                 new()
                 {
                     Id = 23,
-                    Name = "Office & Supplies",
-                    Description = "Stationery, office furniture, printing materials.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Office & Supplies" },
+                        { "vi", "Văn phòng và vật tư" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Stationery, office furniture, printing materials." },
+                        { "vi", "Đồ dùng văn phòng, nội thất văn phòng, tài liệu in ấn." }
+                    },
                     GroupId = 6,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -450,8 +630,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 24,
-                    Name = "Software & Tools",
-                    Description = "Business applications, SaaS subscriptions, cloud storage.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Software & Tools" },
+                        { "vi", "Phần mềm và công cụ" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Business applications, SaaS subscriptions, cloud storage." },
+                        { "vi", "Ứng dụng kinh doanh, đăng ký SaaS, lưu trữ đám mây." }
+                    },
                     GroupId = 6,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -459,8 +647,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 25,
-                    Name = "Professional Services",
-                    Description = "Legal fees, consulting, accounting, business services.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Professional Services" },
+                        { "vi", "Dịch vụ chuyên nghiệp" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Legal fees, consulting, accounting, business services." },
+                        { "vi", "Phí pháp lý, tư vấn, kế toán, dịch vụ kinh doanh." }
+                    },
                     GroupId = 6,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
@@ -468,8 +664,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 26,
-                    Name = "Marketing & Advertising",
-                    Description = "Ads, branding, promotional materials, marketing campaigns.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Marketing & Advertising" },
+                        { "vi", "Tiếp thị và quảng cáo" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Ads, branding, promotional materials, marketing campaigns." },
+                        { "vi", "Quảng cáo, xây dựng thương hiệu, tài liệu quảng bá, chiến dịch tiếp thị." }
+                    },
                     GroupId = 6,
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,

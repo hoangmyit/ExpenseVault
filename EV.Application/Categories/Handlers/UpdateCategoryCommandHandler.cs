@@ -23,8 +23,8 @@ namespace EV.Application.Categories.Handlers
                 throw new Exception(nameof(Category));
             }
 
-            category.Name = request.Name;
-            category.Description = request.Description;
+            category.Name = request.Name!;
+            category.Description = request.Description!;
             category.Avatar = request.Avatar;
             category.IsDefault = request.IsDefault;
 

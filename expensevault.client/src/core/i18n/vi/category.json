@@ -1,29 +1,43 @@
 {
   "toast": {
     "getCategory": {
-      "success": "Đã truy xuất thông tin danh mục thành công",
-      "pending": "Đang tải thông tin danh mục...",
-      "error": "Không thể truy xuất thông tin danh mục"
+      "success": "Đã truy xuất thông tin danh mục chi tiêu thành công",
+      "pending": "Đang tải thông tin danh mục chi tiêu...",
+      "error": "Không thể truy xuất thông tin danh mục chi tiêu"
     },
     "getCategories": {
-      "success": "Đã truy xuất danh sách danh mục thành công",
-      "pending": "Đang tải danh sách danh mục...",
-      "error": "Không thể truy xuất danh sách danh mục"
+      "success": "Đã truy xuất danh sách danh mục chi tiêu thành công",
+      "pending": "Đang tải danh sách danh mục chi tiêu...",
+      "error": "Không thể truy xuất danh sách danh mục chi tiêu"
     },
     "createCategory": {
-      "success": "Đã tạo danh mục mới thành công",
-      "pending": "Đang tạo danh mục mới...",
-      "error": "Không thể tạo danh mục mới"
+      "success": "Đã tạo danh mục chi tiêu mới thành công",
+      "pending": "Đang tạo danh mục chi tiêu mới...",
+      "error": "Không thể tạo danh mục chi tiêu mới"
     },
     "updateCategory": {
-      "success": "Đã cập nhật danh mục thành công",
-      "pending": "Đang cập nhật danh mục...",
-      "error": "Không thể cập nhật danh mục"
+      "success": "Đã cập nhật danh mục chi tiêu thành công",
+      "pending": "Đang cập nhật danh mục chi tiêu...",
+      "error": "Không thể cập nhật danh mục chi tiêu"
     },
     "deleteCategory": {
-      "success": "Đã xóa danh mục thành công",
-      "pending": "Đang xóa danh mục...",
-      "error": "Không thể xóa danh mục"
+      "success": "Đã xóa danh mục chi tiêu thành công",
+      "pending": "Đang xóa danh mục chi tiêu...",
+      "error": "Không thể xóa danh mục chi tiêu"
     }
+  },
+  "tableHeader":{
+    "id": "Mã số",
+    "name": "Tên danh mục",
+    "description": "Mô tả chi tiết",
+    "avatar": "Biểu tượng",
+    "isDefault": "Mặc định hệ thống",
+    "groupName": "Tên nhóm"
+  },
+  "title": {
+    "create": "Tạo danh mục chi tiêu",
+    "update": "Cập nhật danh mục chi tiêu",
+    "view": "Danh sách danh mục chi tiêu",
+    "add": "Thêm danh mục chi tiêu mới"
   }
 }

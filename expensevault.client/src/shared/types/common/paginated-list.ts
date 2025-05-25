@@ -1,3 +1,5 @@
+import { TableOnSearchHandler } from '../ui';
+
 export type PaginatedList<T> = {
   items: T[];
 } & BasePaginatedData;
@@ -10,7 +12,7 @@ export type BasePaginatedData = {
   hasNextPage: boolean;
 };
 
-export type PaginatedData = {
-  onChange: (page: number, pageSize: number) => void;
+export type PaginatedData<T> = {
+  onChange: TableOnSearchHandler<T>;
   pageSize: number;
 } & BasePaginatedData;

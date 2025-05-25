@@ -8,6 +8,7 @@ using EV.Application.Categories.Commands;
 using EV.Application.Categories.Commands.UpdateCategory;
 using NSwag.Annotations;
 using EV.Application.Categories.Commands.DeleteCategory;
+using EV.Application.Common.Dtos;
 
 namespace ExpenseVault.Server.Controllers.Category;
 public class CategoryController : BaseController
@@ -48,7 +49,7 @@ public class CategoryController : BaseController
         return TypedResults.Created<int>($"/category/{id}", id);
     }
 
-    public async Task<Results<Ok<CategoryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, int id, CancellationToken cancellationToken)
+    public async Task<Results<Ok<CategorySummaryDto>, NotFound<string>>> GetCategoryByIdAsync(ISender sender, int id, CancellationToken cancellationToken)
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 

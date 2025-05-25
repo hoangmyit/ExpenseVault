@@ -11,6 +11,7 @@ import {
   serverResultEn,
   signInEn,
   signUpEn,
+  tableEn,
   validationEn,
 } from './en';
 import {
@@ -21,6 +22,7 @@ import {
   serverResultVi,
   signInVi,
   signUpVi,
+  tableVi,
   validationVi,
 } from './vi';
 
@@ -40,6 +42,7 @@ i18n
         profile: profileEn,
         serverResult: serverResultEn,
         category: categoryEn,
+        table: tableEn,
       },
       vi: {
         common: commonVi,
@@ -50,6 +53,7 @@ i18n
         profile: profileVi,
         serverResult: serverResultVi,
         category: categoryVi,
+        table: tableVi,
       },
     },
     fallbackLng: 'en',

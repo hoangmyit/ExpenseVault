@@ -1,15 +1,18 @@
 {
-  "title": "Tạo Tài Khoản",
-  "subtitle": "Đăng ký hoàn toàn miễn phí và chỉ mất vài phút để hoàn thành.",
+  "title": "Đăng Ký Tài Khoản",
+  "subtitle": "Đăng ký miễn phí và chỉ mất vài phút để thiết lập tài khoản quản lý tài chính cá nhân của quý khách.",
   "username": "Tên đăng nhập",
-  "usernamePlaceholder": "Nhập tên đăng nhập độc đáo",
+  "usernamePlaceholder": "Nhập tên đăng nhập duy nhất",
   "email": "Địa chỉ Email",
-  "emailPlaceholder": "Nhập địa chỉ email của bạn",
+  "emailPlaceholder": "Nhập địa chỉ email của quý khách",
   "password": "Mật khẩu",
   "passwordPlaceholder": "Tạo mật khẩu an toàn",
   "confirmPassword": "Xác nhận Mật khẩu",
-  "confirmPasswordPlaceholder": "Nhập lại mật khẩu của bạn",
-  "submitButton": "Tạo Tài Khoản",
+  "confirmPasswordPlaceholder": "Nhập lại mật khẩu của quý khách",
+  "submitButton": "Đăng Ký Tài Khoản",
   "alreadyHaveAccount": "Đã có tài khoản?",
-  "signInLink": "Đăng Nhập"
+  "signInLink": "Đăng Nhập",
+  "successSignUp": "Đăng ký tài khoản thành công",
+  "pendingSignUp": "Hệ thống đang xử lý yêu cầu đăng ký...",
+  "failedSignUp": "Đăng ký tài khoản không thành công. Vui lòng kiểm tra lại thông tin."
 }

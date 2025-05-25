@@ -1,22 +1,36 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { consoleLog } from '../../shared/utils/common-util';
 
+import {
+  CATEGORY_TABLE_FILTER_COLUMN,
+  CATEGORY_TABLE_ORDER_COLUMN,
+} from './constants/category.const';
 import { useCategory } from './hooks/use-category';
 
+import FeatureTitle from '@/shared/components/feature-title';
 import Table from '@/shared/components/ui/table/table';
-import { CategoryDto } from '@/shared/types/common/backend-model';
+import { CategoryDto } from '@/shared/types/backend/category';
+import { SearchState } from '@/shared/types/common';
 import { ColumnType } from '@/shared/types/ui';
+import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
 const CategoriesPage: FC = () => {
   const navigate = useNavigate();
-  const [pageSize, setPageSize] = useState<number>(10);
-  const { categories, getCategories, deleteCategory } = useCategory();
+  const { t } = useTranslation();
+  const {
+    categories,
+    getCategories,
+    deleteCategory,
+    searchParams,
+    categoriesStatus,
+  } = useCategory();
 
   useEffect(() => {
-    getCategories({ page: 1, pageSize: pageSize });
-  }, [getCategories]);
+    handleOnSearch(searchParams);
+  }, []);
 
   const handleEdit = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
@@ -36,9 +50,21 @@ const CategoriesPage: FC = () => {
     [deleteCategory],
   );
 
+  const handleOnSearch = useCallback(
+    (params: Partial<SearchState<CategoryDto>>) => {
+      consoleLog('Search categories', params);
+      getCategories(params);
+    },
+    [],
+  );
   if (categories === null) {
     return null;
   }
+
+  const handleAddNewCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate('/category/new');
+  };
 
   const columns: ColumnType<CategoryDto>[] = [
     // {
@@ -57,26 +83,41 @@ const CategoriesPage: FC = () => {
     //   fixed: true,
     // },
     {
-      title: 'Name',
+      title: t('category:tableHeader.name'),
       dataIndex: 'name',
       key: 'name',
       className: 'text-left',
       fixed: true,
+      supportLanguage: true,
     },
     {
-      title: 'Description',
+      title: t('category:tableHeader.description'),
       dataIndex: 'description',
       key: 'description',
       className: 'text-left',
+      supportLanguage: true,
     },
     {
-      title: 'Avatar',
-      dataIndex: 'avatar',
-      key: 'avatar',
+      title: t('category:tableHeader.groupName'),
+      dataIndex: 'groupName',
+      key: 'groupName',
       className: 'text-left',
     },
     {
-      title: 'Is Default',
+      title: t('category:tableHeader.avatar'),
+      dataIndex: 'avatar',
+      key: 'avatar',
+      className: 'text-center',
+      render: (value) => (
+        <div className="avatar">
+          <div className="mask mask-squircle h-12 w-12">
+            <img src={value} alt="Avatar Tailwind CSS Component" />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: t('category:tableHeader.isDefault'),
       dataIndex: 'isDefault',
       key: 'isDefault',
       className: 'text-left',
@@ -103,14 +144,14 @@ const CategoriesPage: FC = () => {
             onClick={(e) => handleEdit(e, record.id)}
             type="button"
           >
-            Edit
+            {t('common:edit')}
           </button>
           <button
             className="btn btn-sm btn-outline btn-error"
             onClick={(e) => handleDelete(e, record.id)}
             type="button"
           >
-            Delete
+            {t('common:delete')}
           </button>
         </>
       ),
@@ -119,17 +160,12 @@ const CategoriesPage: FC = () => {
 
   return (
     <div className="bg-base-100 mx-2">
-      <div className="flex flex-col items-center p-4">
-        <h1 className="mb-4 text-xl font-bold">Categories</h1>
-        {categories.items.length === 0 && <p>No categories found.</p>}
-        <button
-          className="btn btn-primary mt-4"
-          onClick={() => navigate('/category/new')}
-        >
-          Create Category
-        </button>
-      </div>
-      <div>
+      <FeatureTitle
+        title={t('category:title.view')}
+        addActionName={t('category:title.add')}
+        addNewAction={handleAddNewCategory}
+      />
+      <div className="h-max-[40vh] flex flex-col">
         <Table<CategoryDto>
           dataSource={categories.items}
           columns={columns}
@@ -144,12 +180,24 @@ const CategoriesPage: FC = () => {
           highlightRow={true}
           pagination={{
             ...categories,
-            pageSize,
-            onChange(page, pageSize) {
-              setPageSize(pageSize);
-              getCategories({ page, pageSize });
-              consoleLog('Page changed', page, pageSize);
-            },
+            pageSize: searchParams.pageSize!,
+            onChange: handleOnSearch,
+          }}
+          loading={categoriesStatus === 'loading'}
+          searchData={{
+            sortValue: searchParams.sortBy,
+            filterValue: searchParams.filterBy,
+            isAsc: searchParams.isAsc,
+            onSearch: handleOnSearch,
+            sortOptions: getTableColumnsOptions(
+              CATEGORY_TABLE_ORDER_COLUMN,
+              'category:tableHeader',
+            ),
+            filterOptions: getTableColumnsOptions(
+              CATEGORY_TABLE_FILTER_COLUMN,
+              'category:tableHeader',
+            ),
+            disabled: categoriesStatus === 'loading',
           }}
         />
       </div>

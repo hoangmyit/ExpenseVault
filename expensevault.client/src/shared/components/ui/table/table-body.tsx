@@ -2,8 +2,11 @@ import { Key, ReactElement } from 'react';
 
 import clsx from 'clsx';
 
+import { InfoCircleIcon } from '@/icons';
+import { SupportLanguageField } from '@/shared/types/common';
 import { ColumnType, TableBodyProps } from '@/shared/types/ui';
-import { isString } from '@/shared/utils/type-utils';
+import { getLangFieldText } from '@/shared/utils/language-util';
+import { isObject, isString } from '@/shared/utils/type-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TableBody = <T extends Record<string, any>>({
@@ -20,7 +23,10 @@ const TableBody = <T extends Record<string, any>>({
       <tbody>
         <tr>
           <td colSpan={columns.length} className="py-4 text-center">
-            {locale.loadingText}
+            <div className="flex flex-col items-center justify-center gap-2">
+              <span className="loading loading-infinity loading-md" />
+              {locale.loadingText}
+            </div>
           </td>
         </tr>
       </tbody>
@@ -32,7 +38,10 @@ const TableBody = <T extends Record<string, any>>({
       <tbody>
         <tr>
           <td colSpan={columns.length} className="py-4 text-center">
-            {locale.emptyText}
+            <div className="flex flex-col items-center justify-center gap-2">
+              <InfoCircleIcon className="h-32 w-32" />
+              {locale.emptyText}
+            </div>
           </td>
         </tr>
       </tbody>
@@ -48,7 +57,11 @@ const TableBody = <T extends Record<string, any>>({
 
   const renderCell = (record: T, column: ColumnType<T>, rowIndex: number) => {
     const dataIndex = column.dataIndex;
-    const value = dataIndex !== undefined ? record[dataIndex] : undefined;
+    let value = dataIndex !== undefined ? record[dataIndex] : undefined;
+
+    if (column.supportLanguage && isObject(value)) {
+      value = getLangFieldText(value as SupportLanguageField) as T[keyof T];
+    }
 
     if (column.render) {
       return column.render(value, record, rowIndex);

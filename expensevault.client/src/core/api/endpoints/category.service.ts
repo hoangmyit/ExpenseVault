@@ -5,23 +5,33 @@ import {
   httpServicePut,
 } from '../client';
 
-import { CategoryParams } from '@/features/category/types/category.type';
-import { ApiResult, PaginatedList } from '@/shared/types/common';
-import { CategoryDto } from '@/shared/types/common/backend-model';
+import { CategoryDto } from '@/shared/types/backend/category';
+import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
+import { toPascalCase } from '@/shared/utils/string-util';
 
 export const getCategories = async ({
-  page = 1,
+  pageIndex = 1,
   pageSize = 10,
-}: CategoryParams): Promise<ApiResult<PaginatedList<CategoryDto>>> => {
+  search = '',
+  sortBy = 'id',
+  isAsc = false,
+  filterBy = 'name',
+}: Partial<SearchState<CategoryDto>>): Promise<
+  ApiResult<PaginatedList<CategoryDto>>
+> => {
   const response = await httpServiceGet<PaginatedList<CategoryDto>>(
     '/api/category',
     {
-      pageIndex: page,
+      pageIndex: pageIndex,
       pageSize: pageSize,
+      search: search,
+      sortBy: toPascalCase(sortBy),
+      isAsc: isAsc,
+      filterBy: toPascalCase(filterBy),
     },
   );
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -32,7 +42,7 @@ export const getCategory = async (
 ): Promise<ApiResult<CategoryDto>> => {
   const response = await httpServiceGet<CategoryDto>(`/api/category/${id}`);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -43,7 +53,7 @@ export const createCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -57,7 +67,7 @@ export const updateCategory = async (
     category,
   );
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };
@@ -68,7 +78,7 @@ export const deleteCategory = async (
 ): Promise<ApiResult<string>> => {
   const response = await httpServiceDelete<string>(`/api/category/${id}`);
   return {
-    isSucessed: true,
+    isSuccess: true,
     data: response.data,
     status: response.status,
   };

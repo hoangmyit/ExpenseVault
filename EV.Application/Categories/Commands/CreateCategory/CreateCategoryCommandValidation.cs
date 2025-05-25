@@ -1,3 +1,5 @@
+using EV.Domain.Constants;
+
 namespace EV.Application.Categories.Commands.CreateCategory
 {
     public class CreateCategoryCommandValidation : AbstractValidator<CreateCategoryCommand>
@@ -5,15 +7,24 @@ namespace EV.Application.Categories.Commands.CreateCategory
         public CreateCategoryCommandValidation()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(200).WithMessage("Name must not exceed 200 characters.");
-
+                 .NotEmpty().WithMessage("Name is required.")
+                 .NotNull().WithMessage("Name is required.")
+                 .ForEach(name =>
+                 {
+                     name.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.Name)
+                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstrants.Name} characters.");
+                 });
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description is required.")
-                .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
+                .NotNull().WithMessage("Description is required.")
+                 .ForEach(des =>
+                 {
+                     des.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.Description)
+                         .WithMessage($"Description must not be empty and must be less than or equal to {FieldConstrants.Description} characters.");
+                 });
 
             RuleFor(x => x.Avatar)
-                .MaximumLength(500).WithMessage("Avatar must not exceed 255 characters.");
+                .MaximumLength(FieldConstrants.Avatar).WithMessage($"Avatar must not exceed {FieldConstrants.Avatar} characters.");
         }
     }
 }

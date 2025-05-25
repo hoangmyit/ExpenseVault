@@ -8,8 +8,7 @@ import {
   getCategory,
   updateCategory,
 } from '../../../core/api/endpoints/category.service';
-import { PaginatedList } from '../../../shared/types/common';
-import { CategoryDto } from '../../../shared/types/common/backend-model';
+import { PaginatedList, SearchState } from '../../../shared/types/common';
 import { handleApiCall } from '../../../shared/utils/saga-util';
 import {
   CREATE_CATEGORY_ERROR_MESSAGE,
@@ -28,7 +27,6 @@ import {
   UPDATE_CATEGORY_PENDING_MESSAGE,
   UPDATE_CATEGORY_SUCCESS_MESSAGE,
 } from '../constants';
-import { CategoryParams } from '../types/category.type';
 
 import {
   createCategoryFailure,
@@ -46,11 +44,14 @@ import {
   updateCategoryFailure,
   updateCategoryRequest,
   updateCategorySuccess,
+  updateSearchParams,
 } from './category-slice';
 
+import { CategoryDto } from '@/shared/types/backend/category';
 import { getLangText } from '@/shared/utils/language-util';
+import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
-function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
+function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
   yield* handleApiCall(
     getCategories,
     action.payload,
@@ -62,6 +63,36 @@ function* getCategoriesSaga(action: PayloadAction<CategoryParams>) {
       pending: getLangText(GET_CATEGORIES_PENDING_MESSAGE),
       success: getLangText(GET_CATEGORIES_SUCCESS_MESSAGE),
     },
+    {
+      stateValue: (state) => state.category.searchParams,
+      updateRequest: (state) => {
+        const enrichRequest = {
+          ...state,
+        };
+        const { filterBy, isAsc, pageIndex, pageSize, search, sortBy } =
+          action.payload;
+        if (!isNullOrEmpty(filterBy)) {
+          enrichRequest.filterBy = filterBy;
+        }
+        if (!isNullOrEmpty(isAsc)) {
+          enrichRequest.isAsc = isAsc!;
+        }
+        if (!isNullOrEmpty(pageIndex)) {
+          enrichRequest.pageIndex = pageIndex;
+        }
+        if (!isNullOrEmpty(pageSize)) {
+          enrichRequest.pageSize = pageSize;
+        }
+        if (!isNullOrEmpty(search)) {
+          enrichRequest.search = search;
+        }
+        if (!isNullOrEmpty(sortBy)) {
+          enrichRequest.sortBy = sortBy;
+        }
+        return enrichRequest;
+      },
+    },
+    updateSearchParams,
   );
 }
 

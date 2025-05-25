@@ -5,6 +5,7 @@ import { TableHeaderProps } from '@/shared/types/ui';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TableHeader = <T extends Record<string, any>>({
   columns,
+  disabled = false,
 }: TableHeaderProps<T>): ReactElement => {
   return (
     <thead>
