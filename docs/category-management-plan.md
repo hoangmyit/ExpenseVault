@@ -1,31 +1,31 @@
 # Category Management Implementation Plan
 
-## Objective
+## 1. Objective
 
 Implement complete category management functionality in ExpenseVault, including create, modify, and delete operations with proper UI/UX and backend workflow.
 
-## Analysis Summary
+## 2. Analysis Summary
 
 The application already has partial category management functionality implemented. The backend has commands, queries, and controller endpoints for CRUD operations, while the frontend has components for listing categories and basic editing. We need to enhance the implementation with proper form components, validation, and user experience flows.
 
-## Proposed Approach
+## 3. Proposed Approach
 
 We'll implement each story (create, modify, delete) as a complete vertical slice, including backend validation, API endpoints, and frontend UI/UX. We'll use the existing CQRS architecture and leverage the current category components.
 
-## Detailed Stories
+## 4. Detailed Stories
 
-### Story 1: Create Category
+### 4.1. Story 1: Create Category
 
 **Description**: Users should be able to create new expense categories with proper validation and UX feedback.
 
-#### Backend Tasks
+#### 4.1.1. Backend Tasks
 
 - Review and enhance the `CreateCategoryCommand` and validation
 - Ensure proper error handling in the command handler
 - Verify domain event generation and processing
 - Add validation for required fields and data formats
 
-#### Frontend Tasks
+#### 4.1.2. Frontend Tasks
 
 - Create a new `CategoryForm` component for adding categories
 - Implement validation for required fields
@@ -34,18 +34,18 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - Add success/error notifications
 - Implement navigation back to categories list after creation
 
-### Story 2: Modify Category
+### 4.2. Story 2: Modify Category
 
 **Description**: Users should be able to edit existing categories with proper validation and UX feedback.
 
-#### Backend Tasks
+#### 4.2.1. Backend Tasks
 
 - Review and enhance the `UpdateCategoryCommand` and validation
 - Ensure proper error handling in the command handler
 - Verify domain event generation and processing
 - Add validation to prevent invalid updates
 
-#### Frontend Tasks
+#### 4.2.2. Frontend Tasks
 
 - Enhance the existing CategoryPage to properly handle edits
 - Improve form validation and error handling
@@ -53,18 +53,18 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - Add success/error notifications
 - Add cancel button and confirmation if changes were made
 
-### Story 3: Delete Category
+### 4.3. Story 3: Delete Category
 
 **Description**: Users should be able to delete categories with proper validation, confirmation, and handling of dependencies.
 
-#### Backend Tasks
+#### 4.3.1. Backend Tasks
 
 - Review and enhance the `DeleteCategoryCommand` and validation
 - Implement proper handling of categories referenced by expenses
 - Ensure proper error handling in the command handler
 - Verify domain event generation and processing
 
-#### Frontend Tasks
+#### 4.3.2. Frontend Tasks
 
 - Add confirmation dialog before deletion
 - Implement proper error handling for failed deletions
@@ -72,9 +72,9 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - Refresh category list after successful deletion
 - Handle error cases where deletion is prevented
 
-## Key Files/Modules
+## 5. Key Files/Modules
 
-### Backend
+### 5.1. Backend
 
 - `EV.Application/Categories/Commands/CreateCategory/`
 - `EV.Application/Categories/Commands/UpdateCategory/`
@@ -82,7 +82,7 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - `EV.Application/Categories/Handlers/`
 - `ExpenseVault.Server/Controllers/Category/CategoryController.cs`
 
-### Frontend
+### 5.2. Frontend
 
 - `expensevault.client/src/features/category/components/CategoryForm.tsx` (to be created)
 - `expensevault.client/src/features/category/category-page.tsx`
@@ -91,7 +91,7 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - `expensevault.client/src/features/category/store/category-saga.ts`
 - `expensevault.client/src/features/category/store/category-slice.ts`
 
-## Verification Strategy
+## 6. Verification Strategy
 
 - Unit tests for command validators and handlers
 - Manual testing of API endpoints using Swagger
@@ -99,7 +99,7 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 - Verify proper navigation flows between pages
 - Test deletion scenarios with referenced categories
 
-## Implementation Considerations
+## 7. Implementation Considerations
 
 1. **Category Dependencies**: Categories may be referenced by expenses. We need to decide whether to implement soft delete or prevent deletion of used categories.
 
@@ -111,7 +111,7 @@ We'll implement each story (create, modify, delete) as a complete vertical slice
 
 5. **User Experience**: Implement proper loading states, error handling, and success notifications for a seamless user experience.
 
-## Timeline
+## 8. Timeline
 
 - Story 1 (Create): 3 days
 - Story 2 (Modify): 2 days
