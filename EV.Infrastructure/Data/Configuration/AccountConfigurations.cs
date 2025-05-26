@@ -27,7 +27,7 @@ namespace EV.Infrastructure.Data.Configuration
                 .Property(x => x.IsDefault)
                 .HasDefaultValue(false);
             builder
-                .Property(x => x.IsDelete)
+                .Property(x => x.IsDeleted)
                 .HasDefaultValue(false);
             builder
                 .Property(x => x.UserId)

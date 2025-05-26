@@ -27,7 +27,7 @@ namespace EV.Application.Categories.Handlers
         {
             _validator.Validate(request);
 
-            var query = _context.Categories.Where(x => !x.IsDelete);
+            var query = _context.Categories.Where(x => !x.IsDeleted);
 
             if (!string.IsNullOrEmpty(request.Search))
             {

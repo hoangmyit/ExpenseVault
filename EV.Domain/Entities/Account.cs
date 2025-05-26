@@ -14,7 +14,7 @@ namespace EV.Domain.Entities
         public int Order { get; set; }
         public bool IsDefault { get; set; }
         public AccountType AccountType { get; set; }
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
         public virtual required IEnumerable<Expense> Expenses { get; set; }
     }
 }

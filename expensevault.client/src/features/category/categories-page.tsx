@@ -102,6 +102,7 @@ const CategoriesPage: FC = () => {
       dataIndex: 'groupName',
       key: 'groupName',
       className: 'text-left',
+      supportLanguage: true,
     },
     {
       title: t('category:tableHeader.avatar'),

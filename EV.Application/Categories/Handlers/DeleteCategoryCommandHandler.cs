@@ -22,7 +22,7 @@ namespace EV.Application.Categories.Handlers
 
       Guard.Against.NotFound<Category>($"The category {request.Id} is not found!", category);
 
-      category.IsDelete = true;
+      category.IsDeleted = true;
       category.AddDomainEvent(new CategoryUpdatedEvent(category));
 
       _context.Categories.Update(category);

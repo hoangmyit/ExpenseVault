@@ -23,7 +23,7 @@ namespace EV.Application.Categories.Handlers
 
         public async Task<CategorySummaryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var category = await _context.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Id == request.Id && !x.IsDelete, cancellationToken);
+            var category = await _context.Categories.AsNoTracking().SingleOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted, cancellationToken);
 
             Guard.Against.NotFound<Category>($"The category {request.Id} is not found!", category);
 

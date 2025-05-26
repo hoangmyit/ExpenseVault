@@ -5,6 +5,6 @@
         public required string Name { get; set; }
         public required string Description { get; set; }
         public required IDictionary<string, IDictionary<string, string>> SupportContent { get; set; }
-        public bool IsDelete { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
     }
 }
