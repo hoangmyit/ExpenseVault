@@ -3,9 +3,12 @@ import { useParams } from 'react-router';
 
 import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkbox';
 import FormInput from '../../shared/components/form/form-input/form-input';
-import { CategoryDto } from '../../shared/types/common/backend-model';
 
 import { useCategory } from './hooks/use-category';
+
+import { CategoryDto } from '@/shared/types/backend/category';
+import { getLangFieldText } from '@/shared/utils/language-util';
+import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const CategoryPage: FC = () => {
   // Extract the id parameter from the URL
@@ -14,8 +17,8 @@ const CategoryPage: FC = () => {
   const { category, getCategory, updateCategory } = useCategory();
 
   useEffect(() => {
-    if (id) {
-      getCategory(id);
+    if (!isNullOrUndefined(id) && id !== 'new') {
+      getCategory(id!);
     }
   }, [getCategory, id]);
 
@@ -40,13 +43,13 @@ const CategoryPage: FC = () => {
       <p>Category ID: {id}</p>
       <FormInput
         label="name"
-        value={category.name}
+        value={getLangFieldText(category.name)}
         placeholder="Please input category name"
         onChange={(e) => handleInputChange(e, 'name')}
       />
       <FormInput
         label="description"
-        value={category.description}
+        value={getLangFieldText(category.description)}
         placeholder="Please input category description"
         onChange={(e) => handleInputChange(e, 'description')}
       />

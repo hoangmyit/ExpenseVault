@@ -85,12 +85,12 @@ const TableSort = <
             aria-label="Sort Field"
             onChange={handleSortFieldChange}
             disabled={disabled}
+            value={sortField as string}
           >
             {mapArray(sortOptions, (option, inx) => (
               <option
                 key={inx}
                 value={option.value as string}
-                selected={sortField === option.value}
                 disabled={option.disabled}
               >
                 {option.label}
@@ -104,8 +104,9 @@ const TableSort = <
             aria-label="Sort Order"
             onChange={handleSortOrderChange}
             disabled={disabled}
+            value={sortOrder ? 'true' : 'false'}
           >
-            <option key="asc" value="true" selected={sortOrder === true}>
+            <option key="asc" value="true">
               {t('table:sortAsc')}
             </option>
             <option key="desc" value="false">
@@ -150,13 +151,13 @@ const TableSort = <
               aria-label="Filter"
               onChange={handleFilterChange}
               disabled={disabled}
+              value={filterField as string}
             >
               <option disabled>{t('table:filter')}</option>
               {mapArray(filterOptions, (option, inx) => (
                 <option
                   key={inx}
                   value={option.value as string}
-                  selected={filterField === option.value}
                   disabled={option.disabled}
                 >
                   {option.label}

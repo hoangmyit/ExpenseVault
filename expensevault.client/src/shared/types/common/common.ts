@@ -33,9 +33,11 @@ export type ApiResult<T> = {
 
 export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type SupportLanguages = 'en' | 'vi';
+export const SupportLanguages = ['en', 'vi'] as const;
 
-export type SupportLanguageField = Record<SupportLanguages, string>;
+export type SupportLanguageType = (typeof SupportLanguages)[number];
+
+export type SupportLanguageField = Record<SupportLanguageType, string>;
 
 export const enum TransactionTypeEnum {
   Income = 1,

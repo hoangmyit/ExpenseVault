@@ -11,3 +11,12 @@ export interface CategoryDto {
   groupName: SupportLanguageField;
   transactionType: TransactionTypeEnum;
 }
+
+export interface CategoryDetailDto {
+  id: string;
+  name: SupportLanguageField;
+  description: SupportLanguageField;
+  avatar: string;
+  isDefault: boolean;
+  groupId: number;
+}

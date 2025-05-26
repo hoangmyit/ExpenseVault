@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SearchState } from '../../../shared/types/common';
-import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
 import {
@@ -14,6 +13,11 @@ import {
   toastError,
   toastSuccess,
 } from '@/shared/components/feedback/toast/toast';
+import {
+  CategoryDetailDto,
+  CategoryDto,
+} from '@/shared/types/backend/category';
+import { initSupportLanguageField } from '@/shared/utils/language-util';
 import { getItemPerPage } from '@/shared/utils/setting-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
@@ -73,7 +77,7 @@ const categorySlice = createSlice({
       state.category.status = 'loading';
       state.category.error = null;
     },
-    getCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
+    getCategorySuccess: (state, action: PayloadAction<CategoryDetailDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
@@ -82,9 +86,21 @@ const categorySlice = createSlice({
       state.category.error = action.payload;
       toastError(action.payload);
     },
-
+    initCategoryState: (state) => {
+      state.category.data = {
+        id: '',
+        name: initSupportLanguageField(),
+        description: initSupportLanguageField(),
+        avatar: '',
+        isDefault: false,
+        groupId: 0,
+      };
+    },
     // Create category actions
-    createCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
+    createCategoryRequest: (
+      state,
+      _action: PayloadAction<CategoryDetailDto>,
+    ) => {
       state.category.status = 'loading';
       state.category.error = null;
     },
@@ -103,7 +119,10 @@ const categorySlice = createSlice({
       state.category.status = 'loading';
       state.category.error = null;
     },
-    updateCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
+    updateCategorySuccess: (
+      state,
+      action: PayloadAction<CategoryDetailDto>,
+    ) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
       toastSuccess(`Update category ${action.payload.name} successfully`);
@@ -163,7 +182,6 @@ const categorySlice = createSlice({
     ) => {
       const { key, value } = action.payload;
       if (key in state.searchParams) {
-        // eslint-disable-next-line security/detect-object-injection
         (state.searchParams as Record<string, unknown>)[key] = value;
       }
     },

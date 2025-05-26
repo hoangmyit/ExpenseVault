@@ -18,6 +18,7 @@ export default tseslint.config({ ignores: ['dist'] }, prettier, {
     ecmaVersion: 2020,
     globals: globals.browser,
   },
+  
   plugins: {
     'react': reactEslint,
     'jsx-a11y': jsxA11Y,
@@ -27,6 +28,11 @@ export default tseslint.config({ ignores: ['dist'] }, prettier, {
     'security': securityPlugin,
     prettier: eslintPluginPrettier,
     'unused-imports': unusedImports,
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   },
   rules: {
     ...reactHooks.configs.recommended.rules,

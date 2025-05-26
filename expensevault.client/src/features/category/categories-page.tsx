@@ -10,7 +10,7 @@ import {
 } from './constants/category.const';
 import { useCategory } from './hooks/use-category';
 
-import FeatureTitle from '@/shared/components/feature-title';
+import FeaturePageHeader from '@/shared/components/feature-title';
 import Table from '@/shared/components/ui/table/table';
 import { CategoryDto } from '@/shared/types/backend/category';
 import { SearchState } from '@/shared/types/common';
@@ -161,7 +161,7 @@ const CategoriesPage: FC = () => {
 
   return (
     <div className="bg-base-100 mx-2">
-      <FeatureTitle
+      <FeaturePageHeader
         title={t('category:title.view')}
         addActionName={t('category:title.add')}
         addNewAction={handleAddNewCategory}
