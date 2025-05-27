@@ -39,5 +39,11 @@
     "update": "Cập nhật danh mục chi tiêu",
     "view": "Danh sách danh mục chi tiêu",
     "add": "Thêm danh mục chi tiêu mới"
+  },
+  "categoryGroup": {
+    "income": "Thu nhập",
+    "expense": "Chi tiêu",
+    "transfer": "Chuyển khoản",
+    "loan": "Khoản vay"
   }
 }

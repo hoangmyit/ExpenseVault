@@ -45,7 +45,7 @@ const TablePagination = <T extends Record<string, any>>({
     size?: number,
   ) => {
     event.preventDefault();
-    if (page !== pageIndex) {
+    if (page !== pageIndex || pageSize !== size) {
       onChange?.({
         pageIndex: page,
         pageSize: isNullOrUndefined(size) ? pageSize : size,

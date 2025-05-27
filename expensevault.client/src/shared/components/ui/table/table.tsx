@@ -21,7 +21,6 @@ export function Table<T extends Record<string, any>>(
     rowKey = 'id',
     loading = false,
     pagination,
-    bordered = false,
     pinColumn = false,
     pinRow = false,
     zebra = false,

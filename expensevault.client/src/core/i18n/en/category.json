@@ -39,5 +39,11 @@
     "update": "Update Category",
     "view": "Categories",
     "add": "Add New Category"
+  },
+  "categoryGroup": {
+    "income": "Income",
+    "expense": "Expense",
+    "transfer": "Transfer",
+    "loan": "Loan"
   }
 }

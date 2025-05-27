@@ -10,7 +10,7 @@ import { CategoryDto } from '@/shared/types/backend/category';
 import { getLangFieldText } from '@/shared/utils/language-util';
 import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
-const CategoryPage: FC = () => {
+const CategoryDetailPage: FC = () => {
   // Extract the id parameter from the URL
   const { id } = useParams<{ id: string }>();
 
@@ -70,4 +70,4 @@ const CategoryPage: FC = () => {
   );
 };
 
-export default CategoryPage;
+export default CategoryDetailPage;

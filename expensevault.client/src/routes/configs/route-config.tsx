@@ -7,7 +7,7 @@ import SignInPage from '@/features/auth/components/sign-in';
 import SignUpPage from '@/features/auth/components/sign-up';
 import VerifyEmailPage from '@/features/auth/components/verify-page';
 import CategoriesPage from '@/features/category/categories-page';
-import CategoryPage from '@/features/category/category-page';
+import CategoryDetailPage from '@/features/category/category-detail-page';
 import { ErrorCode } from '@/features/error-page/error-page.const';
 import HomePage from '@/features/home/home';
 
@@ -44,7 +44,7 @@ export const protectedRoutes: AppRoute[] = [
   },
   {
     path: ROUTE_PATHS.CATEGORY_DETAIL,
-    element: <CategoryPage />,
+    element: <CategoryDetailPage />,
     requiredRoles: [ROLES.USER, ROLES.ADMIN],
   },
 ];
