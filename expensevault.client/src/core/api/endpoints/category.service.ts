@@ -5,7 +5,10 @@ import {
   httpServicePut,
 } from '../client';
 
-import { CategoryDto } from '@/shared/types/backend/category';
+import {
+  CategoryDetailDto,
+  CategoryDto,
+} from '@/shared/types/backend/category';
 import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
 import { toPascalCase } from '@/shared/utils/string-util';
 
@@ -37,10 +40,12 @@ export const getCategories = async ({
   };
 };
 
-export const getCategory = async (
+export const getCategoryDetail = async (
   id: string,
-): Promise<ApiResult<CategoryDto>> => {
-  const response = await httpServiceGet<CategoryDto>(`/api/category/${id}`);
+): Promise<ApiResult<CategoryDetailDto>> => {
+  const response = await httpServiceGet<CategoryDetailDto>(
+    `/api/category/${id}`,
+  );
   return {
     isSuccess: true,
     data: response.data,
@@ -49,7 +54,7 @@ export const getCategory = async (
 };
 
 export const createCategory = async (
-  category: CategoryDto,
+  category: CategoryDetailDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
   return {
@@ -60,7 +65,7 @@ export const createCategory = async (
 };
 
 export const updateCategory = async (
-  category: CategoryDto,
+  category: CategoryDetailDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePut<string>(
     `/api/category/${category.id}`,
