@@ -162,6 +162,7 @@ const CategoryPage: FC = () => {
   return (
     <div className="bg-base-100 mx-2">
       <FeaturePageHeader
+        showAction={true}
         title={t('category:title.view')}
         addActionName={t('category:title.add')}
         addNewAction={handleAddNewCategory}

@@ -6,12 +6,12 @@ import FormInput from '../../shared/components/form/form-input/form-input';
 
 import { useCategory } from './hooks/use-category';
 
+import FeaturePageHeader from '@/shared/components/feature-title';
 import { CategoryDto } from '@/shared/types/backend/category';
 import { getLangFieldText } from '@/shared/utils/language-util';
 import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const CategoryDetailPage: FC = () => {
-  // Extract the id parameter from the URL
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -47,9 +47,8 @@ const CategoryDetailPage: FC = () => {
   };
 
   return (
-    <div>
-      <h1>Category Details</h1>
-      <p>Category ID: {id}</p>
+    <div className="p-8">
+      <FeaturePageHeader title="Category Details" showAction={false} />
       <FormInput
         label="name"
         value={getLangFieldText(categoryDetail.name)}
