@@ -1,18 +1,22 @@
-import { ChangeEvent, FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkbox';
 import FormInput from '../../shared/components/form/form-input/form-input';
+import { useCategoryGroup } from '../category-group/hooks/use-category-group';
 
 import { useCategory } from './hooks/use-category';
 
 import FeaturePageHeader from '@/shared/components/feature-title';
+import ImageUploadPreviewControl from '@/shared/components/ui/image-upload-preview-control';
 import { CategoryDto } from '@/shared/types/backend/category';
+import { isNullOrEmptyArray } from '@/shared/utils/array-util';
 import { getLangFieldText } from '@/shared/utils/language-util';
 import { isNullOrUndefined } from '@/shared/utils/type-utils';
 
 const CategoryDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [categoryImage, setCategoryImage] = useState<File | null>(null);
 
   const {
     categoryDetail,
@@ -20,6 +24,7 @@ const CategoryDetailPage: FC = () => {
     updateCategory,
     initCategoryDetail,
   } = useCategory();
+  const { getCategoryGroup, categoryGroupData } = useCategoryGroup();
 
   useEffect(() => {
     if (!isNullOrUndefined(id)) {
@@ -30,6 +35,12 @@ const CategoryDetailPage: FC = () => {
       }
     }
   }, [getCategoryDetail, id, initCategoryDetail]);
+
+  useEffect(() => {
+    if (isNullOrEmptyArray(categoryGroupData)) {
+      getCategoryGroup();
+    }
+  }, []);
 
   if (categoryDetail === null) {
     return null;
@@ -44,6 +55,12 @@ const CategoryDetailPage: FC = () => {
       [fieldChange]:
         fieldChange === 'isDefault' ? e.target.checked : e.target.value,
     });
+  };
+
+  const handleImageChange = (file: File | null) => {
+    setCategoryImage(file);
+    // You can also update the category detail here if needed
+    // updateCategory({ ...categoryDetail, image: file });
   };
 
   return (
@@ -64,10 +81,10 @@ const CategoryDetailPage: FC = () => {
             onChange={(e) => handleInputChange(e, 'description')}
           />
           <FormInput
-            label="avatar"
-            value={categoryDetail.avatar}
-            placeholder="Please input category avatar"
-            onChange={(e) => handleInputChange(e, 'avatar')}
+            label="category group"
+            value={categoryDetail.groupId}
+            placeholder="Please input category group"
+            onChange={(e) => handleInputChange(e, 'groupId')}
           />
           <FormCheckbox
             label="default"
@@ -78,14 +95,11 @@ const CategoryDetailPage: FC = () => {
           />
         </div>
         <div>
-          <div className="avatar">
-            <div className="w-60 rounded">
-              <img
-                src="https://img.daisyui.com/images/profile/demo/batperson@192.webp"
-                alt="avatar"
-              />
-            </div>
-          </div>
+          <ImageUploadPreviewControl
+            label="Category Image"
+            onChange={handleImageChange}
+            placeholder="No category image selected"
+          />
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import categoryEn from './category.json';
+import categoryGroupEn from './category-group.json';
 import commonEn from './common.json';
 import emailEn from './email.json';
 import profileEn from './profile.json';
@@ -10,6 +11,7 @@ import validationEn from './validation.json';
 
 export {
   categoryEn,
+  categoryGroupEn,
   commonEn,
   emailEn,
   profileEn,

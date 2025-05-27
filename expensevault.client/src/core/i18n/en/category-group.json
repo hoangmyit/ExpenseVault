@@ -1,0 +1,29 @@
+{
+  "toast": {
+    "getCategoryGroupDetail": {
+      "success": "Category group details successfully retrieved",
+      "pending": "Loading category group detail...",
+      "error": "Unable to retrieve category group detail"
+    },
+    "getCategoryGroup": {
+      "success": "Categories successfully retrieved",
+      "pending": "Loading categories...",
+      "error": "Unable to retrieve categories"
+    },
+    "createCategoryGroup": {
+      "success": "Category group successfully created",
+      "pending": "Creating category group...",
+      "error": "Unable to create category group"
+    },
+    "updateCategoryGroup": {
+      "success": "Category group successfully updated",
+      "pending": "Updating category group...",
+      "error": "Unable to update category group"
+    },
+    "deleteCategoryGroup": {
+      "success": "Category group successfully deleted",
+      "pending": "Deleting category group...",
+      "error": "Unable to delete category group"
+    }
+  }
+}

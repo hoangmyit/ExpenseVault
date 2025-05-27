@@ -18,7 +18,7 @@ const FormField: FC<FormFieldProps> = ({
   id,
 }) => {
   return (
-    <>
+    <div>
       {label && (
         <label htmlFor={id} className="fieldset-label">
           {label}
@@ -36,7 +36,7 @@ const FormField: FC<FormFieldProps> = ({
         )}
         {!helper && !error && <span className="label-text-alt"></span>}
       </div>
-    </>
+    </div>
   );
 };
 
