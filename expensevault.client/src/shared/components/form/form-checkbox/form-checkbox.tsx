@@ -10,8 +10,8 @@ const FormCheckbox: FC<FormCheckboxProps> = ({
   ...otherProps
 }) => {
   return (
-    <div className="form-control mb-4 flex flex-col">
-      <label className="label mb-1 font-semibold">
+    <div className="form-control flex flex-row items-center gap-2">
+      <label className="label font-semibold">
         <span className="label-text">{label}</span>
       </label>
       <input

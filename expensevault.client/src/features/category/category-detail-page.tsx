@@ -49,31 +49,45 @@ const CategoryDetailPage: FC = () => {
   return (
     <div className="p-8">
       <FeaturePageHeader title="Category Details" showAction={false} />
-      <FormInput
-        label="name"
-        value={getLangFieldText(categoryDetail.name)}
-        placeholder="Please input category name"
-        onChange={(e) => handleInputChange(e, 'name')}
-      />
-      <FormInput
-        label="description"
-        value={getLangFieldText(categoryDetail.description)}
-        placeholder="Please input category description"
-        onChange={(e) => handleInputChange(e, 'description')}
-      />
-      <FormInput
-        label="avatar"
-        value={categoryDetail.avatar}
-        placeholder="Please input category avatar"
-        onChange={(e) => handleInputChange(e, 'avatar')}
-      />
-      <FormCheckbox
-        label="default"
-        checked={categoryDetail.isDefault}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          handleInputChange(e, 'isDefault')
-        }
-      />
+      <div className="flex w-full flex-row gap-4">
+        <div className="flex w-1/2 flex-col">
+          <FormInput
+            label="name"
+            value={getLangFieldText(categoryDetail.name)}
+            placeholder="Please input category name"
+            onChange={(e) => handleInputChange(e, 'name')}
+          />
+          <FormInput
+            label="description"
+            value={getLangFieldText(categoryDetail.description)}
+            placeholder="Please input category description"
+            onChange={(e) => handleInputChange(e, 'description')}
+          />
+          <FormInput
+            label="avatar"
+            value={categoryDetail.avatar}
+            placeholder="Please input category avatar"
+            onChange={(e) => handleInputChange(e, 'avatar')}
+          />
+          <FormCheckbox
+            label="default"
+            checked={categoryDetail.isDefault}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleInputChange(e, 'isDefault')
+            }
+          />
+        </div>
+        <div>
+          <div className="avatar">
+            <div className="w-60 rounded">
+              <img
+                src="https://img.daisyui.com/images/profile/demo/batperson@192.webp"
+                alt="avatar"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
