@@ -17,7 +17,7 @@ import { SearchState } from '@/shared/types/common';
 import { ColumnType } from '@/shared/types/ui';
 import { getTableColumnsOptions } from '@/shared/utils/table-util';
 
-const CategoriesPage: FC = () => {
+const CategoryPage: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const {
@@ -206,4 +206,4 @@ const CategoriesPage: FC = () => {
   );
 };
 
-export default CategoriesPage;
+export default CategoryPage;
