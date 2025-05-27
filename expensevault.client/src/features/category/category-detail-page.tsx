@@ -14,15 +14,24 @@ const CategoryDetailPage: FC = () => {
   // Extract the id parameter from the URL
   const { id } = useParams<{ id: string }>();
 
-  const { category, getCategory, updateCategory } = useCategory();
+  const {
+    categoryDetail,
+    getCategoryDetail,
+    updateCategory,
+    initCategoryDetail,
+  } = useCategory();
 
   useEffect(() => {
-    if (!isNullOrUndefined(id) && id !== 'new') {
-      getCategory(id!);
+    if (!isNullOrUndefined(id)) {
+      if (id === 'new') {
+        initCategoryDetail();
+      } else {
+        getCategoryDetail(id!);
+      }
     }
-  }, [getCategory, id]);
+  }, [getCategoryDetail, id, initCategoryDetail]);
 
-  if (category === null) {
+  if (categoryDetail === null) {
     return null;
   }
 
@@ -31,7 +40,7 @@ const CategoryDetailPage: FC = () => {
     fieldChange: keyof CategoryDto,
   ) => {
     updateCategory({
-      ...category,
+      ...categoryDetail,
       [fieldChange]:
         fieldChange === 'isDefault' ? e.target.checked : e.target.value,
     });
@@ -43,25 +52,25 @@ const CategoryDetailPage: FC = () => {
       <p>Category ID: {id}</p>
       <FormInput
         label="name"
-        value={getLangFieldText(category.name)}
+        value={getLangFieldText(categoryDetail.name)}
         placeholder="Please input category name"
         onChange={(e) => handleInputChange(e, 'name')}
       />
       <FormInput
         label="description"
-        value={getLangFieldText(category.description)}
+        value={getLangFieldText(categoryDetail.description)}
         placeholder="Please input category description"
         onChange={(e) => handleInputChange(e, 'description')}
       />
       <FormInput
         label="avatar"
-        value={category.avatar}
+        value={categoryDetail.avatar}
         placeholder="Please input category avatar"
         onChange={(e) => handleInputChange(e, 'avatar')}
       />
       <FormCheckbox
         label="default"
-        checked={category.isDefault}
+        checked={categoryDetail.isDefault}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           handleInputChange(e, 'isDefault')
         }

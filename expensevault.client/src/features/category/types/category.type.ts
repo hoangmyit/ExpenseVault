@@ -5,7 +5,7 @@ import {
 import { CommonState, PaginatedList, SearchState } from '@/shared/types/common';
 
 export interface ICategoryState {
-  categories: CommonState<PaginatedList<CategoryDto>>;
-  category: CommonState<CategoryDetailDto>;
+  category: CommonState<PaginatedList<CategoryDto>>;
+  categoryDetail: CommonState<CategoryDetailDto>;
   searchParams: SearchState<CategoryDto>;
 }

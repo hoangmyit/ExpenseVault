@@ -22,7 +22,7 @@ import { getItemPerPage } from '@/shared/utils/setting-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 const initialState: ICategoryState = {
-  categories: {
+  category: {
     data: {
       items: [],
       pageIndex: 1,
@@ -34,7 +34,7 @@ const initialState: ICategoryState = {
     status: 'idle',
     error: null,
   },
-  category: {
+  categoryDetail: {
     data: null,
     status: 'idle',
     error: null,
@@ -57,37 +57,40 @@ const categorySlice = createSlice({
       state,
       _action: PayloadAction<Partial<SearchState<CategoryDto>>>,
     ) => {
-      state.categories.status = 'loading';
-      state.categories.error = null;
+      state.category.status = 'loading';
+      state.category.error = null;
     },
     getCategoriesSuccess: (
       state,
       action: PayloadAction<PaginatedList<CategoryDto>>,
     ) => {
-      state.categories.status = 'succeeded';
-      state.categories.data = action.payload;
-    },
-    getCategoriesFailure: (state, action: PayloadAction<string>) => {
-      state.categories.status = 'failed';
-      state.categories.error = action.payload;
-      toastError(action.payload);
-    },
-    // Get single category actions
-    getCategoryRequest: (state, _action: PayloadAction<string>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
-    },
-    getCategorySuccess: (state, action: PayloadAction<CategoryDetailDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
-    getCategoryFailure: (state, action: PayloadAction<string>) => {
+    getCategoriesFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
       toastError(action.payload);
     },
+    // Get single category actions
+    getCategoryDetailRequest: (state, _action: PayloadAction<string>) => {
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
+    },
+    getCategoryDetailSuccess: (
+      state,
+      action: PayloadAction<CategoryDetailDto>,
+    ) => {
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = action.payload;
+    },
+    getCategoryDetailFailure: (state, action: PayloadAction<string>) => {
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
+      toastError(action.payload);
+    },
     initCategoryState: (state) => {
-      state.category.data = {
+      state.categoryDetail.data = {
         id: '',
         name: initSupportLanguageField(),
         description: initSupportLanguageField(),
@@ -101,51 +104,54 @@ const categorySlice = createSlice({
       state,
       _action: PayloadAction<CategoryDetailDto>,
     ) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
     createCategorySuccess: (state, action: PayloadAction<string>) => {
-      state.category.status = 'succeeded';
+      state.categoryDetail.status = 'succeeded';
       toastSuccess(action.payload);
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
       toastError(action.payload);
     },
 
     // Update category actions
-    updateCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+    updateCategoryRequest: (
+      state,
+      _action: PayloadAction<CategoryDetailDto>,
+    ) => {
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
     updateCategorySuccess: (
       state,
       action: PayloadAction<CategoryDetailDto>,
     ) => {
-      state.category.status = 'succeeded';
-      state.category.data = action.payload;
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = action.payload;
       toastSuccess(`Update category ${action.payload.name} successfully`);
     },
     updateCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
       toastError(action.payload);
     },
 
     // Delete category actions
     deleteCategoryRequest: (state, _action: PayloadAction<string>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
     deleteCategorySuccess: (state, action: PayloadAction<string>) => {
-      state.category.status = 'succeeded';
-      state.category.data = null;
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = null;
       toastSuccess(action.payload);
     },
     deleteCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
       toastError(action.payload);
     },
     updateSearchParams: (
@@ -187,7 +193,7 @@ const categorySlice = createSlice({
     },
     // Reset category state
     resetCategory: (state) => {
-      state.category = initialState.category;
+      state.categoryDetail = initialState.categoryDetail;
     },
   },
 });
@@ -196,9 +202,9 @@ export const {
   getCategoriesRequest,
   getCategoriesSuccess,
   getCategoriesFailure,
-  getCategoryRequest,
-  getCategorySuccess,
-  getCategoryFailure,
+  getCategoryDetailRequest,
+  getCategoryDetailSuccess,
+  getCategoryDetailFailure,
   createCategoryRequest,
   createCategorySuccess,
   createCategoryFailure,
@@ -211,11 +217,13 @@ export const {
   updateSearchParams,
   updateSearchParamsByKey,
   resetCategory,
+  initCategoryState,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
 
-export const CategoriesState = (state: RootState) => state.category.categories;
 export const CategoryState = (state: RootState) => state.category.category;
+export const CategoryDetailState = (state: RootState) =>
+  state.category.categoryDetail;
 export const CategorySearchState = (state: RootState) =>
   state.category.searchParams;

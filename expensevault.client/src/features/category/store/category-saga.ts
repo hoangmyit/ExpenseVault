@@ -38,9 +38,9 @@ import {
   getCategoriesFailure,
   getCategoriesRequest,
   getCategoriesSuccess,
-  getCategoryFailure,
-  getCategoryRequest,
-  getCategorySuccess,
+  getCategoryDetailFailure,
+  getCategoryDetailRequest,
+  getCategoryDetailSuccess,
   updateCategoryFailure,
   updateCategoryRequest,
   updateCategorySuccess,
@@ -100,8 +100,8 @@ function* getCategorySaga(action: PayloadAction<string>) {
   yield* handleApiCall(
     getCategory,
     action.payload,
-    (data: CategoryDto) => getCategorySuccess(data),
-    (error) => getCategoryFailure(error),
+    (data: CategoryDto) => getCategoryDetailSuccess(data),
+    (error) => getCategoryDetailFailure(error),
     {
       useToastPromise: true,
       error: getLangText(GET_CATEGORY_ERROR_MESSAGE),
@@ -161,7 +161,7 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
 
 function* categorySaga() {
   yield takeLatest(getCategoriesRequest.type, getCategoriesSaga);
-  yield takeLatest(getCategoryRequest.type, getCategorySaga);
+  yield takeLatest(getCategoryDetailRequest.type, getCategorySaga);
   yield takeLatest(createCategoryRequest.type, createCategorySaga);
   yield takeLatest(updateCategoryRequest.type, updateCategorySaga);
   yield takeLatest(deleteCategoryRequest.type, deleteCategorySaga);

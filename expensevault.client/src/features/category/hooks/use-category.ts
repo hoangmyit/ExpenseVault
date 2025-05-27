@@ -2,25 +2,29 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CategoryDto } from '../../../shared/types/common/backend-model';
 import {
-  CategoriesState,
+  CategoryDetailState,
   CategorySearchState,
   CategoryState,
   createCategoryRequest,
   deleteCategoryRequest,
   getCategoriesRequest,
-  getCategoryRequest,
+  getCategoryDetailRequest,
+  initCategoryState,
   updateCategoryRequest,
   updateSearchParamsByKey,
 } from '../store/category-slice';
 
+import {
+  CategoryDetailDto,
+  CategoryDto,
+} from '@/shared/types/backend/category';
 import { SearchState } from '@/shared/types/common';
 
 export const useCategory = () => {
   const dispatch = useDispatch();
-  const categoriesData = useSelector(CategoriesState);
-  const categoryData = useSelector(CategoryState);
+  const categoriesData = useSelector(CategoryState);
+  const categoryDetailData = useSelector(CategoryDetailState);
   const searchParams = useSelector(CategorySearchState);
 
   const getCategories = useCallback(
@@ -29,19 +33,19 @@ export const useCategory = () => {
     [dispatch],
   );
   const createCategory = useCallback(
-    (category: CategoryDto) => dispatch(createCategoryRequest(category)),
+    (category: CategoryDetailDto) => dispatch(createCategoryRequest(category)),
     [dispatch],
   );
   const deleteCategory = useCallback(
     (id: string) => dispatch(deleteCategoryRequest(id)),
     [dispatch],
   );
-  const getCategory = useCallback(
-    (id: string) => dispatch(getCategoryRequest(id)),
+  const getCategoryDetail = useCallback(
+    (id: string) => dispatch(getCategoryDetailRequest(id)),
     [dispatch],
   );
   const updateCategory = useCallback(
-    (category: CategoryDto) => dispatch(updateCategoryRequest(category)),
+    (category: CategoryDetailDto) => dispatch(updateCategoryRequest(category)),
     [dispatch],
   );
   const updateSearchParams = useCallback(
@@ -50,17 +54,22 @@ export const useCategory = () => {
     [dispatch],
   );
 
+  const initCategoryDetail = useCallback(() => {
+    dispatch(initCategoryState());
+  }, [dispatch]);
+
   return {
     categories: categoriesData.data,
     categoriesStatus: categoriesData.status,
     getCategories,
     createCategory,
     deleteCategory,
-    getCategory,
-    category: categoryData.data,
-    categoryStatus: categoryData.status,
+    getCategoryDetail,
+    categoryDetail: categoryDetailData.data,
+    categoryDetailStatus: categoryDetailData.status,
     updateCategory,
     searchParams,
     updateSearchParams,
+    initCategoryDetail,
   };
 };
