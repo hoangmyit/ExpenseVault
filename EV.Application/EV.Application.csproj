@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Authorization\" />
+    <Folder Include="CategoryGroups\Commands\" />
   </ItemGroup>
 
 </Project>
