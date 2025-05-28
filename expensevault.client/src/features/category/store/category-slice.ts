@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { set } from 'ramda';
 
 import { SearchState } from '../../../shared/types/common';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
@@ -18,6 +19,7 @@ import {
   CategoryDto,
 } from '@/shared/types/backend/category';
 import { initSupportLanguageField } from '@/shared/utils/language-util';
+import { updatePartialObject } from '@/shared/utils/object-util';
 import { getItemPerPage } from '@/shared/utils/setting-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
@@ -106,6 +108,15 @@ const categorySlice = createSlice({
     ) => {
       state.categoryDetail.status = 'loading';
       state.categoryDetail.error = null;
+    },
+    setPartialCategoryDetail: (
+      state,
+      action: PayloadAction<Partial<CategoryDetailDto>>,
+    ) => {
+      if (isNullOrEmpty(state.categoryDetail.data)) {
+        throw new Error('Category detail data is not initialized');
+      }
+      updatePartialObject(state.categoryDetail.data!, action.payload);
     },
     createCategorySuccess: (state, action: PayloadAction<string>) => {
       state.categoryDetail.status = 'succeeded';
@@ -218,6 +229,7 @@ export const {
   updateSearchParamsByKey,
   resetCategory,
   initCategoryState,
+  setPartialCategoryDetail,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

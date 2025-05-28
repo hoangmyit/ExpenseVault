@@ -8,11 +8,12 @@ import { useCategoryGroup } from '../category-group/hooks/use-category-group';
 import { useCategory } from './hooks/use-category';
 
 import FeaturePageHeader from '@/shared/components/feature-title';
+import FormSelect from '@/shared/components/form/form-select/form-select';
 import ImageUploadPreviewControl from '@/shared/components/ui/image-upload-preview-control';
 import { CategoryDto } from '@/shared/types/backend/category';
-import { isNullOrEmptyArray } from '@/shared/utils/array-util';
+import { isNullOrEmptyArray, mapArray } from '@/shared/utils/array-util';
 import { getLangFieldText } from '@/shared/utils/language-util';
-import { isNullOrUndefined } from '@/shared/utils/type-utils';
+import { isNullOrUndefined, parseNumber } from '@/shared/utils/type-utils';
 
 const CategoryDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,6 +24,7 @@ const CategoryDetailPage: FC = () => {
     getCategoryDetail,
     updateCategory,
     initCategoryDetail,
+    setCategoryDetail,
   } = useCategory();
   const { getCategoryGroup, categoryGroupData } = useCategoryGroup();
 
@@ -50,12 +52,28 @@ const CategoryDetailPage: FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     fieldChange: keyof CategoryDto,
   ) => {
-    updateCategory({
-      ...categoryDetail,
+    setCategoryDetail({
       [fieldChange]:
         fieldChange === 'isDefault' ? e.target.checked : e.target.value,
     });
   };
+
+  const handleSelectChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    fieldChange: keyof CategoryDto,
+  ) => {
+    setCategoryDetail({
+      [fieldChange]: parseNumber(e.target.value),
+    });
+  };
+
+  const categoryGroupOptions = !isNullOrEmptyArray(categoryGroupData)
+    ? mapArray(categoryGroupData!, (group) => ({
+        label: getLangFieldText(group.name),
+        value: group.id,
+        disabled: false,
+      }))
+    : [];
 
   const handleImageChange = (file: File | null) => {
     setCategoryImage(file);
@@ -80,11 +98,13 @@ const CategoryDetailPage: FC = () => {
             placeholder="Please input category description"
             onChange={(e) => handleInputChange(e, 'description')}
           />
-          <FormInput
+          <FormSelect
             label="category group"
             value={categoryDetail.groupId}
             placeholder="Please input category group"
-            onChange={(e) => handleInputChange(e, 'groupId')}
+            onChange={(e) => handleSelectChange(e, 'groupId')}
+            options={categoryGroupOptions}
+            title="Select Category Group"
           />
           <FormCheckbox
             label="default"

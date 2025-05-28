@@ -25,7 +25,7 @@ namespace EV.Application.CategoryGroups.Handlers
 
         public async Task<IList<CategoryGroupDto>> Handle(GetCategoryGroupQuery request, CancellationToken cancellationToken)
         {
-            var categoryGroups = await _context.CategoryGroups.AllAsync(x => !x.IsDeleted);
+            var categoryGroups = await _context.CategoryGroups.Where(x => !x.IsDeleted).ToListAsync();
 
             return _mapper.Map<IList<CategoryGroupDto>>(categoryGroups);
         }

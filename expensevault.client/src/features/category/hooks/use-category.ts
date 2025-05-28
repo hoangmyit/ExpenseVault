@@ -11,6 +11,7 @@ import {
   getCategoriesRequest,
   getCategoryDetailRequest,
   initCategoryState,
+  setPartialCategoryDetail,
   updateCategoryRequest,
   updateSearchParamsByKey,
 } from '../store/category-slice';
@@ -48,6 +49,13 @@ export const useCategory = () => {
     (category: CategoryDetailDto) => dispatch(updateCategoryRequest(category)),
     [dispatch],
   );
+
+  const setCategoryDetail = useCallback(
+    (category: Partial<CategoryDetailDto>) =>
+      dispatch(setPartialCategoryDetail(category)),
+    [dispatch],
+  );
+
   const updateSearchParams = useCallback(
     (key: keyof SearchState<CategoryDto>, value: string | number | boolean) =>
       dispatch(updateSearchParamsByKey({ key, value })),
@@ -71,5 +79,6 @@ export const useCategory = () => {
     searchParams,
     updateSearchParams,
     initCategoryDetail,
+    setCategoryDetail,
   };
 };

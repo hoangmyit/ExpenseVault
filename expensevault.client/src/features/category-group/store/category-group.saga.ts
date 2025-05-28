@@ -2,6 +2,7 @@ import { takeLatest } from 'redux-saga/effects';
 
 import {
   getCategoryGroupsFailure,
+  getCategoryGroupsRequest,
   getCategoryGroupsSuccess,
 } from './category-group-slice';
 
@@ -25,5 +26,5 @@ function* getCategoryGroupSaga() {
 }
 
 export function* categoryGroupSaga() {
-  yield takeLatest(getCategoryGroupsSuccess.type, getCategoryGroupSaga);
+  yield takeLatest(getCategoryGroupsRequest.type, getCategoryGroupSaga);
 }

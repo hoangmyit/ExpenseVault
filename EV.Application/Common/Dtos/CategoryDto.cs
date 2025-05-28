@@ -6,7 +6,6 @@ namespace EV.Application.Common.Dtos
 {
     public class CategoryDto : CategorySummaryDto
     {
-        public int GroupId { get; set; }
         public Dictionary<string, string> GroupName { get; set; }
         public TransactionType TransactionType { get; set; }
     }
