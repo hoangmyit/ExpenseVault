@@ -6,7 +6,9 @@ namespace EV.Application.Categories.Commands.UpdateCategory
     {
         public UpdateCategoryCommandValidator()
         {
-            RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required.");
+            RuleFor(x => x.Id)
+                .NotEmpty().WithMessage("Id is required.")
+                .GreaterThan(1).WithMessage("Id must be greater than 0");
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .NotNull().WithMessage("Name is required.")
