@@ -18,6 +18,7 @@ import {
   CategoryDetailDto,
   CategoryDto,
 } from '@/shared/types/backend/category';
+import { throwTypeErrorIf } from '@/shared/utils/common-util';
 import { initSupportLanguageField } from '@/shared/utils/language-util';
 import { updatePartialObject } from '@/shared/utils/object-util';
 import { getItemPerPage } from '@/shared/utils/setting-util';
@@ -113,9 +114,10 @@ const categorySlice = createSlice({
       state,
       action: PayloadAction<Partial<CategoryDetailDto>>,
     ) => {
-      if (isNullOrEmpty(state.categoryDetail.data)) {
-        throw new Error('Category detail data is not initialized');
-      }
+      throwTypeErrorIf(
+        isNullOrEmpty(state.categoryDetail.data),
+        'Category detail data is not initialized',
+      );
       updatePartialObject(state.categoryDetail.data!, action.payload);
     },
     createCategorySuccess: (state, action: PayloadAction<string>) => {

@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
 import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkbox';
@@ -17,6 +18,8 @@ import { isNullOrUndefined, parseNumber } from '@/shared/utils/type-utils';
 
 const CategoryDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
+  const isNewCategory = id === 'new';
+  const { t } = useTranslation();
   const [categoryImage, setCategoryImage] = useState<File | null>(null);
 
   const {
@@ -25,6 +28,7 @@ const CategoryDetailPage: FC = () => {
     updateCategory,
     initCategoryDetail,
     setCategoryDetail,
+    createCategory,
   } = useCategory();
   const { getCategoryGroup, categoryGroupData } = useCategoryGroup();
 
@@ -81,33 +85,50 @@ const CategoryDetailPage: FC = () => {
     // updateCategory({ ...categoryDetail, image: file });
   };
 
+  const handleUpdateCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (isNewCategory) {
+      createCategory(categoryDetail);
+    } else {
+      updateCategory(categoryDetail);
+    }
+  };
+
   return (
     <div className="p-8">
-      <FeaturePageHeader title="Category Details" showAction={false} />
+      <FeaturePageHeader
+        title={t('category:categoryDetails')}
+        showAction={true}
+        addActionName={t(
+          `category:${isNewCategory ? 'create' : 'update'}Category`,
+        )}
+        addNewAction={handleUpdateCategory}
+      />
       <div className="flex w-full flex-row gap-4">
         <div className="flex w-1/2 flex-col">
           <FormInput
-            label="name"
+            label={t('category:tableHeader.name')}
             value={getLangFieldText(categoryDetail.name)}
-            placeholder="Please input category name"
+            placeholder={t('category:tableHeader.namePlaceholder')}
             onChange={(e) => handleInputChange(e, 'name')}
           />
           <FormInput
-            label="description"
+            label={t('category:tableHeader.description')}
             value={getLangFieldText(categoryDetail.description)}
-            placeholder="Please input category description"
+            placeholder={t('category:tableHeader.descriptionPlaceholder')}
             onChange={(e) => handleInputChange(e, 'description')}
           />
           <FormSelect
-            label="category group"
+            label={t('category:tableHeader.groupName')}
             value={categoryDetail.groupId}
-            placeholder="Please input category group"
+            placeholder={t('category:tableHeader.groupNamePlaceholder')}
+            defaultValue={'default-placeholder'}
             onChange={(e) => handleSelectChange(e, 'groupId')}
             options={categoryGroupOptions}
             title="Select Category Group"
           />
           <FormCheckbox
-            label="default"
+            label={t('category:tableHeader.isDefault')}
             checked={categoryDetail.isDefault}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               handleInputChange(e, 'isDefault')

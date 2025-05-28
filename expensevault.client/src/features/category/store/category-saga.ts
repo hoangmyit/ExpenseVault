@@ -2,11 +2,11 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 
 import {
-  createCategory,
-  deleteCategory,
-  getCategories,
-  getCategoryDetail,
-  updateCategory,
+  createCategoryService,
+  deleteCategoryService,
+  getCategoriesService,
+  getCategoryDetailService,
+  updateCategoryService,
 } from '../../../core/api/endpoints/category.service';
 import { PaginatedList, SearchState } from '../../../shared/types/common';
 import { handleApiCall } from '../../../shared/utils/saga-util';
@@ -56,7 +56,7 @@ import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
   yield* handleApiCall(
-    getCategories,
+    getCategoriesService,
     action.payload,
     (data: PaginatedList<CategoryDto>) => getCategoriesSuccess(data),
     (error) => getCategoriesFailure(error),
@@ -101,7 +101,7 @@ function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
 
 function* getCategoryDetailSaga(action: PayloadAction<string>) {
   yield* handleApiCall(
-    getCategoryDetail,
+    getCategoryDetailService,
     action.payload,
     (data: CategoryDetailDto) => getCategoryDetailSuccess(data),
     (error) => getCategoryDetailFailure(error),
@@ -117,7 +117,7 @@ function* getCategoryDetailSaga(action: PayloadAction<string>) {
 function* createCategorySaga(action: PayloadAction<CategoryDetailDto>) {
   const category = action.payload;
   yield* handleApiCall(
-    createCategory,
+    createCategoryService,
     category,
     (data: string) => createCategorySuccess(data),
     (error) => createCategoryFailure(error),
@@ -133,7 +133,7 @@ function* createCategorySaga(action: PayloadAction<CategoryDetailDto>) {
 function* updateCategorySaga(action: PayloadAction<CategoryDetailDto>) {
   const category = action.payload;
   yield* handleApiCall(
-    updateCategory,
+    updateCategoryService,
     category,
     () => updateCategorySuccess(category), // Note: Using the original category rather than response data
     (error) => updateCategoryFailure(error),
@@ -149,7 +149,7 @@ function* updateCategorySaga(action: PayloadAction<CategoryDetailDto>) {
 function* deleteCategorySaga(action: PayloadAction<string>) {
   const id = action.payload;
   yield* handleApiCall(
-    deleteCategory,
+    deleteCategoryService,
     id,
     (data: string) => deleteCategorySuccess(data),
     (error) => deleteCategoryFailure(error),

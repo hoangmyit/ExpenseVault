@@ -12,7 +12,7 @@ import {
 import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
 import { toPascalCase } from '@/shared/utils/string-util';
 
-export const getCategories = async ({
+export const getCategoriesService = async ({
   pageIndex = 1,
   pageSize = 10,
   search = '',
@@ -40,7 +40,7 @@ export const getCategories = async ({
   };
 };
 
-export const getCategoryDetail = async (
+export const getCategoryDetailService = async (
   id: string,
 ): Promise<ApiResult<CategoryDetailDto>> => {
   const response = await httpServiceGet<CategoryDetailDto>(
@@ -53,7 +53,7 @@ export const getCategoryDetail = async (
   };
 };
 
-export const createCategory = async (
+export const createCategoryService = async (
   category: CategoryDetailDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
@@ -64,7 +64,7 @@ export const createCategory = async (
   };
 };
 
-export const updateCategory = async (
+export const updateCategoryService = async (
   category: CategoryDetailDto,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePut<string>(
@@ -78,7 +78,7 @@ export const updateCategory = async (
   };
 };
 
-export const deleteCategory = async (
+export const deleteCategoryService = async (
   id: string,
 ): Promise<ApiResult<string>> => {
   const response = await httpServiceDelete<string>(`/api/category/${id}`);

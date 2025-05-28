@@ -29,10 +29,13 @@
   "tableHeader":{
     "id": "ID",
     "name": "Name",
+    "namePlaceholder": "Please input category name",
     "description": "Description",
+    "descriptionPlaceholder": "Enter category description",
     "avatar": "Avatar",
     "isDefault": "Is Default",
-    "groupName": "Group Name"
+    "groupName": "Group Name",
+    "groupNamePlaceholder": "Please select a group"
   },
   "title": {
     "create": "Create Category",
@@ -45,5 +48,8 @@
     "expense": "Expense",
     "transfer": "Transfer",
     "loan": "Loan"
-  }
+  },
+  "categoryDetails": "Category Details",
+  "createCategory": "Create Category",
+  "updateCategory": "Update Category"
 }
