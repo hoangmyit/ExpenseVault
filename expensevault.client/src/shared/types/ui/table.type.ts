@@ -1,6 +1,6 @@
 import { Key, ReactNode } from 'react';
 
-import { PaginatedData, SearchState, sizeType } from '../common';
+import { PaginatedData, SearchState, SizeType } from '../common';
 
 import { ISelectOption } from './select.type';
 
@@ -28,7 +28,7 @@ export interface TableProps<T> {
   loading?: boolean;
   pagination: PaginatedData<T>;
   bordered?: boolean;
-  size?: sizeType;
+  size?: SizeType;
   scroll?: {
     x?: number | string | true;
     y?: number | string;

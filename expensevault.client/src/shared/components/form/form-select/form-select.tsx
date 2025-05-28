@@ -1,35 +1,27 @@
-import { FC } from 'react';
+import { FC, forwardRef } from 'react';
 
-import SelectControl from '../../ui/select-control/select-control';
+import clsx from 'clsx';
+
+import SelectControl from '../../ui/select-control';
+import FormField from '../form-field';
 
 import { FormSelectProps } from './form-select.const';
 
-const FormSelect: FC<FormSelectProps> = ({
-  options,
-  value,
-  onChange,
-  className = '',
-  placeholder = 'Please select',
-  label,
-  disabled = false,
-  required = false,
-  error,
-}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    if (onChange) {
-      onChange(selectedValue);
-    }
-  };
-
+const FormSelect: FC<FormSelectProps> = forwardRef<
+  HTMLSelectElement,
+  FormSelectProps
+>(({ label, error, helper, options, className, ...props }, ref) => {
   return (
-    <div className="form-control flex flex-row items-center gap-2">
-      <label className="label font-semibold">
-        <span className="label-text">{label}</span>
-      </label>
-      <SelectControl options={options} onChange={handleChange} />
-    </div>
+    <FormField label={label} error={error} helper={helper}>
+      <SelectControl
+        options={options}
+        ref={ref}
+        className={clsx(className, error && 'select-error')}
+        {...props}
+      />
+    </FormField>
   );
-};
+});
 
+FormSelect.displayName = 'FormSelect';
 export default FormSelect;

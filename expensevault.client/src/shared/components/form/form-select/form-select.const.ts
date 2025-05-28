@@ -1,13 +1,4 @@
-import { SelectControlOptions } from '../../ui/select-control';
+import { SelectControlComponentProps } from '../../ui/select-control';
+import { FormFieldBaseProps } from '../form-field.const';
 
-export type FormSelectProps = {
-  options: SelectControlOptions[];
-  value?: string | number;
-  onChange?: (value: string | number) => void;
-  className?: string;
-  placeholder?: string;
-  label?: string;
-  disabled?: boolean;
-  required?: boolean;
-  error?: string;
-};
+export type FormSelectProps = FormFieldBaseProps & SelectControlComponentProps;

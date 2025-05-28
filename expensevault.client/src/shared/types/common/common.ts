@@ -31,7 +31,7 @@ export type ApiResult<T> = {
   messageKey?: string;
 };
 
-export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type SizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export const SupportLanguages = ['en', 'vi'] as const;
 
