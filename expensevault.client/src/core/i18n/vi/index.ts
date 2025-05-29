@@ -2,6 +2,7 @@ import categoryVi from './category.json';
 import categoryGroupVi from './category-group.json';
 import commonVi from './common.json';
 import emailVi from './email.json';
+import languageVi from './language.json';
 import profileVi from './profile.json';
 import serverResultVi from './server-result.json';
 import signInVi from './sign-in.json';
@@ -14,6 +15,7 @@ export {
   categoryVi,
   commonVi,
   emailVi,
+  languageVi,
   profileVi,
   serverResultVi,
   signInVi,

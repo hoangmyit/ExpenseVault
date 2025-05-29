@@ -11,7 +11,9 @@ import { useCategory } from './hooks/use-category';
 import FeaturePageHeader from '@/shared/components/feature-title';
 import FormSelect from '@/shared/components/form/form-select/form-select';
 import ImageUploadPreviewControl from '@/shared/components/ui/image-upload-preview-control';
+import SupportLanguageControl from '@/shared/components/ui/support-language-control';
 import { CategoryDto } from '@/shared/types/backend/category';
+import { SupportLanguageField } from '@/shared/types/common';
 import { isNullOrEmptyArray, mapArray } from '@/shared/utils/array-util';
 import { getLangFieldText } from '@/shared/utils/language-util';
 import { isNullOrUndefined, parseNumber } from '@/shared/utils/type-utils';
@@ -94,6 +96,15 @@ const CategoryDetailPage: FC = () => {
     }
   };
 
+  const handleLanguageFieldChange = (
+    value: SupportLanguageField,
+    fieldChange: keyof CategoryDto,
+  ) => {
+    setCategoryDetail({
+      [fieldChange]: value,
+    });
+  };
+
   return (
     <div className="p-8">
       <FeaturePageHeader
@@ -106,17 +117,19 @@ const CategoryDetailPage: FC = () => {
       />
       <div className="flex w-full flex-row gap-4">
         <div className="flex w-1/2 flex-col">
-          <FormInput
+          <SupportLanguageControl
             label={t('category:tableHeader.name')}
-            value={getLangFieldText(categoryDetail.name)}
-            placeholder={t('category:tableHeader.namePlaceholder')}
-            onChange={(e) => handleInputChange(e, 'name')}
+            value={categoryDetail.name}
+            placeholderPattern={'category:tableHeader.namePlaceholder'}
+            onChange={(value) => handleLanguageFieldChange(value, 'name')}
           />
-          <FormInput
+          <SupportLanguageControl
             label={t('category:tableHeader.description')}
-            value={getLangFieldText(categoryDetail.description)}
-            placeholder={t('category:tableHeader.descriptionPlaceholder')}
-            onChange={(e) => handleInputChange(e, 'description')}
+            value={categoryDetail.description}
+            placeholderPattern={'category:tableHeader.descriptionPlaceholder'}
+            onChange={(value) =>
+              handleLanguageFieldChange(value, 'description')
+            }
           />
           <FormSelect
             label={t('category:tableHeader.groupName')}

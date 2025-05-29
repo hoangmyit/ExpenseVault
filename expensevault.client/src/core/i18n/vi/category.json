@@ -26,13 +26,16 @@
       "error": "Không thể xóa danh mục chi tiêu"
     }
   },
-  "tableHeader":{
+  "tableHeader": {
     "id": "Mã số",
     "name": "Tên danh mục",
+    "namePlaceholder": "Vui lòng nhập tên danh mục chi tiêu cho {0}",
     "description": "Mô tả chi tiết",
+    "descriptionPlaceholder": "Nhập mô tả chi tiết cho danh mục chi tiêu {0}",
     "avatar": "Biểu tượng",
     "isDefault": "Mặc định hệ thống",
-    "groupName": "Tên nhóm"
+    "groupName": "Tên nhóm",
+    "groupNamePlaceholder": "Vui lòng chọn một nhóm danh mục"
   },
   "title": {
     "create": "Tạo danh mục chi tiêu",

@@ -10,7 +10,7 @@ const FormField: FC<FormFieldProps> = ({
   id,
 }) => {
   return (
-    <div>
+    <div className="my-2">
       {label && (
         <label htmlFor={id} className="fieldset-label">
           {label}

@@ -29,9 +29,9 @@
   "tableHeader":{
     "id": "ID",
     "name": "Name",
-    "namePlaceholder": "Please input category name",
+    "namePlaceholder": "Please input category name for {0}",
     "description": "Description",
-    "descriptionPlaceholder": "Enter category description",
+    "descriptionPlaceholder": "Enter category description for {0}",
     "avatar": "Avatar",
     "isDefault": "Is Default",
     "groupName": "Group Name",

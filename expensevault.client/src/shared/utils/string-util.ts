@@ -124,7 +124,7 @@ export const toNumber = (str: string): number | null => {
  * @returns {string} - Formatted string
  */
 export const format = curry(
-  (values: Record<string, string | number>, template: string): string => {
+  (template: string, values: Record<string, string | number>): string => {
     return replace(
       /{(\w+)}/g,
       (match, key) => {
@@ -351,7 +351,7 @@ export const splitString = curry(
 export const formatString = curry(
   (template: string, values: Record<string, string | number>): string => {
     return replace(
-      /{(\d+)}/g,
+      /{(\w+)}/g,
       (match, key) => {
         return values[key] !== undefined ? String(values[key]) : match;
       },

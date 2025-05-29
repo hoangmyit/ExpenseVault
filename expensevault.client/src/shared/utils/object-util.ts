@@ -38,3 +38,6 @@ export const updateDirectPartialObject = <T extends object>(
   }
   return Object.assign(target, source) as T;
 };
+
+export const getObjectKeys = <T extends object>(obj: T): (keyof T)[] =>
+  keys(obj);

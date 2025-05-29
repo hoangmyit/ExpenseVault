@@ -9,5 +9,14 @@
     "passwordPattern": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái viết thường, một số và một ký tự đặc biệt (@$!%*#?&) để đảm bảo tính bảo mật",
     "passwordsDoNotMatch": "Mật khẩu xác nhận không khớp với mật khẩu đã nhập",
     "usernamePattern": "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới"
+  },
+  "category": {
+    "nameRequired": "Tên danh mục là bắt buộc",
+    "nameMin": "Tên danh mục phải có ít nhất {0} ký tự",
+    "nameMax": "Tên danh mục không được vượt quá {0} ký tự",
+    "descriptionMax": "Mô tả không được vượt quá {0} ký tự",
+    "languageRequired": "Ít nhất một tên ngôn ngữ là bắt buộc",
+    "idPositive": "ID phải là một số nguyên dương",
+    "groupIdPositive": "ID nhóm phải là một số nguyên dương"
   }
 }
