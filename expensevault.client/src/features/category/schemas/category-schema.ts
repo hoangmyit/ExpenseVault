@@ -58,13 +58,13 @@ export const categorySchema = z
       .refine(
         (nameRecord) =>
           getArrayLength(getObjectKeys(nameRecord)) >
-          getArrayLength(SupportLanguages as unknown as string[]),
+          getArrayLength(SupportLanguages),
         {
           message: formatString(
             getLangText('validation:category:languageRequired'),
             {
               0: getLangText('category:tableHeader.description'),
-              1: getArrayLength(SupportLanguages as unknown as string[]),
+              1: getArrayLength(SupportLanguages),
             },
           ),
         },
@@ -73,7 +73,7 @@ export const categorySchema = z
       .number()
       .min(1, getLangText('validation:category.groupIdPositive')),
     isDefault: z.boolean().optional().default(false),
-    avatar: z.string().optional(),
+    avatar: z.string().optional().default('/images/category-avatar.png'),
   })
   .strict();
 

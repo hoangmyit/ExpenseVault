@@ -76,8 +76,9 @@ export const findArray = <T>(
  * @param {unknown[]} arr - Array to get length of
  * @returns {number} - Length of the array
  */
-export const getArrayLength = (arr: unknown[] | null): number =>
-  isNullOrUndefined(arr) ? 0 : length(arr!);
+export const getArrayLength = (
+  arr: unknown[] | null | readonly unknown[],
+): number => (isNullOrUndefined(arr) ? 0 : length(arr!));
 
 /**
  * Executes a provided function once for each array element with index support

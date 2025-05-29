@@ -3,15 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 
 import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkbox';
-import FormInput from '../../shared/components/form/form-input/form-input';
 import { useCategoryGroup } from '../category-group/hooks/use-category-group';
 
 import { useCategory } from './hooks/use-category';
+import { categorySchema } from './schemas/category-schema';
 
 import FeaturePageHeader from '@/shared/components/feature-title';
 import FormSelect from '@/shared/components/form/form-select/form-select';
 import ImageUploadPreviewControl from '@/shared/components/ui/image-upload-preview-control';
 import SupportLanguageControl from '@/shared/components/ui/support-language-control';
+import { useZodForm } from '@/shared/hooks/use-zod-form';
 import { CategoryDto } from '@/shared/types/backend/category';
 import { SupportLanguageField } from '@/shared/types/common';
 import { isNullOrEmptyArray, mapArray } from '@/shared/utils/array-util';
@@ -33,6 +34,13 @@ const CategoryDetailPage: FC = () => {
     createCategory,
   } = useCategory();
   const { getCategoryGroup, categoryGroupData } = useCategoryGroup();
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useZodForm(categorySchema);
 
   useEffect(() => {
     if (!isNullOrUndefined(id)) {
