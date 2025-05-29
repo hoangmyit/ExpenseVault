@@ -5,61 +5,125 @@ import {
   Name_Max_Length,
   Name_Min_Length,
 } from '@/shared/constants/field-constants';
-import { SupportLanguages } from '@/shared/types/common';
+import { SupportLanguageField, SupportLanguages } from '@/shared/types/common';
 import { getArrayLength } from '@/shared/utils/array-util';
 import { getLangText } from '@/shared/utils/language-util';
 import { getObjectKeys } from '@/shared/utils/object-util';
-import { formatString } from '@/shared/utils/string-util';
+import {
+  formatString,
+  lengthString,
+  trimString,
+} from '@/shared/utils/string-util';
+import {
+  isNullOrUndefined,
+  isObject,
+  isString,
+} from '@/shared/utils/type-utils';
 
 export const categorySchema = z
   .object({
     id: z.number().min(1, 'ID must be a positive number').optional(),
-    name: z
-      .record(
-        z
-          .string()
-          .trim()
-          .min(1, getLangText('validation:category.nameRequired'))
-          .min(
-            Name_Min_Length,
-            formatString(getLangText('validation:category:nameMin'), {
+    name: z.custom<SupportLanguageField>((val) => {
+      if (!isObject(val) || isNullOrUndefined(val)) {
+        throw new z.ZodError([
+          {
+            code: z.ZodIssueCode.custom,
+            message: getLangText('validation:category.nameRequired'),
+            path: ['name'],
+          },
+        ]);
+      }
+      const errors: z.ZodIssue[] = [];
+
+      // Check if all values meet the string requirements
+      for (const [key, value] of Object.entries(val)) {
+        const path = ['name', key];
+        if (!isString(value) || lengthString(value as string) === 0) {
+          errors.push({
+            code: z.ZodIssueCode.custom,
+            message: getLangText('validation:category.nameRequired'),
+            path: path,
+          });
+        }
+
+        const trimmedValue = trimString(value as string);
+
+        if (lengthString(trimmedValue) < Name_Min_Length) {
+          errors.push({
+            code: z.ZodIssueCode.custom,
+            message: formatString(getLangText('validation:category:nameMin'), {
               0: Name_Min_Length,
             }),
-          )
-          .max(
-            Name_Max_Length,
-            formatString(getLangText('validation:category:nameMax'), {
+            path: path,
+          });
+        } else if (lengthString(trimmedValue) > Name_Max_Length) {
+          errors.push({
+            code: z.ZodIssueCode.custom,
+            message: formatString(getLangText('validation:category:nameMax'), {
               0: Name_Max_Length,
             }),
+            path: path,
+          });
+        }
+      }
+
+      if (
+        getArrayLength(getObjectKeys(val)) < getArrayLength(SupportLanguages)
+      ) {
+        errors.push({
+          code: z.ZodIssueCode.custom,
+          message: formatString(
+            getLangText('validation:category:languageRequired'),
+            {
+              0: getLangText('category:tableHeader.name'),
+              1: getArrayLength(SupportLanguages),
+            },
           ),
-      )
-      .refine(
-        (nameRecord) =>
-          getArrayLength(getObjectKeys(nameRecord)) >
-          getArrayLength(SupportLanguages as unknown as string[]),
-        {
-          message: formatString(getLangText('category:tableHeader.name'), {
-            1: getArrayLength(SupportLanguages as unknown as string[]),
-          }),
-        },
-      ),
-    description: z
-      .record(
-        z
-          .string()
-          .trim()
-          .max(
-            Description_Max_Length,
-            formatString(getLangText('validation:category.descriptionMax'), {
-              0: Description_Max_Length,
-            }),
-          ),
-      )
-      .refine(
-        (nameRecord) =>
-          getArrayLength(getObjectKeys(nameRecord)) >
-          getArrayLength(SupportLanguages),
-        {
+          path: ['name'],
+        });
+      }
+
+      if (getArrayLength(errors) > 0) {
+        throw new z.ZodError(errors);
+      }
+      return true;
+    }),
+    description: z.custom<SupportLanguageField>((val) => {
+      if (!isObject(val) || isNullOrUndefined(val)) {
+        throw new z.ZodError([
+          {
+            code: z.ZodIssueCode.custom,
+            message: getLangText('validation:category.descriptionRequired'),
+            path: ['description'],
+          },
+        ]);
+      }
+      const errors: z.ZodIssue[] = [];
+
+      // Check if all values meet the string requirements
+      for (const [key, value] of Object.entries(val)) {
+        const path = ['description', key];
+        const trimmedValue = trimString(value as string);
+
+        if (lengthString(trimmedValue) > Description_Max_Length) {
+          errors.push({
+            code: z.ZodIssueCode.custom,
+            message: formatString(
+              getLangText('validation:category:descriptionMax'),
+              {
+                0: Description_Max_Length,
+              },
+            ),
+            path: path,
+          });
+        }
+      }
+
+      if (
+        getArrayLength(getObjectKeys(val)) < getArrayLength(SupportLanguages)
+      ) {
+        errors.push({
+          code: z.ZodIssueCode.custom,
           message: formatString(
             getLangText('validation:category:languageRequired'),
             {
@@ -67,8 +131,15 @@ export const categorySchema = z
               1: getArrayLength(SupportLanguages),
             },
           ),
-        },
-      ),
+          path: ['description'],
+        });
+      }
+
+      if (getArrayLength(errors) > 0) {
+        throw new z.ZodError(errors);
+      }
+      return true;
+    }),
     groupId: z
       .number()
       .min(1, getLangText('validation:category.groupIdPositive')),

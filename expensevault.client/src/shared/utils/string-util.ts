@@ -37,6 +37,9 @@ export const toCamelCase = (str: string): string => {
     .replace(/\s+|[-_]/g, '');
 };
 
+export const lengthString = (str: string | null | undefined): number =>
+  str?.length || 0;
+
 /**
  * Converts a string to snake_case
  * @param {string} str - String to convert

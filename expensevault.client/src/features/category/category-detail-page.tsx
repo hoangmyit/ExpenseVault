@@ -6,7 +6,7 @@ import FormCheckbox from '../../shared/components/form/form-checkbox/form-checkb
 import { useCategoryGroup } from '../category-group/hooks/use-category-group';
 
 import { useCategory } from './hooks/use-category';
-import { categorySchema } from './schemas/category-schema';
+import { CategoryFormData, categorySchema } from './schemas/category-schema';
 
 import FeaturePageHeader from '@/shared/components/feature-title';
 import FormSelect from '@/shared/components/form/form-select/form-select';
@@ -39,6 +39,8 @@ const CategoryDetailPage: FC = () => {
     register,
     handleSubmit,
     setError,
+    setValue,
+    watch,
     formState: { errors },
   } = useZodForm(categorySchema);
 
@@ -58,27 +60,79 @@ const CategoryDetailPage: FC = () => {
     }
   }, []);
 
+  // Watch form values to sync with categoryDetail
+  const formData = watch();
+
+  useEffect(() => {
+    if (categoryDetail) {
+      setValue('name', categoryDetail.name);
+      setValue('description', categoryDetail.description);
+      setValue('groupId', categoryDetail.groupId);
+      setValue('isDefault', categoryDetail.isDefault);
+      if (categoryDetail.avatar) {
+        setValue('avatar', categoryDetail.avatar);
+      }
+    }
+  }, [categoryDetail, setValue]);
+
   if (categoryDetail === null) {
     return null;
   }
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+  const handleImageChange = (file: File | null) => {
+    setCategoryImage(file);
+    // You can also update the category detail here if needed
+    // updateCategory({ ...categoryDetail, image: file });
+  };
+
+  const handleLanguageFieldChange = (
+    value: SupportLanguageField,
     fieldChange: keyof CategoryDto,
   ) => {
     setCategoryDetail({
-      [fieldChange]:
-        fieldChange === 'isDefault' ? e.target.checked : e.target.value,
+      [fieldChange]: value,
     });
+    setValue(fieldChange as keyof CategoryFormData, value);
   };
 
   const handleSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     fieldChange: keyof CategoryDto,
   ) => {
+    const numValue = parseNumber(e.target.value);
     setCategoryDetail({
-      [fieldChange]: parseNumber(e.target.value),
+      [fieldChange]: numValue,
     });
+    setValue(fieldChange as keyof CategoryFormData, numValue);
+  };
+
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldChange: keyof CategoryDto,
+  ) => {
+    const boolValue = e.target.checked;
+    setCategoryDetail({
+      [fieldChange]: boolValue,
+    });
+    setValue(fieldChange as keyof CategoryFormData, boolValue);
+  };
+
+  const onSubmit = async (data: CategoryFormData) => {
+    try {
+      const categoryData = {
+        ...categoryDetail,
+        ...data,
+      };
+
+      if (isNewCategory) {
+        await createCategory(categoryData);
+      } else {
+        await updateCategory(categoryData);
+      }
+    } catch (error) {
+      // Handle server errors by setting form errors
+      console.error('Form submission error:', error);
+    }
   };
 
   const categoryGroupOptions = !isNullOrEmptyArray(categoryGroupData)
@@ -89,30 +143,6 @@ const CategoryDetailPage: FC = () => {
       }))
     : [];
 
-  const handleImageChange = (file: File | null) => {
-    setCategoryImage(file);
-    // You can also update the category detail here if needed
-    // updateCategory({ ...categoryDetail, image: file });
-  };
-
-  const handleUpdateCategory = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    if (isNewCategory) {
-      createCategory(categoryDetail);
-    } else {
-      updateCategory(categoryDetail);
-    }
-  };
-
-  const handleLanguageFieldChange = (
-    value: SupportLanguageField,
-    fieldChange: keyof CategoryDto,
-  ) => {
-    setCategoryDetail({
-      [fieldChange]: value,
-    });
-  };
-
   return (
     <div className="p-8">
       <FeaturePageHeader
@@ -121,49 +151,55 @@ const CategoryDetailPage: FC = () => {
         addActionName={t(
           `category:${isNewCategory ? 'create' : 'update'}Category`,
         )}
-        addNewAction={handleUpdateCategory}
+        addNewAction={handleSubmit(onSubmit)}
       />
-      <div className="flex w-full flex-row gap-4">
-        <div className="flex w-1/2 flex-col">
-          <SupportLanguageControl
-            label={t('category:tableHeader.name')}
-            value={categoryDetail.name}
-            placeholderPattern={'category:tableHeader.namePlaceholder'}
-            onChange={(value) => handleLanguageFieldChange(value, 'name')}
-          />
-          <SupportLanguageControl
-            label={t('category:tableHeader.description')}
-            value={categoryDetail.description}
-            placeholderPattern={'category:tableHeader.descriptionPlaceholder'}
-            onChange={(value) =>
-              handleLanguageFieldChange(value, 'description')
-            }
-          />
-          <FormSelect
-            label={t('category:tableHeader.groupName')}
-            value={categoryDetail.groupId}
-            placeholder={t('category:tableHeader.groupNamePlaceholder')}
-            defaultValue={'default-placeholder'}
-            onChange={(e) => handleSelectChange(e, 'groupId')}
-            options={categoryGroupOptions}
-            title="Select Category Group"
-          />
-          <FormCheckbox
-            label={t('category:tableHeader.isDefault')}
-            checked={categoryDetail.isDefault}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              handleInputChange(e, 'isDefault')
-            }
-          />
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className="flex w-full flex-row gap-4">
+          <div className="flex w-1/2 flex-col">
+            <SupportLanguageControl
+              label={t('category:tableHeader.name')}
+              value={categoryDetail.name}
+              placeholderPattern={'category:tableHeader.namePlaceholder'}
+              onChange={(value) => handleLanguageFieldChange(value, 'name')}
+              error={errors.name}
+            />
+            <SupportLanguageControl
+              label={t('category:tableHeader.description')}
+              value={categoryDetail.description}
+              placeholderPattern={'category:tableHeader.descriptionPlaceholder'}
+              onChange={(value) =>
+                handleLanguageFieldChange(value, 'description')
+              }
+              error={errors.description}
+            />
+            <FormSelect
+              label={t('category:tableHeader.groupName')}
+              value={categoryDetail.groupId}
+              placeholder={t('category:tableHeader.groupNamePlaceholder')}
+              defaultValue={'default-placeholder'}
+              onChange={(e) => handleSelectChange(e, 'groupId')}
+              options={categoryGroupOptions}
+              title="Select Category Group"
+              error={errors.groupId}
+            />
+            <FormCheckbox
+              label={t('category:tableHeader.isDefault')}
+              checked={categoryDetail.isDefault}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleCheckboxChange(e, 'isDefault')
+              }
+              error={errors.isDefault}
+            />
+          </div>
+          <div>
+            <ImageUploadPreviewControl
+              label="Category Image"
+              onChange={handleImageChange}
+              placeholder="No category image selected"
+            />
+          </div>
         </div>
-        <div>
-          <ImageUploadPreviewControl
-            label="Category Image"
-            onChange={handleImageChange}
-            placeholder="No category image selected"
-          />
-        </div>
-      </div>
+      </form>
     </div>
   );
 };
