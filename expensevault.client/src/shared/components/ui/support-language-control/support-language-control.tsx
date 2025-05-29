@@ -15,6 +15,7 @@ const SupportLanguageControl: FC<SupportLanguageControlProps> = ({
   value,
   placeholderPattern,
   onChange,
+  zodError,
 }) => {
   const { t } = useTranslation();
   const handleOnChange = (
@@ -38,6 +39,7 @@ const SupportLanguageControl: FC<SupportLanguageControlProps> = ({
             })}
             onChange={(e) => handleOnChange(e, lang)}
             label={t(`language:${lang}`)}
+            error={zodError?.[lang]}
           />
         ),
       )}

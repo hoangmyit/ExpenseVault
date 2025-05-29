@@ -7,16 +7,11 @@ import {
   CATEGORY_TABLE_FILTER_COLUMN,
   CATEGORY_TABLE_ORDER_COLUMN,
 } from '../constants/category.const';
+import { CategoryFormData } from '../schemas/category-schema';
 import { ICategoryState } from '../types/category.type';
 
-import {
-  toastError,
-  toastSuccess,
-} from '@/shared/components/feedback/toast/toast';
-import {
-  CategoryDetailDto,
-  CategoryDto,
-} from '@/shared/types/backend/category';
+import { toastSuccess } from '@/shared/components/feedback/toast/toast';
+import { CategoryDto } from '@/shared/types/backend/category';
 import { throwTypeErrorIf } from '@/shared/utils/common-util';
 import { initSupportLanguageField } from '@/shared/utils/language-util';
 import { updateDirectPartialObject } from '@/shared/utils/object-util';
@@ -80,7 +75,7 @@ const categorySlice = createSlice({
     },
     getCategoryDetailSuccess: (
       state,
-      action: PayloadAction<CategoryDetailDto>,
+      action: PayloadAction<CategoryFormData>,
     ) => {
       state.categoryDetail.status = 'succeeded';
       state.categoryDetail.data = action.payload;
@@ -91,7 +86,7 @@ const categorySlice = createSlice({
     },
     initCategoryState: (state) => {
       state.categoryDetail.data = {
-        id: '',
+        id: undefined,
         name: initSupportLanguageField(),
         description: initSupportLanguageField(),
         avatar: '',
@@ -102,14 +97,14 @@ const categorySlice = createSlice({
     // Create category actions
     createCategoryRequest: (
       state,
-      _action: PayloadAction<CategoryDetailDto>,
+      _action: PayloadAction<CategoryFormData>,
     ) => {
       state.categoryDetail.status = 'loading';
       state.categoryDetail.error = null;
     },
     setPartialCategoryDetail: (
       state,
-      action: PayloadAction<Partial<CategoryDetailDto>>,
+      action: PayloadAction<Partial<CategoryFormData>>,
     ) => {
       throwTypeErrorIf(
         isNullOrEmpty(state.categoryDetail.data),
@@ -128,15 +123,12 @@ const categorySlice = createSlice({
     // Update category actions
     updateCategoryRequest: (
       state,
-      _action: PayloadAction<CategoryDetailDto>,
+      _action: PayloadAction<CategoryFormData>,
     ) => {
       state.categoryDetail.status = 'loading';
       state.categoryDetail.error = null;
     },
-    updateCategorySuccess: (
-      state,
-      action: PayloadAction<CategoryDetailDto>,
-    ) => {
+    updateCategorySuccess: (state, action: PayloadAction<CategoryFormData>) => {
       state.categoryDetail.status = 'succeeded';
       state.categoryDetail.data = action.payload;
     },

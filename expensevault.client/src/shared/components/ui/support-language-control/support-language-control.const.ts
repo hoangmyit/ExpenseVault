@@ -1,3 +1,5 @@
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+
 import { SupportLanguageField } from '@/shared/types/common';
 
 export type SupportLanguageControlProps = {
@@ -5,4 +7,7 @@ export type SupportLanguageControlProps = {
   value: SupportLanguageField;
   placeholderPattern: string;
   onChange: (value: SupportLanguageField) => void;
+  zodError?:
+    | Merge<FieldError, FieldErrorsImpl<SupportLanguageField>>
+    | undefined;
 };

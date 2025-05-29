@@ -5,10 +5,8 @@ import {
   httpServicePut,
 } from '../client';
 
-import {
-  CategoryDetailDto,
-  CategoryDto,
-} from '@/shared/types/backend/category';
+import { CategoryFormData } from '@/features/category/schemas/category-schema';
+import { CategoryDto } from '@/shared/types/backend/category';
 import { ApiResult, PaginatedList, SearchState } from '@/shared/types/common';
 import { toPascalCase } from '@/shared/utils/string-util';
 
@@ -42,8 +40,8 @@ export const getCategoriesService = async ({
 
 export const getCategoryDetailService = async (
   id: string,
-): Promise<ApiResult<CategoryDetailDto>> => {
-  const response = await httpServiceGet<CategoryDetailDto>(
+): Promise<ApiResult<CategoryFormData>> => {
+  const response = await httpServiceGet<CategoryFormData>(
     `/api/category/${id}`,
   );
   return {
@@ -54,7 +52,7 @@ export const getCategoryDetailService = async (
 };
 
 export const createCategoryService = async (
-  category: CategoryDetailDto,
+  category: CategoryFormData,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePost<string>('/api/category', category);
   return {
@@ -65,7 +63,7 @@ export const createCategoryService = async (
 };
 
 export const updateCategoryService = async (
-  category: CategoryDetailDto,
+  category: CategoryFormData,
 ): Promise<ApiResult<string>> => {
   const response = await httpServicePut<string>(
     `/api/category/${category.id}`,

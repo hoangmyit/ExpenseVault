@@ -2,6 +2,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CategoryFormData } from '../schemas/category-schema';
 import {
   CategoryDetailState,
   CategorySearchState,
@@ -16,10 +17,7 @@ import {
   updateSearchParamsByKey,
 } from '../store/category-slice';
 
-import {
-  CategoryDetailDto,
-  CategoryDto,
-} from '@/shared/types/backend/category';
+import { CategoryDto } from '@/shared/types/backend/category';
 import { SearchState } from '@/shared/types/common';
 
 export const useCategory = () => {
@@ -34,7 +32,7 @@ export const useCategory = () => {
     [dispatch],
   );
   const createCategory = useCallback(
-    (category: CategoryDetailDto) => dispatch(createCategoryRequest(category)),
+    (category: CategoryFormData) => dispatch(createCategoryRequest(category)),
     [dispatch],
   );
   const deleteCategory = useCallback(
@@ -46,12 +44,12 @@ export const useCategory = () => {
     [dispatch],
   );
   const updateCategory = useCallback(
-    (category: CategoryDetailDto) => dispatch(updateCategoryRequest(category)),
+    (category: CategoryFormData) => dispatch(updateCategoryRequest(category)),
     [dispatch],
   );
 
   const setCategoryDetail = useCallback(
-    (category: Partial<CategoryDetailDto>) =>
+    (category: Partial<CategoryFormData>) =>
       dispatch(setPartialCategoryDetail(category)),
     [dispatch],
   );

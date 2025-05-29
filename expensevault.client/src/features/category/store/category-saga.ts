@@ -27,6 +27,7 @@ import {
   UPDATE_CATEGORY_PENDING_MESSAGE,
   UPDATE_CATEGORY_SUCCESS_MESSAGE,
 } from '../constants';
+import { CategoryFormData } from '../schemas/category-schema';
 
 import {
   createCategoryFailure,
@@ -47,10 +48,7 @@ import {
   updateSearchParams,
 } from './category-slice';
 
-import {
-  CategoryDetailDto,
-  CategoryDto,
-} from '@/shared/types/backend/category';
+import { CategoryDto } from '@/shared/types/backend/category';
 import { getLangText } from '@/shared/utils/language-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
@@ -103,7 +101,7 @@ function* getCategoryDetailSaga(action: PayloadAction<string>) {
   yield* handleApiCall(
     getCategoryDetailService,
     action.payload,
-    (data: CategoryDetailDto) => getCategoryDetailSuccess(data),
+    (data: CategoryFormData) => getCategoryDetailSuccess(data),
     (error) => getCategoryDetailFailure(error),
     {
       useToastPromise: true,
@@ -114,7 +112,7 @@ function* getCategoryDetailSaga(action: PayloadAction<string>) {
   );
 }
 
-function* createCategorySaga(action: PayloadAction<CategoryDetailDto>) {
+function* createCategorySaga(action: PayloadAction<CategoryFormData>) {
   const category = action.payload;
   yield* handleApiCall(
     createCategoryService,
@@ -130,7 +128,7 @@ function* createCategorySaga(action: PayloadAction<CategoryDetailDto>) {
   );
 }
 
-function* updateCategorySaga(action: PayloadAction<CategoryDetailDto>) {
+function* updateCategorySaga(action: PayloadAction<CategoryFormData>) {
   const category = action.payload;
   yield* handleApiCall(
     updateCategoryService,

@@ -97,24 +97,25 @@ const CategoryDetailPage: FC = () => {
 
   const handleSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
-    fieldChange: keyof CategoryDto,
+    fieldChange: keyof CategoryFormData,
   ) => {
     const numValue = parseNumber(e.target.value);
     setCategoryDetail({
       [fieldChange]: numValue,
     });
-    setValue(fieldChange as keyof CategoryFormData, numValue);
+    register(fieldChange).onChange(e);
+    setValue(fieldChange, numValue);
   };
 
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldChange: keyof CategoryDto,
+    fieldChange: keyof CategoryFormData,
   ) => {
     const boolValue = e.target.checked;
     setCategoryDetail({
       [fieldChange]: boolValue,
     });
-    setValue(fieldChange as keyof CategoryFormData, boolValue);
+    setValue(fieldChange, boolValue);
   };
 
   const onSubmit = async (data: CategoryFormData) => {
@@ -161,7 +162,7 @@ const CategoryDetailPage: FC = () => {
               value={categoryDetail.name}
               placeholderPattern={'category:tableHeader.namePlaceholder'}
               onChange={(value) => handleLanguageFieldChange(value, 'name')}
-              error={errors.name}
+              zodError={errors.name}
             />
             <SupportLanguageControl
               label={t('category:tableHeader.description')}
@@ -170,7 +171,7 @@ const CategoryDetailPage: FC = () => {
               onChange={(value) =>
                 handleLanguageFieldChange(value, 'description')
               }
-              error={errors.description}
+              zodError={errors.description}
             />
             <FormSelect
               label={t('category:tableHeader.groupName')}
@@ -181,6 +182,8 @@ const CategoryDetailPage: FC = () => {
               options={categoryGroupOptions}
               title="Select Category Group"
               error={errors.groupId}
+              name={register('groupId').name}
+              ref={register('groupId').ref}
             />
             <FormCheckbox
               label={t('category:tableHeader.isDefault')}
@@ -188,7 +191,6 @@ const CategoryDetailPage: FC = () => {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleCheckboxChange(e, 'isDefault')
               }
-              error={errors.isDefault}
             />
           </div>
           <div>
