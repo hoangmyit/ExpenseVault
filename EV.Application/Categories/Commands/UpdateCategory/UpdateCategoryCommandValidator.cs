@@ -27,6 +27,9 @@ namespace EV.Application.Categories.Commands.UpdateCategory
                  });
             RuleFor(x => x.Avatar).NotEmpty().WithMessage("Avatar is required.");
             RuleFor(x => x.IsDefault).NotNull().WithMessage("IsDefault is required.");
+            RuleFor(x => x.GroupId)
+               .NotEmpty().WithMessage("GroupId is required.")
+               .GreaterThan(1).WithMessage("GroupId must be greater than 0");
         }
     }
 }

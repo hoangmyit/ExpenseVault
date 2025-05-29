@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { set } from 'ramda';
 
 import { SearchState } from '../../../shared/types/common';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
@@ -20,7 +19,7 @@ import {
 } from '@/shared/types/backend/category';
 import { throwTypeErrorIf } from '@/shared/utils/common-util';
 import { initSupportLanguageField } from '@/shared/utils/language-util';
-import { updatePartialObject } from '@/shared/utils/object-util';
+import { updateDirectPartialObject } from '@/shared/utils/object-util';
 import { getItemPerPage } from '@/shared/utils/setting-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
@@ -73,7 +72,6 @@ const categorySlice = createSlice({
     getCategoriesFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
-      toastError(action.payload);
     },
     // Get single category actions
     getCategoryDetailRequest: (state, _action: PayloadAction<string>) => {
@@ -90,7 +88,6 @@ const categorySlice = createSlice({
     getCategoryDetailFailure: (state, action: PayloadAction<string>) => {
       state.categoryDetail.status = 'failed';
       state.categoryDetail.error = action.payload;
-      toastError(action.payload);
     },
     initCategoryState: (state) => {
       state.categoryDetail.data = {
@@ -118,16 +115,14 @@ const categorySlice = createSlice({
         isNullOrEmpty(state.categoryDetail.data),
         'Category detail data is not initialized',
       );
-      updatePartialObject(state.categoryDetail.data!, action.payload);
+      updateDirectPartialObject(state.categoryDetail.data!, action.payload);
     },
-    createCategorySuccess: (state, action: PayloadAction<string>) => {
+    createCategorySuccess: (state, _action: PayloadAction<string>) => {
       state.categoryDetail.status = 'succeeded';
-      toastSuccess(action.payload);
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
       state.categoryDetail.status = 'failed';
       state.categoryDetail.error = action.payload;
-      toastError(action.payload);
     },
 
     // Update category actions
@@ -144,12 +139,10 @@ const categorySlice = createSlice({
     ) => {
       state.categoryDetail.status = 'succeeded';
       state.categoryDetail.data = action.payload;
-      toastSuccess(`Update category ${action.payload.name} successfully`);
     },
     updateCategoryFailure: (state, action: PayloadAction<string>) => {
       state.categoryDetail.status = 'failed';
       state.categoryDetail.error = action.payload;
-      toastError(action.payload);
     },
 
     // Delete category actions
@@ -165,7 +158,6 @@ const categorySlice = createSlice({
     deleteCategoryFailure: (state, action: PayloadAction<string>) => {
       state.categoryDetail.status = 'failed';
       state.categoryDetail.error = action.payload;
-      toastError(action.payload);
     },
     updateSearchParams: (
       state,

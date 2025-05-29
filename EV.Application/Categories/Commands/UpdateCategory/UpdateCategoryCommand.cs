@@ -7,5 +7,6 @@ namespace EV.Application.Categories.Commands.UpdateCategory
         public Dictionary<string, string> Description { get; set; }
         public string Avatar { get; set; }
         public bool IsDefault { get; set; }
+        public int GroupId { get; set; }
     }
 }

@@ -27,6 +27,7 @@ const SelectControl: FC<SelectControlComponentProps> = forwardRef<
         ref={ref}
         defaultValue={isNullOrEmpty(value) ? defaultValue : undefined}
         className={clsx('select select-bordered', className, 'w-full')}
+        value={value}
         {...props}
       >
         {placeholder && (
