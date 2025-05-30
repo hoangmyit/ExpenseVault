@@ -1,29 +1,29 @@
 {
   "toast": {
     "getCategoryGroupDetail": {
-      "success": "Category group details successfully retrieved",
-      "pending": "Loading category group detail...",
-      "error": "Unable to retrieve category group detail"
+      "success": "Đã truy xuất chi tiết nhóm danh mục chi tiêu thành công",
+      "pending": "Đang tải chi tiết nhóm danh mục chi tiêu...",
+      "error": "Không thể truy xuất chi tiết nhóm danh mục chi tiêu"
     },
     "getCategoryGroup": {
-      "success": "Categories successfully retrieved",
-      "pending": "Loading categories...",
-      "error": "Unable to retrieve categories"
+      "success": "Đã truy xuất danh sách nhóm danh mục chi tiêu thành công",
+      "pending": "Đang tải danh sách nhóm danh mục chi tiêu...",
+      "error": "Không thể truy xuất danh sách nhóm danh mục chi tiêu"
     },
     "createCategoryGroup": {
-      "success": "Category group successfully created",
-      "pending": "Creating category group...",
-      "error": "Unable to create category group"
+      "success": "Đã tạo nhóm danh mục chi tiêu mới thành công",
+      "pending": "Đang tạo nhóm danh mục chi tiêu mới...",
+      "error": "Không thể tạo nhóm danh mục chi tiêu mới"
     },
     "updateCategoryGroup": {
-      "success": "Category group successfully updated",
-      "pending": "Updating category group...",
-      "error": "Unable to update category group"
+      "success": "Đã cập nhật nhóm danh mục chi tiêu thành công",
+      "pending": "Đang cập nhật nhóm danh mục chi tiêu...",
+      "error": "Không thể cập nhật nhóm danh mục chi tiêu"
     },
     "deleteCategoryGroup": {
-      "success": "Category group successfully deleted",
-      "pending": "Deleting category group...",
-      "error": "Unable to delete category group"
+      "success": "Đã xóa nhóm danh mục chi tiêu thành công",
+      "pending": "Đang xóa nhóm danh mục chi tiêu...",
+      "error": "Không thể xóa nhóm danh mục chi tiêu"
     }
   }
 }

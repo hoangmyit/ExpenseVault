@@ -8,6 +8,7 @@ import {
 
 import { getCategoryGroupService } from '@/core/api/endpoints/category-group.service';
 import { CategoryGroupResponse } from '@/shared/types/backend/category-group';
+import { getLangText } from '@/shared/utils/language-util';
 import { handleApiCall } from '@/shared/utils/saga-util';
 
 function* getCategoryGroupSaga() {
@@ -17,9 +18,9 @@ function* getCategoryGroupSaga() {
     (data: CategoryGroupResponse[]) => getCategoryGroupsSuccess(data),
     (error) => getCategoryGroupsFailure(error),
     {
-      pending: 'Loading category groups...',
-      error: 'Failed to load category groups.',
-      success: 'Category groups loaded successfully.',
+      pending: getLangText('categoryGroup:toast.getCategoryGroup.pending'),
+      error: getLangText('categoryGroup:toast.getCategoryGroup.error'),
+      success: getLangText('categoryGroup:toast.getCategoryGroup.success'),
       useToastPromise: true,
     },
   );

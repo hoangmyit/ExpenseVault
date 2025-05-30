@@ -16,14 +16,22 @@ const SupportLanguageControl: FC<SupportLanguageControlProps> = ({
   placeholderPattern,
   onChange,
   zodError,
+  name,
+  register,
+  setValue,
+  trigger,
 }) => {
   const { t } = useTranslation();
   const handleOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     lang: SupportLanguageType,
   ) => {
+    const key = `${name!}.${lang}` as never;
     const newValue = { ...value, [lang]: event.target.value };
     onChange?.(newValue);
+    setValue?.(key, event.target.value as never);
+
+    trigger?.(key);
   };
   return (
     <fieldset className="fieldset bg-base-200 border-base-300 rounded-box my-2 border p-4">
@@ -40,6 +48,8 @@ const SupportLanguageControl: FC<SupportLanguageControlProps> = ({
             onChange={(e) => handleOnChange(e, lang)}
             label={t(`language:${lang}`)}
             error={zodError?.[lang]}
+            name={register?.(`${name!}.${lang}` as never)?.name}
+            ref={register?.(`${name!}.${lang}` as never).ref}
           />
         ),
       )}

@@ -40,7 +40,7 @@ const CategoryDetailPage: FC = () => {
     handleSubmit,
     setError,
     setValue,
-    watch,
+    trigger,
     formState: { errors },
   } = useZodForm(categorySchema);
 
@@ -59,9 +59,6 @@ const CategoryDetailPage: FC = () => {
       getCategoryGroup();
     }
   }, []);
-
-  // Watch form values to sync with categoryDetail
-  const formData = watch();
 
   useEffect(() => {
     if (categoryDetail) {
@@ -95,7 +92,7 @@ const CategoryDetailPage: FC = () => {
     setValue(fieldChange as keyof CategoryFormData, value);
   };
 
-  const handleSelectChange = (
+  const handleSelectChange = async (
     e: React.ChangeEvent<HTMLSelectElement>,
     fieldChange: keyof CategoryFormData,
   ) => {
@@ -103,8 +100,8 @@ const CategoryDetailPage: FC = () => {
     setCategoryDetail({
       [fieldChange]: numValue,
     });
-    register(fieldChange).onChange(e);
     setValue(fieldChange, numValue);
+    await trigger(fieldChange);
   };
 
   const handleCheckboxChange = (
@@ -119,20 +116,15 @@ const CategoryDetailPage: FC = () => {
   };
 
   const onSubmit = async (data: CategoryFormData) => {
-    try {
-      const categoryData = {
-        ...categoryDetail,
-        ...data,
-      };
+    const categoryData = {
+      ...categoryDetail,
+      ...data,
+    };
 
-      if (isNewCategory) {
-        await createCategory(categoryData);
-      } else {
-        await updateCategory(categoryData);
-      }
-    } catch (error) {
-      // Handle server errors by setting form errors
-      console.error('Form submission error:', error);
+    if (isNewCategory) {
+      await createCategory(categoryData);
+    } else {
+      await updateCategory(categoryData);
     }
   };
 
@@ -163,6 +155,10 @@ const CategoryDetailPage: FC = () => {
               placeholderPattern={'category:tableHeader.namePlaceholder'}
               onChange={(value) => handleLanguageFieldChange(value, 'name')}
               zodError={errors.name}
+              register={register}
+              name={'name'}
+              setValue={setValue}
+              trigger={trigger}
             />
             <SupportLanguageControl
               label={t('category:tableHeader.description')}
@@ -172,6 +168,10 @@ const CategoryDetailPage: FC = () => {
                 handleLanguageFieldChange(value, 'description')
               }
               zodError={errors.description}
+              register={register}
+              name={'description'}
+              setValue={setValue}
+              trigger={trigger}
             />
             <FormSelect
               label={t('category:tableHeader.groupName')}

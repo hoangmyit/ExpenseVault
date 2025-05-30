@@ -48,5 +48,8 @@
     "expense": "Chi tiêu",
     "transfer": "Chuyển khoản",
     "loan": "Khoản vay"
-  }
+  },
+  "categoryDetails": "Chi tiết danh mục chi tiêu",
+  "createCategory": "Tạo danh mục chi tiêu",
+  "updateCategory": "Cập nhật danh mục chi tiêu"
 }
