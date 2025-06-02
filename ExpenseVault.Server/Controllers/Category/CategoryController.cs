@@ -53,7 +53,7 @@ public class CategoryController : BaseController
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
-        if (category == null || category.IsDelete)
+        if (category == null || category.IsDeleted)
         {
             return TypedResults.NotFound($"Category with ID {id} not found");
         }
@@ -61,7 +61,7 @@ public class CategoryController : BaseController
         return TypedResults.Ok(category);
     }
 
-    public async Task<Results<NoContent, BadRequest<string>>> UpdateCategoryAsync(ISender sender, Guid id, [FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<Results<NoContent, BadRequest<string>>> UpdateCategoryAsync(ISender sender, int id, [FromBody] UpdateCategoryCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
         {

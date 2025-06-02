@@ -15,7 +15,7 @@ import {
   setRefreshToken,
 } from '../../features/auth/utils/auth-util';
 import { LoginResponse } from '../../shared/types/common/backend-model';
-import { consoleLog } from '../../shared/utils/common-util';
+import { consoleLog, throwTypeError } from '../../shared/utils/common-util';
 
 import { ROUTE_PATHS } from '@/routes/constants/route-paths';
 import { RouteChangeType_AuthForbidden } from '@/routes/types/route-event';
@@ -128,7 +128,7 @@ httpClient.interceptors.response.use(
             return httpClient(originalRequest);
           } else {
             // No valid data in response
-            throw new Error('Invalid refresh token response');
+            throwTypeError('Invalid refresh token response');
           }
         } catch (err) {
           removeAuthToken();

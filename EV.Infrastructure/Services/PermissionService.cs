@@ -182,6 +182,7 @@ public class PermissionService : IPermissionService
             Roles.Administrator => new[]
             {
                 "Category:*",
+                "CategoryGroup:*",
                 "Expense:*",
                 "Permission:*",
                 "Report:*",
@@ -191,6 +192,7 @@ public class PermissionService : IPermissionService
             Roles.Manager => new[]
             {
                 "Category:CRU",
+                "CategoryGroup:CRU",
                 "Permission:R",
                 "Expense:CRUD",
                 "Report:CRU",
@@ -200,6 +202,7 @@ public class PermissionService : IPermissionService
             Roles.User => new[]
             {
                 "Category:R",
+                "CategoryGroup:CRU",
                 "Expense:CRUD",
                 "Report:R"
             },

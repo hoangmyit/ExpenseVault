@@ -1,0 +1,29 @@
+{
+  "toast": {
+    "getCategoryGroupDetail": {
+      "success": "Đã truy xuất chi tiết nhóm danh mục chi tiêu thành công",
+      "pending": "Đang tải chi tiết nhóm danh mục chi tiêu...",
+      "error": "Không thể truy xuất chi tiết nhóm danh mục chi tiêu"
+    },
+    "getCategoryGroup": {
+      "success": "Đã truy xuất danh sách nhóm danh mục chi tiêu thành công",
+      "pending": "Đang tải danh sách nhóm danh mục chi tiêu...",
+      "error": "Không thể truy xuất danh sách nhóm danh mục chi tiêu"
+    },
+    "createCategoryGroup": {
+      "success": "Đã tạo nhóm danh mục chi tiêu mới thành công",
+      "pending": "Đang tạo nhóm danh mục chi tiêu mới...",
+      "error": "Không thể tạo nhóm danh mục chi tiêu mới"
+    },
+    "updateCategoryGroup": {
+      "success": "Đã cập nhật nhóm danh mục chi tiêu thành công",
+      "pending": "Đang cập nhật nhóm danh mục chi tiêu...",
+      "error": "Không thể cập nhật nhóm danh mục chi tiêu"
+    },
+    "deleteCategoryGroup": {
+      "success": "Đã xóa nhóm danh mục chi tiêu thành công",
+      "pending": "Đang xóa nhóm danh mục chi tiêu...",
+      "error": "Không thể xóa nhóm danh mục chi tiêu"
+    }
+  }
+}

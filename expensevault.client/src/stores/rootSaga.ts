@@ -4,6 +4,7 @@ import authSaga from '@/features/auth/store/auth-saga';
 import permissionSaga from '@/features/auth/store/permission-saga';
 import verifyEmailSaga from '@/features/auth/store/verify-email-saga';
 import categorySaga from '@/features/category/store/category-saga';
+import { categoryGroupSaga } from '@/features/category-group/store/category-group.saga';
 
 export default function* rootSaga(): Generator<
   AllEffect<ForkEffect<void>>,
@@ -15,5 +16,6 @@ export default function* rootSaga(): Generator<
     fork(authSaga),
     fork(permissionSaga),
     fork(verifyEmailSaga),
+    fork(categoryGroupSaga),
   ]);
 }

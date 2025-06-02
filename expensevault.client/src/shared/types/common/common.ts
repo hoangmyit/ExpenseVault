@@ -31,14 +31,17 @@ export type ApiResult<T> = {
   messageKey?: string;
 };
 
-export type sizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type SizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type SupportLanguages = 'en' | 'vi';
+export const SupportLanguages = ['en', 'vi'] as const;
 
-export type SupportLanguageField = Record<SupportLanguages, string>;
+export type SupportLanguageType = (typeof SupportLanguages)[number];
+
+export type SupportLanguageField = Record<SupportLanguageType, string>;
 
 export const enum TransactionTypeEnum {
   Income = 1,
   Expense = 2,
   Transfer = 3,
+  Loan = 4,
 }

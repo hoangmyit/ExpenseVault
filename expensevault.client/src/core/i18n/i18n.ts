@@ -5,8 +5,10 @@ import LanguageDetector from 'i18next-browser-languageDetector';
 
 import {
   categoryEn,
+  categoryGroupEn,
   commonEn,
   emailEn,
+  LanguageEn,
   profileEn,
   serverResultEn,
   signInEn,
@@ -15,9 +17,11 @@ import {
   validationEn,
 } from './en';
 import {
+  categoryGroupVi,
   categoryVi,
   commonVi,
   emailVi,
+  languageVi,
   profileVi,
   serverResultVi,
   signInVi,
@@ -42,7 +46,9 @@ i18n
         profile: profileEn,
         serverResult: serverResultEn,
         category: categoryEn,
+        categoryGroup: categoryGroupEn,
         table: tableEn,
+        language: LanguageEn,
       },
       vi: {
         common: commonVi,
@@ -53,7 +59,9 @@ i18n
         profile: profileVi,
         serverResult: serverResultVi,
         category: categoryVi,
+        categoryGroup: categoryGroupVi,
         table: tableVi,
+        language: languageVi,
       },
     },
     fallbackLng: 'en',

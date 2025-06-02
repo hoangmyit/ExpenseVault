@@ -9,6 +9,7 @@ import path from 'path';
 import { env } from 'process';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -52,6 +53,17 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react({
         jsxImportSource: 'react',
+      }),
+      checker({
+        typescript: true,
+        eslint: {
+          lintCommand:
+            'eslint "./src/**/*.{ts,tsx}" --no-error-on-unmatched-pattern',
+          dev: {
+            logLevel: ['error'],
+          },
+          useFlatConfig: true,
+        },
       }),
       tsconfigPaths(),
       tailwindcss(),

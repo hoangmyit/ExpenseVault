@@ -2,11 +2,11 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 
 import {
-  createCategory,
-  deleteCategory,
-  getCategories,
-  getCategory,
-  updateCategory,
+  createCategoryService,
+  deleteCategoryService,
+  getCategoriesService,
+  getCategoryDetailService,
+  updateCategoryService,
 } from '../../../core/api/endpoints/category.service';
 import { PaginatedList, SearchState } from '../../../shared/types/common';
 import { handleApiCall } from '../../../shared/utils/saga-util';
@@ -27,6 +27,7 @@ import {
   UPDATE_CATEGORY_PENDING_MESSAGE,
   UPDATE_CATEGORY_SUCCESS_MESSAGE,
 } from '../constants';
+import { CategoryFormData } from '../schemas/category-schema';
 
 import {
   createCategoryFailure,
@@ -38,9 +39,10 @@ import {
   getCategoriesFailure,
   getCategoriesRequest,
   getCategoriesSuccess,
-  getCategoryFailure,
-  getCategoryRequest,
-  getCategorySuccess,
+  getCategoryDetailFailure,
+  getCategoryDetailRequest,
+  getCategoryDetailSuccess,
+  setCategoryDetailErrors,
   updateCategoryFailure,
   updateCategoryRequest,
   updateCategorySuccess,
@@ -53,7 +55,7 @@ import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
   yield* handleApiCall(
-    getCategories,
+    getCategoriesService,
     action.payload,
     (data: PaginatedList<CategoryDto>) => getCategoriesSuccess(data),
     (error) => getCategoriesFailure(error),
@@ -96,12 +98,12 @@ function* getCategoriesSaga(action: PayloadAction<SearchState<CategoryDto>>) {
   );
 }
 
-function* getCategorySaga(action: PayloadAction<string>) {
+function* getCategoryDetailSaga(action: PayloadAction<string>) {
   yield* handleApiCall(
-    getCategory,
+    getCategoryDetailService,
     action.payload,
-    (data: CategoryDto) => getCategorySuccess(data),
-    (error) => getCategoryFailure(error),
+    (data: CategoryFormData) => getCategoryDetailSuccess(data),
+    (error) => getCategoryDetailFailure(error),
     {
       useToastPromise: true,
       error: getLangText(GET_CATEGORY_ERROR_MESSAGE),
@@ -111,10 +113,10 @@ function* getCategorySaga(action: PayloadAction<string>) {
   );
 }
 
-function* createCategorySaga(action: PayloadAction<CategoryDto>) {
+function* createCategorySaga(action: PayloadAction<CategoryFormData>) {
   const category = action.payload;
   yield* handleApiCall(
-    createCategory,
+    createCategoryService,
     category,
     (data: string) => createCategorySuccess(data),
     (error) => createCategoryFailure(error),
@@ -127,10 +129,10 @@ function* createCategorySaga(action: PayloadAction<CategoryDto>) {
   );
 }
 
-function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
+function* updateCategorySaga(action: PayloadAction<CategoryFormData>) {
   const category = action.payload;
   yield* handleApiCall(
-    updateCategory,
+    updateCategoryService,
     category,
     () => updateCategorySuccess(category), // Note: Using the original category rather than response data
     (error) => updateCategoryFailure(error),
@@ -140,13 +142,16 @@ function* updateCategorySaga(action: PayloadAction<CategoryDto>) {
       pending: getLangText(UPDATE_CATEGORY_PENDING_MESSAGE),
       success: getLangText(UPDATE_CATEGORY_SUCCESS_MESSAGE),
     },
+    undefined,
+    undefined,
+    setCategoryDetailErrors,
   );
 }
 
 function* deleteCategorySaga(action: PayloadAction<string>) {
   const id = action.payload;
   yield* handleApiCall(
-    deleteCategory,
+    deleteCategoryService,
     id,
     (data: string) => deleteCategorySuccess(data),
     (error) => deleteCategoryFailure(error),
@@ -161,7 +166,7 @@ function* deleteCategorySaga(action: PayloadAction<string>) {
 
 function* categorySaga() {
   yield takeLatest(getCategoriesRequest.type, getCategoriesSaga);
-  yield takeLatest(getCategoryRequest.type, getCategorySaga);
+  yield takeLatest(getCategoryDetailRequest.type, getCategoryDetailSaga);
   yield takeLatest(createCategoryRequest.type, createCategorySaga);
   yield takeLatest(updateCategoryRequest.type, updateCategorySaga);
   yield takeLatest(deleteCategoryRequest.type, deleteCategorySaga);

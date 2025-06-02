@@ -10,7 +10,7 @@ namespace EV.Application.Common.Dtos
         public Dictionary<string, string> Description { get; set; }
         public string Avatar { get; set; }
         public required bool IsDefault { get; set; }
-        public bool IsDelete { get; set; }
+        public int GroupId { get; set; }
     }
     public class CategoryProfile : Profile
     {

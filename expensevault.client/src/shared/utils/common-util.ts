@@ -30,3 +30,24 @@ export const getCurrentTheme = (): Theme => {
 
 export const setAppTheme = (theme: Theme): void =>
   document.documentElement.setAttribute('data-theme', theme);
+
+export const throwTypeError = (message: string): never => {
+  throw new TypeError(message);
+};
+
+export const throwTypeErrorIf = (condition: boolean, message: string): void => {
+  if (condition) {
+    throw new TypeError(message);
+  }
+};
+
+export const validateType = <T>(
+  value: unknown,
+  typeName: string,
+  typeCheck: (val: unknown) => val is T,
+): T => {
+  if (!typeCheck(value)) {
+    throw new TypeError(`Expected ${typeName}, but received ${typeof value}`);
+  }
+  return value;
+};

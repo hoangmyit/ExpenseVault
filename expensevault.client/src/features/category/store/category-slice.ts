@@ -1,24 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SearchState } from '../../../shared/types/common';
-import { CategoryDto } from '../../../shared/types/common/backend-model';
 import { PaginatedList } from '../../../shared/types/common/paginated-list';
 import { RootState } from '../../../stores/store';
 import {
   CATEGORY_TABLE_FILTER_COLUMN,
   CATEGORY_TABLE_ORDER_COLUMN,
 } from '../constants/category.const';
+import { CategoryFormData } from '../schemas/category-schema';
 import { ICategoryState } from '../types/category.type';
 
-import {
-  toastError,
-  toastSuccess,
-} from '@/shared/components/feedback/toast/toast';
+import { toastSuccess } from '@/shared/components/feedback/toast/toast';
+import { CategoryDto } from '@/shared/types/backend/category';
+import { throwTypeErrorIf } from '@/shared/utils/common-util';
+import { initSupportLanguageField } from '@/shared/utils/language-util';
+import { updateDirectPartialObject } from '@/shared/utils/object-util';
 import { getItemPerPage } from '@/shared/utils/setting-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
 const initialState: ICategoryState = {
-  categories: {
+  category: {
     data: {
       items: [],
       pageIndex: 1,
@@ -30,10 +31,11 @@ const initialState: ICategoryState = {
     status: 'idle',
     error: null,
   },
-  category: {
+  categoryDetail: {
     data: null,
     status: 'idle',
     error: null,
+    errors: {},
   },
   searchParams: {
     pageIndex: 1,
@@ -53,81 +55,114 @@ const categorySlice = createSlice({
       state,
       _action: PayloadAction<Partial<SearchState<CategoryDto>>>,
     ) => {
-      state.categories.status = 'loading';
-      state.categories.error = null;
+      state.category.status = 'loading';
+      state.category.error = null;
     },
     getCategoriesSuccess: (
       state,
       action: PayloadAction<PaginatedList<CategoryDto>>,
     ) => {
-      state.categories.status = 'succeeded';
-      state.categories.data = action.payload;
-    },
-    getCategoriesFailure: (state, action: PayloadAction<string>) => {
-      state.categories.status = 'failed';
-      state.categories.error = action.payload;
-      toastError(action.payload);
-    },
-    // Get single category actions
-    getCategoryRequest: (state, _action: PayloadAction<string>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
-    },
-    getCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
       state.category.status = 'succeeded';
       state.category.data = action.payload;
     },
-    getCategoryFailure: (state, action: PayloadAction<string>) => {
+    getCategoriesFailure: (state, action: PayloadAction<string>) => {
       state.category.status = 'failed';
       state.category.error = action.payload;
-      toastError(action.payload);
     },
-
+    // Get single category actions
+    getCategoryDetailRequest: (state, _action: PayloadAction<string>) => {
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
+    },
+    getCategoryDetailSuccess: (
+      state,
+      action: PayloadAction<CategoryFormData>,
+    ) => {
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = action.payload;
+    },
+    getCategoryDetailFailure: (state, action: PayloadAction<string>) => {
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
+    },
+    initCategoryState: (state) => {
+      state.categoryDetail.data = {
+        id: undefined,
+        name: initSupportLanguageField(),
+        description: initSupportLanguageField(),
+        avatar: '',
+        isDefault: false,
+        groupId: 0,
+      };
+    },
+    setCategoryDetailErrors: (
+      state,
+      action: PayloadAction<Partial<Record<keyof CategoryFormData, string[]>>>,
+    ) => {
+      throwTypeErrorIf(
+        isNullOrEmpty(state.categoryDetail.data),
+        'Category detail data is not initialized',
+      );
+      state.categoryDetail.errors = action.payload;
+      // Reset status to idle when setting validation errors
+      state.categoryDetail.status = 'idle';
+    },
     // Create category actions
-    createCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+    createCategoryRequest: (
+      state,
+      _action: PayloadAction<CategoryFormData>,
+    ) => {
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
-    createCategorySuccess: (state, action: PayloadAction<string>) => {
-      state.category.status = 'succeeded';
-      toastSuccess(action.payload);
+    setPartialCategoryDetail: (
+      state,
+      action: PayloadAction<Partial<CategoryFormData>>,
+    ) => {
+      throwTypeErrorIf(
+        isNullOrEmpty(state.categoryDetail.data),
+        'Category detail data is not initialized',
+      );
+      updateDirectPartialObject(state.categoryDetail.data!, action.payload);
+    },
+    createCategorySuccess: (state, _action: PayloadAction<string>) => {
+      state.categoryDetail.status = 'succeeded';
     },
     createCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
-      toastError(action.payload);
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
     },
 
     // Update category actions
-    updateCategoryRequest: (state, _action: PayloadAction<CategoryDto>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+    updateCategoryRequest: (
+      state,
+      _action: PayloadAction<CategoryFormData>,
+    ) => {
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
-    updateCategorySuccess: (state, action: PayloadAction<CategoryDto>) => {
-      state.category.status = 'succeeded';
-      state.category.data = action.payload;
-      toastSuccess(`Update category ${action.payload.name} successfully`);
+    updateCategorySuccess: (state, action: PayloadAction<CategoryFormData>) => {
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = action.payload;
     },
     updateCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
-      toastError(action.payload);
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
     },
 
     // Delete category actions
     deleteCategoryRequest: (state, _action: PayloadAction<string>) => {
-      state.category.status = 'loading';
-      state.category.error = null;
+      state.categoryDetail.status = 'loading';
+      state.categoryDetail.error = null;
     },
     deleteCategorySuccess: (state, action: PayloadAction<string>) => {
-      state.category.status = 'succeeded';
-      state.category.data = null;
+      state.categoryDetail.status = 'succeeded';
+      state.categoryDetail.data = null;
       toastSuccess(action.payload);
     },
     deleteCategoryFailure: (state, action: PayloadAction<string>) => {
-      state.category.status = 'failed';
-      state.category.error = action.payload;
-      toastError(action.payload);
+      state.categoryDetail.status = 'failed';
+      state.categoryDetail.error = action.payload;
     },
     updateSearchParams: (
       state,
@@ -163,13 +198,12 @@ const categorySlice = createSlice({
     ) => {
       const { key, value } = action.payload;
       if (key in state.searchParams) {
-        // eslint-disable-next-line security/detect-object-injection
         (state.searchParams as Record<string, unknown>)[key] = value;
       }
     },
     // Reset category state
     resetCategory: (state) => {
-      state.category = initialState.category;
+      state.categoryDetail = initialState.categoryDetail;
     },
   },
 });
@@ -178,9 +212,9 @@ export const {
   getCategoriesRequest,
   getCategoriesSuccess,
   getCategoriesFailure,
-  getCategoryRequest,
-  getCategorySuccess,
-  getCategoryFailure,
+  getCategoryDetailRequest,
+  getCategoryDetailSuccess,
+  getCategoryDetailFailure,
   createCategoryRequest,
   createCategorySuccess,
   createCategoryFailure,
@@ -193,11 +227,15 @@ export const {
   updateSearchParams,
   updateSearchParamsByKey,
   resetCategory,
+  initCategoryState,
+  setPartialCategoryDetail,
+  setCategoryDetailErrors,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;
 
-export const CategoriesState = (state: RootState) => state.category.categories;
 export const CategoryState = (state: RootState) => state.category.category;
+export const CategoryDetailState = (state: RootState) =>
+  state.category.categoryDetail;
 export const CategorySearchState = (state: RootState) =>
   state.category.searchParams;

@@ -1,4 +1,4 @@
-import FeatureTitle from './feature-title';
+import FeaturePageHeader from './feature-title';
 
-export default FeatureTitle;
+export default FeaturePageHeader;
 export * from './feature-title.const';

@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import clsx from 'clsx';
+
 import { FormCheckboxProps } from './form-checkbox.const';
 
 const FormCheckbox: FC<FormCheckboxProps> = ({
@@ -7,17 +9,18 @@ const FormCheckbox: FC<FormCheckboxProps> = ({
   label,
   className,
   checked,
+  size = 'md',
   ...otherProps
 }) => {
   return (
-    <div className="form-control mb-4 flex flex-col">
-      <label className="label mb-1 font-semibold">
+    <div className="form-control flex flex-row items-center gap-2">
+      <label className="label font-semibold">
         <span className="label-text">{label}</span>
       </label>
       <input
         type="checkbox"
         onChange={(e) => onChange?.(e)}
-        className={className}
+        className={clsx('checkbox', `checkbox-${size}`, className)}
         checked={checked}
         {...otherProps}
       />

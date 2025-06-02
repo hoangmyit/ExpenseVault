@@ -2,25 +2,28 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CategoryDto } from '../../../shared/types/common/backend-model';
+import { CategoryFormData } from '../schemas/category-schema';
 import {
-  CategoriesState,
+  CategoryDetailState,
   CategorySearchState,
   CategoryState,
   createCategoryRequest,
   deleteCategoryRequest,
   getCategoriesRequest,
-  getCategoryRequest,
+  getCategoryDetailRequest,
+  initCategoryState,
+  setPartialCategoryDetail,
   updateCategoryRequest,
   updateSearchParamsByKey,
 } from '../store/category-slice';
 
+import { CategoryDto } from '@/shared/types/backend/category';
 import { SearchState } from '@/shared/types/common';
 
 export const useCategory = () => {
   const dispatch = useDispatch();
-  const categoriesData = useSelector(CategoriesState);
-  const categoryData = useSelector(CategoryState);
+  const categoriesData = useSelector(CategoryState);
+  const categoryDetailData = useSelector(CategoryDetailState);
   const searchParams = useSelector(CategorySearchState);
 
   const getCategories = useCallback(
@@ -29,26 +32,37 @@ export const useCategory = () => {
     [dispatch],
   );
   const createCategory = useCallback(
-    (category: CategoryDto) => dispatch(createCategoryRequest(category)),
+    (category: CategoryFormData) => dispatch(createCategoryRequest(category)),
     [dispatch],
   );
   const deleteCategory = useCallback(
     (id: string) => dispatch(deleteCategoryRequest(id)),
     [dispatch],
   );
-  const getCategory = useCallback(
-    (id: string) => dispatch(getCategoryRequest(id)),
+  const getCategoryDetail = useCallback(
+    (id: string) => dispatch(getCategoryDetailRequest(id)),
     [dispatch],
   );
   const updateCategory = useCallback(
-    (category: CategoryDto) => dispatch(updateCategoryRequest(category)),
+    (category: CategoryFormData) => dispatch(updateCategoryRequest(category)),
     [dispatch],
   );
+
+  const setCategoryDetail = useCallback(
+    (category: Partial<CategoryFormData>) =>
+      dispatch(setPartialCategoryDetail(category)),
+    [dispatch],
+  );
+
   const updateSearchParams = useCallback(
     (key: keyof SearchState<CategoryDto>, value: string | number | boolean) =>
       dispatch(updateSearchParamsByKey({ key, value })),
     [dispatch],
   );
+
+  const initCategoryDetail = useCallback(() => {
+    dispatch(initCategoryState());
+  }, [dispatch]);
 
   return {
     categories: categoriesData.data,
@@ -56,11 +70,14 @@ export const useCategory = () => {
     getCategories,
     createCategory,
     deleteCategory,
-    getCategory,
-    category: categoryData.data,
-    categoryStatus: categoryData.status,
+    getCategoryDetail,
+    categoryDetail: categoryDetailData.data,
+    categoryDetailStatus: categoryDetailData.status,
+    categoryDetailErrors: categoryDetailData.errors,
     updateCategory,
     searchParams,
     updateSearchParams,
+    initCategoryDetail,
+    setCategoryDetail,
   };
 };

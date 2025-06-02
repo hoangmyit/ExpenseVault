@@ -1,8 +1,15 @@
-import { CommonState, PaginatedList, SearchState } from '@/shared/types/common';
+import { CategoryFormData } from '../schemas/category-schema';
+
 import { CategoryDto } from '@/shared/types/backend/category';
+import {
+  CommonState,
+  PaginatedList,
+  SearchState,
+  ValidationState,
+} from '@/shared/types/common';
 
 export interface ICategoryState {
-  categories: CommonState<PaginatedList<CategoryDto>>;
-  category: CommonState<CategoryDto>;
+  category: CommonState<PaginatedList<CategoryDto>>;
+  categoryDetail: ValidationState<CategoryFormData>;
   searchParams: SearchState<CategoryDto>;
 }

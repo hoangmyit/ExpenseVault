@@ -1,7 +1,7 @@
-﻿using EV.Domain.Constants;
-using EV.Domain.Entities;
+﻿using EV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace EV.Infrastructure.Data.Configuration
 {
@@ -11,10 +11,17 @@ namespace EV.Infrastructure.Data.Configuration
         {
             builder
                 .Property(p => p.Name)
-                .HasMaxLength(FieldConstrants.Name)
-                .IsRequired();
+                   .IsRequired()
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                    v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions)null) ?? new Dictionary<string, string>())
+                .HasColumnType("NVARCHAR(MAX)");
             builder.Property(p => p.Description)
-                .HasMaxLength(FieldConstrants.Description);
+                .IsRequired()
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
+                    v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions)null) ?? new Dictionary<string, string>())
+                .HasColumnType("NVARCHAR(MAX)");
             builder.HasMany(p => p.Categories)
                 .WithOne(p => p.CategoryGroup)
                 .HasForeignKey(p => p.GroupId);

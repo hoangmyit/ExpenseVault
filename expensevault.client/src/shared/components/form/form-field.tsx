@@ -1,14 +1,6 @@
-import { FC, ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FC } from 'react';
 
-interface FormFieldProps {
-  label?: string;
-  error?: FieldError;
-  helper?: string;
-  children: ReactNode;
-  id?: string;
-  showValidation?: boolean;
-}
+import { FormFieldProps } from './form-field.const';
 
 const FormField: FC<FormFieldProps> = ({
   label,
@@ -18,7 +10,7 @@ const FormField: FC<FormFieldProps> = ({
   id,
 }) => {
   return (
-    <>
+    <div className="my-2">
       {label && (
         <label htmlFor={id} className="fieldset-label">
           {label}
@@ -36,7 +28,7 @@ const FormField: FC<FormFieldProps> = ({
         )}
         {!helper && !error && <span className="label-text-alt"></span>}
       </div>
-    </>
+    </div>
   );
 };
 

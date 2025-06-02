@@ -1,7 +1,7 @@
 import { SupportLanguageField, TransactionTypeEnum } from '../../common';
 
 export interface CategoryDto {
-  id: string;
+  id: number;
   name: SupportLanguageField;
   description: SupportLanguageField;
   avatar: string;

@@ -11,8 +11,8 @@ namespace EV.Application.Categories.Commands.CreateCategory
                  .NotNull().WithMessage("Name is required.")
                  .ForEach(name =>
                  {
-                     name.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.Name)
-                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstrants.Name} characters.");
+                     name.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.NameMax)
+                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstrants.NameMax} characters.");
                  });
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description is required.")

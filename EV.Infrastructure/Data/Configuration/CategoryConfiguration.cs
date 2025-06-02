@@ -29,7 +29,7 @@ namespace EV.Infrastructure.Data.Configuration
             builder.Property(x => x.IsDefault)
                 .IsRequired()
                 .HasDefaultValue(false);
-            builder.Property(x => x.IsDelete)
+            builder.Property(x => x.IsDeleted)
                 .IsRequired()
                 .HasDefaultValue(false);
             builder.HasOne(x => x.CategoryGroup)

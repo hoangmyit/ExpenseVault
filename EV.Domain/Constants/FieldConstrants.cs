@@ -2,8 +2,9 @@
 {
     public static class FieldConstrants
     {
-        public const int Name = 100;
-        public const int Description = 500;
+        public const int NameMax = 100;
+        public const int NameMin = 2;
+        public const int Description = 256;
         public const int Avatar = 500;
         public const string DefaultAvatar = "/images/default-avatar.png";
         public const int Email = 100;

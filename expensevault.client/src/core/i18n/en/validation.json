@@ -9,5 +9,12 @@
     "passwordPattern": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*#?&)",
     "passwordsDoNotMatch": "Passwords do not match",
     "usernamePattern": "Username must contain only letters, numbers, and underscores"
+  },
+   "category": {
+    "nameRequired": "Category name is required",
+    "nameMin": "Category name must be at least {0} characters",
+    "nameMax": "Category name cannot exceed {0} characters",
+    "descriptionMax": "Description cannot exceed {0} characters",
+    "languageRequired": "The {0} field must have {1} languages"
   }
 }

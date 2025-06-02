@@ -157,8 +157,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 1,
-                    Name = "Income Sources",
-                    Description = "These represent all sources of money coming into your finances.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Income Sources" },
+                        { "vi", "Nguồn thu nhập" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "These represent all sources of money coming into your finances." },
+                        { "vi", "Đây là tất cả các nguồn tiền đến tài chính của bạn." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Income,
@@ -166,8 +174,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 2,
-                    Name = "Essential Expenses",
-                    Description = "These are necessary costs required for daily living.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Essential Expenses" },
+                        { "vi", "Chi phí thiết yếu" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "These are necessary costs required for daily living." },
+                        { "vi", "Đây là những chi phí cần thiết cho cuộc sống hàng ngày." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Expense,
@@ -175,8 +191,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 3,
-                    Name = "Financial Obligations",
-                    Description = "These are expenses tied to financial commitments and future security.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Financial Obligations" },
+                        { "vi", "Nghĩa vụ tài chính" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "These are expenses tied to financial commitments and future security." },
+                        { "vi", "Đây là những chi phí gắn liền với các cam kết tài chính và an ninh trong tương lai." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Expense,
@@ -184,8 +208,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 4,
-                    Name = "Lifestyle & Personal",
-                    Description = "Expenses related to leisure, hobbies, and everyday enjoyment.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Lifestyle & Personal" },
+                        { "vi", "Lối sống & Cá nhân" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Expenses related to leisure, hobbies, and everyday enjoyment." },
+                        { "vi", "Chi phí liên quan đến giải trí, sở thích, và niềm vui hàng ngày." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Expense,
@@ -193,8 +225,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 5,
-                    Name = "Family & Social",
-                    Description = "Expenses related to family, relationships, and personal responsibilities.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Family & Social" },
+                        { "vi", "Gia đình & Xã hội" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Expenses related to family, relationships, and personal responsibilities." },
+                        { "vi", "Chi phí liên quan đến gia đình, các mối quan hệ, và trách nhiệm cá nhân." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Expense,
@@ -202,8 +242,16 @@ namespace EV.Infrastructure.Data
                 new()
                 {
                     Id = 6,
-                    Name = "Business & Work",
-                    Description = "Expenses incurred for professional and work-related activities.",
+                    Name = new Dictionary<string, string>
+                    {
+                        { "en", "Business & Work" },
+                        { "vi", "Kinh doanh & Công việc" }
+                    },
+                    Description = new Dictionary<string, string>
+                    {
+                        { "en", "Expenses incurred for professional and work-related activities." },
+                        { "vi", "Chi phí phát sinh cho các hoạt động chuyên nghiệp và liên quan đến công việc." }
+                    },
                     CreatedBy = Common.ADMIN_USER_ID,
                     Created = DateTimeOffset.Now,
                     TransactionType = TransactionType.Expense,

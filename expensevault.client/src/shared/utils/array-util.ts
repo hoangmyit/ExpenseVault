@@ -23,6 +23,18 @@ import {
   without,
 } from 'ramda';
 
+import { isNullOrUndefined } from './type-utils';
+
+/**
+ * Checks if an array is null, undefined, or empty
+ * @template T - Type of elements in the array
+ * @param {T[] | null | undefined} arr - Array to check
+ * @returns {boolean} - True if the array is null, undefined, or empty
+ */
+export const isNullOrEmptyArray = <T>(arr: T[] | null | undefined): boolean => {
+  return isNullOrUndefined(arr) || getArrayLength(arr!) === 0;
+};
+
 /**
  * Maps each element of an array using the provided function with index support
  * @template T - Type of elements in the input array
@@ -64,7 +76,9 @@ export const findArray = <T>(
  * @param {unknown[]} arr - Array to get length of
  * @returns {number} - Length of the array
  */
-export const getArrayLength = (arr: unknown[]): number => length(arr);
+export const getArrayLength = (
+  arr: unknown[] | null | readonly unknown[],
+): number => (isNullOrUndefined(arr) ? 0 : length(arr!));
 
 /**
  * Executes a provided function once for each array element with index support
