@@ -73,6 +73,7 @@ export const useCategory = () => {
     getCategoryDetail,
     categoryDetail: categoryDetailData.data,
     categoryDetailStatus: categoryDetailData.status,
+    categoryDetailErrors: categoryDetailData.errors,
     updateCategory,
     searchParams,
     updateSearchParams,

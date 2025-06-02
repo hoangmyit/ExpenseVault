@@ -21,10 +21,14 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowSpecificOrigin",
-              builder =>
+              builder => {
                   builder.WithOrigins("https://localhost:5173")
                       .AllowAnyMethod()
-                      .AllowAnyHeader()
+                      .AllowAnyHeader();
+                  builder.WithOrigins("https://localhost:4173")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+              }
           );
     });
 }

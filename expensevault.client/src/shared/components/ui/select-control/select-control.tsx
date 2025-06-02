@@ -4,6 +4,7 @@ import clsx from 'clsx';
 
 import { SelectControlComponentProps } from './select-control.const';
 
+import { Default_Default_Select_Option } from '@/shared/constants/field-constants';
 import { mapArray } from '@/shared/utils/array-util';
 import { isNullOrEmpty } from '@/shared/utils/type-utils';
 
@@ -12,26 +13,21 @@ const SelectControl: FC<SelectControlComponentProps> = forwardRef<
   SelectControlComponentProps
 >(
   (
-    {
-      options = [],
-      placeholder = 'Please select',
-      defaultValue = 'default-placeholder',
-      className,
-      value,
-      ...props
-    },
+    { options = [], placeholder = 'Please select', className, value, ...props },
     ref,
   ) => {
     return (
       <select
         ref={ref}
-        defaultValue={isNullOrEmpty(value) ? defaultValue : undefined}
+        defaultValue={
+          isNullOrEmpty(value) ? Default_Default_Select_Option : undefined
+        }
         className={clsx('select select-bordered', className, 'w-full')}
         value={value}
         {...props}
       >
         {placeholder && (
-          <option value="default-placeholder" disabled>
+          <option value={Default_Default_Select_Option} disabled={true}>
             {placeholder}
           </option>
         )}

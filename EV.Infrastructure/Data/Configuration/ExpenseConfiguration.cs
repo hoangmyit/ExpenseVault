@@ -20,7 +20,7 @@ namespace EV.Infrastructure.Data.Configuration
             builder.Property(builder => builder.IsTransfer)
                 .HasDefaultValue(false);
             builder.Property(builder => builder.Name)
-                .HasMaxLength(FieldConstrants.Name)
+                .HasMaxLength(FieldConstrants.NameMax)
                 .IsRequired();
             builder.Property(builder => builder.Avatar)
                 .HasDefaultValue(FieldConstrants.DefaultExpenseAvatar)

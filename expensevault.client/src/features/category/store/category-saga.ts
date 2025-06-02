@@ -42,6 +42,7 @@ import {
   getCategoryDetailFailure,
   getCategoryDetailRequest,
   getCategoryDetailSuccess,
+  setCategoryDetailErrors,
   updateCategoryFailure,
   updateCategoryRequest,
   updateCategorySuccess,
@@ -141,6 +142,9 @@ function* updateCategorySaga(action: PayloadAction<CategoryFormData>) {
       pending: getLangText(UPDATE_CATEGORY_PENDING_MESSAGE),
       success: getLangText(UPDATE_CATEGORY_SUCCESS_MESSAGE),
     },
+    undefined,
+    undefined,
+    setCategoryDetailErrors,
   );
 }
 

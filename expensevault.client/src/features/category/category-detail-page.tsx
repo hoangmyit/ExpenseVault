@@ -17,7 +17,9 @@ import { CategoryDto } from '@/shared/types/backend/category';
 import { SupportLanguageField } from '@/shared/types/common';
 import { isNullOrEmptyArray, mapArray } from '@/shared/utils/array-util';
 import { getLangFieldText } from '@/shared/utils/language-util';
+import { isObjectNullOrEmpty } from '@/shared/utils/object-util';
 import { isNullOrUndefined, parseNumber } from '@/shared/utils/type-utils';
+import { setFormErrors } from '@/shared/utils/validation-util';
 
 const CategoryDetailPage: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +29,7 @@ const CategoryDetailPage: FC = () => {
 
   const {
     categoryDetail,
+    categoryDetailErrors,
     getCategoryDetail,
     updateCategory,
     initCategoryDetail,
@@ -59,6 +62,12 @@ const CategoryDetailPage: FC = () => {
       getCategoryGroup();
     }
   }, []);
+
+  useEffect(() => {
+    if (!isObjectNullOrEmpty(categoryDetailErrors)) {
+      setFormErrors(categoryDetailErrors as never, setError);
+    }
+  }, [categoryDetailErrors, setError]);
 
   useEffect(() => {
     if (categoryDetail) {
@@ -175,7 +184,11 @@ const CategoryDetailPage: FC = () => {
             />
             <FormSelect
               label={t('category:tableHeader.groupName')}
-              value={categoryDetail.groupId}
+              value={
+                categoryDetail.groupId === 0
+                  ? undefined
+                  : categoryDetail.groupId
+              }
               placeholder={t('category:tableHeader.groupNamePlaceholder')}
               defaultValue={'default-placeholder'}
               onChange={(e) => handleSelectChange(e, 'groupId')}

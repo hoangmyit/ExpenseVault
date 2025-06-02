@@ -10,6 +10,7 @@ const initialState: ICategoryGroupState = {
     data: [],
     error: null,
     status: 'idle',
+    errors: [],
   },
 };
 

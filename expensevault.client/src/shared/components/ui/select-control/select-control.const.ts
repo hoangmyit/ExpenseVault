@@ -2,7 +2,6 @@ export interface SelectControlProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: React.ReactNode;
   options: SelectControlOptions[];
-  defaultValue?: string | number;
 }
 
 export type SelectControlOptions = {

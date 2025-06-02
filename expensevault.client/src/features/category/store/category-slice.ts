@@ -35,6 +35,7 @@ const initialState: ICategoryState = {
     data: null,
     status: 'idle',
     error: null,
+    errors: {},
   },
   searchParams: {
     pageIndex: 1,
@@ -93,6 +94,18 @@ const categorySlice = createSlice({
         isDefault: false,
         groupId: 0,
       };
+    },
+    setCategoryDetailErrors: (
+      state,
+      action: PayloadAction<Partial<Record<keyof CategoryFormData, string[]>>>,
+    ) => {
+      throwTypeErrorIf(
+        isNullOrEmpty(state.categoryDetail.data),
+        'Category detail data is not initialized',
+      );
+      state.categoryDetail.errors = action.payload;
+      // Reset status to idle when setting validation errors
+      state.categoryDetail.status = 'idle';
     },
     // Create category actions
     createCategoryRequest: (
@@ -216,6 +229,7 @@ export const {
   resetCategory,
   initCategoryState,
   setPartialCategoryDetail,
+  setCategoryDetailErrors,
 } = categorySlice.actions;
 
 export default categorySlice.reducer;

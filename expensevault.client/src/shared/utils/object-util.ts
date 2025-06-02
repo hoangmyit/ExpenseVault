@@ -1,6 +1,7 @@
 import { keys, lensProp, pipe, reduce, set } from 'ramda';
 
 import { throwTypeError } from './common-util';
+import { isNullOrUndefined, isObject } from './type-utils';
 
 export const updatePartialObject = <T extends object>(
   target: T,
@@ -41,3 +42,10 @@ export const updateDirectPartialObject = <T extends object>(
 
 export const getObjectKeys = <T extends object>(obj: T): (keyof T)[] =>
   keys(obj);
+
+export const isObjectNullOrEmpty = <T extends object>(obj: T): boolean => {
+  if (!isObject(obj)) {
+    throwTypeError('Input must be a non-null object');
+  }
+  return isNullOrUndefined(obj) || Object.keys(obj).length === 0;
+};

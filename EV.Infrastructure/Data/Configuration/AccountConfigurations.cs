@@ -14,7 +14,7 @@ namespace EV.Infrastructure.Data.Configuration
                  .HasKey(x => x.Id);
             builder
                 .Property(x => x.Name)
-                .HasMaxLength(FieldConstrants.Name)
+                .HasMaxLength(FieldConstrants.NameMax)
                 .IsRequired();
             builder
                 .Property(x => x.Description)
