@@ -12,19 +12,19 @@ namespace EV.Infrastructure.Data.Configuration
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Amount)
-                .HasColumnType(FieldConstrants.CurrencyDBType);
+                .HasColumnType(FieldConstants.CurrencyDBType);
             builder.Property(builder => builder.Description)
-                .HasMaxLength(FieldConstrants.Description);
+                .HasMaxLength(FieldConstants.Description);
             builder.Property(builder => builder.IsPlan)
                 .HasDefaultValue(false);
             builder.Property(builder => builder.IsTransfer)
                 .HasDefaultValue(false);
             builder.Property(builder => builder.Name)
-                .HasMaxLength(FieldConstrants.NameMax)
+                .HasMaxLength(FieldConstants.NameMax)
                 .IsRequired();
             builder.Property(builder => builder.Avatar)
-                .HasDefaultValue(FieldConstrants.DefaultExpenseAvatar)
-                .HasMaxLength(FieldConstrants.Avatar);
+                .HasDefaultValue(FieldConstants.DefaultExpenseAvatar)
+                .HasMaxLength(FieldConstants.Avatar);
 
             builder
                 .HasOne(builder => builder.Category)

@@ -53,7 +53,7 @@ public class CategoryController : BaseController
     {
         var category = await sender.Send(new GetCategoryByIdQuery(id), cancellationToken);
 
-        if (category == null || category.IsDeleted)
+        if (category == null)
         {
             return TypedResults.NotFound($"Category with ID {id} not found");
         }

@@ -1,6 +1,6 @@
 ﻿namespace EV.Domain.Constants
 {
-    public static class FieldConstrants
+    public static class FieldConstants
     {
         public const int NameMax = 100;
         public const int NameMin = 2;

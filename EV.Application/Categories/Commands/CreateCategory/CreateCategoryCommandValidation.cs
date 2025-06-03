@@ -11,20 +11,20 @@ namespace EV.Application.Categories.Commands.CreateCategory
                  .NotNull().WithMessage("Name is required.")
                  .ForEach(name =>
                  {
-                     name.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.NameMax)
-                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstrants.NameMax} characters.");
+                     name.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstants.NameMax)
+                         .WithMessage($"Name must not be empty and must be less than or equal to {FieldConstants.NameMax} characters.");
                  });
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description is required.")
                 .NotNull().WithMessage("Description is required.")
                  .ForEach(des =>
                  {
-                     des.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstrants.Description)
-                         .WithMessage($"Description must not be empty and must be less than or equal to {FieldConstrants.Description} characters.");
+                     des.Must(n => !string.IsNullOrEmpty(n.Value) && n.Value.Length <= FieldConstants.Description)
+                         .WithMessage($"Description must not be empty and must be less than or equal to {FieldConstants.Description} characters.");
                  });
 
             RuleFor(x => x.Avatar)
-                .MaximumLength(FieldConstrants.Avatar).WithMessage($"Avatar must not exceed {FieldConstrants.Avatar} characters.");
+                .MaximumLength(FieldConstants.Avatar).WithMessage($"Avatar must not exceed {FieldConstants.Avatar} characters.");
         }
     }
 }

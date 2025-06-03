@@ -8,8 +8,8 @@ namespace EV.Application.Common.Validators
         {
             RuleFor(x => x)
                 .NotEmpty().WithMessage("Name cannot be empty.")
-                .MinimumLength(FieldConstrants.NameMax).WithMessage("Name must be less than or equal to 100 characters.")
-                .MinimumLength(FieldConstrants.NameMin).WithMessage("Name must be at least 2 characters long.");
+                .MinimumLength(FieldConstants.NameMax).WithMessage("Name must be less than or equal to 100 characters.")
+                .MinimumLength(FieldConstants.NameMin).WithMessage("Name must be at least 2 characters long.");
         }
     }
 }

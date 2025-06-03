@@ -10,7 +10,7 @@ namespace EV.Infrastructure.Data.Configuration
         public void Configure(EntityTypeBuilder<Budget> builder)
         {
             builder.Property(b => b.BudgetLimit)
-                .HasColumnType(FieldConstrants.CurrencyDBType)
+                .HasColumnType(FieldConstants.CurrencyDBType)
                 .IsRequired();
             builder.Property(b => b.UserId)
                 .IsRequired();

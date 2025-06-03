@@ -24,8 +24,8 @@ namespace EV.Infrastructure.Data.Configuration
                     v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions)null) ?? new Dictionary<string, string>())
                 .HasColumnType("NVARCHAR(MAX)");
             builder.Property(x => x.Avatar)
-                .HasDefaultValue(FieldConstrants.DefaultCategoryAvatar)
-                .HasMaxLength(FieldConstrants.Avatar);
+                .HasDefaultValue(FieldConstants.DefaultCategoryAvatar)
+                .HasMaxLength(FieldConstants.Avatar);
             builder.Property(x => x.IsDefault)
                 .IsRequired()
                 .HasDefaultValue(false);
